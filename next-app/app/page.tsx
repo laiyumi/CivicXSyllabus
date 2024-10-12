@@ -1,21 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import ProductCard from "./components/ProductCard/ProductCard";
+import HeroSection from "./HeroSection";
+import UseCaseCard from "./components/UseCaseCard/UseCaseCard";
 
 export default function Home() {
   return (
     <main>
-      <h1>Your Roadmap to Civic Innovation</h1>
-      <h2>
-        Explore a curated collection of resources and tools to build impactful
-        projects for public interest.
-      </h2>
-      <Link href="/resources" className="btn btn-primary mt-4">
-        Search
-      </Link>
+      <HeroSection />
       <div>
         <div>
-          <ProductCard />
+          <UseCaseCard />
         </div>
       </div>
     </main>
