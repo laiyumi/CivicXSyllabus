@@ -1,18 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../schema";
+import prisma from "../../../../prisma/client";
 
-export function GET(
+// get a single resource
+export async function GET(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
-  if (params.id > 10)
+  const resource = await prisma.post.findUnique({
+    where: {
+      id: params.id,
+    },
+  });
+  if (!resource)
     return NextResponse.json({ error: "resource not found" }, { status: 404 });
-  return NextResponse.json({ id: params.id, title: "test" });
+  return NextResponse.json(resource);
 }
 
+// update a single resource
 export async function PUT(
   request: NextResponse,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   const body = await request.json();
 
@@ -22,28 +30,48 @@ export async function PUT(
     return NextResponse.json(validation.error.errors, { status: 400 });
 
   // fetch the resource with the given id
-  if (params.id > 10)
+  const resource = await prisma.post.findUnique({
+    where: {
+      id: params.id,
+    },
+  });
+  if (!resource)
     return NextResponse.json({ error: "resource not found" }, { status: 404 });
 
   // update the resource in the db
+  const updatedResource = await prisma.post.update({
+    where: { id: resource.id },
+    data: {
+      title: body.title,
+      excerpt: body.excerpt,
+      content: body.content,
+      link: body.link,
+      imageUrl: body.imageUrl,
+    },
+  });
 
   // return the updated resource
-  return NextResponse.json({
-    id: params.id,
-    title: body.title,
-    description: body.description,
-  });
+  return NextResponse.json(updatedResource);
 }
 
-export function DELETE(
+// delete a single resource
+export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   // fetch the resource from the db
-  if (params.id > 10)
+  const resource = await prisma.post.findUnique({
+    where: {
+      id: params.id,
+    },
+  });
+  if (!resource)
     return NextResponse.json({ error: "resource not found" }, { status: 404 });
 
   // delete the resource
+  await prisma.post.delete({
+    where: { id: resource.id },
+  });
 
   return NextResponse.json({ message: "resource deleted" }, { status: 200 });
 }
