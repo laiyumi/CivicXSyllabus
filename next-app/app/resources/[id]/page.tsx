@@ -73,6 +73,8 @@ const ResourceDetailPage = async ({ params: { id } }: Props) => {
             <Link
               href={resource?.link ?? "/resources"}
               className="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Explore this resource
             </Link>

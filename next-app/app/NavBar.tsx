@@ -1,4 +1,5 @@
 "use client";
+
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
@@ -10,7 +11,9 @@ const NavBar = () => {
     <>
       <div className="navbar bg-base-100 p-5">
         <div className="navbar-start">
-          <Link href="/">Civic X Syllabus</Link>
+          <Link href="/" className=" font-serif text-2xl ">
+            Civic X Syllabus
+          </Link>
         </div>
         <div className="navbar-center">
           <Link href="/resources" className="btn btn-ghost">
@@ -50,8 +53,16 @@ const NavBar = () => {
             <span className="loading loading-dots loading-sm"></span>
           )}
           {status === "authenticated" && (
-            <div>
-              {session.user!.name}
+            <div className="flex items-center">
+              <div className="avatar">
+                <div className="w-8 rounded-full">
+                  <img
+                    src={session.user!.image!}
+                    alt="user avatar"
+                    className="w-6 h-6 rounded-full"
+                  />
+                </div>
+              </div>
               <Link href="/api/auth/signout" className="btn ml-5">
                 Sign Out
               </Link>

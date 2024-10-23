@@ -16,10 +16,10 @@ const ResourcesPage = async ({ searchParams: { sortOrder } }: Props) => {
         <ResourcesGrid />
       </Suspense>
 
-      <p>Sort order by: {sortOrder}</p>
+      {/* <p>Sort order by: {sortOrder}</p>
       <Suspense fallback={<p>Loading...</p>}>
         <UserTable sortOrder={sortOrder} />
-      </Suspense>
+      </Suspense> */}
     </>
   );
 };
