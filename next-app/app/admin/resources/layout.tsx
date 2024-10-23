@@ -4,7 +4,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const AdminLayout = ({ children }: Props) => {
+const AdminResourcesLayout = ({ children }: Props) => {
   return (
     <div className="flex">
       <div className="w-full">{children}</div>
@@ -12,4 +12,4 @@ const AdminLayout = ({ children }: Props) => {
   );
 };
 
-export default AdminLayout;
+export default AdminResourcesLayout;
