@@ -1,5 +1,11 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import prisma from "../../../../prisma/client";
+import { set, useForm } from "react-hook-form";
+import type { GetServerSideProps } from "next";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface TagProps {
   id: string;
@@ -11,21 +17,52 @@ interface CategoryProps {
   name: string;
 }
 
-const NewResourceForm = async () => {
-  const tagResponse = await fetch("http://localhost:3000/api/tags", {
-    next: { revalidate: 10 },
-  });
+interface NewResourceFormInputs {
+  title: string;
+  excerpt: string;
+  content: string;
+  link: string;
+  imageUrl: string;
+  source: string;
+  categories: string[];
+  tags: string[];
+}
 
-  const categoryResponse = await fetch("http://localhost:3000/api/categories", {
-    next: { revalidate: 10 },
-  });
+const NewResourceForm = () => {
+  const { register, handleSubmit } = useForm<NewResourceFormInputs>();
+  const router = useRouter();
 
-  // convert response to json
-  const tags = await prisma.tag.findMany();
-  const categories = await prisma.category.findMany();
+  const [tags, setTags] = useState<TagProps[]>([]);
+  const [categories, setCategories] = useState<CategoryProps[]>([]);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      const response = await fetch("http://localhost:3000/api/tags", {
+        next: { revalidate: 10 },
+      });
+      const tags = await response.json();
+      setTags(tags);
+    };
+
+    const fetchCategories = async () => {
+      const response = await fetch("http://localhost:3000/api/categories", {
+        next: { revalidate: 10 },
+      });
+      const categories = await response.json();
+      setCategories(categories);
+    };
+
+    fetchTags();
+    fetchCategories();
+  }, []);
 
   return (
-    <form>
+    <form
+      onSubmit={handleSubmit(async (data) => {
+        await axios.post("http://localhost:3000/api/resources", data);
+        router.push("http://localhost:3000/resources");
+      })}
+    >
       <div className="flex flex-col justify-center pb-12">
         <div className="flex justify-between">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -41,7 +78,17 @@ const NewResourceForm = async () => {
               <input
                 type="text"
                 placeholder="Type here"
-                className="input input-bordered w-full "
+                className="input input-bordered w-full"
+                {...register("title")}
+              />
+            </label>
+            <label className="form-control w-full flex gap-2">
+              <span className="text-m">Source</span>
+              <input
+                type="text"
+                placeholder="Type here"
+                className="input input-bordered w-full"
+                {...register("source")}
               />
             </label>
             <label className="form-control w-full flex gap-2">
@@ -49,6 +96,7 @@ const NewResourceForm = async () => {
               <textarea
                 className="textarea textarea-bordered h-24"
                 placeholder="Please limit to 30 words"
+                {...register("excerpt")}
               ></textarea>
             </label>
             <label className="form-control w-full  flex gap-2">
@@ -56,7 +104,8 @@ const NewResourceForm = async () => {
               <input
                 type="text"
                 placeholder="Type here"
-                className="input input-bordered w-full "
+                className="input input-bordered w-full"
+                {...register("link")}
               />
             </label>
             <label className="form-control w-full flex gap-2">
@@ -64,13 +113,15 @@ const NewResourceForm = async () => {
               <textarea
                 className="textarea textarea-bordered h-36"
                 placeholder="Please limit to 200 words"
+                {...register("content")}
               ></textarea>
             </label>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Thumbnail Image</span>
               <input
                 type="file"
-                className="file-input file-input-bordered w-full "
+                className="file-input file-input-bordered w-full"
+                {...register("imageUrl")}
               />
             </label>
           </div>
@@ -79,7 +130,7 @@ const NewResourceForm = async () => {
             <div className="flex flex-col gap-6 pl-16">
               <div>
                 <h2>Categories</h2>
-                {categories.map((category) => (
+                {categories?.map((category) => (
                   <div key={category.id} className="flex gap-3 flex-wrap">
                     <label className="label cursor-pointer">
                       <input type="checkbox" className="checkbox" />
@@ -91,7 +142,7 @@ const NewResourceForm = async () => {
               <div>
                 <h2>Tags</h2>
                 <div className="flex gap-3 flex-wrap">
-                  {tags.map((tag) => (
+                  {tags?.map((tag) => (
                     <label key={tag.id} className="label cursor-pointer">
                       <input type="checkbox" className="checkbox" />
                       <span className="label-text pl-3">{tag.name}</span>
