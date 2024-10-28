@@ -21,7 +21,7 @@ const NavBar = () => {
           </Link>
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost m-1">
-              Build my Syllabus
+              Educators
             </div>
             <ul
               tabIndex={0}
@@ -41,6 +41,9 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
+          <Link href="/resources" className="btn btn-ghost">
+            Policy Teams
+          </Link>
           <Link href="/add-a-resource" className="btn btn-ghost">
             Add a Resource
           </Link>

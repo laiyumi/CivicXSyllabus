@@ -6,6 +6,7 @@ import { set, useForm } from "react-hook-form";
 import type { GetServerSideProps } from "next";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import UploadImage from "@/app/upload/page";
 
 interface TagProps {
   id: string;
@@ -29,11 +30,16 @@ interface NewResourceFormInputs {
 }
 
 const NewResourceForm = () => {
-  const { register, handleSubmit } = useForm<NewResourceFormInputs>();
+  const { register, handleSubmit, setValue, getValues } =
+    useForm<NewResourceFormInputs>();
   const router = useRouter();
 
   const [tags, setTags] = useState<TagProps[]>([]);
   const [categories, setCategories] = useState<CategoryProps[]>([]);
+
+  const handleImageUpload = (imageUrl: string) => {
+    setValue("imageUrl", imageUrl);
+  };
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -58,9 +64,9 @@ const NewResourceForm = () => {
 
   return (
     <form
-      onSubmit={handleSubmit(async (data) => {
-        await axios.post("http://localhost:3000/api/resources", data);
-        router.push("http://localhost:3000/resources");
+      onSubmit={handleSubmit((data) => {
+        data.imageUrl = getValues().imageUrl;
+        console.log(data);
       })}
     >
       <div className="flex flex-col justify-center pb-12">
@@ -118,11 +124,7 @@ const NewResourceForm = () => {
             </label>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Thumbnail Image</span>
-              <input
-                type="file"
-                className="file-input file-input-bordered w-full"
-                {...register("imageUrl")}
-              />
+              <UploadImage onImageUpload={handleImageUpload} />
             </label>
           </div>
 

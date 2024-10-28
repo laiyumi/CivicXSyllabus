@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 const schema = z.object({
-  title: z.string().min(3).max(30),
-  excerpt: z.string().min(5).max(30),
-  content: z.string().min(5).max(200),
+  title: z.string().min(3),
+  excerpt: z.string().min(5).max(50),
+  content: z.string().min(5).max(600),
   link: z.string().url(),
   imageUrl: z.string().url(),
   source: z.string(),

@@ -11,7 +11,6 @@ const AdminUsersPage = () => {
       <div className="w-full">
         <div className="flex justify-between pb-5">
           <h1>Users</h1>
-          <UploadImage />
         </div>
         <div>
           <label className="input input-bordered flex items-center gap-2">
