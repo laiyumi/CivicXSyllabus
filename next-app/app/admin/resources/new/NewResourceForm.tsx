@@ -25,8 +25,8 @@ interface NewResourceFormInputs {
   link: string;
   imageUrl: string;
   source: string;
-  categories: string[];
-  tags: string[];
+  categoryIDs: string[];
+  tagIDs: string[];
 }
 
 const NewResourceForm = () => {
@@ -37,8 +37,29 @@ const NewResourceForm = () => {
   const [tags, setTags] = useState<TagProps[]>([]);
   const [categories, setCategories] = useState<CategoryProps[]>([]);
 
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
   const handleImageUpload = (imageUrl: string) => {
     setValue("imageUrl", imageUrl);
+  };
+
+  const handleTagChange = (tagId: string) => {
+    setSelectedTags((prevSelectedTags) =>
+      prevSelectedTags.includes(tagId)
+        ? prevSelectedTags.filter((id) => id !== tagId)
+        : [...prevSelectedTags, tagId]
+    );
+    setValue("tagIDs", selectedTags);
+  };
+
+  const handleCategoryChange = (categoryId: string) => {
+    setSelectedCategories((prevSelectedCategories) =>
+      prevSelectedCategories.includes(categoryId)
+        ? prevSelectedCategories.filter((id) => id !== categoryId)
+        : [...prevSelectedCategories, categoryId]
+    );
+    setValue("categoryIDs", selectedCategories);
   };
 
   useEffect(() => {
@@ -64,9 +85,16 @@ const NewResourceForm = () => {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => {
+      onSubmit={handleSubmit(async (data) => {
         data.imageUrl = getValues().imageUrl;
+        data.tagIDs = selectedTags;
+        data.categoryIDs = selectedCategories;
+
+        // for testing purposes
         console.log(data);
+
+        await axios.post("/api/resources", data);
+        router.push("/admin/resources");
       })}
     >
       <div className="flex flex-col justify-center pb-12">
@@ -135,7 +163,12 @@ const NewResourceForm = () => {
                 {categories?.map((category) => (
                   <div key={category.id} className="flex gap-3 flex-wrap">
                     <label className="label cursor-pointer">
-                      <input type="checkbox" className="checkbox" />
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={selectedCategories.includes(category.id)}
+                        onChange={() => handleCategoryChange(category.id)}
+                      />
                       <span className="label-text pl-3">{category.name}</span>
                     </label>
                   </div>
@@ -146,7 +179,12 @@ const NewResourceForm = () => {
                 <div className="flex gap-3 flex-wrap">
                   {tags?.map((tag) => (
                     <label key={tag.id} className="label cursor-pointer">
-                      <input type="checkbox" className="checkbox" />
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={selectedTags.includes(tag.id)}
+                        onChange={() => handleTagChange(tag.id)}
+                      />
                       <span className="label-text pl-3">{tag.name}</span>
                     </label>
                   ))}
