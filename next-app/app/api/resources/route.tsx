@@ -12,6 +12,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
+  console.log(body.categoryIDs.map((category: string) => ({ id: category })));
+  console.log(body.tagIDs.map((tag: string) => ({ id: tag })));
+
+  console.log(body.categoryIDs);
+  console.log(body.tagIDs);
+  console.log(body.userIDs);
+
   // validate the body
   const validation = schema.safeParse(body);
   if (!validation.success) {
@@ -35,11 +42,57 @@ export async function POST(request: NextRequest) {
       content: body.content,
       link: body.link,
       imageUrl: body.imageUrl,
-      source: body.source,
-      categories: body.category,
-      tags: body.tags,
-      users: body.users,
+      source: {
+        connectOrCreate: {
+          where: { name: body.source },
+          create: {
+            name: body.source,
+          },
+        },
+      },
+      categories: {
+        create: body.categoryIDs.map((categoryId: string) => ({
+          category: {
+            connect: { id: categoryId },
+          },
+        })),
+      },
+      tags: {
+        create: body.tagIDs.map((tagId: string) => ({
+          tag: {
+            connect: { id: tagId },
+          },
+        })),
+      },
+      users: {
+        create: [
+          {
+            user: {
+              connect: { id: body.userID },
+            },
+          },
+        ],
+      },
+    },
+    include: {
+      source: true,
+      categories: {
+        include: {
+          category: true,
+        },
+      },
+      tags: {
+        include: {
+          tag: true,
+        },
+      },
+      users: {
+        include: {
+          user: true,
+        },
+      },
     },
   });
+
   return NextResponse.json(newPost, { status: 201 });
 }
