@@ -40,6 +40,8 @@ const NewResourceForm = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
+  const [error, setError] = useState("");
+
   const handleImageUpload = (imageUrl: string) => {
     setValue("imageUrl", imageUrl);
   };
@@ -84,117 +86,141 @@ const NewResourceForm = () => {
   }, []);
 
   return (
-    <form
-      onSubmit={handleSubmit(async (data) => {
-        data.imageUrl = getValues().imageUrl;
-        data.tags = selectedTags;
-        data.categories = selectedCategories;
-
-        // for testing purposes
-        console.log(data);
-
-        await axios.post("/api/resources", data);
-        router.push("/admin/resources");
-      })}
-    >
-      <div className="flex flex-col justify-center pb-12">
-        <div className="flex justify-between">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
-            Creating new Resource
-          </h2>
-          <button className="btn btn-primary">Save</button>
+    <div>
+      {error && (
+        <div role="alert" className="alert alert-error mb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{error}</span>
         </div>
+      )}
 
-        <div className="grid grid-cols-2 gap-16">
-          <div className="justify-self-center w-full flex flex-col gap-6">
-            <label className="form-control w-full flex gap-2">
-              <span className="text-m">Title</span>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full"
-                {...register("title")}
-              />
-            </label>
-            <label className="form-control w-full flex gap-2">
-              <span className="text-m">Source</span>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full"
-                {...register("source")}
-              />
-            </label>
-            <label className="form-control w-full flex gap-2">
-              <span className="text-m">Excerpt</span>
-              <textarea
-                className="textarea textarea-bordered h-24"
-                placeholder="Please limit to 30 words"
-                {...register("excerpt")}
-              ></textarea>
-            </label>
-            <label className="form-control w-full  flex gap-2">
-              <span className="text-m">Link</span>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full"
-                {...register("link")}
-              />
-            </label>
-            <label className="form-control w-full flex gap-2">
-              <span className="text-m">Content</span>
-              <textarea
-                className="textarea textarea-bordered h-36"
-                placeholder="Please limit to 200 words"
-                {...register("content")}
-              ></textarea>
-            </label>
-            <label className="form-control w-full flex gap-2">
-              <span className="text-m">Thumbnail Image</span>
-              <UploadImage onImageUpload={handleImageUpload} />
-            </label>
+      <form
+        onSubmit={handleSubmit(async (data) => {
+          data.imageUrl = getValues().imageUrl;
+          data.tags = selectedTags;
+          data.categories = selectedCategories;
+
+          // for testing purposes
+          console.log(data);
+          try {
+            await axios.post("/api/resources", data);
+            router.push("/admin/resources");
+          } catch (error) {
+            setError("An unexpected error occurred");
+          }
+        })}
+      >
+        <div className="flex flex-col justify-center pb-12">
+          <div className="flex justify-between">
+            <h2 className="text-base font-semibold leading-7 text-gray-900">
+              Creating new Resource
+            </h2>
+            <button className="btn btn-primary">Save</button>
           </div>
 
-          <div className="justify-self-center border-l border-gray-900/10 w-full">
-            <div className="flex flex-col gap-6 pl-16">
-              <div>
-                <h2>Categories</h2>
-                {categories?.map((category) => (
-                  <div key={category.id} className="flex gap-3 flex-wrap">
-                    <label className="label cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        checked={selectedCategories.includes(category.id)}
-                        onChange={() => handleCategoryChange(category.id)}
-                      />
-                      <span className="label-text pl-3">{category.name}</span>
-                    </label>
-                  </div>
-                ))}
-              </div>
-              <div>
-                <h2>Tags</h2>
-                <div className="flex gap-3 flex-wrap">
-                  {tags?.map((tag) => (
-                    <label key={tag.id} className="label cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        checked={selectedTags.includes(tag.id)}
-                        onChange={() => handleTagChange(tag.id)}
-                      />
-                      <span className="label-text pl-3">{tag.name}</span>
-                    </label>
+          <div className="grid grid-cols-2 gap-16">
+            <div className="justify-self-center w-full flex flex-col gap-6">
+              <label className="form-control w-full flex gap-2">
+                <span className="text-m">Title</span>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  className="input input-bordered w-full"
+                  {...register("title")}
+                />
+              </label>
+              <label className="form-control w-full flex gap-2">
+                <span className="text-m">Source</span>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  className="input input-bordered w-full"
+                  {...register("source")}
+                />
+              </label>
+              <label className="form-control w-full flex gap-2">
+                <span className="text-m">Excerpt</span>
+                <textarea
+                  className="textarea textarea-bordered h-24"
+                  placeholder="Please limit to 30 words"
+                  {...register("excerpt")}
+                ></textarea>
+              </label>
+              <label className="form-control w-full  flex gap-2">
+                <span className="text-m">Link</span>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  className="input input-bordered w-full"
+                  {...register("link")}
+                />
+              </label>
+              <label className="form-control w-full flex gap-2">
+                <span className="text-m">Content</span>
+                <textarea
+                  className="textarea textarea-bordered h-36"
+                  placeholder="Please limit to 200 words"
+                  {...register("content")}
+                ></textarea>
+              </label>
+              <label className="form-control w-full flex gap-2">
+                <span className="text-m">Thumbnail Image</span>
+                <UploadImage onImageUpload={handleImageUpload} />
+              </label>
+            </div>
+
+            <div className="justify-self-center border-l border-gray-900/10 w-full">
+              <div className="flex flex-col gap-6 pl-16">
+                <div>
+                  <h2>Categories</h2>
+                  {categories?.map((category) => (
+                    <div key={category.id} className="flex gap-3 flex-wrap">
+                      <label className="label cursor-pointer">
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          checked={selectedCategories.includes(category.id)}
+                          onChange={() => handleCategoryChange(category.id)}
+                        />
+                        <span className="label-text pl-3">{category.name}</span>
+                      </label>
+                    </div>
                   ))}
+                </div>
+                <div>
+                  <h2>Tags</h2>
+                  <div className="flex gap-3 flex-wrap">
+                    {tags?.map((tag) => (
+                      <label key={tag.id} className="label cursor-pointer">
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          checked={selectedTags.includes(tag.id)}
+                          onChange={() => handleTagChange(tag.id)}
+                        />
+                        <span className="label-text pl-3">{tag.name}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

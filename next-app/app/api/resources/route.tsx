@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   // validate the body
   const validation = schema.safeParse(body);
   if (!validation.success) {
-    return NextResponse.json(validation.error.errors, { status: 400 });
+    return NextResponse.json(validation.error.format(), { status: 400 });
   }
 
   // check if the post already exists
