@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import schema from "./schema";
+import createResourceSchema from "../../validationSchemas";
 import prisma from "../../../prisma/client";
 
 // get all posts
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   console.log(body);
 
   // validate the body
-  const validation = schema.safeParse(body);
+  const validation = createResourceSchema.safeParse(body);
   if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 400 });
   }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import schema from "../schema";
+import schema from "../../../validationSchemas";
 import prisma from "../../../../prisma/client";
 
 // get a single resource

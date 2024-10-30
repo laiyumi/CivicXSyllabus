@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const schema = z.object({
+const createResourceSchema = z.object({
   title: z.string().min(3),
   excerpt: z.string().min(2),
   content: z.string().min(2),
@@ -9,7 +9,6 @@ const schema = z.object({
   source: z.string(),
   categories: z.array(z.string()),
   tags: z.array(z.string()),
-  // savedByUsers: z.array(z.string()),
 });
 
-export default schema;
+export default createResourceSchema;

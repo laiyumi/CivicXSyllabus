@@ -7,6 +7,9 @@ import type { GetServerSideProps } from "next";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import UploadImage from "@/app/upload/page";
+import { zodResolver } from "@hookform/resolvers/zod";
+import createResourceSchema from "@/app/validationSchemas";
+import { z } from "zod";
 
 interface TagProps {
   id: string;
@@ -18,20 +21,29 @@ interface CategoryProps {
   name: string;
 }
 
-interface NewResourceFormInputs {
-  title: string;
-  excerpt: string;
-  content: string;
-  link: string;
-  imageUrl: string;
-  source: string;
-  categories: string[];
-  tags: string[];
-}
+type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
+
+// interface NewResourceFormInputs {
+//   title: string;
+//   excerpt: string;
+//   content: string;
+//   link: string;
+//   imageUrl: string;
+//   source: string;
+//   categories: string[];
+//   tags: string[];
+// }
 
 const NewResourceForm = () => {
-  const { register, handleSubmit, setValue, getValues } =
-    useForm<NewResourceFormInputs>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<NewResourceFormInputs>({
+    resolver: zodResolver(createResourceSchema),
+  });
   const router = useRouter();
 
   const [tags, setTags] = useState<TagProps[]>([]);
@@ -114,6 +126,7 @@ const NewResourceForm = () => {
 
           // for testing purposes
           console.log(data);
+
           try {
             await axios.post("/api/resources", data);
             router.push("/admin/resources");
@@ -133,51 +146,81 @@ const NewResourceForm = () => {
           <div className="grid grid-cols-2 gap-16">
             <div className="justify-self-center w-full flex flex-col gap-6">
               <label className="form-control w-full flex gap-2">
-                <span className="text-m">Title</span>
+                <span className="text-m">Title *</span>
                 <input
                   type="text"
                   placeholder="Type here"
                   className="input input-bordered w-full"
                   {...register("title")}
                 />
+                {errors.title && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.title.message}
+                  </p>
+                )}
               </label>
               <label className="form-control w-full flex gap-2">
-                <span className="text-m">Source</span>
+                <span className="text-m">Source *</span>
                 <input
                   type="text"
                   placeholder="Type here"
                   className="input input-bordered w-full"
                   {...register("source")}
                 />
+                {errors.source && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.source.message}
+                  </p>
+                )}
               </label>
               <label className="form-control w-full flex gap-2">
-                <span className="text-m">Excerpt</span>
+                <span className="text-m">Excerpt *</span>
                 <textarea
                   className="textarea textarea-bordered h-24"
                   placeholder="Please limit to 30 words"
                   {...register("excerpt")}
                 ></textarea>
+                {errors.excerpt && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.excerpt.message}
+                  </p>
+                )}
               </label>
               <label className="form-control w-full  flex gap-2">
-                <span className="text-m">Link</span>
+                <span className="text-m">Link *</span>
                 <input
                   type="text"
                   placeholder="Type here"
                   className="input input-bordered w-full"
                   {...register("link")}
                 />
+                {errors.link && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.link.message}
+                  </p>
+                )}
               </label>
               <label className="form-control w-full flex gap-2">
-                <span className="text-m">Content</span>
+                <span className="text-m">Content *</span>
                 <textarea
                   className="textarea textarea-bordered h-36"
                   placeholder="Please limit to 200 words"
                   {...register("content")}
                 ></textarea>
+                {errors.content && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.content.message}
+                  </p>
+                )}
               </label>
               <label className="form-control w-full flex gap-2">
-                <span className="text-m">Thumbnail Image</span>
+                <span className="text-m">Thumbnail Image *</span>
                 <UploadImage onImageUpload={handleImageUpload} />
+                {errors.imageUrl && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.imageUrl.message}
+                  </p>
+                )}
               </label>
             </div>
 
