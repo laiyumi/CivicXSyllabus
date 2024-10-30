@@ -30,8 +30,8 @@ const AdminResourcesPage = () => {
               />
             </svg>
           </label>
-          <ResourcesTable />
         </div>
+        <ResourcesTable />
       </div>
     </div>
   );

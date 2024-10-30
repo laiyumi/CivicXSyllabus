@@ -1,5 +1,6 @@
 import React from "react";
 import prisma from "../../../prisma/client";
+import delay from "delay";
 
 interface ResourcesTableProps {
   id: string;
@@ -28,6 +29,8 @@ const ResourcesTable = async () => {
     },
   });
 
+  await delay(2000);
+
   return (
     <div className="overflow-x-auto">
       <table className="table table-zebra table-pin-rows ">
@@ -41,8 +44,8 @@ const ResourcesTable = async () => {
             </th>
             <th className="w-3/10">Title</th>
             <th className="w-1/10">Published</th>
-            <th className="w-3/10">Excerpt</th>
-            <th className="w-2/10">Link</th>
+            <th className="w-3/10 hidden md:table-cell">Excerpt</th>
+            <th className="w-2/10 hidden md:table-cell">Link</th>
             <th className="w-1/10"></th>
           </tr>
         </thead>
@@ -71,14 +74,9 @@ const ResourcesTable = async () => {
                   </div>
                 </div>
               </td>
-              <td>
-                {resouce.published ? "Published" : "Not Published"}
-                <br />
-              </td>
-              <td>{resouce.excerpt}</td>
-              <th>
-                <div>{resouce.link}</div>
-              </th>
+              <td>{resouce.published ? "Yes" : "No"}</td>
+              <td className="hidden md:table-cell">{resouce.excerpt}</td>
+              <th className="hidden md:table-cell">{resouce.link}</th>
               <th>
                 <button className="btn btn-outline btn-s">Edit</button>
               </th>

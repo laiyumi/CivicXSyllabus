@@ -12,6 +12,7 @@ import createResourceSchema from "@/app/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
+import { on } from "events";
 
 interface TagProps {
   id: string;
@@ -100,6 +101,24 @@ const NewResourceForm = () => {
     fetchCategories();
   }, []);
 
+  const onSubmit = handleSubmit(async (data) => {
+    data.imageUrl = getValues().imageUrl;
+    data.tags = selectedTags;
+    data.categories = selectedCategories;
+
+    // for testing purposes
+    console.log(data);
+
+    try {
+      setIsSubmitting(true);
+      await axios.post("/api/resources", data);
+      router.push("/admin/resources");
+    } catch (error) {
+      setIsSubmitting(false);
+      setError("An unexpected error occurred");
+    }
+  });
+
   return (
     <div>
       {error && (
@@ -121,25 +140,7 @@ const NewResourceForm = () => {
         </div>
       )}
 
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          data.imageUrl = getValues().imageUrl;
-          data.tags = selectedTags;
-          data.categories = selectedCategories;
-
-          // for testing purposes
-          console.log(data);
-
-          try {
-            setIsSubmitting(true);
-            await axios.post("/api/resources", data);
-            router.push("/admin/resources");
-          } catch (error) {
-            setIsSubmitting(false);
-            setError("An unexpected error occurred");
-          }
-        })}
-      >
+      <form onSubmit={onSubmit}>
         <div className="flex flex-col justify-center pb-12">
           <div className="flex justify-between">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
