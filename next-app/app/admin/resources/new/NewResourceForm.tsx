@@ -10,6 +10,7 @@ import UploadImage from "@/app/upload/page";
 import { zodResolver } from "@hookform/resolvers/zod";
 import createResourceSchema from "@/app/validationSchemas";
 import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 interface TagProps {
   id: string;
@@ -153,11 +154,7 @@ const NewResourceForm = () => {
                   className="input input-bordered w-full"
                   {...register("title")}
                 />
-                {errors.title && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.title.message}
-                  </p>
-                )}
+                <ErrorMessage>{errors.title?.message}</ErrorMessage>
               </label>
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Source *</span>
@@ -167,11 +164,7 @@ const NewResourceForm = () => {
                   className="input input-bordered w-full"
                   {...register("source")}
                 />
-                {errors.source && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.source.message}
-                  </p>
-                )}
+                <ErrorMessage>{errors.source?.message}</ErrorMessage>
               </label>
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Excerpt *</span>
@@ -180,11 +173,7 @@ const NewResourceForm = () => {
                   placeholder="Please limit to 30 words"
                   {...register("excerpt")}
                 ></textarea>
-                {errors.excerpt && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.excerpt.message}
-                  </p>
-                )}
+                <ErrorMessage>{errors.excerpt?.message}</ErrorMessage>
               </label>
               <label className="form-control w-full  flex gap-2">
                 <span className="text-m">Link *</span>
@@ -194,11 +183,7 @@ const NewResourceForm = () => {
                   className="input input-bordered w-full"
                   {...register("link")}
                 />
-                {errors.link && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.link.message}
-                  </p>
-                )}
+                <ErrorMessage>{errors.link?.message}</ErrorMessage>
               </label>
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Content *</span>
@@ -207,20 +192,12 @@ const NewResourceForm = () => {
                   placeholder="Please limit to 200 words"
                   {...register("content")}
                 ></textarea>
-                {errors.content && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.content.message}
-                  </p>
-                )}
+                <ErrorMessage>{errors.content?.message}</ErrorMessage>
               </label>
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Thumbnail Image *</span>
                 <UploadImage onImageUpload={handleImageUpload} />
-                {errors.imageUrl && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.imageUrl.message}
-                  </p>
-                )}
+                <ErrorMessage>{errors.imageUrl?.message}</ErrorMessage>
               </label>
             </div>
 
