@@ -15,12 +15,14 @@ interface UploadImageProps {
 const UploadImage = ({ onImageUpload }: UploadImageProps) => {
   const [imageUrl, setImageUrl] = useState<string>();
   const [publicId, setPublicId] = useState<string>();
+
   return (
     <>
       {publicId && (
         <CldImage src={publicId} width={270} height={180} alt="an image" />
       )}
-      <p>{imageUrl}</p>
+
+      {/* <p>{imageUrl}</p> */}
 
       <CldUploadWidget
         uploadPreset="j5cvqjdg"
@@ -61,6 +63,7 @@ const UploadImage = ({ onImageUpload }: UploadImageProps) => {
       >
         {({ open }) => (
           <button
+            type="button"
             className="btn btn-primary btn-outline"
             onClick={() => open()}
           >

@@ -13,8 +13,6 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
 
   console.log(body);
-  console.log(body.tags.map((tag: string) => ({ name: tag })));
-  console.log(body.categories.map((category: string) => ({ name: category })));
 
   // validate the body
   const validation = schema.safeParse(body);
@@ -46,16 +44,13 @@ export async function POST(request: NextRequest) {
         },
       },
       categories: {
-        connect: body.categories.map((category: string) => ({
-          name: category,
+        connect: body.categories.map((categoryID: string) => ({
+          id: categoryID,
         })),
       },
       tags: {
-        connect: body.tags.map((tag: string) => ({ name: tag })),
+        connect: body.tags.map((tagID: string) => ({ id: tagID })),
       },
-      // savedByUsers: {
-      //   connect: [{ name: body.savedByUsers }],
-      // },
     },
   });
 

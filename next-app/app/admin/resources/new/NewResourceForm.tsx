@@ -25,8 +25,8 @@ interface NewResourceFormInputs {
   link: string;
   imageUrl: string;
   source: string;
-  categoryIDs: string[];
-  tagIDs: string[];
+  categories: string[];
+  tags: string[];
 }
 
 const NewResourceForm = () => {
@@ -50,7 +50,7 @@ const NewResourceForm = () => {
         ? prevSelectedTags.filter((id) => id !== tagId)
         : [...prevSelectedTags, tagId]
     );
-    setValue("tagIDs", selectedTags);
+    setValue("tags", selectedTags);
   };
 
   const handleCategoryChange = (categoryId: string) => {
@@ -59,7 +59,7 @@ const NewResourceForm = () => {
         ? prevSelectedCategories.filter((id) => id !== categoryId)
         : [...prevSelectedCategories, categoryId]
     );
-    setValue("categoryIDs", selectedCategories);
+    setValue("categories", selectedCategories);
   };
 
   useEffect(() => {
@@ -87,8 +87,8 @@ const NewResourceForm = () => {
     <form
       onSubmit={handleSubmit(async (data) => {
         data.imageUrl = getValues().imageUrl;
-        data.tagIDs = selectedTags;
-        data.categoryIDs = selectedCategories;
+        data.tags = selectedTags;
+        data.categories = selectedCategories;
 
         // for testing purposes
         console.log(data);

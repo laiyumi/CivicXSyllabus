@@ -29,7 +29,7 @@ model Post {
 
   title    String @unique
   excerpt  String
-  content  String
+  content  String @db.Text
   link     String @unique
   imageUrl String
 
