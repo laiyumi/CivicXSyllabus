@@ -9,6 +9,7 @@ const schema = z.object({
   source: z.string(),
   categories: z.array(z.string()),
   tags: z.array(z.string()),
+  // savedByUsers: z.array(z.string()),
 });
 
 export default schema;

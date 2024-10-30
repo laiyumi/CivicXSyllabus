@@ -12,12 +12,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
-  console.log(body.categoryIDs.map((category: string) => ({ id: category })));
-  console.log(body.tagIDs.map((tag: string) => ({ id: tag })));
-
-  console.log(body.categoryIDs);
-  console.log(body.tagIDs);
-  console.log(body.userIDs);
+  console.log(body);
+  console.log(body.tags.map((tag: string) => ({ name: tag })));
+  console.log(body.categories.map((category: string) => ({ name: category })));
 
   // validate the body
   const validation = schema.safeParse(body);
@@ -45,52 +42,20 @@ export async function POST(request: NextRequest) {
       source: {
         connectOrCreate: {
           where: { name: body.source },
-          create: {
-            name: body.source,
-          },
+          create: { name: body.source },
         },
       },
       categories: {
-        create: body.categoryIDs.map((categoryId: string) => ({
-          category: {
-            connect: { id: categoryId },
-          },
+        connect: body.categories.map((category: string) => ({
+          name: category,
         })),
       },
       tags: {
-        create: body.tagIDs.map((tagId: string) => ({
-          tag: {
-            connect: { id: tagId },
-          },
-        })),
+        connect: body.tags.map((tag: string) => ({ name: tag })),
       },
-      users: {
-        create: [
-          {
-            user: {
-              connect: { id: body.userID },
-            },
-          },
-        ],
-      },
-    },
-    include: {
-      source: true,
-      categories: {
-        include: {
-          category: true,
-        },
-      },
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
-      users: {
-        include: {
-          user: true,
-        },
-      },
+      // savedByUsers: {
+      //   connect: [{ name: body.savedByUsers }],
+      // },
     },
   });
 
