@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import createResourceSchema from "@/app/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 interface TagProps {
   id: string;
@@ -54,6 +55,7 @@ const NewResourceForm = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleImageUpload = (imageUrl: string) => {
     setValue("imageUrl", imageUrl);
@@ -129,9 +131,11 @@ const NewResourceForm = () => {
           console.log(data);
 
           try {
+            setIsSubmitting(true);
             await axios.post("/api/resources", data);
             router.push("/admin/resources");
           } catch (error) {
+            setIsSubmitting(false);
             setError("An unexpected error occurred");
           }
         })}
@@ -141,7 +145,10 @@ const NewResourceForm = () => {
             <h2 className="text-base font-semibold leading-7 text-gray-900">
               Creating new Resource
             </h2>
-            <button className="btn btn-primary">Save</button>
+            <button disabled={isSubmitting} className="btn btn-primary ">
+              Save
+              {isSubmitting && <Spinner />}
+            </button>
           </div>
 
           <div className="grid grid-cols-2 gap-16">
