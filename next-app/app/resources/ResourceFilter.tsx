@@ -53,7 +53,15 @@ const ResourceFilter = () => {
   return (
     <div className="flex justify-around my-8">
       <SearchBar />
-      <select className="select select-bordered w-full max-w-xs">
+      <select
+        className="select select-bordered w-full max-w-xs"
+        onChange={(category) => {
+          const categoryQuery = category
+            ? `?category=${category.target.value}`
+            : "";
+          router.push("/resources" + categoryQuery);
+        }}
+      >
         {categories.map((category) => (
           <option key={category.label} value={category.value || ""}>
             {category.label}

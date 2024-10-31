@@ -1,25 +1,23 @@
 import { Suspense } from "react";
 import ResourceFilter from "./ResourceFilter";
 import ResourcesGrid from "./ResourcesGrid";
+import { Category } from "@prisma/client";
 
-// sortOrder is a parameter passed in from the URL query string
+// parameter passed in from the URL query string
 interface Props {
-  searchParams: { sortOrder: string };
+  searchParams: { category: Category["name"] | "" };
 }
 
-const ResourcesPage = async ({ searchParams: { sortOrder } }: Props) => {
+const ResourcesPage = async ({ searchParams }: Props) => {
+  console.log(searchParams.category);
+
   return (
     <>
       <ResourceFilter />
       {/* display all resources from the db  */}
       <Suspense fallback={<p>Loading...</p>}>
-        <ResourcesGrid />
+        <ResourcesGrid selectedCategory={searchParams.category} />
       </Suspense>
-
-      {/* <p>Sort order by: {sortOrder}</p>
-      <Suspense fallback={<p>Loading...</p>}>
-        <UserTable sortOrder={sortOrder} />
-      </Suspense> */}
     </>
   );
 };

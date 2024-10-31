@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { sort } from "fast-sort";
 import prisma from "../../prisma/client";
+import { Category } from "@prisma/client";
 
 // define the shape of the resource object
 interface Resource {
@@ -14,7 +15,11 @@ interface Resource {
   published: boolean;
 }
 
-const ResourcesGrid = async () => {
+const ResourcesGrid = async ({
+  selectedCategory,
+}: {
+  selectedCategory: string;
+}) => {
   // fetch resources from endpoint and set the cache time to 10 seconds
   const response = await fetch("http://localhost:3000/api/resources", {
     next: { revalidate: 10 },
@@ -22,10 +27,17 @@ const ResourcesGrid = async () => {
 
   // convert response to json and declare the type
   const resources = await prisma.post.findMany({
+    where: {
+      categories: {
+        some: {
+          name: selectedCategory,
+        },
+      },
+    },
     include: {
       categories: {
-        select: {
-          name: true,
+        where: {
+          name: selectedCategory,
         },
       },
       tags: {
