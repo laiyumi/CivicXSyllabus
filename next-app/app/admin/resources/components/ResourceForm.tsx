@@ -24,11 +24,7 @@ interface CategoryProps {
 
 type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
 
-interface Props {
-  resource?: Post;
-}
-
-const ResourceForm = () => {
+const ResourceForm = ({ resource }: { resource?: Post }) => {
   const {
     register,
     handleSubmit,
@@ -134,13 +130,27 @@ const ResourceForm = () => {
       <form onSubmit={onSubmit}>
         <div className="flex flex-col justify-center pb-12">
           <div className="flex justify-between">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">
-              Creating new Resource
-            </h2>
-            <button disabled={isSubmitting} className="btn btn-primary ">
-              Save
-              {isSubmitting && <Spinner />}
-            </button>
+            {resource ? (
+              <>
+                <h2 className="text-base font-semibold leading-7 text-gray-900">
+                  Updating Resource
+                </h2>
+                <button disabled={isSubmitting} className="btn btn-primary ">
+                  Save Changes
+                  {isSubmitting && <Spinner />}
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 className="text-base font-semibold leading-7 text-gray-900">
+                  Creating new Resource
+                </h2>
+                <button disabled={isSubmitting} className="btn btn-primary ">
+                  Save
+                  {isSubmitting && <Spinner />}
+                </button>
+              </>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-16">
@@ -149,6 +159,7 @@ const ResourceForm = () => {
                 <span className="text-m">Title *</span>
                 <input
                   type="text"
+                  defaultValue={resource?.title}
                   placeholder="Type here"
                   className="input input-bordered w-full"
                   {...register("title")}
@@ -160,6 +171,7 @@ const ResourceForm = () => {
                 <input
                   type="text"
                   placeholder="Type here"
+                  defaultValue={resource?.sourceId}
                   className="input input-bordered w-full"
                   {...register("source")}
                 />
@@ -170,6 +182,7 @@ const ResourceForm = () => {
                 <textarea
                   className="textarea textarea-bordered h-24"
                   placeholder="Please limit to 30 words"
+                  defaultValue={resource?.excerpt}
                   {...register("excerpt")}
                 ></textarea>
                 <ErrorMessage>{errors.excerpt?.message}</ErrorMessage>
@@ -179,6 +192,7 @@ const ResourceForm = () => {
                 <input
                   type="text"
                   placeholder="Type here"
+                  defaultValue={resource?.link}
                   className="input input-bordered w-full"
                   {...register("link")}
                 />
@@ -189,6 +203,7 @@ const ResourceForm = () => {
                 <textarea
                   className="textarea textarea-bordered h-36"
                   placeholder="Please limit to 200 words"
+                  defaultValue={resource?.content}
                   {...register("content")}
                 ></textarea>
                 <ErrorMessage>{errors.content?.message}</ErrorMessage>

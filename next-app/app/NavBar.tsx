@@ -28,30 +28,50 @@ const NavBar = () => {
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
             >
               <li>
-                <Link href="/build-my-syllabus">Overview</Link>
+                <Link href="/build-my-syllabus">Build a Syllabus</Link>
               </li>
               <li>
-                <Link href="/before-you-begin">Before You Begin</Link>
+                <Link href="/build-my-syllabus/before-you-begin">
+                  Before You Begin
+                </Link>
               </li>
               <li>
-                <Link href="/build-partnerships">Build Partnerships</Link>
+                <Link href="/build-my-syllabus/build-partnerships">
+                  Build Partnerships
+                </Link>
               </li>
               <li>
-                <Link href="/get-to-work">Get to Work</Link>
+                <Link href="/build-my-syllabus/get-to-work">Get to Work</Link>
               </li>
             </ul>
           </div>
-          <Link href="/resources" className="btn btn-ghost">
+          <Link href="/policy-teams" className="btn btn-ghost">
             Policy Teams
           </Link>
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn btn-ghost m-1">
+              About
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+            >
+              <li>
+                <Link href="/about">About Us</Link>
+              </li>
+              <li>
+                <Link href="/about/team">Our Team</Link>
+              </li>
+              <li>
+                <Link href="/about/use-cases">Use Cases</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="navbar-end">
           <Link href="/add-a-resource" className="btn btn-ghost">
             Add a Resource
           </Link>
-          <Link href="/about" className="btn btn-ghost">
-            About
-          </Link>
-        </div>
-        <div className="navbar-end">
           {status === "loading" && (
             <span className="loading loading-dots loading-sm"></span>
           )}
@@ -62,10 +82,11 @@ const NavBar = () => {
                   <img
                     src={session.user!.image!}
                     alt="user avatar"
-                    className="w-6 h-6 rounded-full"
+                    className="w-6 h-6 rounded-full ml-5"
                   />
                 </div>
               </div>
+
               <Link href="/api/auth/signout" className="btn ml-5">
                 Sign Out
               </Link>

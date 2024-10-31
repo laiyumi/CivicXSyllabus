@@ -18,7 +18,7 @@ const UsersTable = async () => {
 
   const users = await prisma.user.findMany({
     include: {
-      posts: {
+      savedPosts: {
         select: {
           id: true,
           title: true,
@@ -38,6 +38,7 @@ const UsersTable = async () => {
             <th>Created At</th>
             <th>Last Login</th>
             <th>Role</th>
+            <th>Saved Posts</th>
           </tr>
         </thead>
         <tbody>
@@ -49,7 +50,7 @@ const UsersTable = async () => {
               <td>{user.createdAt.toLocaleString()}</td>
               <td>{user.updatedAt.toLocaleString()}</td>
               <td>{user.role}</td>
-              {user.posts.map((post) => (
+              {user.savedPosts.map((post) => (
                 <td key-={post.id}>{post.title}</td>
               ))}
             </tr>

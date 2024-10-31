@@ -12,12 +12,6 @@ interface Resource {
   link: string;
   imageUrl: string;
   published: boolean;
-  saves: number;
-  likes: number;
-  sourceId: string;
-  categoryIDs: string[];
-  tagIDs: string[];
-  userIDs: string[];
 }
 
 const ResourcesGrid = async () => {
@@ -44,9 +38,12 @@ const ResourcesGrid = async () => {
 
   // render
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
       {resources.map((resource) => (
-        <div key={resource.id} className="card bg-base-100 w-96 shadow-xl">
+        <div
+          key={resource.id}
+          className="card bg-base-100 shadow-xl col-span-1"
+        >
           <figure className="w-full h-[300px]">
             <img className="object-cover" src={resource.imageUrl} alt="TODO" />
           </figure>
@@ -67,7 +64,7 @@ const ResourcesGrid = async () => {
                 </div>
               ))}
             </div>
-            <div className="card-actions justify-start mt-4">
+            <div className="card-actions justify-end mt-4">
               <Link
                 href={`/resources/${resource.id}`}
                 className="btn btn-sm btn-primary"

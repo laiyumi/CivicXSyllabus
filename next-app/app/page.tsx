@@ -11,7 +11,6 @@ export default async function Home() {
 
   return (
     <main>
-      <h1>Hello {session && <span>{session.user!.name}</span>}</h1>
       <HeroSection />
       <div>
         <div>
