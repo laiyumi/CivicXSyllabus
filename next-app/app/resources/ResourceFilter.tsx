@@ -56,10 +56,12 @@ const ResourceFilter = () => {
       <select
         className="select select-bordered w-full max-w-xs"
         onChange={(category) => {
-          const categoryQuery = category
-            ? `?category=${category.target.value}`
-            : "";
-          router.push("/resources" + categoryQuery);
+          const categoryValue = category.target.value;
+          router.push(
+            categoryValue
+              ? `/resources?category=${categoryValue}`
+              : "/resources"
+          );
         }}
       >
         {categories.map((category) => (

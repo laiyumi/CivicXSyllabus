@@ -21,23 +21,30 @@ const ResourcesGrid = async ({
   selectedCategory: string;
 }) => {
   // fetch resources from endpoint and set the cache time to 10 seconds
-  const response = await fetch("http://localhost:3000/api/resources", {
+  const categoryResponse = await fetch("http://localhost:3000/api/categories", {
     next: { revalidate: 10 },
   });
+
+  // check if the search params are valid
+  const categories = await categoryResponse.json();
+  const categoryNames = categories.map((category: Category) => category.name);
+  const passedCategory = categoryNames.includes(selectedCategory)
+    ? selectedCategory
+    : undefined;
 
   // convert response to json and declare the type
   const resources = await prisma.post.findMany({
     where: {
       categories: {
         some: {
-          name: selectedCategory,
+          name: passedCategory,
         },
       },
     },
     include: {
       categories: {
         where: {
-          name: selectedCategory,
+          name: passedCategory,
         },
       },
       tags: {
