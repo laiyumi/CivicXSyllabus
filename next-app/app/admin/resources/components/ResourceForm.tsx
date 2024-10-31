@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import prisma from "../../../../prisma/client";
-import { set, useForm } from "react-hook-form";
-import type { GetServerSideProps } from "next";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import UploadImage from "@/app/upload/page";
-import { zodResolver } from "@hookform/resolvers/zod";
-import createResourceSchema from "@/app/validationSchemas";
-import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import { on } from "events";
+import UploadImage from "@/app/upload/page";
+import createResourceSchema from "@/app/validationSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Post } from "@prisma/client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 interface TagProps {
   id: string;
@@ -26,18 +24,11 @@ interface CategoryProps {
 
 type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
 
-// interface NewResourceFormInputs {
-//   title: string;
-//   excerpt: string;
-//   content: string;
-//   link: string;
-//   imageUrl: string;
-//   source: string;
-//   categories: string[];
-//   tags: string[];
-// }
+interface Props {
+  resource?: Post;
+}
 
-const NewResourceForm = () => {
+const ResourceForm = () => {
   const {
     register,
     handleSubmit,
@@ -252,4 +243,4 @@ const NewResourceForm = () => {
   );
 };
 
-export default NewResourceForm;
+export default ResourceForm;

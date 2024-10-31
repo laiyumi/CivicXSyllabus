@@ -83,7 +83,7 @@ const ResourcesTable = async () => {
                   href={`/admin/resources/${resouce.id}`}
                   className="btn btn-outline btn-s"
                 >
-                  Edit
+                  View
                 </Link>
               </th>
             </tr>
