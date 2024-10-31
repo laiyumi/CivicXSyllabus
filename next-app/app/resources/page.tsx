@@ -1,8 +1,6 @@
-import React, { Suspense } from "react";
-import UserTable from "./UserTable";
-import ResourceCard from "../components/ResourceCard/ResourceCard";
-import ResourcesGrid from "./ResourcesGrid";
+import { Suspense } from "react";
 import ResourceFilter from "./ResourceFilter";
+import ResourcesGrid from "./ResourcesGrid";
 
 // sortOrder is a parameter passed in from the URL query string
 interface Props {
