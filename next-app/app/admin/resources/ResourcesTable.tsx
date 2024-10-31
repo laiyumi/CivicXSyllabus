@@ -1,6 +1,7 @@
 import React from "react";
 import prisma from "../../../prisma/client";
 import delay from "delay";
+import Link from "next/link";
 
 interface ResourcesTableProps {
   id: string;
@@ -78,7 +79,12 @@ const ResourcesTable = async () => {
               <td className="hidden md:table-cell">{resouce.excerpt}</td>
               <th className="hidden md:table-cell">{resouce.link}</th>
               <th>
-                <button className="btn btn-outline btn-s">Edit</button>
+                <Link
+                  href={`/admin/resources/${resouce.id}`}
+                  className="btn btn-outline btn-s"
+                >
+                  Edit
+                </Link>
               </th>
             </tr>
           ))}
