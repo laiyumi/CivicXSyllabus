@@ -68,9 +68,23 @@ const ResourcesGrid = async ({
           },
         },
         {
-          title: {
-            contains: searchText,
-          },
+          OR: [
+            {
+              title: {
+                contains: searchText,
+              },
+            },
+            {
+              excerpt: {
+                contains: searchText,
+              },
+            },
+            {
+              content: {
+                contains: searchText,
+              },
+            },
+          ],
         },
       ],
     },
