@@ -52,12 +52,15 @@ const ResourceFilter = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
   const [order, setOrder] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const queryParams = {
       category: selectedCategory,
       tag: selectedTag,
       order: order,
+      q: searchInput,
     };
 
     const queryString = Object.keys(queryParams)
@@ -66,16 +69,13 @@ const ResourceFilter = () => {
       .join("&");
 
     router.push(`/resources?${queryString}`);
-  }, [selectedCategory, selectedTag, order, router]);
+  }, [selectedCategory, selectedTag, order, searchInput, router]);
 
   const orders: { label: string; value: keyof Post }[] = [
     { label: "Created Date", value: "createdAt" },
     { label: "Updated Date", value: "updatedAt" },
     { label: "Title", value: "title" },
   ];
-
-  const [searchText, setSearchText] = useState("");
-  console.log(searchText);
 
   return (
     <div className="flex flex-col gap-4 justify-around my-8">
@@ -86,7 +86,7 @@ const ResourceFilter = () => {
               type="text"
               className="grow"
               placeholder="Search"
-              onChange={(e) => setSearchText(e.target.value)}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -135,9 +135,6 @@ const ResourceFilter = () => {
             </option>
           ))}
         </select>{" "}
-        {/* <button className="btn btn-primary" onClick={handleFilterChange}>
-          Apply Filter
-        </button> */}
       </div>
     </div>
   );

@@ -19,10 +19,12 @@ const ResourcesGrid = async ({
   selectedCategory,
   selectedTag,
   sortOrder,
+  searchText,
 }: {
   selectedCategory: string;
   selectedTag: string;
   sortOrder: string;
+  searchText: string;
 }) => {
   // fetch categories from endpoint and set the cache time to 10 seconds
   const categoryResponse = await fetch("http://localhost:3000/api/categories", {
@@ -44,6 +46,9 @@ const ResourcesGrid = async ({
   const tagNames = tags.map((tag: Tag) => tag.name);
   const passedTag = tagNames.includes(selectedTag) ? selectedTag : undefined;
 
+  console.log("searching: " + searchText);
+  console.log("order here: " + sortOrder);
+
   // convert response to json and declare the type
   const resources = await prisma.post.findMany({
     where: {
@@ -60,6 +65,11 @@ const ResourcesGrid = async ({
             some: {
               name: passedTag,
             },
+          },
+        },
+        {
+          title: {
+            contains: searchText,
           },
         },
       ],

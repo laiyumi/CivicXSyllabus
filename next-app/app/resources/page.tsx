@@ -9,6 +9,7 @@ interface Props {
     category: Category["name"] | "";
     tag: Tag["name"] | "";
     order: string;
+    q: string;
   };
 }
 
@@ -16,8 +17,8 @@ const ResourcesPage = ({ searchParams }: Props) => {
   // for testing
   console.log(searchParams.category);
   console.log(searchParams.tag);
-
-  // update search parmas
+  console.log(searchParams.order);
+  console.log(searchParams.q);
 
   return (
     <div className="grid grid-cols-12">
@@ -29,6 +30,7 @@ const ResourcesPage = ({ searchParams }: Props) => {
             selectedCategory={searchParams.category}
             selectedTag={searchParams.tag}
             sortOrder={searchParams.order}
+            searchText={searchParams.q}
           />
         </Suspense>
       </div>
