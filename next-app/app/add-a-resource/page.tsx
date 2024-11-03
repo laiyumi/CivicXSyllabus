@@ -109,6 +109,10 @@ const AddAResourcePage = () => {
       <form onSubmit={onSubmit}>
         <div className="grid grid-cols-12">
           <div className="justify-self-center w-full flex flex-col gap-6 col-start-4 col-span-6">
+            <p>
+              Please fill out this form to add a resource. If you have a list of
+              resources to add, please contact us(civicxsyllabus@gmail.com).
+            </p>
             <div className="divider divider-neutral">Personal Information</div>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Name *</span>

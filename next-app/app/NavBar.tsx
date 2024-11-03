@@ -9,7 +9,7 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="navbar bg-base-100 p-5">
+      <div className="navbar bg-base-100 p-5 ">
         <div className="navbar-start">
           <Link href="/" className=" font-serif text-2xl ">
             Civic X Syllabus

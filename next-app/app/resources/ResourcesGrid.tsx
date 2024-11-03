@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { sort } from "fast-sort";
 import prisma from "../../prisma/client";
-import { Category } from "@prisma/client";
+import { Category, Tag } from "@prisma/client";
 
 // define the shape of the resource object
 interface Resource {
@@ -17,20 +17,30 @@ interface Resource {
 
 const ResourcesGrid = async ({
   selectedCategory,
+  selectedTag,
 }: {
   selectedCategory: string;
+  selectedTag: string;
 }) => {
-  // fetch resources from endpoint and set the cache time to 10 seconds
+  // fetch categories from endpoint and set the cache time to 10 seconds
   const categoryResponse = await fetch("http://localhost:3000/api/categories", {
     next: { revalidate: 10 },
   });
 
-  // check if the search params are valid
+  // check if the search category are valid
   const categories = await categoryResponse.json();
   const categoryNames = categories.map((category: Category) => category.name);
   const passedCategory = categoryNames.includes(selectedCategory)
     ? selectedCategory
     : undefined;
+
+  const tagResponse = await fetch("http://localhost:3000/api/tags", {
+    next: { revalidate: 10 },
+  });
+  // check if the search tags are valid
+  const tags = await tagResponse.json();
+  const tagNames = tags.map((tag: Tag) => tag.name);
+  const passedTag = tagNames.includes(selectedTag) ? selectedTag : undefined;
 
   // convert response to json and declare the type
   const resources = await prisma.post.findMany({
@@ -38,6 +48,11 @@ const ResourcesGrid = async ({
       categories: {
         some: {
           name: passedCategory,
+        },
+      },
+      tags: {
+        some: {
+          name: passedTag,
         },
       },
     },
@@ -48,8 +63,8 @@ const ResourcesGrid = async ({
         },
       },
       tags: {
-        select: {
-          name: true,
+        where: {
+          name: passedTag,
         },
       },
     },
