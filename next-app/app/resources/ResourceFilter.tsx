@@ -1,8 +1,9 @@
 "use client";
 
-import { Category, Tag } from "@prisma/client";
+import { Category, Tag, Post } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import SortSelector from "./SortSelector"; // Adjust the path as necessary
 
 const ResourceFilter = () => {
   const router = useRouter();
@@ -50,19 +51,53 @@ const ResourceFilter = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
+  const [order, setOrder] = useState("");
 
-  const handleFilterChange = () => {
-    if (selectedCategory === "" && selectedTag === "") {
-      router.push("/resources");
-    }
-    if (selectedCategory && selectedTag) {
-      router.push(`/resources?category=${selectedCategory}&tag=${selectedTag}`);
-    } else if (selectedCategory) {
-      router.push(`/resources?category=${selectedCategory}`);
-    } else if (selectedTag) {
-      router.push(`/resources?tag=${selectedTag}`);
-    }
+  useEffect(() => {
+    const queryParams = {
+      category: selectedCategory,
+      tag: selectedTag,
+      order: order,
+    };
+
+    const queryString = Object.keys(queryParams)
+      .filter((key) => queryParams[key as keyof typeof queryParams] !== "")
+      .map((key) => `${key}=${queryParams[key as keyof typeof queryParams]}`)
+      .join("&");
+
+    router.push(`/resources?${queryString}`);
+  }, [selectedCategory, selectedTag, order, router]);
+
+  const handleCategoryChange = (selectedCategory: string) => {
+    setSelectedCategory(selectedCategory);
   };
+
+  const handleTagChange = (selectedTag: string) => {
+    setSelectedTag(selectedTag);
+  };
+
+  const handleSortOrderChange = (sortOrder: string) => {
+    setOrder(sortOrder);
+  };
+
+  // const handleFilterChange = () => {
+  //   if (selectedCategory === "" && selectedTag === "") {
+  //     router.push("/resources");
+  //   }
+  //   if (selectedCategory && selectedTag) {
+  //     router.push(`/resources?category=${selectedCategory}&tag=${selectedTag}`);
+  //   } else if (selectedCategory) {
+  //     router.push(`/resources?category=${selectedCategory}`);
+  //   } else if (selectedTag) {
+  //     router.push(`/resources?tag=${selectedTag}`);
+  //   }
+  // };
+
+  const orders: { label: string; value: keyof Post }[] = [
+    { label: "Created Date", value: "createdAt" },
+    { label: "Updated Date", value: "updatedAt" },
+    { label: "Title", value: "title" },
+  ];
 
   const [searchText, setSearchText] = useState("");
   console.log(searchText);
@@ -95,14 +130,6 @@ const ResourceFilter = () => {
         <select
           className="select select-bordered w-auto"
           onChange={(category) => setSelectedCategory(category.target.value)}
-          // onChange={(category) => {
-          //   const categoryValue = category.target.value;
-          //   router.push(
-          //     categoryValue
-          //       ? `/resources?category=${categoryValue}`
-          //       : "/resources"
-          //   );
-          // }}
         >
           {categories.map((category) => (
             <option key={category.label} value={category.value || ""}>
@@ -113,10 +140,6 @@ const ResourceFilter = () => {
         <select
           className="select select-bordered w-auto"
           onChange={(tag) => setSelectedTag(tag.target.value)}
-          // onChange={(tag) => {
-          //   const tagValue = tag.target.value;
-          //   router.push(tagValue ? `/resources?tag=${tagValue}` : "/resources");
-          // }}
         >
           {tags.map((tag) => (
             <option key={tag.label} value={tag.value || ""}>
@@ -124,16 +147,22 @@ const ResourceFilter = () => {
             </option>
           ))}
         </select>
-        <select className="select select-bordered w-auto">
+        <select
+          className="select select-bordered w-auto"
+          onChange={(e) => setOrder(e.target.value)}
+        >
           <option disabled selected>
             Order By
           </option>
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-        </select>
-        <button className="btn btn-primary" onClick={handleFilterChange}>
+          {orders.map((order) => (
+            <option key={order.value} value={order.value}>
+              {order.label}
+            </option>
+          ))}
+        </select>{" "}
+        {/* <button className="btn btn-primary" onClick={handleFilterChange}>
           Apply Filter
-        </button>
+        </button> */}
       </div>
     </div>
   );

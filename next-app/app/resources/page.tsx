@@ -8,6 +8,7 @@ interface Props {
   searchParams: {
     category: Category["name"] | "";
     tag: Tag["name"] | "";
+    order: string;
   };
 }
 
@@ -27,6 +28,7 @@ const ResourcesPage = ({ searchParams }: Props) => {
           <ResourcesGrid
             selectedCategory={searchParams.category}
             selectedTag={searchParams.tag}
+            sortOrder={searchParams.order}
           />
         </Suspense>
       </div>

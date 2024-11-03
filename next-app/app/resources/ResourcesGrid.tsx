@@ -18,9 +18,11 @@ interface Resource {
 const ResourcesGrid = async ({
   selectedCategory,
   selectedTag,
+  sortOrder,
 }: {
   selectedCategory: string;
   selectedTag: string;
+  sortOrder: string;
 }) => {
   // fetch categories from endpoint and set the cache time to 10 seconds
   const categoryResponse = await fetch("http://localhost:3000/api/categories", {
@@ -62,6 +64,13 @@ const ResourcesGrid = async ({
         },
       ],
     },
+    ...(sortOrder && {
+      orderBy: [
+        {
+          [sortOrder]: "asc",
+        },
+      ],
+    }),
     include: {
       categories: {
         where: {
