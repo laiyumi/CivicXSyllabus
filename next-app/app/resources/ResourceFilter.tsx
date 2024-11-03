@@ -68,31 +68,6 @@ const ResourceFilter = () => {
     router.push(`/resources?${queryString}`);
   }, [selectedCategory, selectedTag, order, router]);
 
-  const handleCategoryChange = (selectedCategory: string) => {
-    setSelectedCategory(selectedCategory);
-  };
-
-  const handleTagChange = (selectedTag: string) => {
-    setSelectedTag(selectedTag);
-  };
-
-  const handleSortOrderChange = (sortOrder: string) => {
-    setOrder(sortOrder);
-  };
-
-  // const handleFilterChange = () => {
-  //   if (selectedCategory === "" && selectedTag === "") {
-  //     router.push("/resources");
-  //   }
-  //   if (selectedCategory && selectedTag) {
-  //     router.push(`/resources?category=${selectedCategory}&tag=${selectedTag}`);
-  //   } else if (selectedCategory) {
-  //     router.push(`/resources?category=${selectedCategory}`);
-  //   } else if (selectedTag) {
-  //     router.push(`/resources?tag=${selectedTag}`);
-  //   }
-  // };
-
   const orders: { label: string; value: keyof Post }[] = [
     { label: "Created Date", value: "createdAt" },
     { label: "Updated Date", value: "updatedAt" },
