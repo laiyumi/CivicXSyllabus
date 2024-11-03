@@ -48,6 +48,22 @@ const ResourceFilter = () => {
     fetchData();
   }, []);
 
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedTag, setSelectedTag] = useState("");
+
+  const handleFilterChange = () => {
+    if (selectedCategory === "" && selectedTag === "") {
+      router.push("/resources");
+    }
+    if (selectedCategory && selectedTag) {
+      router.push(`/resources?category=${selectedCategory}&tag=${selectedTag}`);
+    } else if (selectedCategory) {
+      router.push(`/resources?category=${selectedCategory}`);
+    } else if (selectedTag) {
+      router.push(`/resources?tag=${selectedTag}`);
+    }
+  };
+
   const [searchText, setSearchText] = useState("");
   console.log(searchText);
 
@@ -78,14 +94,15 @@ const ResourceFilter = () => {
         </div>
         <select
           className="select select-bordered w-auto"
-          onChange={(category) => {
-            const categoryValue = category.target.value;
-            router.push(
-              categoryValue
-                ? `/resources?category=${categoryValue}`
-                : "/resources"
-            );
-          }}
+          onChange={(category) => setSelectedCategory(category.target.value)}
+          // onChange={(category) => {
+          //   const categoryValue = category.target.value;
+          //   router.push(
+          //     categoryValue
+          //       ? `/resources?category=${categoryValue}`
+          //       : "/resources"
+          //   );
+          // }}
         >
           {categories.map((category) => (
             <option key={category.label} value={category.value || ""}>
@@ -95,10 +112,11 @@ const ResourceFilter = () => {
         </select>
         <select
           className="select select-bordered w-auto"
-          onChange={(tag) => {
-            const tagValue = tag.target.value;
-            router.push(tagValue ? `/resources?tag=${tagValue}` : "/resources");
-          }}
+          onChange={(tag) => setSelectedTag(tag.target.value)}
+          // onChange={(tag) => {
+          //   const tagValue = tag.target.value;
+          //   router.push(tagValue ? `/resources?tag=${tagValue}` : "/resources");
+          // }}
         >
           {tags.map((tag) => (
             <option key={tag.label} value={tag.value || ""}>
@@ -113,7 +131,9 @@ const ResourceFilter = () => {
           <option value="newest">Newest</option>
           <option value="oldest">Oldest</option>
         </select>
-        <button className="btn btn-primary">Search</button>
+        <button className="btn btn-primary" onClick={handleFilterChange}>
+          Apply Filter
+        </button>
       </div>
     </div>
   );

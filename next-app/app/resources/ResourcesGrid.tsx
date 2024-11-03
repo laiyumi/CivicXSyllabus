@@ -45,16 +45,22 @@ const ResourcesGrid = async ({
   // convert response to json and declare the type
   const resources = await prisma.post.findMany({
     where: {
-      categories: {
-        some: {
-          name: passedCategory,
+      AND: [
+        {
+          categories: {
+            some: {
+              name: passedCategory,
+            },
+          },
         },
-      },
-      tags: {
-        some: {
-          name: passedTag,
+        {
+          tags: {
+            some: {
+              name: passedTag,
+            },
+          },
         },
-      },
+      ],
     },
     include: {
       categories: {

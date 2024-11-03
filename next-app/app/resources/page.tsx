@@ -11,10 +11,12 @@ interface Props {
   };
 }
 
-const ResourcesPage = async ({ searchParams }: Props) => {
+const ResourcesPage = ({ searchParams }: Props) => {
   // for testing
   console.log(searchParams.category);
   console.log(searchParams.tag);
+
+  // update search parmas
 
   return (
     <div className="grid grid-cols-12">
