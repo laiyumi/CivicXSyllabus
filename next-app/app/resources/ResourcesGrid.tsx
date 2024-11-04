@@ -3,6 +3,8 @@ import React from "react";
 import { sort } from "fast-sort";
 import prisma from "../../prisma/client";
 import { Category, Tag } from "@prisma/client";
+import Pagination from "../components/Pagination";
+import Image from "next/image";
 
 // define the shape of the resource object
 interface Resource {
@@ -20,11 +22,13 @@ const ResourcesGrid = async ({
   selectedTag,
   sortOrder,
   searchText,
+  page,
 }: {
   selectedCategory: string;
   selectedTag: string;
   sortOrder: string;
   searchText: string;
+  page: string;
 }) => {
   // fetch categories from endpoint and set the cache time to 10 seconds
   const categoryResponse = await fetch("http://localhost:3000/api/categories", {
@@ -48,6 +52,9 @@ const ResourcesGrid = async ({
 
   console.log("searching: " + searchText);
   console.log("order here: " + sortOrder);
+
+  const currentPage = parseInt(page) || 1;
+  const pageSize = 5;
 
   // convert response to json and declare the type
   const resources = await prisma.post.findMany({
@@ -95,6 +102,8 @@ const ResourcesGrid = async ({
         },
       ],
     }),
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize,
     include: {
       categories: {
         where: {
@@ -109,46 +118,99 @@ const ResourcesGrid = async ({
     },
   });
 
+  const postCount = await prisma.post.count({
+    where: {
+      AND: [
+        {
+          categories: {
+            some: {
+              name: passedCategory,
+            },
+          },
+        },
+        {
+          tags: {
+            some: {
+              name: passedTag,
+            },
+          },
+        },
+        {
+          OR: [
+            {
+              title: {
+                contains: searchText,
+              },
+            },
+            {
+              excerpt: {
+                contains: searchText,
+              },
+            },
+            {
+              content: {
+                contains: searchText,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  });
+
   // render
   return (
-    <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-      {resources.map((resource) => (
-        <div
-          key={resource.id}
-          className="card bg-base-100 shadow-xl col-span-1"
-        >
-          <figure className="w-full h-[300px]">
-            <img className="object-cover" src={resource.imageUrl} alt="TODO" />
-          </figure>
-          <div className="card-body">
-            <div className="flex flex-wrap gap-3">
-              {resource.categories.map((category) => (
-                <div key={category.name} className="badge badge-secondary">
-                  {category.name}
-                </div>
-              ))}
-            </div>
-            <h2 className="card-title">{resource.title}</h2>
-            <p className="text-sm">{resource.excerpt}</p>
-            <div className="flex gap-3 mt-1">
-              {resource.tags.map((tag) => (
-                <div key={tag.name} className="badge badge-outline">
-                  {tag.name}
-                </div>
-              ))}
-            </div>
-            <div className="card-actions justify-end mt-4">
-              <Link
-                href={`/resources/${resource.id}`}
-                className="btn btn-sm btn-primary"
-              >
-                Read More
-              </Link>
+    <>
+      <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+        {resources.map((resource) => (
+          <div
+            key={resource.id}
+            className="card bg-base-100 shadow-xl col-span-1"
+          >
+            <figure className="w-full h-[300px]">
+              <img
+                className="object-cover"
+                src={resource.imageUrl}
+                alt="TODO"
+              />
+            </figure>
+            <div className="card-body">
+              <div className="flex flex-wrap gap-3">
+                {resource.categories.map((category) => (
+                  <div key={category.name} className="badge badge-secondary">
+                    {category.name}
+                  </div>
+                ))}
+              </div>
+              <h2 className="card-title">{resource.title}</h2>
+              <p className="text-sm">{resource.excerpt}</p>
+              <div className="flex gap-3 mt-1">
+                {resource.tags.map((tag) => (
+                  <div key={tag.name} className="badge badge-outline">
+                    {tag.name}
+                  </div>
+                ))}
+              </div>
+              <div className="card-actions justify-end mt-4">
+                <Link
+                  href={`/resources/${resource.id}`}
+                  className="btn btn-sm btn-primary"
+                >
+                  Read More
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+      <div className="col-start-6 col-span-2 mt-16 mb-8">
+        <Pagination
+          itemCount={postCount}
+          pageSize={pageSize}
+          currentPage={currentPage}
+        />
+      </div>
+    </>
   );
 };
 

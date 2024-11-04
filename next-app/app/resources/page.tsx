@@ -35,15 +35,9 @@ const ResourcesPage = ({ searchParams }: Props) => {
               selectedTag={searchParams.tag}
               sortOrder={searchParams.order}
               searchText={searchParams.q}
+              page={parseInt(searchParams.page).toString()}
             />
           </Suspense>
-        </div>
-        <div className="col-start-6 col-span-2 mt-16 mb-8">
-          <Pagination
-            itemCount={100}
-            pageSize={10}
-            currentPage={searchParams.page ? parseInt(searchParams.page) : 1}
-          />
         </div>
       </div>
     </>

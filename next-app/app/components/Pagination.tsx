@@ -13,11 +13,7 @@ interface PaginationProps {
   currentPage: number;
 }
 
-const Pagination = ({
-  itemCount,
-  pageSize,
-  currentPage = 1,
-}: PaginationProps) => {
+const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -43,7 +39,7 @@ const Pagination = ({
         Page {currentPage} of {pageCount}
       </button>
       <button
-        disabled={currentPage === pageSize}
+        disabled={currentPage === pageCount}
         className="join-item btn"
         onClick={() => changePage(currentPage + 1)}
       >
