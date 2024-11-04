@@ -1,10 +1,11 @@
 import Link from "next/link";
 import React from "react";
 import SearchBar from "./resources/SearchBar";
+import MarqueeDemo from "./components/ReviewCard";
 
 const HeroSection = () => {
   return (
-    <div className="grid grid-cols-12 bg-slate-200 py-44">
+    <div className="grid grid-cols-12 bg-slate-200 py-20">
       <div className="col-start-4 col-span-6 flex flex-col gap-8 items-center">
         <h1>Your Roadmap to Civic Innovation</h1>
         <h2 className="text-lg text-center">
@@ -14,6 +15,7 @@ const HeroSection = () => {
         </h2>
         <div className="w-full">
           <SearchBar />
+          <MarqueeDemo />
         </div>
       </div>
     </div>
