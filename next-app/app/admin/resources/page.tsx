@@ -6,7 +6,6 @@ import ResourcesTable from "./ResourcesTable";
 const AdminResourcesPage = () => {
   return (
     <div className="flex">
-      <AdminDashboardNavBar />
       <div className="w-full">
         <div className="flex justify-between pb-5">
           <h1>Resources</h1>

@@ -9,8 +9,12 @@ const AdminDashboardNavBar = () => {
   console.log(currentPath);
 
   const links = [
+    { label: "Dashboard", href: "/admin" },
     { label: "Resources", href: "/admin/resources" },
     { label: "Users", href: "/admin/users" },
+    { label: "Categories", href: "/admin/categories" },
+    { label: "Tags", href: "/admin/tags" },
+    { label: "Sources", href: "/admin/sources" },
     { label: "Media", href: "/admin/media" },
   ];
 

@@ -3,11 +3,7 @@ import React from "react";
 import AdminDashboardNavBar from "../NavBar";
 
 const AdminMediaPage = () => {
-  return (
-    <div>
-      <AdminDashboardNavBar />
-    </div>
-  );
+  return <div>AdminMediaPage </div>;
 };
 
 export default AdminMediaPage;

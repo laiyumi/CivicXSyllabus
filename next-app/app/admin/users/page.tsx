@@ -7,7 +7,6 @@ import UploadImage from "@/app/upload/page";
 const AdminUsersPage = () => {
   return (
     <div className="flex">
-      <AdminDashboardNavBar />
       <div className="w-full">
         <div className="flex justify-between pb-5">
           <h1>Users</h1>
