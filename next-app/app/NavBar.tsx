@@ -1,12 +1,12 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const NavBar = () => {
   const { status, data: session } = useSession();
-
   return (
     <>
       <div className="navbar bg-base-100 p-5 ">
@@ -78,11 +78,13 @@ const NavBar = () => {
           {status === "authenticated" && (
             <div className="flex items-center">
               <div className="avatar">
-                <div className="w-8 rounded-full">
+                <div className="w-8 rounded-full ml-5">
                   <img
                     src={session.user!.image!}
+                    width={500}
+                    height={500}
                     alt="user avatar"
-                    className="w-6 h-6 rounded-full ml-5"
+                    className="w-6 h-6 rounded-full"
                   />
                 </div>
               </div>
