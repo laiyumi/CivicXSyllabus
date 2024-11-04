@@ -203,7 +203,7 @@ const ResourcesGrid = async ({
           </div>
         ))}
       </div>
-      <div className="col-start-6 col-span-2 mt-16 mb-8">
+      <div className="mt-16 mb-8 flex justify-center">
         <Pagination
           itemCount={postCount}
           pageSize={pageSize}
