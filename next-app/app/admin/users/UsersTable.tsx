@@ -1,5 +1,6 @@
 import React from "react";
 import prisma from "../../../prisma/client";
+import Link from "next/link";
 
 interface User {
   id: string;
@@ -35,10 +36,10 @@ const UsersTable = async () => {
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Created At</th>
             <th>Last Login</th>
             <th>Role</th>
             <th>Saved Posts</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -47,25 +48,22 @@ const UsersTable = async () => {
               <th>{user.id}</th>
               <td>{user.name}</td>
               <td>{user.email}</td>
-              <td>{user.createdAt.toLocaleString()}</td>
               <td>{user.updatedAt.toLocaleString()}</td>
               <td>{user.role}</td>
               {user.savedPosts.map((post) => (
-                <td key-={post.id}>{post.title}</td>
+                <td key={post.id}>{post.title}</td>
               ))}
+              <td>
+                <Link
+                  href={`/admin/users/${user.id}`}
+                  className="btn btn-outline btn-s"
+                >
+                  View
+                </Link>
+              </td>
             </tr>
           ))}
         </tbody>
-        <tfoot>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Created At</th>
-            <th>Last Login</th>
-            <th>Role</th>
-          </tr>
-        </tfoot>
       </table>
     </div>
   );

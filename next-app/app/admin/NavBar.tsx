@@ -26,7 +26,9 @@ const AdminDashboardNavBar = () => {
             key={link.href}
             href={link.href}
             className={`${
-              link.href === currentPath ? "text-slate-900" : "text-slate-500"
+              link.href === currentPath
+                ? "text-slate-900 font-semibold"
+                : "text-slate-500"
             } hover:text-slate-800 transition-colors`}
           >
             {link.label}

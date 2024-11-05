@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import SearchBar from "./resources/SearchBar";
+import SearchBar from "./components/SearchBar";
 import MarqueeDemo from "./components/ReviewCard";
 
 const HeroSection = () => {

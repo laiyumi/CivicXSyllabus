@@ -7,9 +7,8 @@ interface Props {
 
 const AdminLayout = ({ children }: Props) => {
   return (
-    <div className="flex">
+    <div className="flex my-4">
       <AdminDashboardNavBar />
-
       <div className="w-full">{children}</div>
     </div>
   );

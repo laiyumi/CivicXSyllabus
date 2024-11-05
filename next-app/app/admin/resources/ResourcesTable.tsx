@@ -44,9 +44,10 @@ const ResourcesTable = async () => {
               </label>
             </th>
             <th className="w-3/10">Title</th>
+            <th className="w-2/10">Source</th>
             <th className="w-1/10">Published</th>
             <th className="w-3/10 hidden md:table-cell">Excerpt</th>
-            <th className="w-2/10 hidden md:table-cell">Link</th>
+            {/* <th className="w-2/10 hidden md:table-cell">Link</th> */}
             <th className="w-1/10"></th>
           </tr>
         </thead>
@@ -66,26 +67,20 @@ const ResourcesTable = async () => {
                       <img src={resouce.imageUrl} alt="post thumbnail" />
                     </div>
                   </div>
-                  <div>
-                    <div className="font-bold">{resouce.title}</div>
-
-                    <div className="text-sm opacity-50">
-                      {resouce.source.name}
-                    </div>
-                  </div>
+                  <div className="font-bold">{resouce.title}</div>
                 </div>
               </td>
+              <td> {resouce.source.name}</td>
               <td>{resouce.published ? "Yes" : "No"}</td>
               <td className="hidden md:table-cell">{resouce.excerpt}</td>
-              <th className="hidden md:table-cell">{resouce.link}</th>
-              <th>
+              <td>
                 <Link
                   href={`/admin/resources/${resouce.id}`}
                   className="btn btn-outline btn-s"
                 >
                   View
                 </Link>
-              </th>
+              </td>
             </tr>
           ))}
         </tbody>

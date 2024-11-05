@@ -33,7 +33,6 @@ const EditResourcePage = async ({ params }: Props) => {
 
   return (
     <div className="flex">
-      <AdminDashboardNavBar />
       <div className="w-full">
         <div className="flex justify-between">
           <h2 className="text-base font-semibold leading-7 text-gray-900">

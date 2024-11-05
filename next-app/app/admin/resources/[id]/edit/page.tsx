@@ -41,7 +41,6 @@ const EditResourcePage = async ({ params }: Props) => {
 
   return (
     <div className="flex">
-      <AdminDashboardNavBar />
       <div className="w-full">
         <ResourceForm resource={resource} />
       </div>
