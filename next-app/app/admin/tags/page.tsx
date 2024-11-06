@@ -23,7 +23,6 @@ const AdminTagsPage = () => {
     });
     setTags([...tags, response.data]);
     setNewTag("");
-    // set input field to blank
   };
 
   return (

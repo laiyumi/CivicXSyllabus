@@ -67,7 +67,7 @@ const DashboardSummary = () => {
               href={`/admin/${container.label.toLowerCase()}`}
               className="hover:bg-slate-200"
             >
-              <div className="stat place-items-center">
+              <div className="stat place-items-center gap-2">
                 <div className="stat-title">{container.label}</div>
                 <div className="stat-value">{container.value}</div>
                 <div className="stat-desc">
