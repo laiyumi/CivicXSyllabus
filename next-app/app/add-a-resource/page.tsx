@@ -110,12 +110,19 @@ const AddAResourcePage = () => {
         <div className="grid grid-cols-12">
           <div className="justify-self-center w-full flex flex-col gap-6 col-start-4 col-span-6">
             <p>
-              Please fill out this form to add a resource. If you have a list of
-              resources to add, please contact us(civicxsyllabus@gmail.com).
+              Thank you for contributing to Civic X Syllabus and sharing your
+              resources with us!
             </p>
-            <div className="divider divider-neutral">Personal Information</div>
+            <p>
+              Please fill out this form to submit a resource that you believe
+              should be included here. If you have multiple resources to add,
+              feel free to contact us at civicxsyllabus@gmail.com.
+            </p>
+            <p className="text-slate-500">
+              We’ll send you the link once your resource is confirmed.
+            </p>
             <label className="form-control w-full flex gap-2">
-              <span className="text-m">Name *</span>
+              <span className="text-m">Your Name *</span>
               <input
                 type="text"
                 placeholder="Type here"
@@ -123,7 +130,7 @@ const AddAResourcePage = () => {
               />
             </label>
             <label className="form-control w-full flex gap-2">
-              <span className="text-m">Email *</span>
+              <span className="text-m">Your Email *</span>
               <input
                 type="text"
                 placeholder="Type here"
@@ -132,7 +139,7 @@ const AddAResourcePage = () => {
             </label>
             <div className="divider divider-neutral">Resource Information</div>
             <label className="form-control w-full flex gap-2">
-              <span className="text-m">Title *</span>
+              <span className="text-m">Resource Name *</span>
               <input
                 type="text"
                 placeholder="Type here"
@@ -141,87 +148,107 @@ const AddAResourcePage = () => {
               />
               <ErrorMessage>{errors.title?.message}</ErrorMessage>
             </label>
-            <label className="form-control w-full flex gap-2">
-              <span className="text-m">Source *</span>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full"
-                {...register("source")}
-              />
-              <ErrorMessage>{errors.source?.message}</ErrorMessage>
-            </label>
-            <label className="form-control w-full flex gap-2">
-              <span className="text-m">Excerpt *</span>
-              <textarea
-                className="textarea textarea-bordered h-24"
-                placeholder="Please limit to 30 words"
-                {...register("excerpt")}
-              ></textarea>
-              <ErrorMessage>{errors.excerpt?.message}</ErrorMessage>
-            </label>
             <label className="form-control w-full  flex gap-2">
-              <span className="text-m">Link *</span>
+              <span className="text-m">Resource Link *</span>
               <input
                 type="text"
-                placeholder="Type here"
+                placeholder="The link to the resource itself"
                 className="input input-bordered w-full"
                 {...register("link")}
               />
               <ErrorMessage>{errors.link?.message}</ErrorMessage>
             </label>
             <label className="form-control w-full flex gap-2">
-              <span className="text-m">Content *</span>
+              <span className="text-m">Short Description *</span>
+              <textarea
+                className="textarea textarea-bordered h-24"
+                placeholder="A one-sentence summary description"
+                {...register("excerpt")}
+              ></textarea>
+              <ErrorMessage>{errors.excerpt?.message}</ErrorMessage>
+            </label>
+            <label className="form-control w-full flex gap-2">
+              <span className="text-m">Tell me more about the resource</span>
               <textarea
                 className="textarea textarea-bordered h-36"
-                placeholder="Please limit to 200 words"
+                placeholder="When did it start? Who is it for? What impact has it made? How can others get involved?"
                 {...register("content")}
               ></textarea>
               <ErrorMessage>{errors.content?.message}</ErrorMessage>
             </label>
+
             <label className="form-control w-full flex gap-2">
-              <span className="text-m">Thumbnail Image *</span>
-              <UploadImage onImageUpload={handleImageUpload} />
-              <ErrorMessage>{errors.imageUrl?.message}</ErrorMessage>
+              <span className="text-m">
+                Why do you think it is a best fit? *
+              </span>
+              <textarea
+                className="textarea textarea-bordered h-36"
+                {...register("content")}
+              ></textarea>
+              <ErrorMessage>{errors.content?.message}</ErrorMessage>
             </label>
+            <div className="divider divider-neutral">Categories</div>
             <div className="flex flex-col gap-6">
-              <div>
-                <h2>Categories</h2>
-                <div className="flex gap-3 flex-wrap">
-                  {categories?.map((category) => (
-                    <label key={category.id} className="label cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        checked={selectedCategories.includes(category.id)}
-                        onChange={() => handleCategoryChange(category.id)}
-                      />
-                      <span className="label-text pl-3">{category.name}</span>
-                    </label>
-                  ))}
-                </div>
+              <p>What categories do you think this resource belongs to?</p>
+              <div className="flex gap-3 flex-wrap">
+                {categories?.map((category) => (
+                  <label key={category.id} className="label cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      checked={selectedCategories.includes(category.id)}
+                      onChange={() => handleCategoryChange(category.id)}
+                    />
+                    <span className="label-text pl-3">{category.name}</span>
+                  </label>
+                ))}
               </div>
-              <div>
-                <h2>Tags</h2>
-                <div className="flex gap-3 flex-wrap">
-                  {tags?.map((tag) => (
-                    <label key={tag.id} className="label cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        checked={selectedTags.includes(tag.id)}
-                        onChange={() => handleTagChange(tag.id)}
-                      />
-                      <span className="label-text pl-3">{tag.name}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <button disabled={isSubmitting} className="btn btn-primary ">
-                Submit
-                {isSubmitting && <Spinner />}
-              </button>
+              <p>
+                If you can’t find a suitable category, please enter 1-3
+                categories that you think fit best.
+              </p>
+              <label>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  className="input input-bordered w-full"
+                />
+              </label>
             </div>
+
+            <div className="divider divider-neutral">Tags</div>
+            <div className="flex flex-col gap-6">
+              <p>What tags do you think should be attached to this resource?</p>
+
+              <div className="flex gap-3 flex-wrap">
+                {tags?.map((tag) => (
+                  <label key={tag.id} className="label cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      checked={selectedTags.includes(tag.id)}
+                      onChange={() => handleTagChange(tag.id)}
+                    />
+                    <span className="label-text pl-3">{tag.name}</span>
+                  </label>
+                ))}
+              </div>
+              <p>
+                If you can’t find a suitable tag, please enter 1-3 tags that you
+                think fit best.
+              </p>
+              <label>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  className="input input-bordered w-full"
+                />
+              </label>
+            </div>
+            <button disabled={isSubmitting} className="btn btn-primary ">
+              Submit
+              {isSubmitting && <Spinner />}
+            </button>
           </div>
         </div>
       </form>
