@@ -25,20 +25,18 @@ const ResourcesPage = ({ searchParams }: Props) => {
 
   return (
     <>
-      <div className="grid grid-cols-12">
-        <div className="col-start-2 col-span-10">
-          <ResourceFilter />
-          {/* display all resources from the db  */}
-          <Suspense fallback={<p>Loading...</p>}>
-            <ResourcesGrid
-              selectedCategory={searchParams.category}
-              selectedTag={searchParams.tag}
-              sortOrder={searchParams.order}
-              searchText={searchParams.q}
-              page={parseInt(searchParams.page).toString()}
-            />
-          </Suspense>
-        </div>
+      <div>
+        <ResourceFilter />
+        {/* display all resources from the db  */}
+        <Suspense fallback={<p>Loading...</p>}>
+          <ResourcesGrid
+            selectedCategory={searchParams.category}
+            selectedTag={searchParams.tag}
+            sortOrder={searchParams.order}
+            searchText={searchParams.q}
+            page={parseInt(searchParams.page).toString()}
+          />
+        </Suspense>
       </div>
     </>
   );

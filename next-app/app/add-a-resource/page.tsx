@@ -104,23 +104,23 @@ const AddAResourcePage = () => {
   });
 
   return (
-    <div className="my-6">
+    <div className="my-10">
       <h1 className="text-xl font-bold text-center">Add A Resource</h1>
       <form onSubmit={onSubmit}>
         <div className="grid grid-cols-12">
           <div className="justify-self-center w-full flex flex-col gap-6 col-start-4 col-span-6">
-            <p>
-              Thank you for contributing to Civic X Syllabus and sharing your
-              resources with us!
-            </p>
-            <p>
-              Please fill out this form to submit a resource that you believe
-              should be included here. If you have multiple resources to add,
-              feel free to contact us at civicxsyllabus@gmail.com.
-            </p>
-            <p className="text-slate-500">
-              We’ll send you the link once your resource is confirmed.
-            </p>
+            <div className="justify-self-center w-full flex flex-col gap-4 my-6">
+              <p>
+                Thank you for contributing to Civic X Syllabus and sharing your
+                resources with us!
+              </p>
+              <p>
+                Please fill out this form to submit a resource that you believe
+                should be included here. If you have multiple resources to add,
+                feel free to contact us at civicxsyllabus@gmail.com.
+              </p>
+              <p>We’ll send you the link once your resource is confirmed.</p>
+            </div>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Your Name *</span>
               <input
