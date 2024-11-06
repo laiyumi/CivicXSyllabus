@@ -6,7 +6,6 @@ import ResourceForm from "../components/ResourceForm";
 const AdminCreateResourcePage = () => {
   return (
     <div className="flex">
-      <AdminDashboardNavBar />
       <div className="w-full">
         <ResourceForm />
       </div>

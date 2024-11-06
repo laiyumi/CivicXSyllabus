@@ -12,13 +12,8 @@ const DashboardSummary = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  console.log("hello?");
-
   useEffect(() => {
-    console.log("calling useEffect...");
     const fetchData = async () => {
-      console.log("fetching data from endpoints...");
-
       try {
         const [resourcesRes, usersRes, sourcesRes, categoriesRes, tagsRes] =
           await Promise.all([
@@ -46,8 +41,6 @@ const DashboardSummary = () => {
 
     fetchData();
   }, []);
-
-  console.log("hello again?");
 
   const containers = [
     { label: "Resources", value: counts.resources },

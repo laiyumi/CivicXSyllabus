@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 
 interface BadgeProps {
   name: string;
+  // onClick: () => void;
 }
 const Badge = ({ name }: BadgeProps) => {
   return (
