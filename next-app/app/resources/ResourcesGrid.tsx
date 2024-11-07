@@ -54,7 +54,7 @@ const ResourcesGrid = async ({
   console.log("order here: " + sortOrder);
 
   const currentPage = parseInt(page) || 1;
-  const pageSize = 5;
+  const pageSize = 6;
 
   // convert response to json and declare the type
   const resources = await prisma.post.findMany({

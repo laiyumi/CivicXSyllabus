@@ -3,8 +3,8 @@ import Link from "next/link";
 import HeroSection from "./HeroSection";
 import UseCaseCard from "./components/UseCaseCard/UseCaseCard";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import Pagination from "./components/Pagination";
+import { authOptions } from "./api/auth/authOptions";
 
 export default async function Home() {
   // access session on the server

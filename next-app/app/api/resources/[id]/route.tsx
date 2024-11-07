@@ -19,7 +19,7 @@ export async function GET(
 
 // update a single resource
 export async function PUT(
-  request: NextResponse,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const body = await request.json();

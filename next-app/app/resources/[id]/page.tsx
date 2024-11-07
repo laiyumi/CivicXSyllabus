@@ -1,24 +1,21 @@
-import ResourceCard from "@/app/components/ResourceCard/ResourceCard";
-import ResourceDetailCard from "@/app/components/ResourceDetailCard/ResourceDetailCard";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import React from "react";
 import prisma from "../../../prisma/client";
 
 interface Props {
   params: { id: string };
-  title: string;
-  excerpt: string;
-  content: string;
-  link: string;
-  imageUrl: string;
-  published: boolean;
-  saves: number;
-  likes: number;
-  sourceId: string;
-  categoryIDs: string[];
-  tagIDs: string[];
-  userIDs: string[];
+  // title: string;
+  // excerpt: string;
+  // content: string;
+  // link: string;
+  // imageUrl: string;
+  // published: boolean;
+  // saves: number;
+  // likes: number;
+  // sourceId: string;
+  // categoryIDs: string[];
+  // tagIDs: string[];
+  // userIDs: string[];
 }
 
 const ResourceDetailPage = async ({ params: { id } }: Props) => {

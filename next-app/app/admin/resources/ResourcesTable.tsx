@@ -71,7 +71,13 @@ const ResourcesTable = async () => {
                 </div>
               </td>
               <td> {resouce.source.name}</td>
-              <td>{resouce.published ? "Yes" : "No"}</td>
+              <td>
+                {resouce.published ? (
+                  <input type="checkbox" className="toggle" defaultChecked />
+                ) : (
+                  <input type="checkbox" className="toggle" />
+                )}
+              </td>
               <td className="hidden md:table-cell">{resouce.excerpt}</td>
               <td>
                 <Link

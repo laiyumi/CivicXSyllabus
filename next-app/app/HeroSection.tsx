@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import SearchBar from "./components/SearchBar";
-import MarqueeDemo from "./components/ReviewCard";
+import MarqueeDemo from "./components/MarqueeDemo";
 
 const HeroSection = () => {
   return (
