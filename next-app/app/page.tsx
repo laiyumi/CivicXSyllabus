@@ -7,6 +7,7 @@ import { Metadata } from "next";
 export default async function Home() {
   // access session on the server
   const session = await getServerSession(authOptions);
+  console.log("session: ", session);
 
   return (
     <main>
