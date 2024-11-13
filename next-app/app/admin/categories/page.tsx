@@ -1,23 +1,26 @@
+"use client";
 import Badge from "@/app/components/Badge";
 import { Category } from "@prisma/client";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const AdminCategoriesPage = async () => {
-  const categoryResponse = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/categories`
-  );
-  if (!categoryResponse.ok) {
-    throw new Error(
-      `Failed to fetch categories: ${categoryResponse.statusText}`
-    );
-  }
+const AdminCategoriesPage = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  console.log("categories response:", categoryResponse);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoryResponse = await axios.get("/api/categories");
+      setCategories(categoryResponse.data);
+    };
+    fetchCategories();
+  }, []);
 
-  const categories = await categoryResponse.json();
+  // console.log("categories response:", categoryResponse);
 
-  console.log("categories:", categories);
-  console.log("NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
+  // const categories = await categoryResponse.json();
+
+  // console.log("categories:", categories);
+  // console.log("NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
 
   return (
     <div className="flex">
