@@ -3,7 +3,7 @@ import React from "react";
 const AboutPage = () => {
   return (
     <>
-      <div>
+      <div className="flex flex-col gap-8 items-center">
         <h2 className="text-2xl">What is Civic X Syllabus?</h2>
         <p>
           ‘Civic X’ is an umbrella term that we have adopted to describe the
