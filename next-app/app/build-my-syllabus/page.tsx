@@ -5,7 +5,7 @@ const BuildMySyllabusPage = () => {
     <>
       <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col gap-2 text-center">
-          <h2 className="text-2xl">Build my Syllabus</h2>
+          <h2 className="text-2xl">Build a Syllabus</h2>
           <p>
             Create a syllabus, that could, at least in theory, be used to teach
             a course or workshop.
