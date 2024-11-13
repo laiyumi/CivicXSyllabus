@@ -15,7 +15,7 @@ interface ResourcesTableProps {
 
 const ResourcesTable = async () => {
   // fetch resources from endpiont
-  const response = await fetch("http://localhost:3000/api/resources", {
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/resources`, {
     next: { revalidate: 10 },
   });
 

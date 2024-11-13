@@ -13,7 +13,7 @@ interface User {
 }
 
 const UsersTable = async () => {
-  const response = await fetch("http://localhost:3000/api/users", {
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/users`, {
     next: { revalidate: 10 },
   });
 

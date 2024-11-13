@@ -66,7 +66,7 @@ const AddAResourcePage = () => {
 
   useEffect(() => {
     const fetchTags = async () => {
-      const response = await fetch("http://localhost:3000/api/tags", {
+      const response = await fetch(`${process.env.NEXTAUTH_URL}/api/tags`, {
         next: { revalidate: 10 },
       });
       const tags = await response.json();
@@ -74,9 +74,12 @@ const AddAResourcePage = () => {
     };
 
     const fetchCategories = async () => {
-      const response = await fetch("http://localhost:3000/api/categories", {
-        next: { revalidate: 10 },
-      });
+      const response = await fetch(
+        `${process.env.NEXTAUTH_URL}/api/categories`,
+        {
+          next: { revalidate: 10 },
+        }
+      );
       const categories = await response.json();
       setCategories(categories);
     };

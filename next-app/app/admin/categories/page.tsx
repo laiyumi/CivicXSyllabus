@@ -3,7 +3,9 @@ import { Category } from "@prisma/client";
 import React from "react";
 
 const AdminCategoriesPage = async () => {
-  const categoryResponse = await fetch("http://localhost:3000/api/categories");
+  const categoryResponse = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/categories`
+  );
   const categories = await categoryResponse.json();
 
   return (

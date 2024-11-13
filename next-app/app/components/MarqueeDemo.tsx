@@ -12,7 +12,7 @@ export default function MarqueeDemo() {
   useEffect(() => {
     const fetchCategories = async () => {
       const categoryResponse = await fetch(
-        "http://localhost:3000/api/categories",
+        `${process.env.NEXTAUTH_URL}/api/categories`,
         {
           next: { revalidate: 10 },
         }

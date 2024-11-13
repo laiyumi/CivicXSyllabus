@@ -17,7 +17,7 @@ const ResourceFilter = () => {
     const fetchData = async () => {
       // fetch all categories and map them to options
       const categoryResponse = await fetch(
-        "http://localhost:3000/api/categories",
+        `${process.env.NEXTAUTH_URL}/api/categories`,
         {
           next: { revalidate: 10 },
         }
@@ -33,7 +33,7 @@ const ResourceFilter = () => {
       setCategories(categoriesData);
 
       // fetch all tags and map them to options
-      const tagResponse = await fetch("http://localhost:3000/api/tags", {
+      const tagResponse = await fetch(`${process.env.NEXTAUTH_URL}/api/tags`, {
         next: { revalidate: 10 },
       });
       const tagsObj = await tagResponse.json();

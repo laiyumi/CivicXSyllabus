@@ -31,9 +31,12 @@ const ResourcesGrid = async ({
   page: string;
 }) => {
   // fetch categories from endpoint and set the cache time to 10 seconds
-  const categoryResponse = await fetch("http://localhost:3000/api/categories", {
-    next: { revalidate: 10 },
-  });
+  const categoryResponse = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/categories`,
+    {
+      next: { revalidate: 10 },
+    }
+  );
 
   // check if the search category are valid
   const categories = await categoryResponse.json();
@@ -42,7 +45,7 @@ const ResourcesGrid = async ({
     ? selectedCategory
     : undefined;
 
-  const tagResponse = await fetch("http://localhost:3000/api/tags", {
+  const tagResponse = await fetch(`${process.env.NEXTAUTH_URL}/api/tags`, {
     next: { revalidate: 10 },
   });
   // check if the search tags are valid

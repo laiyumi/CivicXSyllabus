@@ -21,9 +21,12 @@ interface Props {
 
 const ResourceDetailPage = async ({ params: { id } }: Props) => {
   // check if id exists
-  const response = await fetch(`http://localhost:3000/api/resources/${id}`, {
-    next: { revalidate: 10 },
-  });
+  const response = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/resources/${id}`,
+    {
+      next: { revalidate: 10 },
+    }
+  );
   if (!response) return notFound();
 
   const resource = await prisma.post.findUnique({
