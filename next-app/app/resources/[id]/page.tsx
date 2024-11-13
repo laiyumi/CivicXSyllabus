@@ -98,7 +98,7 @@ const ResourceDetailPage = async ({ params: { id } }: Props) => {
 
 // need to fix
 
-export async function generateMetaData({ params: { id } }: Props) {
+async function generateMetaData({ params: { id } }: Props) {
   const resource = await prisma.post.findUnique({
     where: { id },
   });
