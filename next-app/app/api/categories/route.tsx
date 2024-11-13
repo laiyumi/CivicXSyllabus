@@ -4,8 +4,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 // get all categories
 export async function GET(request: NextRequest) {
-  const categories = await prisma.category.findMany();
-  return NextResponse.json(categories);
+  try {
+    const categories = await prisma.category.findMany();
+    console.log("Fetched categories:", categories);
+    return NextResponse.json(categories);
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch categories" },
+      { status: 500 }
+    );
+  }
 }
 
 // create a new category

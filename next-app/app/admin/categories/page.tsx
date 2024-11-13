@@ -6,7 +6,18 @@ const AdminCategoriesPage = async () => {
   const categoryResponse = await fetch(
     `${process.env.NEXTAUTH_URL}/api/categories`
   );
+  if (!categoryResponse.ok) {
+    throw new Error(
+      `Failed to fetch categories: ${categoryResponse.statusText}`
+    );
+  }
+
+  console.log("categories response:", categoryResponse);
+
   const categories = await categoryResponse.json();
+
+  console.log("categories:", categories);
+  console.log("NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
 
   return (
     <div className="flex">
