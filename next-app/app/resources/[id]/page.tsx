@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import prisma from "../../../prisma/client";
+import { Metadata } from "next";
 
 interface Props {
   params: { id: string };
@@ -94,5 +95,18 @@ const ResourceDetailPage = async ({ params: { id } }: Props) => {
     </>
   );
 };
+
+// need to fix
+
+export async function generateMetaData({ params: { id } }: Props) {
+  const resource = await prisma.post.findUnique({
+    where: { id },
+  });
+
+  return {
+    title: resource?.title,
+    description: "Details of " + resource?.id,
+  };
+}
 
 export default ResourceDetailPage;

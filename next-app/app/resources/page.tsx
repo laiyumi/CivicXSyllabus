@@ -3,6 +3,7 @@ import ResourceFilter from "./ResourceFilter";
 import ResourcesGrid from "./ResourcesGrid";
 import { Category, Tag } from "@prisma/client";
 import Pagination from "../components/Pagination";
+import { Metadata } from "next";
 
 // parameter passed in from the URL query string
 interface Props {
@@ -40,6 +41,11 @@ const ResourcesPage = ({ searchParams }: Props) => {
       </div>
     </>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Civic X Syllabus - Resources",
+  description: "View all resources",
 };
 
 export default ResourcesPage;
