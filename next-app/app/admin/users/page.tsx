@@ -2,7 +2,7 @@ import React from "react";
 import AdminDashboardNavBar from "../NavBar";
 import Link from "next/link";
 import UsersTable from "./UsersTable";
-import UploadImage from "@/app/upload/page";
+import UploadImage from "@/app/components/UploadImage";
 import UserTable from "@/app/resources/UserTable";
 import SearchBar from "@/app/components/SearchBar";
 

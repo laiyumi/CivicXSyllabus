@@ -8,22 +8,16 @@ interface CloudinaryResult {
   secure_url: string;
 }
 
-interface UploadImageProps {
+interface Props {
   onImageUpload: (imageUrl: string) => void;
 }
 
-const UploadImage = ({ onImageUpload }: UploadImageProps) => {
+const UploadImage = ({ onImageUpload }: Props) => {
   const [imageUrl, setImageUrl] = useState<string>();
   const [publicId, setPublicId] = useState<string>();
 
   return (
     <>
-      {publicId && (
-        <CldImage src={publicId} width={270} height={180} alt="an image" />
-      )}
-
-      {/* <p>{imageUrl}</p> */}
-
       <CldUploadWidget
         uploadPreset="j5cvqjdg"
         options={{

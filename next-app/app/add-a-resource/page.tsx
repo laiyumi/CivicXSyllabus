@@ -5,7 +5,7 @@ import createResourceSchema from "../validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../components/ErrorMessage";
-import UploadImage from "../upload/page";
+import UploadImage from "../components/UploadImage";
 import { z } from "zod";
 import Spinner from "../components/Spinner";
 

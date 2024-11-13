@@ -2,7 +2,7 @@
 
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import UploadImage from "@/app/upload/page";
+import UploadImage from "@/app/components/UploadImage";
 import createResourceSchema from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Post } from "@prisma/client";
@@ -36,6 +36,8 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
   });
   const router = useRouter();
 
+  const [uploadImageUrl, setUploadImageUrl] = useState("");
+
   const [tags, setTags] = useState<TagProps[]>([]);
   const [categories, setCategories] = useState<CategoryProps[]>([]);
 
@@ -47,6 +49,8 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
 
   const handleImageUpload = (imageUrl: string) => {
     setValue("imageUrl", imageUrl);
+    setUploadImageUrl(imageUrl);
+    console.log("Uploaded Image url: ", imageUrl);
   };
 
   const handleTagChange = (tagId: string) => {
@@ -211,6 +215,13 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Thumbnail Image *</span>
                 <UploadImage onImageUpload={handleImageUpload} />
+                {uploadImageUrl && (
+                  <img
+                    src={uploadImageUrl}
+                    alt="Uploaded image"
+                    className="h-36 w-auto"
+                  ></img>
+                )}
                 <ErrorMessage>{errors.imageUrl?.message}</ErrorMessage>
               </label>
             </div>
