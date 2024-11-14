@@ -31,12 +31,9 @@ const ResourcesGrid = async ({
   page: string;
 }) => {
   // fetch categories from endpoint and set the cache time to 10 seconds
-  const categoryResponse = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/categories`,
-    {
-      next: { revalidate: 10 },
-    }
-  );
+  const categoryResponse = await fetch("/api/categories", {
+    next: { revalidate: 10 },
+  });
 
   // check if the search category are valid
   const categories = await categoryResponse.json();
