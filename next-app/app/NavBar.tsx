@@ -3,10 +3,19 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const NavBar = () => {
   const { status, data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/admin");
+    }
+  }, [status, router]);
+
   return (
     <>
       <div className="navbar bg-base-100 p-5 ">
