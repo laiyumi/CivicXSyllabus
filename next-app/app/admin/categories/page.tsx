@@ -7,6 +7,7 @@ import axios from "axios";
 
 const AdminCategoriesPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [newCategory, setNewCategory] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -15,6 +16,14 @@ const AdminCategoriesPage = () => {
     };
     fetchCategories();
   }, []);
+
+  const handleAdd = async () => {
+    const response = await axios.post("/api/categories", {
+      name: newCategory,
+    });
+    setCategories([...categories, response.data]);
+    setNewCategory("");
+  };
 
   return (
     <div className="flex">
@@ -25,8 +34,11 @@ const AdminCategoriesPage = () => {
             type="text"
             placeholder="New category"
             className="input input-bordered w-full max-w-xs"
+            onChange={(e) => setNewCategory(e.target.value)}
           />{" "}
-          <button className="btn btn-primary ml-2d">Add</button>
+          <button className="btn btn-primary ml-2d" onClick={handleAdd}>
+            Add
+          </button>
         </div>
         <div className="flex gap-6 flex-wrap">
           {categories.map((category: Category) => (

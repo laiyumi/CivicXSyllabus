@@ -1,9 +1,9 @@
 "use client";
 
-import { Category, Tag, Post } from "@prisma/client";
+import { Category, Post, Tag } from "@prisma/client";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import SortSelector from "./SortSelector"; // Adjust the path as necessary
 
 const ResourceFilter = () => {
   const router = useRouter();
@@ -16,13 +16,8 @@ const ResourceFilter = () => {
   useEffect(() => {
     const fetchData = async () => {
       // fetch all categories and map them to options
-      const categoryResponse = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/categories`,
-        {
-          next: { revalidate: 10 },
-        }
-      );
-      const categoriesObj = await categoryResponse.json();
+      const categoryResponse = await axios.get("/api/categories");
+      const categoriesObj = await categoryResponse.data;
       const categoriesData = [
         { label: "All Categories" },
         ...categoriesObj.map((category: Category) => ({
@@ -33,10 +28,8 @@ const ResourceFilter = () => {
       setCategories(categoriesData);
 
       // fetch all tags and map them to options
-      const tagResponse = await fetch(`${process.env.NEXTAUTH_URL}/api/tags`, {
-        next: { revalidate: 10 },
-      });
-      const tagsObj = await tagResponse.json();
+      const tagResponse = await axios.get("/api/tags");
+      const tagsObj = await tagResponse.data;
       const tagsData = [
         { label: "All Tags" },
         ...tagsObj.map((tag: Tag) => ({

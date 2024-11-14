@@ -11,17 +11,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { set } from "zod";
 
-// define the shape of the resource object
-// interface Resource {
-//   id: string;
-//   title: string;
-//   excerpt: string;
-//   content: string;
-//   link: string;
-//   imageUrl: string;
-//   published: boolean;
-// }
-
 type PostWithRelations = Prisma.PostGetPayload<{
   include: { categories: true; tags: true; source: true };
 }>;
@@ -54,10 +43,6 @@ const ResourcesGrid = ({
     fetchResources();
   }, []);
 
-  console.log("resources data: ", resources);
-
-  console.log("resources copy data: ", resourcesCopy);
-
   // fetch categories from endpoint
   useEffect(() => {
     const fetchCategories = async () => {
@@ -76,9 +61,6 @@ const ResourcesGrid = ({
     fetchTags();
   }, []);
 
-  // console.log("searching: " + searchText);
-  // console.log("order here: " + sortOrder);
-
   const currentPage = parseInt(page) || 1;
   const pageSize = 6;
   const postCount = resourcesCopy.length;
@@ -93,113 +75,53 @@ const ResourcesGrid = ({
   const tagNames = tags.map((tag: Tag) => tag.name);
   const passedTag = tagNames.includes(selectedTag) ? selectedTag : undefined;
 
-  // convert response to json and declare the type
-  // const resources = await prisma.post.findMany({
-  //   where: {
-  //     AND: [
-  //       {
-  //         categories: {
-  //           some: {
-  //             name: passedCategory,
-  //           },
-  //         },
-  //       },
-  //       {
-  //         tags: {
-  //           some: {
-  //             name: passedTag,
-  //           },
-  //         },
-  //       },
-  //       {
-  //         OR: [
-  //           {
-  //             title: {
-  //               contains: searchText,
-  //             },
-  //           },
-  //           {
-  //             excerpt: {
-  //               contains: searchText,
-  //             },
-  //           },
-  //           {
-  //             content: {
-  //               contains: searchText,
-  //             },
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  //   ...(sortOrder && {
-  //     orderBy: [
-  //       {
-  //         [sortOrder]: "asc",
-  //       },
-  //     ],
-  //   }),
-  //   skip: (currentPage - 1) * pageSize,
-  //   take: pageSize,
-  //   include: {
-  //     categories: {
-  //       where: {
-  //         name: passedCategory,
-  //       },
-  //     },
-  //     tags: {
-  //       where: {
-  //         name: passedTag,
-  //       },
-  //     },
-  //   },
-  // });
-
-  // const postCount = await prisma.post.count({
-  //   where: {
-  //     AND: [
-  //       {
-  //         categories: {
-  //           some: {
-  //             name: passedCategory,
-  //           },
-  //         },
-  //       },
-  //       {
-  //         tags: {
-  //           some: {
-  //             name: passedTag,
-  //           },
-  //         },
-  //       },
-  //       {
-  //         OR: [
-  //           {
-  //             title: {
-  //               contains: searchText,
-  //             },
-  //           },
-  //           {
-  //             excerpt: {
-  //               contains: searchText,
-  //             },
-  //           },
-  //           {
-  //             content: {
-  //               contains: searchText,
-  //             },
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  // });
+  // filter resources based on the search criteria
+  const filteredResources = resourcesCopy
+    .filter((resource) => {
+      if (
+        passedCategory &&
+        !resource.categories.some(
+          (category) => category.name === passedCategory
+        )
+      ) {
+        return false;
+      }
+      if (passedTag && !resource.tags.some((tag) => tag.name === passedTag)) {
+        return false;
+      }
+      if (
+        searchText &&
+        !(
+          resource.title.toLowerCase().includes(searchText.toLowerCase()) ||
+          resource.content.toLowerCase().includes(searchText.toLowerCase()) ||
+          resource.excerpt.toLowerCase().includes(searchText.toLowerCase())
+        )
+      ) {
+        return false;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (sortOrder === "createdAt") {
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      } else if (sortOrder === "updatedAt") {
+        return (
+          new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
+        );
+      } else if (sortOrder === "title") {
+        return a.title.localeCompare(b.title);
+      }
+      return 0;
+    })
+    .slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   // render
   return (
     <>
       <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-        {resourcesCopy.map((resource) => (
+        {filteredResources.map((resource) => (
           <div
             key={resource.id}
             className="card bg-base-100 shadow-xl col-span-1"
