@@ -11,12 +11,9 @@ export default function MarqueeDemo() {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const categoryResponse = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/categories`,
-        {
-          next: { revalidate: 10 },
-        }
-      );
+      const categoryResponse = await fetch("/api/categories", {
+        next: { revalidate: 10 },
+      });
       const categoryData = await categoryResponse.json();
       setCategories(categoryData);
     };

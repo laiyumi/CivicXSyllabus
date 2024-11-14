@@ -15,13 +15,6 @@ const AdminCategoriesPage = () => {
     fetchCategories();
   }, []);
 
-  // console.log("categories response:", categoryResponse);
-
-  // const categories = await categoryResponse.json();
-
-  // console.log("categories:", categories);
-  // console.log("NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
-
   return (
     <div className="flex">
       <div className="w-full flex flex-col gap-5">
