@@ -5,22 +5,22 @@ import Spinner from "@/app/components/Spinner";
 import UploadImage from "@/app/components/UploadImage";
 import createResourceSchema from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Post } from "@prisma/client";
+import { Category, Post, Tag } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-interface TagProps {
-  id: string;
-  name: string;
-}
+// interface TagProps {
+//   id: string;
+//   name: string;
+// }
 
-interface CategoryProps {
-  id: string;
-  name: string;
-}
+// interface CategoryProps {
+//   id: string;
+//   name: string;
+// }
 
 type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
 
@@ -38,8 +38,8 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
 
   const [uploadImageUrl, setUploadImageUrl] = useState("");
 
-  const [tags, setTags] = useState<TagProps[]>([]);
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -73,27 +73,23 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
 
   useEffect(() => {
     const fetchTags = async () => {
-      const response = await fetch(`${process.env.NEXTAUTH_URL}/api/tags`, {
-        next: { revalidate: 10 },
-      });
-      const tags = await response.json();
+      const response = await axios.get("/api/tags");
+      const tags = await response.data;
       setTags(tags);
     };
 
     const fetchCategories = async () => {
-      const response = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/categories`,
-        {
-          next: { revalidate: 10 },
-        }
-      );
-      const categories = await response.json();
+      const response = await axios.get("/api/categories");
+      const categories = await response.data;
       setCategories(categories);
     };
 
     fetchTags();
     fetchCategories();
   }, []);
+
+  console.log("tags: ", tags);
+  console.log("categories: ", categories);
 
   const onSubmit = handleSubmit(async (data) => {
     data.imageUrl = getValues().imageUrl;
