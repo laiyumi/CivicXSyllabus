@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const categories = await prisma.category.findMany();
-    console.log("Fetched categories:", categories);
+    // console.log("Fetched categories:", categories);
     return NextResponse.json(categories);
   } catch (error) {
     console.error("Failed to fetch categories:", error);

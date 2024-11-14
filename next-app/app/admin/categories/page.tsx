@@ -1,4 +1,5 @@
 "use client";
+
 import Badge from "@/app/components/Badge";
 import { Category } from "@prisma/client";
 import React, { useState, useEffect } from "react";
