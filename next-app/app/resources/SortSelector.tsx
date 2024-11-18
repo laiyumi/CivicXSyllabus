@@ -8,7 +8,7 @@ interface Props {
 }
 
 const SortSelector = ({ sortOrder }: Props) => {
-  const router = useRouter();
+  // const router = useRouter();
 
   const orders: { label: string; value: keyof Post }[] = [
     { label: "Created Date", value: "createdAt" },

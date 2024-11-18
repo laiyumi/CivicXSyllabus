@@ -4,17 +4,19 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const NavBar = () => {
   const { status, data: session } = useSession();
+  const [hasRedirected, setHasRedirected] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/admin");
-    }
-  }, [status, router]);
+  // useEffect(() => {
+  //   if (status === "authenticated" && !hasRedirected) {
+  //     router.push("/admin");
+  //     setHasRedirected(true);
+  //   }
+  // }, [status, router, hasRedirected]);
 
   return (
     <>
@@ -97,7 +99,6 @@ const NavBar = () => {
                   />
                 </div>
               </div>
-
               <Link href="/api/auth/signout" className="btn ml-5">
                 Sign Out
               </Link>

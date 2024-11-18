@@ -2,7 +2,7 @@
 
 import { Category, Post, Tag } from "@prisma/client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ResourceFilter = () => {
@@ -14,8 +14,8 @@ const ResourceFilter = () => {
   const [tags, setTags] = useState<{ label: string; value?: string }[]>([]);
 
   useEffect(() => {
+    // fetch all categories and map them to options
     const fetchData = async () => {
-      // fetch all categories and map them to options
       const categoryResponse = await axios.get("/api/categories");
       const categoriesObj = await categoryResponse.data;
       const categoriesData = [
@@ -48,21 +48,31 @@ const ResourceFilter = () => {
   const [searchInput, setSearchInput] = useState("");
   const [searchText, setSearchText] = useState("");
 
+  const [onClickSearch, setOnClickSearch] = useState(false);
+
+  const onSearch = () => {
+    setSearchText(searchInput);
+    setOnClickSearch(true);
+  };
+
+  // update URL when search parameters change
   useEffect(() => {
-    const queryParams = {
-      category: selectedCategory,
-      tag: selectedTag,
-      order: order,
-      q: searchInput,
-    };
+    if (onClickSearch) {
+      const queryParams = {
+        category: selectedCategory,
+        tag: selectedTag,
+        order: order,
+        search: searchText,
+      };
 
-    const queryString = Object.keys(queryParams)
-      .filter((key) => queryParams[key as keyof typeof queryParams] !== "")
-      .map((key) => `${key}=${queryParams[key as keyof typeof queryParams]}`)
-      .join("&");
+      const queryString = Object.keys(queryParams)
+        .filter((key) => queryParams[key as keyof typeof queryParams] !== "")
+        .map((key) => `${key}=${queryParams[key as keyof typeof queryParams]}`)
+        .join("&");
 
-    router.push(`/resources?${queryString}`);
-  }, [selectedCategory, selectedTag, order, searchInput, router]);
+      router.push(`/resources?${queryString}`);
+    }
+  }, [onClickSearch, order, searchText, selectedCategory, selectedTag, router]);
 
   const orders: { label: string; value: keyof Post }[] = [
     { label: "Created Date", value: "createdAt" },
@@ -128,6 +138,9 @@ const ResourceFilter = () => {
             </option>
           ))}
         </select>{" "}
+        <button className="btn btn-primary" onClick={onSearch}>
+          Search
+        </button>
       </div>
     </div>
   );

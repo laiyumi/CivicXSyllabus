@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { on } from "events";
 
 interface ReviewCardProps {
   name: string;
@@ -9,6 +10,7 @@ interface ReviewCardProps {
 export const ReviewCard = ({ name, onClick }: ReviewCardProps) => {
   return (
     <figure
+      onClick={onClick}
       className={cn(
         "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
         // light styles
@@ -17,7 +19,7 @@ export const ReviewCard = ({ name, onClick }: ReviewCardProps) => {
         "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
       )}
     >
-      <div className="flex flex-row items-center gap-2" onClick={onClick}>
+      <div className="flex flex-row items-center gap-2">
         {/* <img className="rounded-full" width="32" height="32" alt="" src={img} /> */}
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium dark:text-white">

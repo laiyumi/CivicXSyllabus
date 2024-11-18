@@ -1,35 +1,39 @@
 "use client";
 
-import Link from "next/link";
-import React from "react";
-import { sort } from "fast-sort";
-import prisma from "../../prisma/client";
-import { Category, Tag, Post, Prisma } from "@prisma/client";
-import Pagination from "../components/Pagination";
-import Image from "next/image";
+import { Category, Prisma, Tag } from "@prisma/client";
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { set } from "zod";
+import Pagination from "../components/Pagination";
+import { useSearchParams } from "next/navigation";
 
 type PostWithRelations = Prisma.PostGetPayload<{
   include: { categories: true; tags: true; source: true };
 }>;
 
-const ResourcesGrid = ({
-  selectedCategory,
-  selectedTag,
-  sortOrder,
-  searchText,
-  page,
-}: {
-  selectedCategory: string;
-  selectedTag: string;
-  sortOrder: string;
-  searchText: string;
-  page: string;
-}) => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [tags, setTags] = useState<Tag[]>([]);
+const ResourcesGrid = () => {
+  const searchParams = useSearchParams();
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedTag, setSelectedTag] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [page, setPage] = useState("");
+
+  useEffect(() => {
+    // get the search parameters from the URL
+    const passedCategory = searchParams.get("category") || "";
+    const passedTag = searchParams.get("tag") || "";
+    const passedOrder = searchParams.get("order") || "createdAt";
+    const passedSearchText = searchParams.get("search") || "";
+    const passedPage = searchParams.get("page") || "1";
+
+    setSelectedCategory(passedCategory);
+    setSelectedTag(passedTag);
+    setSelectedOrder(passedOrder);
+    setSearchText(passedSearchText);
+    setPage(passedPage);
+  }, [searchParams]);
+
   const [resources, setResources] = useState<PostWithRelations[]>([]);
   const [resourcesCopy, setResourcesCopy] = useState<PostWithRelations[]>([]);
 
@@ -43,7 +47,10 @@ const ResourcesGrid = ({
     fetchResources();
   }, []);
 
-  // fetch categories from endpoint
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+
+  // fetch categories for filtering text
   useEffect(() => {
     const fetchCategories = async () => {
       const categoryResponse = await axios.get("/api/categories");
@@ -52,7 +59,7 @@ const ResourcesGrid = ({
     fetchCategories();
   }, []);
 
-  // fetch tags from endpoint
+  // fetch tags for filtering text
   useEffect(() => {
     const fetchTags = async () => {
       const tagResponse = await axios.get("/api/tags");
@@ -63,65 +70,60 @@ const ResourcesGrid = ({
 
   const currentPage = parseInt(page) || 1;
   const pageSize = 6;
-  const postCount = resourcesCopy.length;
 
-  // check if the search category are valid
-  const categoryNames = categories.map((category) => category.name);
-  const passedCategory = categoryNames.includes(selectedCategory)
-    ? selectedCategory
-    : undefined;
+  // filter resources based on the filtering, search, and sorting inputs
+  const filteredResources = resourcesCopy.filter((resource) => {
+    // filter categories
+    if (
+      selectedCategory &&
+      !resource.categories.some(
+        (category) => category.name === selectedCategory
+      )
+    ) {
+      return false;
+    }
+    // filter tags
+    if (selectedTag && !resource.tags.some((tag) => tag.name === selectedTag)) {
+      return false;
+    }
+    // filter search text
+    if (
+      searchText &&
+      !(
+        resource.title.toLowerCase().includes(searchText.toLowerCase()) ||
+        resource.content.toLowerCase().includes(searchText.toLowerCase()) ||
+        resource.excerpt.toLowerCase().includes(searchText.toLowerCase())
+      )
+    ) {
+      return false;
+    }
+    return true;
+  });
 
-  // check if the search tags are valid
-  const tagNames = tags.map((tag: Tag) => tag.name);
-  const passedTag = tagNames.includes(selectedTag) ? selectedTag : undefined;
-
-  // filter resources based on the search criteria
-  const filteredResources = resourcesCopy
-    .filter((resource) => {
-      if (
-        passedCategory &&
-        !resource.categories.some(
-          (category) => category.name === passedCategory
-        )
-      ) {
-        return false;
-      }
-      if (passedTag && !resource.tags.some((tag) => tag.name === passedTag)) {
-        return false;
-      }
-      if (
-        searchText &&
-        !(
-          resource.title.toLowerCase().includes(searchText.toLowerCase()) ||
-          resource.content.toLowerCase().includes(searchText.toLowerCase()) ||
-          resource.excerpt.toLowerCase().includes(searchText.toLowerCase())
-        )
-      ) {
-        return false;
-      }
-      return true;
-    })
+  const paginatedResources = filteredResources
     .sort((a, b) => {
-      if (sortOrder === "createdAt") {
+      if (selectedOrder === "createdAt") {
         return (
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
         );
-      } else if (sortOrder === "updatedAt") {
+      } else if (selectedOrder === "updatedAt") {
         return (
           new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
         );
-      } else if (sortOrder === "title") {
+      } else if (selectedOrder === "title") {
         return a.title.localeCompare(b.title);
       }
       return 0;
     })
     .slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
+  const postCount = filteredResources.length;
+
   // render
   return (
     <>
       <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-        {filteredResources.map((resource) => (
+        {paginatedResources.map((resource) => (
           <div
             key={resource.id}
             className="card bg-base-100 shadow-xl col-span-1"
