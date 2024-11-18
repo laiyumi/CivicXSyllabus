@@ -1,23 +1,14 @@
 "use client";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import createResourceSchema from "../validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import ErrorMessage from "../components/ErrorMessage";
-import UploadImage from "../components/UploadImage";
 import { z } from "zod";
+import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
-
-interface TagProps {
-  id: string;
-  name: string;
-}
-
-interface CategoryProps {
-  id: string;
-  name: string;
-}
+import createResourceSchema from "../validationSchemas";
+import { Tag, Category } from "@prisma/client";
 
 type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
 
@@ -26,25 +17,19 @@ const AddAResourcePage = () => {
     register,
     handleSubmit,
     setValue,
-    getValues,
     formState: { errors },
-  } = useForm<NewResourceFormInputs>({
-    resolver: zodResolver(createResourceSchema),
-  });
+  } = useForm();
+
   const router = useRouter();
 
-  const [tags, setTags] = useState<TagProps[]>([]);
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleImageUpload = (imageUrl: string) => {
-    setValue("imageUrl", imageUrl);
-  };
 
   const handleTagChange = (tagId: string) => {
     setSelectedTags((prevSelectedTags) =>
@@ -65,31 +50,19 @@ const AddAResourcePage = () => {
   };
 
   useEffect(() => {
-    const fetchTags = async () => {
-      const response = await fetch(`${process.env.NEXTAUTH_URL}/api/tags`, {
-        next: { revalidate: 10 },
-      });
-      const tags = await response.json();
+    const fetchData = async () => {
+      const tasResponse = await axios.get("/api/tags");
+      const tags = await tasResponse.data;
       setTags(tags);
-    };
 
-    const fetchCategories = async () => {
-      const response = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/categories`,
-        {
-          next: { revalidate: 10 },
-        }
-      );
-      const categories = await response.json();
+      const categoryResponse = await axios.get("/api/categories");
+      const categories = await categoryResponse.data;
       setCategories(categories);
     };
-
-    fetchTags();
-    fetchCategories();
+    fetchData();
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
-    data.imageUrl = getValues().imageUrl;
     data.tags = selectedTags;
     data.categories = selectedCategories;
 
@@ -149,7 +122,7 @@ const AddAResourcePage = () => {
                 className="input input-bordered w-full"
                 {...register("title")}
               />
-              <ErrorMessage>{errors.title?.message}</ErrorMessage>
+              {/* <ErrorMessage>{errors.title?.message}</ErrorMessage> */}
             </label>
             <label className="form-control w-full  flex gap-2">
               <span className="text-m">Resource Link *</span>
@@ -159,7 +132,7 @@ const AddAResourcePage = () => {
                 className="input input-bordered w-full"
                 {...register("link")}
               />
-              <ErrorMessage>{errors.link?.message}</ErrorMessage>
+              {/* <ErrorMessage>{errors.link?.message}</ErrorMessage> */}
             </label>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Short Description *</span>
@@ -168,7 +141,7 @@ const AddAResourcePage = () => {
                 placeholder="A one-sentence summary description"
                 {...register("excerpt")}
               ></textarea>
-              <ErrorMessage>{errors.excerpt?.message}</ErrorMessage>
+              {/* <ErrorMessage>{errors.excerpt?.message}</ErrorMessage> */}
             </label>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Tell me more about the resource</span>
@@ -177,7 +150,7 @@ const AddAResourcePage = () => {
                 placeholder="When did it start? Who is it for? What impact has it made? How can others get involved?"
                 {...register("content")}
               ></textarea>
-              <ErrorMessage>{errors.content?.message}</ErrorMessage>
+              {/* <ErrorMessage>{errors.content?.message}</ErrorMessage> */}
             </label>
 
             <label className="form-control w-full flex gap-2">
@@ -188,7 +161,7 @@ const AddAResourcePage = () => {
                 className="textarea textarea-bordered h-36"
                 {...register("content")}
               ></textarea>
-              <ErrorMessage>{errors.content?.message}</ErrorMessage>
+              {/* <ErrorMessage>{errors.content?.message}</ErrorMessage> */}
             </label>
             <div className="divider divider-neutral">Categories</div>
             <div className="flex flex-col gap-6">
