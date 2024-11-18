@@ -13,6 +13,12 @@ const ResourceFilter = () => {
   >([]);
   const [tags, setTags] = useState<{ label: string; value?: string }[]>([]);
 
+  const orders: { label: string; value: keyof Post }[] = [
+    { label: "Created Date", value: "createdAt" },
+    { label: "Updated Date", value: "updatedAt" },
+    { label: "Title", value: "title" },
+  ];
+
   useEffect(() => {
     // fetch all categories and map them to options
     const fetchData = async () => {
@@ -48,37 +54,48 @@ const ResourceFilter = () => {
   const [searchInput, setSearchInput] = useState("");
   const [searchText, setSearchText] = useState("");
 
-  const [onClickSearch, setOnClickSearch] = useState(false);
+  const [searchParams, setSearchParams] = useState({
+    category: "",
+    tag: "",
+    order: "",
+    search: "",
+  });
 
   const onSearch = () => {
-    setSearchText(searchInput);
-    setOnClickSearch(true);
+    // update the search parameters
+    const newSearchParams = {
+      category: selectedCategory,
+      tag: selectedTag,
+      order: order,
+      search: searchInput,
+    };
+
+    // update the search parameters
+    setSearchParams(newSearchParams);
+
+    // update the search parameters in the URL
+    const queryString = Object.keys(newSearchParams)
+      .filter(
+        (key) => newSearchParams[key as keyof typeof newSearchParams] !== ""
+      )
+      .map(
+        (key) =>
+          `${key}=${newSearchParams[key as keyof typeof newSearchParams]}`
+      )
+      .join("&");
+
+    // navigate to the page with the search parameters
+    router.push(`/resources?${queryString}`);
   };
 
-  // update URL when search parameters change
-  useEffect(() => {
-    if (onClickSearch) {
-      const queryParams = {
-        category: selectedCategory,
-        tag: selectedTag,
-        order: order,
-        search: searchText,
-      };
-
-      const queryString = Object.keys(queryParams)
-        .filter((key) => queryParams[key as keyof typeof queryParams] !== "")
-        .map((key) => `${key}=${queryParams[key as keyof typeof queryParams]}`)
-        .join("&");
-
-      router.push(`/resources?${queryString}`);
+  const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        onSearch();
+      }
     }
-  }, [onClickSearch, order, searchText, selectedCategory, selectedTag, router]);
-
-  const orders: { label: string; value: keyof Post }[] = [
-    { label: "Created Date", value: "createdAt" },
-    { label: "Updated Date", value: "updatedAt" },
-    { label: "Title", value: "title" },
-  ];
+  };
 
   return (
     <div className="flex flex-col gap-4 justify-around my-8">
@@ -90,6 +107,7 @@ const ResourceFilter = () => {
               className="grow"
               placeholder="Search"
               onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => handleEnterKey(e)}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -128,13 +146,11 @@ const ResourceFilter = () => {
         <select
           className="select select-bordered w-auto"
           onChange={(e) => setOrder(e.target.value)}
+          defaultValue={orders[0].value}
         >
-          <option disabled selected>
-            Order By
-          </option>
           {orders.map((order) => (
             <option key={order.value} value={order.value}>
-              {order.label}
+              Order by: {order.label}
             </option>
           ))}
         </select>{" "}
