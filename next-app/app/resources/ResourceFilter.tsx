@@ -52,7 +52,6 @@ const ResourceFilter = () => {
   const [selectedTag, setSelectedTag] = useState("");
   const [order, setOrder] = useState("");
   const [searchInput, setSearchInput] = useState("");
-  const [searchText, setSearchText] = useState("");
 
   const [searchParams, setSearchParams] = useState({
     category: "",

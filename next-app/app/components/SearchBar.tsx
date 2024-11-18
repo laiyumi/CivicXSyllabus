@@ -1,19 +1,56 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const SearchBar = () => {
+  const router = useRouter();
+
   const [searchText, setSearchText] = useState("");
-  console.log(searchText);
+  const [searchParams, setSearchParams] = useState({
+    search: "",
+  });
+
+  const onSearch = () => {
+    const newSearchParams = {
+      search: searchText,
+    };
+
+    setSearchParams(newSearchParams);
+
+    const queryString = Object.keys(newSearchParams)
+      .filter(
+        (key) => newSearchParams[key as keyof typeof newSearchParams] !== ""
+      )
+      .map(
+        (key) =>
+          `${key}=${newSearchParams[key as keyof typeof newSearchParams]}`
+      )
+      .join("&");
+
+    router.push(`/resources?${queryString}`);
+  };
+
+  const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        onSearch();
+      }
+    }
+  };
 
   return (
-    <div className="w-full">
-      <label className="input input-bordered flex items-center gap-2">
+    <div className="w-full flex gap-2">
+      <label className="input input-bordered flex items-center gap-2 w-full">
         <input
           type="text"
           className="grow"
-          placeholder="Search"
-          onChange={(e) => console.log(e.target.value)}
+          placeholder="Search anything"
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e) => {
+            handleEnterKey(e);
+          }}
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,6 +65,9 @@ const SearchBar = () => {
           />
         </svg>
       </label>
+      <button className="btn btn-primary" onClick={onSearch}>
+        Search
+      </button>
     </div>
   );
 };
