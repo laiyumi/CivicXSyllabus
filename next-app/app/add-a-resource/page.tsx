@@ -15,15 +15,15 @@ import { Tag, Category } from "@prisma/client";
 const AddAResourcePage = () => {
   // test get endpoint
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
-  const fetchData = async () => {
-    const response = await axios.get("/api/add-a-resource");
-    const resources = await response.data;
-    console.log(resources);
-  };
+  // const fetchData = async () => {
+  //   const response = await axios.get("/api/add-a-resource");
+  //   const resources = await response.data;
+  //   console.log(resources);
+  // };
 
   const {
     register,
@@ -61,6 +61,7 @@ const AddAResourcePage = () => {
     setValue("categories", selectedCategories);
   };
 
+  // Display current tagories and tags
   useEffect(() => {
     const fetchData = async () => {
       const tasResponse = await axios.get("/api/tags");
@@ -86,7 +87,7 @@ const AddAResourcePage = () => {
     try {
       setIsSubmitting(true);
       console.log(data);
-      router.push("/resources");
+      router.replace("/resources");
     } catch (error) {
       setIsSubmitting(false);
       setError("An unexpected error occurred");
