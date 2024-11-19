@@ -40,25 +40,45 @@ const AddAResourcePage = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
+  const [newTags, setNewTags] = useState<string>("");
+  const [newCategories, setNewCategories] = useState<string>("");
+
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleTagChange = (tagId: string) => {
+  const handleTagChange = (tagId: string, tagName: string) => {
     setSelectedTags((prevSelectedTags) =>
       prevSelectedTags.includes(tagId)
         ? prevSelectedTags.filter((id) => id !== tagId)
-        : [...prevSelectedTags, tagId]
+        : [...prevSelectedTags, tagName]
     );
     setValue("tags", selectedTags);
+    console.log("setting tags to: ", selectedTags);
   };
 
-  const handleCategoryChange = (categoryId: string) => {
+  const handleCategoryChange = (categoryId: string, categoryName: string) => {
     setSelectedCategories((prevSelectedCategories) =>
       prevSelectedCategories.includes(categoryId)
         ? prevSelectedCategories.filter((id) => id !== categoryId)
-        : [...prevSelectedCategories, categoryId]
+        : [...prevSelectedCategories, categoryName]
     );
     setValue("categories", selectedCategories);
+    console.log("setting categories to: ", selectedCategories);
+  };
+
+  const addNewTagAndCategory = () => {
+    if (newTags.trim()) {
+      // if it is not empty
+      setSelectedTags((prevTags) => [...prevTags, newTags.trim()]);
+      setNewTags("");
+    }
+    if (newCategories.trim()) {
+      setSelectedCategories((prevCategories) => [
+        ...prevCategories,
+        newCategories.trim(),
+      ]);
+      setNewCategories("");
+    }
   };
 
   // Display current tagories and tags
@@ -76,17 +96,21 @@ const AddAResourcePage = () => {
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
-    data.tags = selectedTags;
-    data.categories = selectedCategories;
+    // combine selected tags and new tags into a string array
+    const inputTagsArray = selectedTags.join(",");
+    const inputCategoriesArray = selectedCategories.join(",");
 
-    // for testing purposes
-    console.log(data);
+    console.log("body tags: ", inputTagsArray);
+    console.log("body categories: ", inputCategoriesArray);
+
+    data.tags = inputTagsArray;
+    data.categories = inputCategoriesArray;
 
     // call endpoints to send data to airtable
-
     try {
       setIsSubmitting(true);
-      console.log(data);
+      await axios.post("/api/add-a-resource", data);
+      console.log("sending data object to endpoint: ", data);
       router.replace("/resources");
     } catch (error) {
       setIsSubmitting(false);
@@ -118,6 +142,7 @@ const AddAResourcePage = () => {
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full"
+                {...register("name")}
               />
             </label>
             <label className="form-control w-full flex gap-2">
@@ -126,6 +151,7 @@ const AddAResourcePage = () => {
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full"
+                {...register("email")}
               />
             </label>
             <div className="divider divider-neutral">Resource Information</div>
@@ -135,7 +161,7 @@ const AddAResourcePage = () => {
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full"
-                {...register("title")}
+                {...register("resourceName")}
               />
               {/* <ErrorMessage>{errors.title?.message}</ErrorMessage> */}
             </label>
@@ -145,7 +171,7 @@ const AddAResourcePage = () => {
                 type="text"
                 placeholder="The link to the resource itself"
                 className="input input-bordered w-full"
-                {...register("link")}
+                {...register("resourceLink")}
               />
               {/* <ErrorMessage>{errors.link?.message}</ErrorMessage> */}
             </label>
@@ -154,7 +180,7 @@ const AddAResourcePage = () => {
               <textarea
                 className="textarea textarea-bordered h-24"
                 placeholder="A one-sentence summary description"
-                {...register("excerpt")}
+                {...register("description")}
               ></textarea>
               {/* <ErrorMessage>{errors.excerpt?.message}</ErrorMessage> */}
             </label>
@@ -163,7 +189,7 @@ const AddAResourcePage = () => {
               <textarea
                 className="textarea textarea-bordered h-36"
                 placeholder="When did it start? Who is it for? What impact has it made? How can others get involved?"
-                {...register("content")}
+                {...register("moreInfo")}
               ></textarea>
               {/* <ErrorMessage>{errors.content?.message}</ErrorMessage> */}
             </label>
@@ -174,7 +200,7 @@ const AddAResourcePage = () => {
               </span>
               <textarea
                 className="textarea textarea-bordered h-36"
-                {...register("content")}
+                {...register("bestFit")}
               ></textarea>
               {/* <ErrorMessage>{errors.content?.message}</ErrorMessage> */}
             </label>
@@ -188,7 +214,9 @@ const AddAResourcePage = () => {
                       type="checkbox"
                       className="checkbox"
                       checked={selectedCategories.includes(category.id)}
-                      onChange={() => handleCategoryChange(category.id)}
+                      onChange={() =>
+                        handleCategoryChange(category.id, category.name)
+                      }
                     />
                     <span className="label-text pl-3">{category.name}</span>
                   </label>
@@ -203,6 +231,7 @@ const AddAResourcePage = () => {
                   type="text"
                   placeholder="Type here"
                   className="input input-bordered w-full"
+                  onChange={(e) => setNewCategories(e.target.value)}
                 />
               </label>
             </div>
@@ -218,7 +247,7 @@ const AddAResourcePage = () => {
                       type="checkbox"
                       className="checkbox"
                       checked={selectedTags.includes(tag.id)}
-                      onChange={() => handleTagChange(tag.id)}
+                      onChange={() => handleTagChange(tag.id, tag.name)}
                     />
                     <span className="label-text pl-3">{tag.name}</span>
                   </label>
@@ -233,10 +262,15 @@ const AddAResourcePage = () => {
                   type="text"
                   placeholder="Type here"
                   className="input input-bordered w-full"
+                  onChange={(e) => setNewTags(e.target.value)}
                 />
               </label>
             </div>
-            <button disabled={isSubmitting} className="btn btn-primary ">
+            <button
+              disabled={isSubmitting}
+              onClick={addNewTagAndCategory}
+              className="btn btn-primary"
+            >
               Submit
               {isSubmitting && <Spinner />}
             </button>
