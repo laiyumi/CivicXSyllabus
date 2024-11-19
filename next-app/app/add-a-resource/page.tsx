@@ -10,9 +10,21 @@ import Spinner from "../components/Spinner";
 import createResourceSchema from "../validationSchemas";
 import { Tag, Category } from "@prisma/client";
 
-type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
+// type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
 
 const AddAResourcePage = () => {
+  // test get endpoint
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const response = await axios.get("/api/add-a-resource");
+    const resources = await response.data;
+    console.log(resources);
+  };
+
   const {
     register,
     handleSubmit,
@@ -68,6 +80,8 @@ const AddAResourcePage = () => {
 
     // for testing purposes
     console.log(data);
+
+    // call endpoints to send data to airtable
 
     try {
       setIsSubmitting(true);
