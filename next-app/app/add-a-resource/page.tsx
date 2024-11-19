@@ -46,25 +46,28 @@ const AddAResourcePage = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleTagChange = (tagId: string, tagName: string) => {
+  const handleTagChange = (tagName: string) => {
     setSelectedTags((prevSelectedTags) =>
-      prevSelectedTags.includes(tagId)
-        ? prevSelectedTags.filter((id) => id !== tagId)
+      prevSelectedTags.includes(tagName)
+        ? prevSelectedTags.filter((name) => name !== tagName)
         : [...prevSelectedTags, tagName]
     );
-    setValue("tags", selectedTags);
-    console.log("setting tags to: ", selectedTags);
+    // console.log("setting tags to: ", selectedTags);
   };
 
-  const handleCategoryChange = (categoryId: string, categoryName: string) => {
+  const handleCategoryChange = (categoryName: string) => {
     setSelectedCategories((prevSelectedCategories) =>
-      prevSelectedCategories.includes(categoryId)
-        ? prevSelectedCategories.filter((id) => id !== categoryId)
+      prevSelectedCategories.includes(categoryName)
+        ? prevSelectedCategories.filter((name) => name !== categoryName)
         : [...prevSelectedCategories, categoryName]
     );
-    setValue("categories", selectedCategories);
-    console.log("setting categories to: ", selectedCategories);
+    // console.log("setting categories to: ", selectedCategories);
   };
+
+  useEffect(() => {
+    console.log("Updated selectedTags:", selectedTags);
+    console.log("Updated selectedCategories:", selectedCategories);
+  }, [selectedTags, selectedCategories]);
 
   const addNewTagAndCategory = () => {
     if (newTags.trim()) {
@@ -213,10 +216,8 @@ const AddAResourcePage = () => {
                     <input
                       type="checkbox"
                       className="checkbox"
-                      checked={selectedCategories.includes(category.id)}
-                      onChange={() =>
-                        handleCategoryChange(category.id, category.name)
-                      }
+                      checked={selectedCategories.includes(category.name)}
+                      onChange={(e) => handleCategoryChange(category.name)}
                     />
                     <span className="label-text pl-3">{category.name}</span>
                   </label>
@@ -246,8 +247,8 @@ const AddAResourcePage = () => {
                     <input
                       type="checkbox"
                       className="checkbox"
-                      checked={selectedTags.includes(tag.id)}
-                      onChange={() => handleTagChange(tag.id, tag.name)}
+                      checked={selectedTags.includes(tag.name)}
+                      onChange={(e) => handleTagChange(tag.name)}
                     />
                     <span className="label-text pl-3">{tag.name}</span>
                   </label>
