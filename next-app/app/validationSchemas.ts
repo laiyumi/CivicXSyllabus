@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createResourceSchema = z.object({
+const createResourceSchema = z.object({
   title: z.string().min(1, "Title is required"),
   excerpt: z.string().min(1, "Excerpt is required"),
   content: z.string().min(1, "Content is required"),
@@ -10,6 +10,8 @@ export const createResourceSchema = z.object({
   categories: z.array(z.string()),
   tags: z.array(z.string()),
 });
+
+export default createResourceSchema;
 
 export const UserSubmittedResourceSchema = z.object({
   name: z.string().min(1, "Name is required"),

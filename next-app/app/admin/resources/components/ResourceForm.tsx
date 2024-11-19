@@ -3,7 +3,7 @@
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 import UploadImage from "@/app/components/UploadImage";
-import { createResourceSchema } from "@/app/validationSchemas";
+import createResourceSchema from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Post, Tag } from "@prisma/client";
 import axios from "axios";
