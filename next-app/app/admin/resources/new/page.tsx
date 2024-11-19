@@ -1,6 +1,3 @@
-import React from "react";
-import AdminDashboardNavBar from "../../NavBar";
-import Link from "next/link";
 import ResourceForm from "../components/ResourceForm";
 
 const AdminCreateResourcePage = () => {

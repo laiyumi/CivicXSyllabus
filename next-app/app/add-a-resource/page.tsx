@@ -1,36 +1,25 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Category, Tag } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
-import createResourceSchema from "../validationSchemas";
-import { Tag, Category } from "@prisma/client";
+import { UserSubmittedResourceSchema } from "../validationSchemas";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ErrorMessage from "../components/ErrorMessage";
 
-// type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
+type UserSubmittedFormInputs = z.infer<typeof UserSubmittedResourceSchema>;
 
 const AddAResourcePage = () => {
-  // test get endpoint
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  // const fetchData = async () => {
-  //   const response = await axios.get("/api/add-a-resource");
-  //   const resources = await response.data;
-  //   console.log(resources);
-  // };
-
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm<UserSubmittedFormInputs>({
+    resolver: zodResolver(UserSubmittedResourceSchema),
+  });
 
   const router = useRouter();
 
@@ -99,6 +88,9 @@ const AddAResourcePage = () => {
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log("onSubmit called!");
+
+    addNewTagAndCategory();
     // combine selected tags and new tags into a string array
     const inputTagsArray = selectedTags.join(",");
     const inputCategoriesArray = selectedCategories.join(",");
@@ -124,6 +116,25 @@ const AddAResourcePage = () => {
   return (
     <div className="my-10">
       <h1 className="text-xl font-bold text-center">Add A Resource</h1>
+      {error && (
+        <div role="alert" className="alert alert-error mb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{error}</span>
+        </div>
+      )}
+
       <form onSubmit={onSubmit}>
         <div className="grid grid-cols-12">
           <div className="justify-self-center w-full flex flex-col gap-6 col-start-4 col-span-6">
@@ -132,12 +143,37 @@ const AddAResourcePage = () => {
                 Thank you for contributing to Civic X Syllabus and sharing your
                 resources with us!
               </p>
-              <p>
+              <div>
                 Please fill out this form to submit a resource that you believe
                 should be included here. If you have multiple resources to add,
-                feel free to contact us at civicxsyllabus@gmail.com.
-              </p>
+                feel free to contact us at{" "}
+                <a
+                  href={`mailto:civicxsyllabus@gmail.com?subject=Sharing Some Useful Resources`}
+                  target="_blank"
+                  className="text-blue-500"
+                  rel="noopener noreferrer"
+                >
+                  civicxsyllabus@gmail.com
+                </a>
+                .
+              </div>
               <p>We’ll send you the link once your resource is confirmed.</p>
+              <div role="alert" className="alert">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="stroke-info h-6 w-6 shrink-0"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <span>Required field is mark with an asterisk.</span>
+              </div>
             </div>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Your Name *</span>
@@ -147,6 +183,7 @@ const AddAResourcePage = () => {
                 className="input input-bordered w-full"
                 {...register("name")}
               />
+              <ErrorMessage>{errors.name?.message}</ErrorMessage>
             </label>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Your Email *</span>
@@ -156,6 +193,7 @@ const AddAResourcePage = () => {
                 className="input input-bordered w-full"
                 {...register("email")}
               />
+              <ErrorMessage>{errors.email?.message}</ErrorMessage>
             </label>
             <div className="divider divider-neutral">Resource Information</div>
             <label className="form-control w-full flex gap-2">
@@ -166,7 +204,7 @@ const AddAResourcePage = () => {
                 className="input input-bordered w-full"
                 {...register("resourceName")}
               />
-              {/* <ErrorMessage>{errors.title?.message}</ErrorMessage> */}
+              <ErrorMessage>{errors.resourceName?.message}</ErrorMessage>
             </label>
             <label className="form-control w-full  flex gap-2">
               <span className="text-m">Resource Link *</span>
@@ -176,7 +214,7 @@ const AddAResourcePage = () => {
                 className="input input-bordered w-full"
                 {...register("resourceLink")}
               />
-              {/* <ErrorMessage>{errors.link?.message}</ErrorMessage> */}
+              <ErrorMessage>{errors.resourceLink?.message}</ErrorMessage>
             </label>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Short Description *</span>
@@ -185,18 +223,8 @@ const AddAResourcePage = () => {
                 placeholder="A one-sentence summary description"
                 {...register("description")}
               ></textarea>
-              {/* <ErrorMessage>{errors.excerpt?.message}</ErrorMessage> */}
+              <ErrorMessage>{errors.description?.message}</ErrorMessage>
             </label>
-            <label className="form-control w-full flex gap-2">
-              <span className="text-m">Tell me more about the resource</span>
-              <textarea
-                className="textarea textarea-bordered h-36"
-                placeholder="When did it start? Who is it for? What impact has it made? How can others get involved?"
-                {...register("moreInfo")}
-              ></textarea>
-              {/* <ErrorMessage>{errors.content?.message}</ErrorMessage> */}
-            </label>
-
             <label className="form-control w-full flex gap-2">
               <span className="text-m">
                 Why do you think it is a best fit? *
@@ -205,8 +233,20 @@ const AddAResourcePage = () => {
                 className="textarea textarea-bordered h-36"
                 {...register("bestFit")}
               ></textarea>
-              {/* <ErrorMessage>{errors.content?.message}</ErrorMessage> */}
+              <ErrorMessage>{errors.bestFit?.message}</ErrorMessage>
             </label>
+            <label className="form-control w-full flex gap-2">
+              <span className="text-m">
+                Tell me more about the resource (optional)
+              </span>
+              <textarea
+                className="textarea textarea-bordered h-36"
+                placeholder="When did it start? Who is it for? What impact has it made? How can others get involved?"
+                {...register("moreInfo")}
+              ></textarea>
+              <ErrorMessage>{errors.moreInfo?.message}</ErrorMessage>
+            </label>
+
             <div className="divider divider-neutral">Categories</div>
             <div className="flex flex-col gap-6">
               <p>What categories do you think this resource belongs to?</p>
@@ -225,7 +265,7 @@ const AddAResourcePage = () => {
               </div>
               <p>
                 If you can’t find a suitable category, please enter 1-3
-                categories that you think fit best.
+                categories(separate by commas) that you think fit best.
               </p>
               <label>
                 <input
@@ -240,7 +280,6 @@ const AddAResourcePage = () => {
             <div className="divider divider-neutral">Tags</div>
             <div className="flex flex-col gap-6">
               <p>What tags do you think should be attached to this resource?</p>
-
               <div className="flex gap-3 flex-wrap">
                 {tags?.map((tag) => (
                   <label key={tag.id} className="label cursor-pointer">
@@ -255,8 +294,8 @@ const AddAResourcePage = () => {
                 ))}
               </div>
               <p>
-                If you can’t find a suitable tag, please enter 1-3 tags that you
-                think fit best.
+                If you can’t find a suitable tag, please enter 1-3 tags(separate
+                by commas) that you think fit best.
               </p>
               <label>
                 <input
@@ -269,8 +308,8 @@ const AddAResourcePage = () => {
             </div>
             <button
               disabled={isSubmitting}
-              onClick={addNewTagAndCategory}
               className="btn btn-primary"
+              type="submit"
             >
               Submit
               {isSubmitting && <Spinner />}
