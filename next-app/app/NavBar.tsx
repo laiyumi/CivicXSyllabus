@@ -80,28 +80,50 @@ const NavBar = () => {
           </div>
         </div>
         <div className="navbar-end">
-          <Link href="/add-a-resource" className="btn btn-ghost">
+          <Link href="/add-a-resource" className="btn btn-success">
             Add a Resource
           </Link>
           {status === "loading" && (
             <span className="loading loading-dots loading-sm"></span>
           )}
           {status === "authenticated" && (
-            <div className="flex items-center">
-              <div className="avatar">
-                <div className="w-8 rounded-full ml-5">
-                  <img
-                    src={session.user!.image!}
-                    width={500}
-                    height={500}
-                    alt="user avatar"
-                    className="w-6 h-6 rounded-full"
-                  />
+            <div className="flex items-center ml-5">
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-8 rounded-full">
+                    <img
+                      src={session.user!.image!}
+                      width={500}
+                      height={500}
+                      alt="user avatar"
+                      className="w-6 h-6 rounded-full"
+                    />
+                  </div>
                 </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-5 w-52 p-2 shadow"
+                >
+                  <li>
+                    <Link href="/user/profile" className="justify-between">
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/user/list">My List</Link>
+                  </li>
+                  <li>
+                    <Link href="/user/contribution">My Contribution</Link>
+                  </li>
+                  <li>
+                    <Link href="/api/auth/signout">Logout</Link>
+                  </li>
+                </ul>
               </div>
-              <Link href="/api/auth/signout" className="btn ml-5">
-                Sign Out
-              </Link>
             </div>
           )}
           {status === "unauthenticated" && (
