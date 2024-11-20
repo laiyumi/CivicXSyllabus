@@ -53,7 +53,7 @@ const LoginButton = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/user/list">My List</Link>
+                <Link href="/user/list">Saved</Link>
               </li>
               <li>
                 <Link href="/user/contribution">My Contribution</Link>
