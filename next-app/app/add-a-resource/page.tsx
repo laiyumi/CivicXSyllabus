@@ -106,7 +106,7 @@ const AddAResourcePage = () => {
       setIsSubmitting(true);
       await axios.post("/api/add-a-resource", data);
       console.log("sending data object to endpoint: ", data);
-      router.replace("/resources");
+      router.replace("/add-a-resource/submission-success");
     } catch (error) {
       setIsSubmitting(false);
       setError("An unexpected error occurred");
