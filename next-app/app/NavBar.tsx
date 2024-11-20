@@ -1,23 +1,9 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import LoginButton from "./components/LoginButton";
 
 const NavBar = () => {
-  const { status, data: session } = useSession();
-  const [hasRedirected, setHasRedirected] = useState(false);
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (status === "authenticated" && !hasRedirected) {
-  //     router.push("/admin");
-  //     setHasRedirected(true);
-  //   }
-  // }, [status, router, hasRedirected]);
-
   return (
     <>
       <div className="navbar bg-base-100 p-5 ">
@@ -80,35 +66,10 @@ const NavBar = () => {
           </div>
         </div>
         <div className="navbar-end">
-          <Link href="/add-a-resource" className="btn btn-ghost">
+          <Link href="/add-a-resource" className="btn btn-success mr-2">
             Add a Resource
           </Link>
-          {status === "loading" && (
-            <span className="loading loading-dots loading-sm"></span>
-          )}
-          {status === "authenticated" && (
-            <div className="flex items-center">
-              <div className="avatar">
-                <div className="w-8 rounded-full ml-5">
-                  <img
-                    src={session.user!.image!}
-                    width={500}
-                    height={500}
-                    alt="user avatar"
-                    className="w-6 h-6 rounded-full"
-                  />
-                </div>
-              </div>
-              <Link href="/api/auth/signout" className="btn ml-5">
-                Sign Out
-              </Link>
-            </div>
-          )}
-          {status === "unauthenticated" && (
-            <Link href="/api/auth/signin" className="btn btn-ghost mr-5">
-              Login
-            </Link>
-          )}
+          <LoginButton />
         </div>
       </div>
     </>

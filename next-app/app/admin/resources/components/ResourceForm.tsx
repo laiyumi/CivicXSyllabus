@@ -12,16 +12,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// interface TagProps {
-//   id: string;
-//   name: string;
-// }
-
-// interface CategoryProps {
-//   id: string;
-//   name: string;
-// }
-
 type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
 
 const ResourceForm = ({ resource }: { resource?: Post }) => {
