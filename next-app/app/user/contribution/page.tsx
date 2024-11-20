@@ -12,9 +12,10 @@ const UserContributionPage = () => {
               <thead>
                 <tr>
                   <th></th>
-                  <th>Name</th>
-                  <th>Job</th>
-                  <th>Favorite Color</th>
+                  <th>Resource Name</th>
+                  <th>Resource Link</th>
+                  <th>Submitted Date</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -24,6 +25,9 @@ const UserContributionPage = () => {
                   <td>Cy Ganderton</td>
                   <td>Quality Control Specialist</td>
                   <td>Blue</td>
+                  <td>
+                    <div className="badge badge-info gap-2">Pending</div>
+                  </td>
                 </tr>
                 {/* row 2 */}
                 <tr className="hover">
@@ -31,6 +35,9 @@ const UserContributionPage = () => {
                   <td>Hart Hagerty</td>
                   <td>Desktop Support Technician</td>
                   <td>Purple</td>
+                  <td>
+                    <div className="badge badge-success gap-2">Approved</div>
+                  </td>
                 </tr>
                 {/* row 3 */}
                 <tr>
@@ -38,6 +45,9 @@ const UserContributionPage = () => {
                   <td>Brice Swyre</td>
                   <td>Tax Accountant</td>
                   <td>Red</td>
+                  <td>
+                    <div className="badge badge-error gap-2">Rejected</div>
+                  </td>
                 </tr>
               </tbody>
             </table>
