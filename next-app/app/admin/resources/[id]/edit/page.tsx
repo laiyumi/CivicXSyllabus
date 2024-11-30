@@ -3,6 +3,7 @@ import ResourceForm from "../../components/ResourceForm";
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
 import AdminDashboardNavBar from "@/app/admin/NavBar";
+import EditResourceForm from "../../components/EditResourceForm";
 
 interface Props {
   params: { id: string };
@@ -12,11 +13,6 @@ const EditResourcePage = async ({ params }: Props) => {
   const resource = await prisma.post.findUnique({
     where: { id: params.id },
     include: {
-      source: {
-        select: {
-          name: true,
-        },
-      },
       categories: {
         select: {
           id: true,
@@ -24,6 +20,12 @@ const EditResourcePage = async ({ params }: Props) => {
         },
       },
       tags: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      source: {
         select: {
           id: true,
           name: true,
@@ -42,7 +44,7 @@ const EditResourcePage = async ({ params }: Props) => {
   return (
     <div className="flex">
       <div className="w-full">
-        <ResourceForm resource={resource} />
+        <EditResourceForm resource={resource} />
       </div>
     </div>
   );

@@ -10,9 +10,10 @@ interface CloudinaryResult {
 
 interface Props {
   onImageUpload: (imageUrl: string) => void;
+  buttonName: string;
 }
 
-const UploadImage = ({ onImageUpload }: Props) => {
+const UploadImage = ({ onImageUpload, buttonName }: Props) => {
   const [imageUrl, setImageUrl] = useState<string>();
   const [publicId, setPublicId] = useState<string>();
 
@@ -61,7 +62,7 @@ const UploadImage = ({ onImageUpload }: Props) => {
             className="btn btn-primary btn-outline"
             onClick={() => open()}
           >
-            Upload
+            {buttonName}
           </button>
         )}
       </CldUploadWidget>

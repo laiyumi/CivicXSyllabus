@@ -8,7 +8,7 @@ interface Props {
   params: { id: string };
 }
 
-const EditResourcePage = async ({ params }: Props) => {
+const ViewResourceDetailPage = async ({ params }: Props) => {
   const resource = await prisma.post.findUnique({
     where: { id: params.id },
     include: {
@@ -19,6 +19,12 @@ const EditResourcePage = async ({ params }: Props) => {
         },
       },
       tags: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      source: {
         select: {
           id: true,
           name: true,
@@ -35,8 +41,8 @@ const EditResourcePage = async ({ params }: Props) => {
     <div className="flex">
       <div className="w-full">
         <div className="flex justify-between">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
-            View Resource
+          <h2 className="text-xl font-semibold leading-10 text-gray-900 pb-8">
+            {resource.title}
           </h2>
           <EditResourceButton resourceId={resource.id} />
         </div>
@@ -46,4 +52,4 @@ const EditResourcePage = async ({ params }: Props) => {
   );
 };
 
-export default EditResourcePage;
+export default ViewResourceDetailPage;

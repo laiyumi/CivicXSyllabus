@@ -22,6 +22,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  console.log("edit resource params: ", params);
+
   const body = await request.json();
 
   // validate the request body
@@ -47,11 +49,25 @@ export async function PUT(
       content: body.content,
       link: body.link,
       imageUrl: body.imageUrl,
+      source: {
+        connectOrCreate: {
+          where: { name: body.source },
+          create: { name: body.source },
+        },
+      },
+      categories: {
+        connect: body.categories.map((categoryID: string) => ({
+          id: categoryID,
+        })),
+      },
+      tags: {
+        connect: body.tags.map((tagID: string) => ({ id: tagID })),
+      },
     },
   });
 
   // return the updated resource
-  return NextResponse.json(updatedResource);
+  return NextResponse.json(updatedResource, { status: 200 });
 }
 
 // delete a single resource

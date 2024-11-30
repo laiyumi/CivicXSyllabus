@@ -12,9 +12,15 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+interface Resource extends Post {
+  categories: { id: string; name: string }[];
+  tags: { id: string; name: string }[];
+  source: { id: string; name: string };
+}
+
 type NewResourceFormInputs = z.infer<typeof createResourceSchema>;
 
-const ResourceForm = ({ resource }: { resource?: Post }) => {
+const EditResourceForm = ({ resource }: { resource: Resource }) => {
   const {
     register,
     handleSubmit,
@@ -26,7 +32,25 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
   });
   const router = useRouter();
 
-  const [uploadImageUrl, setUploadImageUrl] = useState("");
+  // the image url from the resource
+  const resourceImageUrl = resource.imageUrl;
+
+  // handle if user uploads a new image
+  const [newImageUrl, setnewImageUrl] = useState(resourceImageUrl);
+
+  console.log("initial newImageUrl: ", resourceImageUrl);
+
+  // handle the new image url
+  const handleImageUpload = (imageUrl: string) => {
+    setnewImageUrl(imageUrl);
+    setValue("imageUrl", imageUrl);
+    console.log("after uploading: ", newImageUrl);
+  };
+
+  //   useEffect(() => {
+  //     setValue("imageUrl", newImageUrl);
+  //     console.log("2");
+  //   }, [newImageUrl, setValue]);
 
   const [tags, setTags] = useState<Tag[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -36,17 +60,15 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
     a.name.localeCompare(b.name)
   );
 
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const resourceTags = resource.tags.map((tag) => tag.id);
+  const resourceCategories = resource.categories.map((category) => category.id);
+
+  const [selectedTags, setSelectedTags] = useState<string[]>(resourceTags);
+  const [selectedCategories, setSelectedCategories] =
+    useState<string[]>(resourceCategories);
 
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleImageUpload = (imageUrl: string) => {
-    setValue("imageUrl", imageUrl);
-    setUploadImageUrl(imageUrl);
-    console.log("Uploaded Image url: ", imageUrl);
-  };
 
   const handleTagChange = (tagId: string) => {
     setSelectedTags((prevSelectedTags) =>
@@ -83,23 +105,26 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
     fetchCategories();
   }, []);
 
-  console.log("tags: ", tags);
-  console.log("categories: ", categories);
+  console.log("1");
 
   const onSubmit = handleSubmit(async (data) => {
-    data.imageUrl = getValues().imageUrl;
+    console.log("----sending data", data);
+
+    setValue("imageUrl", newImageUrl);
+
+    data.imageUrl = newImageUrl;
     data.tags = selectedTags;
     data.categories = selectedCategories;
 
     // for testing purposes
-    console.log(data);
+    console.log("sending data", data);
 
     try {
       setIsSubmitting(true);
-      await axios.post("/api/resources", data);
-      router.push("/admin/resources");
-    } catch (error) {
+      await axios.put(`/api/resources/${resource.id}`, data);
+      router.replace(`/admin/resources/${resource.id}`);
       setIsSubmitting(false);
+    } catch (error) {
       setError("An unexpected error occurred");
     }
   });
@@ -128,11 +153,11 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
       <form onSubmit={onSubmit}>
         <div className="flex flex-col justify-center pb-12">
           <div className="flex justify-between">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">
-              Creating new Resource
+            <h2 className="text-xl font-semibold leading-10 text-gray-900 pb-8">
+              Editing Resource
             </h2>
             <button disabled={isSubmitting} className="btn btn-primary ">
-              Save
+              Save Changes
               {isSubmitting && <Spinner />}
             </button>
           </div>
@@ -143,7 +168,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <span className="text-m">Title *</span>
                 <input
                   type="text"
-                  defaultValue={resource?.title}
+                  defaultValue={resource.title}
                   placeholder="Type here"
                   className="input input-bordered w-full"
                   {...register("title")}
@@ -155,7 +180,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <input
                   type="text"
                   placeholder="Type here"
-                  defaultValue={resource?.sourceId}
+                  defaultValue={resource.source.name}
                   className="input input-bordered w-full"
                   {...register("source")}
                 />
@@ -166,7 +191,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <textarea
                   className="textarea textarea-bordered h-24"
                   placeholder="Please limit to 30 words"
-                  defaultValue={resource?.excerpt}
+                  defaultValue={resource.excerpt}
                   {...register("excerpt")}
                 ></textarea>
                 <ErrorMessage>{errors.excerpt?.message}</ErrorMessage>
@@ -176,7 +201,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <input
                   type="text"
                   placeholder="Type here"
-                  defaultValue={resource?.link}
+                  defaultValue={resource.link}
                   className="input input-bordered w-full"
                   {...register("link")}
                 />
@@ -187,26 +212,29 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <textarea
                   className="textarea textarea-bordered h-36"
                   placeholder="Please limit to 200 words"
-                  defaultValue={resource?.content}
+                  defaultValue={resource.content}
                   {...register("content")}
                 ></textarea>
                 <ErrorMessage>{errors.content?.message}</ErrorMessage>
               </label>
-              <label className="form-control w-full flex gap-2">
-                <span className="text-m">Thumbnail Image *</span>
-                <img
-                  src={resource?.imageUrl}
-                  className="w-72 h-54 object-cover"
-                ></img>
-                <UploadImage
-                  onImageUpload={handleImageUpload}
-                  buttonName="Replace"
-                />
-                {uploadImageUrl && (
+              <label className="form-control w-full flex gap-4">
+                <div className="flex gap-4 align-middle items-center">
+                  <span className="text-m ">Thumbnail Image *</span>
+                  <UploadImage
+                    onImageUpload={handleImageUpload}
+                    buttonName="Replace"
+                  />
+                </div>
+                {resourceImageUrl != newImageUrl ? (
                   <img
-                    src={uploadImageUrl}
+                    src={newImageUrl}
                     alt="Uploaded image"
-                    className="h-36 w-auto"
+                    className="w-72 h-54 object-cover"
+                  ></img>
+                ) : (
+                  <img
+                    src={resource.imageUrl}
+                    className="w-72 h-54 object-cover"
                   ></img>
                 )}
                 <ErrorMessage>{errors.imageUrl?.message}</ErrorMessage>
@@ -218,7 +246,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <div>
                   <h2>Categories</h2>
                   <div className="flex gap-3 flex-wrap">
-                    {categories?.map((category) => (
+                    {categories.map((category) => (
                       <div key={category.id}>
                         <label className="label cursor-pointer">
                           <input
@@ -238,7 +266,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <div>
                   <h2>Tags</h2>
                   <div className="flex gap-3 flex-wrap">
-                    {tags?.map((tag) => (
+                    {tags.map((tag) => (
                       <label key={tag.id} className="label cursor-pointer">
                         <input
                           type="checkbox"
@@ -260,4 +288,4 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
   );
 };
 
-export default ResourceForm;
+export default EditResourceForm;

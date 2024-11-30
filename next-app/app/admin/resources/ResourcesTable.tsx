@@ -79,12 +79,18 @@ const ResourcesTable = async () => {
                 )}
               </td>
               <td className="hidden md:table-cell">{resouce.excerpt}</td>
-              <td>
+              <td className="flex gap-2">
                 <Link
                   href={`/admin/resources/${resouce.id}`}
-                  className="btn btn-outline btn-s"
+                  className="btn btn-outline btn-sm"
                 >
                   View
+                </Link>
+                <Link
+                  href={`/admin/resources/${resouce.id}/edit`}
+                  className="btn btn-outline btn-sm"
+                >
+                  Edit
                 </Link>
               </td>
             </tr>
