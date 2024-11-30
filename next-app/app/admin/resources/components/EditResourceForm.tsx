@@ -7,9 +7,10 @@ import createResourceSchema from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Post, Tag } from "@prisma/client";
 import axios from "axios";
+import { get } from "http";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState, useRef } from "react";
+import { set, useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface Resource extends Post {
@@ -29,32 +30,31 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
     formState: { errors },
   } = useForm<NewResourceFormInputs>({
     resolver: zodResolver(createResourceSchema),
+    defaultValues: {
+      imageUrl: resource.imageUrl,
+    },
   });
   const router = useRouter();
 
   // the image url from the resource
-  const resourceImageUrl = resource.imageUrl;
+  //   const resourceImageUrl = resource.imageUrl;
 
   // handle if user uploads a new image
-  const [newImageUrl, setnewImageUrl] = useState(resourceImageUrl);
+  const [newImageUrl, setnewImageUrl] = useState("");
 
-  console.log("initial newImageUrl: ", resourceImageUrl);
+  //   console.log("initial newImageUrl: ", resourceImageUrl);
 
   // handle the new image url
   const handleImageUpload = (imageUrl: string) => {
-    setnewImageUrl(imageUrl);
     setValue("imageUrl", imageUrl);
-    console.log("after uploading: ", newImageUrl);
+    setnewImageUrl(imageUrl);
+    console.log("replace image url: ", newImageUrl);
   };
-
-  //   useEffect(() => {
-  //     setValue("imageUrl", newImageUrl);
-  //     console.log("2");
-  //   }, [newImageUrl, setValue]);
 
   const [tags, setTags] = useState<Tag[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
+  // sort tags and categories
   const sortedTags = tags.sort((a, b) => a.name.localeCompare(b.name));
   const sortedCategories = categories.sort((a, b) =>
     a.name.localeCompare(b.name)
@@ -67,8 +67,13 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
   const [selectedCategories, setSelectedCategories] =
     useState<string[]>(resourceCategories);
 
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const checkedTagsRef = useRef(selectedTags);
+
+  // Update the ref whenever the state changes
+  useEffect(() => {
+    checkedTagsRef.current = selectedTags;
+    console.log("checkedTagsRef: ", checkedTagsRef.current);
+  }, [selectedTags]);
 
   const handleTagChange = (tagId: string) => {
     setSelectedTags((prevSelectedTags) =>
@@ -77,16 +82,20 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
         : [...prevSelectedTags, tagId]
     );
     setValue("tags", selectedTags);
+    console.log("current selected tags: ", selectedTags);
   };
 
   const handleCategoryChange = (categoryId: string) => {
-    setSelectedCategories((prevSelectedCategories) =>
-      prevSelectedCategories.includes(categoryId)
+    setSelectedCategories((prevSelectedCategories) => {
+      const newSelectedCategories = prevSelectedCategories.includes(categoryId)
         ? prevSelectedCategories.filter((id) => id !== categoryId)
-        : [...prevSelectedCategories, categoryId]
-    );
-    setValue("categories", selectedCategories);
+        : [...prevSelectedCategories, categoryId];
+      return newSelectedCategories;
+    });
   };
+
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -105,14 +114,8 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
     fetchCategories();
   }, []);
 
-  console.log("1");
-
   const onSubmit = handleSubmit(async (data) => {
-    console.log("----sending data", data);
-
-    setValue("imageUrl", newImageUrl);
-
-    data.imageUrl = newImageUrl;
+    data.imageUrl = getValues("imageUrl");
     data.tags = selectedTags;
     data.categories = selectedCategories;
 
@@ -217,15 +220,15 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
                 ></textarea>
                 <ErrorMessage>{errors.content?.message}</ErrorMessage>
               </label>
-              <label className="form-control w-full flex gap-4">
-                <div className="flex gap-4 align-middle items-center">
+              <div>
+                <label className="form-control w-full flex gap-4">
                   <span className="text-m ">Thumbnail Image *</span>
                   <UploadImage
                     onImageUpload={handleImageUpload}
                     buttonName="Replace"
                   />
-                </div>
-                {resourceImageUrl != newImageUrl ? (
+                </label>
+                {newImageUrl ? (
                   <img
                     src={newImageUrl}
                     alt="Uploaded image"
@@ -238,7 +241,7 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
                   ></img>
                 )}
                 <ErrorMessage>{errors.imageUrl?.message}</ErrorMessage>
-              </label>
+              </div>
             </div>
 
             <div className="col-span-1 justify-self-center border-l border-gray-900/10 w-full">
