@@ -119,8 +119,8 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
 
     try {
       setIsSubmitting(true);
-      await axios.put(`/api/resources/${resource.id}`, data);
-      router.replace(`/admin/resources/${resource.id}`);
+      await axios.put(`/api/resources/${resource?.id}`, data);
+      router.replace(`/admin/resources/${resource?.id}`);
       setIsSubmitting(false);
     } catch (error) {
       setError("An unexpected error occurred");
@@ -194,7 +194,7 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
                 <textarea
                   className="textarea textarea-bordered h-24"
                   placeholder="Please limit to 30 words"
-                  defaultValue={resource.excerpt}
+                  defaultValue={resource?.excerpt}
                   {...register("excerpt")}
                 ></textarea>
                 <ErrorMessage>{errors.excerpt?.message}</ErrorMessage>
@@ -204,7 +204,7 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
                 <input
                   type="text"
                   placeholder="Type here"
-                  defaultValue={resource.link}
+                  defaultValue={resource?.link}
                   className="input input-bordered w-full"
                   {...register("link")}
                 />
@@ -215,7 +215,7 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
                 <textarea
                   className="textarea textarea-bordered h-36"
                   placeholder="Please limit to 200 words"
-                  defaultValue={resource.content}
+                  defaultValue={resource?.content}
                   {...register("content")}
                 ></textarea>
                 <ErrorMessage>{errors.content?.message}</ErrorMessage>
@@ -236,7 +236,7 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
                   ></img>
                 ) : (
                   <img
-                    src={resource.imageUrl}
+                    src={resource?.imageUrl}
                     className="w-72 h-54 object-cover"
                   ></img>
                 )}

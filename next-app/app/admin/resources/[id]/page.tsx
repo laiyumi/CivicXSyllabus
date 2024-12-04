@@ -44,9 +44,9 @@ const ViewResourceDetailPage = async ({ params }: Props) => {
           <h2 className="text-xl font-semibold leading-10 text-gray-900 pb-8">
             {resource.title}
           </h2>
-          <EditResourceButton resourceId={resource.id} />
+          <EditResourceButton resourceId={params.id} />
         </div>
-        <ResourceDetails resource={resource} />
+        <ResourceDetails resourceId={params.id} />
       </div>
     </div>
   );

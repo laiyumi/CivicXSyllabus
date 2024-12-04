@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ResourceForm from "../../components/ResourceForm";
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";

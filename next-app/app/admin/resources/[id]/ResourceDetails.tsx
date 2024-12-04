@@ -1,14 +1,48 @@
 import React from "react";
 import { Post } from "@prisma/client";
 import { format } from "date-fns";
+import prisma from "@/prisma/client";
+import { notFound } from "next/navigation";
 
-interface Resource extends Post {
-  categories: { id: string; name: string }[];
-  tags: { id: string; name: string }[];
-  source: { id: string; name: string };
-}
+// interface Resource extends Post {
+//   categories: { id: string; name: string }[];
+//   tags: { id: string; name: string }[];
+//   source: { id: string; name: string };
+// }
 
-const ResourceDetails = ({ resource }: { resource: Resource }) => {
+// interface Props {
+//   params: { id: string };
+// }
+
+const ResourceDetails = async ({ resourceId }: { resourceId: string }) => {
+  const resource = await prisma.post.findUnique({
+    where: { id: resourceId },
+    include: {
+      categories: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      tags: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      source: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  if (!resource) {
+    notFound();
+  }
+
   const created_date = format(resource.createdAt, "MM/dd/yy");
   const updated_date = format(resource.updatedAt, "MM/dd/yy");
 

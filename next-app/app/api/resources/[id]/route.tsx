@@ -11,6 +11,11 @@ export async function GET(
     where: {
       id: params.id,
     },
+    include: {
+      categories: true,
+      tags: true,
+      source: true,
+    },
   });
   if (!resource)
     return NextResponse.json({ error: "resource not found" }, { status: 404 });
