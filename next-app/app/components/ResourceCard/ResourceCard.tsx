@@ -1,36 +1,82 @@
-interface Props {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  link: string;
-  imageUrl: string;
-  sourceName: string;
-  categories: string[];
-  tags: string[];
-}
+import { Category, Prisma, Tag } from "@prisma/client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import axios from "axios";
 
-const ResourceCard = () => {
+type PostWithRelations = Prisma.PostGetPayload<{
+  include: { categories: true; tags: true; source: true };
+}>;
+
+const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
+  const resourceLikes = resource.likes;
+
+  const [likes, setLikes] = useState<number>(resourceLikes ? resourceLikes : 0);
+  const [hasLiked, setHasLiked] = useState<boolean>(false);
+
+  console.log("the number of likes: ", resource.likes);
+
+  const handleToggleLike = async () => {
+    try {
+      if (hasLiked) {
+        // Unlike: Decrement the likes count
+        setLikes((prevLikes) => Math.max(prevLikes - 1, 0)); // Prevent negative likes
+        // await axios.put(`/api/resources/${resource.id}/unlike`);
+      } else {
+        // Like: Increment the likes count
+        setLikes((prevLikes) => prevLikes + 1);
+        // await axios.put(`/api/resources/${resource.id}/like`);
+      }
+      setHasLiked(!hasLiked); // Toggle the liked state
+      console.log("has liked: ", hasLiked);
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+  };
+
   return (
-    <div className="card bg-base-100 w-96 shadow-xl">
-      <figure>
-        <img src="https://placehold.co/600x400" alt="Shoes" />
+    <div key={resource.id} className="card bg-base-100 shadow-xl col-span-1">
+      <figure className="w-full h-[300px]">
+        <img
+          className="object-cover"
+          src={resource.imageUrl}
+          alt={resource.title}
+        />
       </figure>
       <div className="card-body">
-        <div className="badge badge-secondary">Design Sprints</div>
-        <h2 className="card-title">Round robin template</h2>
-        <p>
-          This round robin template, built by LUMA Institute, guides you through
-          a collaborative session where every team member contributes multiple
-          ideas, making it great for brainstorming and exploration.
-        </p>
-        <div className="card-actions justify-start">
-          <div className="badge badge-outline">Tool</div>
-          <div className="badge badge-outline">Platform</div>
-          <div className="badge badge-outline">Application</div>
+        <div className="flex flex-wrap gap-3">
+          {resource.categories.map((category) => (
+            <div key={category.name} className="badge badge-secondary">
+              {category.name}
+            </div>
+          ))}
         </div>
-        <div className="card-actions justify-start mt-4">
-          <button className="btn btn-sm btn-primary">Read More</button>
+        <h2 className="card-title">{resource.title}</h2>
+        <p className="text-sm">{resource.excerpt}</p>
+        <div className="flex gap-3 mt-1">
+          {resource.tags.map((tag) => (
+            <div key={tag.name} className="badge badge-outline">
+              {tag.name}
+            </div>
+          ))}
+        </div>
+        <div className="card-actions justify-between mt-4">
+          <div className="rating gap-1" onClick={handleToggleLike}>
+            <input
+              type="radio"
+              name="rating-3"
+              className={`mask mask-heart ${
+                hasLiked ? "bg-red-400" : "bg-red-200"
+              }`}
+              defaultChecked={hasLiked} // Add this line to conditionally set defaultChecked
+            />
+          </div>{" "}
+          <p>{likes}</p>
+          <Link
+            href={`/resources/${resource.id}`}
+            className="btn btn-sm btn-primary"
+          >
+            Read More
+          </Link>
         </div>
       </div>
     </div>

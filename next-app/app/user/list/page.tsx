@@ -1,7 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import NewListModalWrapper from "../../components/NewListModalWrapper";
+import CreateListModal from "./CreateListModal";
 
 const UserSavedResourcesPage = () => {
   return (
@@ -14,7 +16,7 @@ const UserSavedResourcesPage = () => {
             <option>New List</option>
           </select>
           <button className="btn btn-primary">Share the list</button>
-          <button className="btn btn-primary">Create a list</button>
+          <CreateListModal />
         </div>
         <div className="divider"></div>
 

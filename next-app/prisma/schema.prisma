@@ -39,6 +39,7 @@ model Post {
   categories   Category[]
   tags         Tag[]
   savedByUsers User[]
+  likes        Int        @default(0)
 }
 
 model Category {
