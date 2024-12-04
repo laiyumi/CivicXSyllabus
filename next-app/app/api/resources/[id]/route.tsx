@@ -22,9 +22,11 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  console.log("edit resource params: ", params);
+  // console.log("edit resource params: ", params);
 
   const body = await request.json();
+
+  console.log("receiving resource body: ", body);
 
   // validate the request body
   const validation = schema.safeParse(body);
@@ -37,6 +39,7 @@ export async function PUT(
       id: params.id,
     },
   });
+
   if (!resource)
     return NextResponse.json({ error: "resource not found" }, { status: 404 });
 
@@ -56,15 +59,17 @@ export async function PUT(
         },
       },
       categories: {
-        connect: body.categories.map((categoryID: string) => ({
+        set: body.categories.map((categoryID: string) => ({
           id: categoryID,
         })),
       },
       tags: {
-        connect: body.tags.map((tagID: string) => ({ id: tagID })),
+        set: body.tags.map((tagID: string) => ({ id: tagID })),
       },
     },
   });
+
+  console.log("updated resource: ", updatedResource);
 
   // return the updated resource
   return NextResponse.json(updatedResource, { status: 200 });

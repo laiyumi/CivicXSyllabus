@@ -10,7 +10,7 @@ import axios from "axios";
 import { get } from "http";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface Resource extends Post {
@@ -36,13 +36,8 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
   });
   const router = useRouter();
 
-  // the image url from the resource
-  //   const resourceImageUrl = resource.imageUrl;
-
   // handle if user uploads a new image
   const [newImageUrl, setnewImageUrl] = useState("");
-
-  //   console.log("initial newImageUrl: ", resourceImageUrl);
 
   // handle the new image url
   const handleImageUpload = (imageUrl: string) => {
@@ -55,11 +50,10 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   // sort tags and categories
-  const sortedTags = tags.sort((a, b) => a.name.localeCompare(b.name));
-  const sortedCategories = categories.sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+  tags.sort((a, b) => a.name.localeCompare(b.name));
+  categories.sort((a, b) => a.name.localeCompare(b.name));
 
+  // get the resource's tags id
   const resourceTags = resource.tags.map((tag) => tag.id);
   const resourceCategories = resource.categories.map((category) => category.id);
 
@@ -67,36 +61,35 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
   const [selectedCategories, setSelectedCategories] =
     useState<string[]>(resourceCategories);
 
-  const checkedTagsRef = useRef(selectedTags);
-
-  // Update the ref whenever the state changes
-  useEffect(() => {
-    checkedTagsRef.current = selectedTags;
-    console.log("checkedTagsRef: ", checkedTagsRef.current);
-  }, [selectedTags]);
-
   const handleTagChange = (tagId: string) => {
-    setSelectedTags((prevSelectedTags) =>
-      prevSelectedTags.includes(tagId)
+    setSelectedTags((prevSelectedTags) => {
+      const updatedTags = prevSelectedTags.includes(tagId)
         ? prevSelectedTags.filter((id) => id !== tagId)
-        : [...prevSelectedTags, tagId]
-    );
-    setValue("tags", selectedTags);
-    console.log("current selected tags: ", selectedTags);
+        : [...prevSelectedTags, tagId];
+      setValue("tags", updatedTags);
+      console.log("after updating tags: ", updatedTags);
+
+      return updatedTags;
+    });
   };
 
   const handleCategoryChange = (categoryId: string) => {
     setSelectedCategories((prevSelectedCategories) => {
-      const newSelectedCategories = prevSelectedCategories.includes(categoryId)
+      const updatedCategories = prevSelectedCategories.includes(categoryId)
         ? prevSelectedCategories.filter((id) => id !== categoryId)
         : [...prevSelectedCategories, categoryId];
-      return newSelectedCategories;
+
+      setValue("categories", updatedCategories);
+      console.log("after updating categories: ", updatedCategories);
+
+      return updatedCategories;
     });
   };
 
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // get all tags and categories from the db
   useEffect(() => {
     const fetchTags = async () => {
       const response = await axios.get("/api/tags");
@@ -115,9 +108,11 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log("Form submitted");
+
     data.imageUrl = getValues("imageUrl");
-    data.tags = selectedTags;
-    data.categories = selectedCategories;
+    data.tags = getValues("tags");
+    data.categories = getValues("categories");
 
     // for testing purposes
     console.log("sending data", data);
@@ -153,13 +148,18 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
         </div>
       )}
 
-      <form onSubmit={onSubmit}>
+      <form>
         <div className="flex flex-col justify-center pb-12">
           <div className="flex justify-between">
             <h2 className="text-xl font-semibold leading-10 text-gray-900 pb-8">
               Editing Resource
             </h2>
-            <button disabled={isSubmitting} className="btn btn-primary ">
+            <button
+              type="button"
+              onClick={onSubmit}
+              disabled={isSubmitting}
+              className="btn btn-primary "
+            >
               Save Changes
               {isSubmitting && <Spinner />}
             </button>
