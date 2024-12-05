@@ -6,9 +6,11 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const body = await request.json();
+  console.log("receiving PUT request to update likes");
 
-  console.log("receiving body likes: ", body);
+  if (!params?.id) {
+    return NextResponse.json({ error: "ID is required" }, { status: 400 });
+  }
 
   // fetch the resource with the given id
   const resource = await prisma.post.findUnique({

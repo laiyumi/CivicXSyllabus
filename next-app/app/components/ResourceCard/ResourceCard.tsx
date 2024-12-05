@@ -8,9 +8,11 @@ type PostWithRelations = Prisma.PostGetPayload<{
 }>;
 
 const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
-  const resourceLikes = resource.likes;
+  console.log("the resource: ", resource);
 
-  const [likes, setLikes] = useState<number>(resourceLikes ? resourceLikes : 0);
+  const resourceLikes = resource.likes ?? 0;
+
+  const [likes, setLikes] = useState<number>(resourceLikes);
   const [hasLiked, setHasLiked] = useState<boolean>(false);
 
   console.log("the number of likes: ", resource.likes);
@@ -20,11 +22,11 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
       if (hasLiked) {
         // Unlike: Decrement the likes count
         setLikes((prevLikes) => Math.max(prevLikes - 1, 0)); // Prevent negative likes
-        // await axios.put(`/api/resources/${resource.id}/unlike`);
+        await axios.put(`/api/resources/${resource.id}/unlike`);
       } else {
         // Like: Increment the likes count
         setLikes((prevLikes) => prevLikes + 1);
-        // await axios.put(`/api/resources/${resource.id}/like`);
+        await axios.put(`/api/resources/${resource.id}/like`);
       }
       setHasLiked(!hasLiked); // Toggle the liked state
       console.log("has liked: ", hasLiked);

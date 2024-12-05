@@ -120,6 +120,8 @@ const ResourcesGrid = () => {
 
   const postCount = filteredResources.length;
 
+  console.log("Resource passed to ResourceCard: ", resources[0]);
+
   // render
   return (
     <>
