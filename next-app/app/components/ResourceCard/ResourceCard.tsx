@@ -14,6 +14,7 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
 
   const [likes, setLikes] = useState<number>(resourceLikes);
   const [hasLiked, setHasLiked] = useState<boolean>(false);
+  const [isLikeDisabled, setIsLikeDisabled] = useState<boolean>(false);
 
   console.log("the number of likes: ", resource.likes);
 

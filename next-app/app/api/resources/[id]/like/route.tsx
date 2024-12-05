@@ -30,7 +30,9 @@ export async function PUT(
     },
   });
 
+  const response = NextResponse.json(updatedLikes, { status: 200 });
+
   console.log("after updating likes: ", updatedLikes);
 
-  return NextResponse.json(updatedLikes, { status: 200 });
+  return response;
 }
