@@ -2,18 +2,15 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import NewListModalWrapper from "../../components/NewListModalWrapper";
 import CreateListModal from "./CreateListModal";
 
 const UserSavedResourcesPage = () => {
   return (
     <>
       <div className="flex flex-col gap-8 items-center">
-        {/* <h2 className="text-2xl">My List</h2> */}
         <div className="flex justify-center gap-8 w-full items-center ">
           <select className="select select-primary w-full max-w-xs">
             <option selected>Syllabus Materials</option>
-            <option>New List</option>
           </select>
           <button className="btn btn-primary">Share the list</button>
           <CreateListModal />
