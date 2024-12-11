@@ -10,6 +10,8 @@ const LoginButton = () => {
   const [hasRedirected, setHasRedirected] = useState(false);
   const router = useRouter();
 
+  // console.log("session data--------", session);
+
   // useEffect(() => {
   //   if (status === "authenticated" && !hasRedirected) {
   //     router.push("/admin");
@@ -66,7 +68,7 @@ const LoginButton = () => {
         </div>
       )}
       {status === "unauthenticated" && (
-        <Link href="/api/auth/signin" className="btn btn-ghost mr-5">
+        <Link href="/api/auth/signin" className="btn btn-ghost">
           Login
         </Link>
       )}

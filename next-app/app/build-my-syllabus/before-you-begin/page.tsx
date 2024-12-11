@@ -5,28 +5,13 @@ const BeforeYouBeginPage = () => {
     <>
       <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col gap-2 text-center">
-          <h2 className="text-2xl">Before You Begin</h2>
-          <p>
-            Resources on the necessary pre-work we all must do before good
-            partnerships or projects can be formed.
-          </p>
+          <h2 className="text-2xl">Before You Begin: Civic 101</h2>
         </div>
         <div>
           <p className="pb-4">
-            To create a successful civic project and establish effective
-            partnerships, it is crucial to have a strong foundation in civic
-            knowledge, value civil discourse, and have practical experience in
-            civic engagement. Clear goals, thorough stakeholder analysis, deep
-            community understanding, adaptability, strong communication, and
-            collaboration skills, along with adherence to ethical principles,
-            are essential. These elements ensure effective engagement with
-            community partners, fostering mutual respect, collaboration, and the
-            development of impactful projects.
-          </p>
-          <p>
-            In this part, we’ll guide you through the four key focus areas:
-            Civic Research, Civic Data, Civic Design, and Civic Technology. You
-            will learn what each area entails and explore example projects that
+            In this part, we&apos;ll guide you through the four key focus areas:
+            civic research, civic data, civic tech and civic design. You will
+            learn what each area entails and explore example projects that
             illustrate their thinking and action components.
           </p>
         </div>
@@ -63,7 +48,7 @@ const BeforeYouBeginPage = () => {
                 </li>
               </ul>
               <button className="btn btn-xs btn-outline sm:btn-sm md:btn-md lg:btn-md">
-                More Reources
+                More Resources
               </button>
             </div>
           </div>

@@ -10,14 +10,12 @@ export default async function Home() {
   console.log("session: ", session);
 
   return (
-    <main>
+    <div>
       <HeroSection />
       <div>
-        <div>
-          <UseCaseCard />
-        </div>
+        <UseCaseCard />
       </div>
-    </main>
+    </div>
   );
 }
 

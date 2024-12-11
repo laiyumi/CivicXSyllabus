@@ -10,8 +10,9 @@ const HeroSection = () => {
         <h1>Your Roadmap to Civic Innovation</h1>
         <h2 className="text-lg text-center">
           Your go-to platform for building foundational civic innovation
-          knowledge. Our platform curates high-quality resources searchable by
-          resource type and topic.
+          knowledge. <br />
+          Our platform curates high-quality resources searchable by resource
+          type and topic.
         </h2>
         <div className="w-full">
           <SearchBar />

@@ -144,9 +144,8 @@ const AddAResourcePage = () => {
                 resources with us!
               </p>
               <div>
-                Please fill out this form to submit a resource that you believe
-                should be included here. If you have multiple resources to add,
-                feel free to contact us at{" "}
+                To submit a resource, please fill out the form below. If you
+                have multiple resources to add, feel free to contact us at{" "}
                 <a
                   href={`mailto:civicxsyllabus@gmail.com?subject=Sharing Some Useful Resources`}
                   target="_blank"
@@ -237,7 +236,8 @@ const AddAResourcePage = () => {
             </label>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">
-                Tell me more about the resource (optional)
+                Why do you think this resource should be added to Civic X
+                Syllabus? (optional)
               </span>
               <textarea
                 className="textarea textarea-bordered h-36"
@@ -249,7 +249,7 @@ const AddAResourcePage = () => {
 
             <div className="divider divider-neutral">Categories</div>
             <div className="flex flex-col gap-6">
-              <p>What categories do you think this resource belongs to?</p>
+              <p>What categories would you add this resource to?</p>
               <div className="flex gap-3 flex-wrap">
                 {categories?.map((category) => (
                   <label key={category.id} className="label cursor-pointer">
@@ -279,7 +279,7 @@ const AddAResourcePage = () => {
 
             <div className="divider divider-neutral">Tags</div>
             <div className="flex flex-col gap-6">
-              <p>What tags do you think should be attached to this resource?</p>
+              <p>What tags would you attach to this resource?</p>
               <div className="flex gap-3 flex-wrap">
                 {tags?.map((tag) => (
                   <label key={tag.id} className="label cursor-pointer">

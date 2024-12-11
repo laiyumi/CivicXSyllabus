@@ -8,8 +8,8 @@ const NavBar = () => {
     <>
       <div className="navbar bg-base-100 p-5 ">
         <div className="navbar-start">
-          <Link href="/" className=" font-serif text-2xl ">
-            Civic X Syllabus
+          <Link href="/" className="w-24">
+            <img src="/new-logo.png" alt="site logo" />
           </Link>
         </div>
         <div className="navbar-center">
@@ -18,18 +18,18 @@ const NavBar = () => {
           </Link>
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost m-1">
-              Educators
+              How to Use
             </div>
             <ul
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
             >
               <li>
-                <Link href="/build-my-syllabus">Build a Syllabus</Link>
+                <Link href="/build-my-syllabus">Use Cases</Link>
               </li>
               <li>
                 <Link href="/build-my-syllabus/before-you-begin">
-                  Before You Begin
+                  Civic 101
                 </Link>
               </li>
               <li>

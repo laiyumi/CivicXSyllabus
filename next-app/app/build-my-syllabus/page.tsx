@@ -5,11 +5,11 @@ const BuildMySyllabusPage = () => {
     <>
       <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col gap-2 text-center">
-          <h2 className="text-2xl">Build a Syllabus</h2>
-          <p>
+          <h2 className="text-2xl">Use Cases</h2>
+          {/* <p>
             Create a syllabus, that could, at least in theory, be used to teach
             a course or workshop.
-          </p>
+          </p> */}
         </div>
         <div>
           <h3 className="text-xl font-bold  pb-6">
@@ -20,10 +20,8 @@ const BuildMySyllabusPage = () => {
             src="/daria-nepriakhina-zoCDWPuiRuA-unsplash.jpg"
           ></img>
           <p className="pb-4">
-            This part aims to facilitate learning and absorbing the nature of
-            work involved in civic projects. Our curated resources span four key
-            focus areas: civic research, civic data, civic design, and civic
-            technology.
+            Our curated resources span four key focus areas: civic research,
+            civic data, civic tech, and civic design.
           </p>
           <ul
             role="list"
@@ -47,7 +45,14 @@ const BuildMySyllabusPage = () => {
             </li>
           </ul>
           <p>You could also explore resources by categories: </p>
-          <div>TODO</div>
+          <div>
+            <span className="text-red-600">TODO: Add word cloud here</span>
+            {/* <img
+              src="/word-cloud.png"
+              className="w-2/5"
+              alt="word cloud of categories"
+            ></img> */}
+          </div>
         </div>
         <div className="divider"></div>
         <div>
@@ -132,7 +137,7 @@ const BuildMySyllabusPage = () => {
           </div>
           <div className="card bg-slate-200 w-1/3 hover:bg-slate-300 cursor-pointer">
             <div className="card-body">
-              <p>Build Parnetships</p>
+              <p>Build Partnerships</p>
               <div className="card-actions justify-end"></div>
             </div>
           </div>

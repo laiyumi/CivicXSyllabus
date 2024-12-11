@@ -7,14 +7,14 @@ const AboutPage = () => {
         <h2 className="text-2xl">What is Civic X Syllabus?</h2>
         <p>
           ‘Civic X’ is an umbrella term that we have adopted to describe the
-          body of debated and debatable knowledge produced as part of the civic
-          research, civic data, civic technology, and civic design spaces.
-          ‘Civic’ is the core principle that unites all of the resources
-          collected in this space: folx who produce and/or use these resources
-          are likely focused on producing something toward a civic or public
-          good. The ‘X’ denotes any or all of the different words that follow
-          ‘Civic.’ And a ‘syllabus’ is a tool used to organize resources for the
-          purposes of learning.
+          body of debated and debatable knowledge produced as part of civic
+          research, civic data, civic tech, and civic design. ‘Civic’ is the
+          core principle that unites all of the resources collected in this
+          space: folx who produce and/or use these resources are likely focused
+          on producing something toward a civic or public good. The ‘X’ denotes
+          any or all of the different words that follow ‘Civic.’ And a
+          ‘syllabus’ is a tool used to organize resources for the purposes of
+          learning.
         </p>
         <h2 className="text-2xl">Our Mission</h2>
         <p>

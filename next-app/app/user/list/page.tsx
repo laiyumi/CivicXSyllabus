@@ -1,16 +1,70 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import CreateListModal from "./CreateListModal";
+import { useSession } from "next-auth/react";
+import axios from "axios";
+import { Prisma } from "@prisma/client";
+
+type User = Prisma.UserGetPayload<{
+  include: {
+    list: true;
+    accounts: true;
+    sessions: true;
+    Authenticator: true;
+  };
+}>;
 
 const UserSavedResourcesPage = () => {
+  // get the user email from the session
+  const { data: session } = useSession();
+
+  // Store the user data
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  console.log("email from the session: ", session?.user?.email);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!session?.user?.email) return; // Wait until the session is loaded
+
+      try {
+        // Fetch user data by email
+        const response = await axios.get(
+          `/api/users/${encodeURIComponent(session.user.email)}`
+        );
+        setUser(response.data);
+        console.log("Fetched user data:", response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  });
+
+  // While loading
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  // When the user is not found
+  if (!user) {
+    return <p>User not found. Please log in with a valid account.</p>;
+  }
+
   return (
     <>
       <div className="flex flex-col gap-8 items-center">
+        {/* <h2 className="text-2xl">My List</h2> */}
         <div className="flex justify-center gap-8 w-full items-center ">
           <select className="select select-primary w-full max-w-xs">
             <option selected>Syllabus Materials</option>
+            <option>New List</option>
           </select>
           <button className="btn btn-primary">Share the list</button>
           <CreateListModal />

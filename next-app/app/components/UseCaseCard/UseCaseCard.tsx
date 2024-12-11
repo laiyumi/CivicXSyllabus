@@ -11,11 +11,12 @@ const UseCaseCard = () => {
         </figure>
         <div className="card-body">
           <p>If you want to </p>
-          <h2 className="card-title">Build a Civic Project</h2>
-          <h2 className="card-title">Create a Syllabus to teach</h2>
+          <h2 className="card-title">
+            Build a Civic Project | Create a Syllabus for Your Class
+          </h2>
           <p>
-            Navigate our modules to learn, collaborate, and transform your
-            vision into tangible civic projects.
+            Navigate our resources to find articles, media, and networks that
+            help you learn and explore about different civic innovation topics.
           </p>
           <div className="card-actions justify-end">
             <button className="btn btn-primary">Get started</button>
@@ -28,12 +29,12 @@ const UseCaseCard = () => {
         </figure>
         <div className="card-body">
           <p>If you want to </p>
-          <h2 className="card-title">Learn and Find Inspirations</h2>
-          <h2 className="card-title">Engage in Public Good Projects</h2>
+          <h2 className="card-title">
+            Get Inspired | Explore Civic Innovation Topics
+          </h2>
           <p>
-            Discover a wealth of high-quality resources spanning civic research,
-            civic data, civic tech and civic design. Civic X Syllabus empowers
-            you to learn and develop game-changing civic projects.
+            Browse high-quality resources spanning civic innovation topics, such
+            as civic research, civic data, civic tech, and civic design.
           </p>
           <div className="card-actions justify-end">
             <button className="btn btn-primary">Explore</button>
