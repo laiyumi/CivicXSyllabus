@@ -36,9 +36,11 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         key={resource?.id}
         className="card lg:card-side bg-base-100 shadow-xl"
       >
-        <figure className="w-[800px] h-[400px]">
-          <img className="object-cover" src={resource?.imageUrl} alt="TODO" />
-        </figure>
+        <img
+          className="object-cover rounded-2xl w-[800px] h-[400px] border-solid border-1 border-b-gray-100"
+          src={resource?.imageUrl}
+          alt="TODO"
+        />
         <div className="card-body flex-auto justify-around">
           <div className="flex gap-3 flex-wrap">
             {resource?.categories.map((category) => (
@@ -75,14 +77,14 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
           </div>
         </div>
       </div>
-      <div className="flex w-full flex-col">
-        <div className="card rounded-box grid h-20 place-items-center">
-          <h3 className="text-xl">Overview</h3>
-        </div>
+      <div className="flex w-full flex-col pt-4">
+        <h3 className="text-xl pt-4 text-center">Overview</h3>
         <div className="divider"></div>
-        <div className="card rounded-box grid gap-4 h-20 place-items-center">
+        <div>
           {resource?.content.split("\n").map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
+            <p key={index} className="p-4">
+              {paragraph}
+            </p>
           ))}
         </div>
         <div className="divider"></div>

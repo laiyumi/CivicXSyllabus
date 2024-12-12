@@ -37,7 +37,7 @@ const ToggleLikes = ({ resourceId }: { resourceId: string }) => {
   };
 
   return (
-    <>
+    <div className="flex flex-start">
       <div className="rating gap-1" onClick={handleToggleLike}>
         <input
           type="radio"
@@ -49,7 +49,7 @@ const ToggleLikes = ({ resourceId }: { resourceId: string }) => {
         />
       </div>{" "}
       <span className="inline-block w-12 text-center">{likes}</span>
-    </>
+    </div>
   );
 };
 

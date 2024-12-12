@@ -38,7 +38,13 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
   // };
 
   return (
-    <div key={resource.id} className="card bg-base-100 shadow-xl col-span-1">
+    <div
+      key={resource.id}
+      className="
+        card bg-base-100 shadow-xl col-span-1 
+        hover:-translate-y-2 transition ease-in-out delay-100 duration-300 
+        motion-reduce:transition-none motion-reduce:hover:transform-none"
+    >
       <figure className="w-full h-[300px]">
         <img
           className="object-cover"
@@ -65,17 +71,6 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
         </div>
         <div className="card-actions justify-between mt-4">
           <ToggleLikes resourceId={resource.id} />
-          {/* <div className="rating gap-1" onClick={handleToggleLike}>
-            <input
-              type="radio"
-              name="rating-3"
-              className={`mask mask-heart ${
-                hasLiked ? "bg-red-400" : "bg-red-200"
-              }`}
-              defaultChecked={hasLiked} // Add this line to conditionally set defaultChecked
-            />
-          </div>{" "}
-          <p>{likes}</p> */}
           <Link
             href={`/resources/${resource.id}`}
             className="btn btn-sm btn-primary"
