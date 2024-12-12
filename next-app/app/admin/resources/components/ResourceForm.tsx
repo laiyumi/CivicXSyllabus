@@ -48,20 +48,20 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
     console.log("Uploaded Image url: ", imageUrl);
   };
 
-  const handleTagChange = (tagId: string) => {
+  const handleTagChange = (tagName: string) => {
     setSelectedTags((prevSelectedTags) =>
-      prevSelectedTags.includes(tagId)
-        ? prevSelectedTags.filter((id) => id !== tagId)
-        : [...prevSelectedTags, tagId]
+      prevSelectedTags.includes(tagName)
+        ? prevSelectedTags.filter((name) => name !== tagName)
+        : [...prevSelectedTags, tagName]
     );
     setValue("tags", selectedTags);
   };
 
-  const handleCategoryChange = (categoryId: string) => {
+  const handleCategoryChange = (categoryName: string) => {
     setSelectedCategories((prevSelectedCategories) =>
-      prevSelectedCategories.includes(categoryId)
-        ? prevSelectedCategories.filter((id) => id !== categoryId)
-        : [...prevSelectedCategories, categoryId]
+      prevSelectedCategories.includes(categoryName)
+        ? prevSelectedCategories.filter((name) => name !== categoryName)
+        : [...prevSelectedCategories, categoryName]
     );
     setValue("categories", selectedCategories);
   };
@@ -224,8 +224,8 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                           <input
                             type="checkbox"
                             className="checkbox"
-                            checked={selectedCategories.includes(category.id)}
-                            onChange={() => handleCategoryChange(category.id)}
+                            checked={selectedCategories.includes(category.name)}
+                            onChange={() => handleCategoryChange(category.name)}
                           />
                           <span className="label-text pl-3">
                             {category.name}
@@ -243,8 +243,8 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                         <input
                           type="checkbox"
                           className="checkbox"
-                          checked={selectedTags.includes(tag.id)}
-                          onChange={() => handleTagChange(tag.id)}
+                          checked={selectedTags.includes(tag.name)}
+                          onChange={() => handleTagChange(tag.name)}
                         />
                         <span className="label-text pl-3">{tag.name}</span>
                       </label>

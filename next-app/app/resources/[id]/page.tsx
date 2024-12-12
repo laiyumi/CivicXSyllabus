@@ -1,22 +1,13 @@
+import axios from "axios";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { useState, useEffect } from "react";
 import prisma from "../../../prisma/client";
-import { Metadata } from "next";
+import { Prisma } from "@prisma/client";
+import ToggleLikes from "@/app/components/ToggleLikes";
 
 interface Props {
   params: { id: string };
-  // title: string;
-  // excerpt: string;
-  // content: string;
-  // link: string;
-  // imageUrl: string;
-  // published: boolean;
-  // saves: number;
-  // likes: number;
-  // sourceId: string;
-  // categoryIDs: string[];
-  // tagIDs: string[];
-  // userIDs: string[];
 }
 
 const ResourceDetailPage = async ({ params: { id } }: Props) => {
@@ -32,6 +23,11 @@ const ResourceDetailPage = async ({ params: { id } }: Props) => {
   const resource = await prisma.post.findUnique({
     where: { id },
     include: {
+      source: {
+        select: {
+          name: true,
+        },
+      },
       categories: {
         select: {
           name: true,
@@ -55,7 +51,7 @@ const ResourceDetailPage = async ({ params: { id } }: Props) => {
           <img className="object-cover" src={resource?.imageUrl} alt="TODO" />
         </figure>
         <div className="card-body flex-auto justify-around">
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             {resource?.categories.map((category) => (
               <div key={category.name} className="badge badge-secondary">
                 {category.name}
@@ -63,14 +59,19 @@ const ResourceDetailPage = async ({ params: { id } }: Props) => {
             ))}
           </div>
           <h2 className="card-title text-3xl">{resource?.title}</h2>
-          <div className="card-actions justify-start">
+          <div className="card-actions justify-start flex-wrap">
             {resource?.tags.map((tag) => (
               <div key={tag.name} className="badge badge-outline">
                 {tag.name}
               </div>
             ))}
           </div>
-          <div className="card-actions justify-end">
+          <div>
+            <p>Source | {resource?.source.name}</p>
+          </div>
+          <div className="card-actions justify-between">
+            {/* <ToggleLikes resourceId={resource!.id} /> */}
+
             <Link
               href={resource?.link ?? "/resources"}
               className="btn btn-primary"
@@ -88,7 +89,9 @@ const ResourceDetailPage = async ({ params: { id } }: Props) => {
         </div>
         <div className="divider"></div>
         <div className="card rounded-box grid gap-4 h-20 place-items-center">
-          <p>{resource?.content}</p>
+          {resource?.content.split("\n").map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
         </div>
         <div className="divider"></div>
         <div className="card rounded-box grid h-20 place-items-center">

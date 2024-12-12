@@ -64,12 +64,16 @@ export async function POST(request: NextRequest) {
         },
       },
       categories: {
-        connect: body.categories.map((categoryID: string) => ({
-          id: categoryID,
+        connectOrCreate: body.categories.map((categoryName: string) => ({
+          where: { name: categoryName },
+          create: { name: categoryName },
         })),
       },
       tags: {
-        connect: body.tags.map((tagID: string) => ({ id: tagID })),
+        connectOrCreate: body.tags.map((tagName: string) => ({
+          where: { name: tagName },
+          create: { name: tagName },
+        })),
       },
     },
   });

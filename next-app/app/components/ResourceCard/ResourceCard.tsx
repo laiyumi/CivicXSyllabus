@@ -2,6 +2,7 @@ import { Category, Prisma, Tag } from "@prisma/client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
+import ToggleLikes from "../ToggleLikes";
 
 type PostWithRelations = Prisma.PostGetPayload<{
   include: { categories: true; tags: true; source: true };
@@ -10,31 +11,31 @@ type PostWithRelations = Prisma.PostGetPayload<{
 const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
   console.log("the resource: ", resource);
 
-  const resourceLikes = resource.likes ?? 0;
+  // const resourceLikes = resource.likes ?? 0;
 
-  const [likes, setLikes] = useState<number>(resourceLikes);
-  const [hasLiked, setHasLiked] = useState<boolean>(false);
-  const [isLikeDisabled, setIsLikeDisabled] = useState<boolean>(false);
+  // const [likes, setLikes] = useState<number>(resourceLikes);
+  // const [hasLiked, setHasLiked] = useState<boolean>(false);
+  // const [isLikeDisabled, setIsLikeDisabled] = useState<boolean>(false);
 
-  console.log("the number of likes: ", resource.likes);
+  // console.log("the number of likes: ", resource.likes);
 
-  const handleToggleLike = async () => {
-    try {
-      if (hasLiked) {
-        // Unlike: Decrement the likes count
-        setLikes((prevLikes) => Math.max(prevLikes - 1, 0)); // Prevent negative likes
-        await axios.put(`/api/resources/${resource.id}/unlike`);
-      } else {
-        // Like: Increment the likes count
-        setLikes((prevLikes) => prevLikes + 1);
-        await axios.put(`/api/resources/${resource.id}/like`);
-      }
-      setHasLiked(!hasLiked); // Toggle the liked state
-      console.log("has liked: ", hasLiked);
-    } catch (error) {
-      console.error("Error toggling like:", error);
-    }
-  };
+  // const handleToggleLike = async () => {
+  //   try {
+  //     if (hasLiked) {
+  //       // Unlike: Decrement the likes count
+  //       setLikes((prevLikes) => Math.max(prevLikes - 1, 0)); // Prevent negative likes
+  //       await axios.put(`/api/resources/${resource.id}/unlike`);
+  //     } else {
+  //       // Like: Increment the likes count
+  //       setLikes((prevLikes) => prevLikes + 1);
+  //       await axios.put(`/api/resources/${resource.id}/like`);
+  //     }
+  //     setHasLiked(!hasLiked); // Toggle the liked state
+  //     console.log("has liked: ", hasLiked);
+  //   } catch (error) {
+  //     console.error("Error toggling like:", error);
+  //   }
+  // };
 
   return (
     <div key={resource.id} className="card bg-base-100 shadow-xl col-span-1">
@@ -63,7 +64,8 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
           ))}
         </div>
         <div className="card-actions justify-between mt-4">
-          <div className="rating gap-1" onClick={handleToggleLike}>
+          <ToggleLikes resourceId={resource.id} />
+          {/* <div className="rating gap-1" onClick={handleToggleLike}>
             <input
               type="radio"
               name="rating-3"
@@ -73,7 +75,7 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
               defaultChecked={hasLiked} // Add this line to conditionally set defaultChecked
             />
           </div>{" "}
-          <p>{likes}</p>
+          <p>{likes}</p> */}
           <Link
             href={`/resources/${resource.id}`}
             className="btn btn-sm btn-primary"
