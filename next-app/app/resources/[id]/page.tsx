@@ -1,45 +1,34 @@
+"use client";
+
+import { Prisma } from "@prisma/client";
 import axios from "axios";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import prisma from "../../../prisma/client";
-import { Prisma } from "@prisma/client";
-import ToggleLikes from "@/app/components/ToggleLikes";
+import ToggleLikes from "../../components/ToggleLikes";
+import ToggleSave from "../../components/ToggleSave";
 
 interface Props {
   params: { id: string };
 }
 
-const ResourceDetailPage = async ({ params: { id } }: Props) => {
-  // check if id exists
-  const response = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/resources/${id}`,
-    {
-      next: { revalidate: 10 },
-    }
-  );
-  if (!response) return notFound();
+type PostWithRelations = Prisma.PostGetPayload<{
+  include: { categories: true; tags: true; source: true };
+}>;
 
-  const resource = await prisma.post.findUnique({
-    where: { id },
-    include: {
-      source: {
-        select: {
-          name: true,
-        },
-      },
-      categories: {
-        select: {
-          name: true,
-        },
-      },
-      tags: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
+const ResourceDetailPage = ({ params: { id } }: Props) => {
+  const [resource, setResource] = useState<PostWithRelations>();
+
+  useEffect(() => {
+    const fetchResource = async () => {
+      const response = await axios.get(`/api/resources/${id}`);
+      setResource(response.data);
+    };
+
+    fetchResource();
+  }, [id]);
+
+  console.log("the resource: ", resource);
 
   return (
     <>
@@ -70,8 +59,11 @@ const ResourceDetailPage = async ({ params: { id } }: Props) => {
             <p>Source | {resource?.source.name}</p>
           </div>
           <div className="card-actions justify-between">
-            {/* <ToggleLikes resourceId={resource!.id} /> */}
-
+            <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
+              <ToggleLikes resourceId={id} />
+              <div className="text-gray-500">|</div>
+              <ToggleSave resourceId={id} />
+            </div>
             <Link
               href={resource?.link ?? "/resources"}
               className="btn btn-primary"

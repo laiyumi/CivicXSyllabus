@@ -48,7 +48,7 @@ const ToggleLikes = ({ resourceId }: { resourceId: string }) => {
           defaultChecked={hasLiked} // Add this line to conditionally set defaultChecked
         />
       </div>{" "}
-      <p>{likes}</p>
+      <span className="inline-block w-12 text-center">{likes}</span>
     </>
   );
 };
