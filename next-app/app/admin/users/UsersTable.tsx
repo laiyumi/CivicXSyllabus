@@ -19,12 +19,7 @@ const UsersTable = async () => {
 
   const users = await prisma.user.findMany({
     include: {
-      savedPosts: {
-        select: {
-          id: true,
-          title: true,
-        },
-      },
+      list: true,
     },
   });
 
@@ -38,6 +33,7 @@ const UsersTable = async () => {
             <th>Email</th>
             <th>Last Login</th>
             <th>Role</th>
+            <th>Lists</th>
             <th>Saved Posts</th>
             <th></th>
           </tr>
@@ -50,10 +46,11 @@ const UsersTable = async () => {
               <td>{user.email}</td>
               <td>{user.updatedAt.toLocaleString()}</td>
               <td>{user.role}</td>
-              {user.savedPosts.map((post) => (
-                <td key={post.id}>{post.title}</td>
+              {user.list.map((singleList) => (
+                <td key={singleList.id}>{singleList.name}</td>
               ))}
               <td>
+                <th>TODO</th>
                 <Link
                   href={`/admin/users/${user.id}`}
                   className="btn btn-outline btn-s"

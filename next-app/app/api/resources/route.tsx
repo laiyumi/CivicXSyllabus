@@ -4,13 +4,6 @@ import prisma from "../../../prisma/client";
 
 // get all posts
 export async function GET(request: NextRequest) {
-  // const { searchParams } = new URL(request.url); // extracts the search params from the URL
-
-  // const category = searchParams.get("category"); // retrieves the value associated with the key "category"
-  // const tag = searchParams.get("tag");
-  // const searchText = searchParams.get("searchText");
-
-  // build the filter for the query
   try {
     const posts = await prisma.post.findMany({
       include: {

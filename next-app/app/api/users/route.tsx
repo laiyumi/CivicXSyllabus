@@ -2,7 +2,7 @@
 // route file is used to handel HTTP requests, while page file is used to render HTML pages
 
 import { NextRequest, NextResponse } from "next/server";
-import schema from "./schema";
+import { userSchema } from "./schema";
 import prisma from "../../../prisma/client";
 
 // get all users
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
 
   // validate the body
-  const validation = schema.safeParse(body);
+  const validation = userSchema.safeParse(body);
   if (!validation.success) {
     return NextResponse.json(validation.error.errors, { status: 400 });
   }

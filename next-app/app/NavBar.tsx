@@ -42,9 +42,9 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
-          <Link href="/policy-teams" className="btn btn-ghost">
+          {/* <Link href="/policy-teams" className="btn btn-ghost">
             Policy Teams
-          </Link>
+          </Link> */}
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost m-1">
               About
