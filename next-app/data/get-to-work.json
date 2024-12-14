@@ -1,0 +1,197 @@
+{
+  "projectWellbeing": [
+    {
+      "title": "`Build With`",
+      "subtitle": "Prompts",
+      "description": ["What does ‘Build With, Not For’ mean?"],
+      "selectedResources": [
+        {
+          "name": "‘Building Technology With, Not For Communities: An Engagement Guide for Civic Tech’",
+          "summary": "by Laurenellen McCann emphasizes the importance of developing civic technology that is genuinely community-driven."
+        },
+        {
+          "name": "The Responsible Tech Guide (2024)",
+          "summary": "is designed to provide an overview of the people, organizations, and ideas of the growing Responsible Tech Movement."
+        }
+      ]
+    },
+    {
+      "title": "`Burnout`",
+      "subtitle": "Prompts",
+      "description": ["What is burnout?", "why should it matter?"],
+      "selectedResources": [
+        {
+          "name": "On the Role of Passion for Work in Burnout: A Process Model",
+          "summary": "is a study by Vallerand et al. explores how different types of passion for work (obsessive vs. harmonious) influence burnout."
+        }
+      ]
+    }
+  ],
+  "projectDesign": [
+    {
+      "title": "Success, Failure, + Indicators of Either",
+      "subtitle": "Prompts",
+      "description": [
+        "What does ‘success’ mean?",
+        "What does it look like for our project?"
+      ],
+      "selectedResources": [
+        {
+          "name": "The Continuum of Community Engagement in Research: A Roadmap for Understanding and Assessing Progress",
+          "summary": "explores a framework for engaging communities in research. It aims to help researchers identify where they are on the community engagement continuum and take appropriate actions to progress along it."
+        }
+      ]
+    },
+    {
+      "title": "Engagement",
+      "subtitle": "Prompts",
+      "description": [
+        "What does it mean to ‘engage’ people in our project?",
+        "What can that look like?"
+      ],
+      "selectedResources": [
+        {
+          "name": "Research is a team sport: 12 ideas on how to involve stakeholders in a UX Research project",
+          "summary": "follows the stages of a research project, covering how and when UX researchers can involve stakeholders in a meaningful way that values their time and effort."
+        }
+      ]
+    }
+  ],
+  "projectExecution": [
+    {
+      "title": "Asking Questions",
+      "subtitle": "Prompts",
+      "description": ["What questions elicit good projects?"],
+      "selectedResources": [
+        {
+          "name": "Are You Asking The Right Question?",
+          "summary": "by David Sturt on Forbes discusses the profound impact of asking the right questions on innovation and value creation. The article highlights how this kind of questioning can disrupt complacency and redirect focus towards significant breakthroughs."
+        }
+      ]
+    },
+    {
+      "title": "Access + (Dis)Ability",
+      "subtitle": "Prompts",
+      "description": [
+        "How can we ensure that our Civic X project is accessible to all audiences?"
+      ],
+      "selectedResources": [
+        {
+          "name": "Disability Inclusion Toolkit",
+          "summary": "includes introductory disability definitions and language guidelines, in addition to guidance on creating accessible in-person and virtual events, social media, and disability inclusive employment practices from recruitment to retention."
+        }
+      ]
+    },
+    {
+      "title": "Communication + Dissemination",
+      "subtitle": "Prompts",
+      "description": [
+        "How can we share updates on our Civic X project with different audiences?"
+      ],
+      "selectedResources": [
+        {
+          "name": "Mike Morrison (#betterposter author) YouTube",
+          "summary": "develops a new poster format to make academic research posters more accessible to a lay audience and to maximize the information translated to conference attendees."
+        }
+      ]
+    },
+    {
+      "title": "Big Data",
+      "subtitle": "Prompts",
+      "description": [
+        "What is big data?",
+        "What should we know about quantitative methods, secondary datasets, and administrative data?"
+      ],
+      "selectedResources": [
+        {
+          "name": "Lessons on How to Lie with Statistics",
+          "summary": "highlights how statistics can be manipulated to mislead people, emphasizing the importance of critical thinking when interpreting data."
+        },
+        {
+          "name": "Handbook on Using Administrative Data for Research and Evidence-based Policy",
+          "summary": "serves as a go-to reference for researchers seeking to use administrative data and for data providers looking to make their data accessible for research."
+        },
+        {
+          "name": "The Abdul Latif Jameel Poverty Action Lab Dataverse",
+          "summary": "contains data from randomized experiments in the social sciences. Data, statistical code underlying published research results, surveys, and documentation are included."
+        }
+      ]
+    },
+    {
+      "title": "Thick Data",
+      "subtitle": "Prompts",
+      "description": [
+        "What is ‘thick data’?",
+        "What should we know about qualitative methods?"
+      ],
+      "selectedResources": [
+        {
+          "name": "Expanding the Qualitative Repertoire: Methodological Innovation",
+          "summary": "is a cyber seminar that provides an introduction to newer and more innovative qualitative approaches that may be less well known to health researchers but which allow additional insights into individual- and system-level factors that influence stakeholder perspectives and behaviors. The advantages and disadvantages of each approach will be discussed so that researchers can determine the appropriate methodological choice for their needs."
+        }
+      ]
+    },
+    {
+      "title": "Privacy, Consent, Security, Surveillance, Sovereignty, + Equity",
+      "subtitle": "Prompts",
+      "description": [
+        "How can we ensure that those we are collecting data from (1) know that their data is being collected and (2) actively consent to having their data collected, inclusive of during and after data collection?",
+        "What should we consider when we have access to or store other people’s data?"
+      ],
+      "selectedResources": [
+        {
+          "name": "From Protecting Ourselves to Taking Care of Each Other",
+          "summary": "is a curriculum for building and using technology consentfully."
+        }
+      ]
+    },
+    {
+      "title": "Equity in Analytics",
+      "subtitle": "Prompts",
+      "description": [
+        "How can we bring an equity lens into data collection and analysis?"
+      ],
+      "selectedResources": [
+        {
+          "name": "Gender Shades Project",
+          "summary": "evaluates the accuracy of AI powered gender classification products."
+        },
+        {
+          "name": "Tech Equity Resources and Training",
+          "summary": "is a set of training modules created by the City of Austin’s Innovation Office as part of the Policing Tech Equity project. The modules aim to address the intersection of technology and equity, covering three main areas: Equity and Technology, Equity and Data, and Equity and the Technology Ecosystem."
+        }
+      ]
+    },
+    {
+      "title": "Design, Digital Services, + Digital Equity",
+      "subtitle": "Prompts",
+      "description": [
+        "How do we use technology to reach people?",
+        "How do we use technology to create pathways for people to reach us? To interact?"
+      ],
+      "selectedResources": [
+        {
+          "name": "Digital Government Blueprint",
+          "summary": "introduces GovTech, Singapore’s government technology agency, aims to create a “Digital to the Core, and Serves with Heart” government."
+        },
+        {
+          "name": "What I learned in two years of moving government forms online",
+          "summary": "by J. Gee details the author’s experience transitioning the City of Boston’s paper and PDF forms to online formats. "
+        }
+      ]
+    },
+    {
+      "title": "Scale",
+      "subtitle": "Prompts",
+      "description": [
+        "IF we’re ‘successful,’ we want to scale…right? How should we approach ‘scale‘?"
+      ],
+      "selectedResources": [
+        {
+          "name": "On Nonscalability: The Living World Is Not Amenable to Precision-Nested Scales",
+          "summary": "shows that ignoring non-scalable effects is a bad idea."
+        }
+      ]
+    }
+  ]
+}

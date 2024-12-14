@@ -3,7 +3,9 @@
     {
       "title": "Civic X Partnerships",
       "subtitle": "What’s the point of partnerships?",
-      "description": "This section offers an in-depth guide on creating, cultivating, and sustaining partnerships to enhance collaboration, resource-sharing, and community engagement. These modules demonstrate that you are not alone—many like-minded individuals and resources are available to assist you in launching your syllabus. ",
+      "description": [
+        "This section offers an in-depth guide on creating, cultivating, and sustaining partnerships to enhance collaboration, resource-sharing, and community engagement. These modules demonstrate that you are not alone—many like-minded individuals and resources are available to assist you in launching your syllabus. "
+      ],
       "selectedResources": [
         {
           "name": "Returning to Our Roots: The Engaged Institution (February 1999)",
@@ -14,7 +16,9 @@
     {
       "title": "Forging New Civic X Partnerships",
       "subtitle": "How do you start a Ciciv X project anyway?",
-      "description": "Explore principles, case studies, examples, and networks that can help you build new Civic X partnerships.",
+      "description": [
+        "Explore principles, case studies, examples, and networks that can help you build new Civic X partnerships."
+      ],
       "selectedResources": [
         {
           "name": "18F Partnership Principles",
@@ -29,7 +33,9 @@
     {
       "title": "Who’s at the Table: Power, Expertise, Equity.",
       "subtitle": "Who is our table for? How can we show them that they are welcome?",
-      "description": "Consider a diverse group of stakeholders, including community members, experts, policymakers, and marginalized groups whose voices are often underrepresented.",
+      "description": [
+        "Consider a diverse group of stakeholders, including community members, experts, policymakers, and marginalized groups whose voices are often underrepresented."
+      ],
       "selectedResources": [
         {
           "name": "Community Voice Is Expertise",
@@ -40,7 +46,9 @@
     {
       "title": "Trust",
       "subtitle": "What does ‘building trust’ look like? How can we build trust with institutions? How can we build trust across institutions?",
-      "description": "Building trust involves consistent actions that demonstrate reliability, integrity, and transparency. It includes open communication, delivering on promises, and showing respect and understanding for partners’ perspectives and needs.",
+      "description": [
+        "Building trust involves consistent actions that demonstrate reliability, integrity, and transparency. It includes open communication, delivering on promises, and showing respect and understanding for partners’ perspectives and needs."
+      ],
       "selectedResources": [
         {
           "name": "Slow Ideas",

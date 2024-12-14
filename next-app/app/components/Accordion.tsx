@@ -8,7 +8,7 @@ interface AccordionProps {
   data: {
     title: string;
     subtitle: string;
-    description: string;
+    description: string[];
     selectedResources: Resource[];
   };
 }
@@ -49,18 +49,24 @@ const Accordion = ({ data }: AccordionProps) => {
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out rounded-2xl"
         style={{ maxHeight }}
       >
-        <div className="p-4  bg-gray-100">
-          <h3 className="text-base font-bold pb-2">{data.subtitle}</h3>
-          <p className="pb-4">{data.description}</p>
-          <h3 className="text-base font-bold pb-2">Selected Resources</h3>
-          <ul
-            role="list"
-            className="list-disc pl-6 space-y-3 pb-4 marker:text-gray-400"
-          >
-            {data.selectedResources.map((resource: Resource) => (
-              <SelectedResource key={resource.name} resource={resource} />
+        <div className="p-4 bg-gray-100 flex flex-col gap-4 justify-center items-center">
+          <div>
+            <h3 className="text-base font-bold pb-2">{data.subtitle}</h3>
+            {data.description.map((paragraph, index) => (
+              <p key={index} className="pb-2">
+                {paragraph}
+              </p>
             ))}
-          </ul>
+            <h3 className="text-base font-bold pb-2">Selected Resources</h3>
+            <ul
+              role="list"
+              className="list-disc pl-6 space-y-3 pb-4 marker:text-gray-400"
+            >
+              {data.selectedResources.map((resource: Resource) => (
+                <SelectedResource key={resource.name} resource={resource} />
+              ))}
+            </ul>
+          </div>
           <Link
             href="/resources"
             className="btn btn-primary btn-sm btn-outline"
