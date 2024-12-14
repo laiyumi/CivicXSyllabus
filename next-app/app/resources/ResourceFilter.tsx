@@ -98,7 +98,7 @@ const ResourceFilter = () => {
 
   return (
     <div className="flex flex-col gap-4 justify-around my-8">
-      <div className="flex gap-4">
+      <div className="flex lg:flex-row sm:flex-col gap-4">
         <div className="w-full">
           <label className="input input-bordered flex items-center gap-2">
             <input

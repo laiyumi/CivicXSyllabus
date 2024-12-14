@@ -36,11 +36,9 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         key={resource?.id}
         className="card lg:card-side bg-base-100 shadow-xl"
       >
-        <img
-          className="object-cover rounded-2xl w-[800px] h-[400px] border-solid border-1 border-b-gray-100"
-          src={resource?.imageUrl}
-          alt="TODO"
-        />
+        <figure className="lg:w-1/2 md:w-full">
+          <img src={resource?.imageUrl} alt="TODO" />
+        </figure>
         <div className="card-body flex-auto justify-around">
           <div className="flex gap-3 flex-wrap">
             {resource?.categories.map((category) => (

@@ -4,8 +4,8 @@ import AddToCart from "../AddToCart";
 
 const UseCaseCard = () => {
   return (
-    <div className="flex gap-4 justify-evenly m-4">
-      <div className="grow card image-full w-96 shadow-xl">
+    <div className="flex lg:flex-row sm:flex-col  gap-4 justify-evenly m-4">
+      <div className="grow card image-full w-96 sm:w-full shadow-xl">
         <figure>
           <img src="https://placehold.co/800x400" alt="placeholder" />
         </figure>
@@ -23,7 +23,7 @@ const UseCaseCard = () => {
           </div>
         </div>
       </div>
-      <div className="grow card image-full w-96 shadow-xl">
+      <div className="grow card image-full w-96 sm:w-full shadow-xl">
         <figure>
           <img src="https://placehold.co/800x400" alt="placeholder" />
         </figure>

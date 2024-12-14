@@ -9,34 +9,6 @@ type PostWithRelations = Prisma.PostGetPayload<{
 }>;
 
 const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
-  console.log("the resource: ", resource);
-
-  // const resourceLikes = resource.likes ?? 0;
-
-  // const [likes, setLikes] = useState<number>(resourceLikes);
-  // const [hasLiked, setHasLiked] = useState<boolean>(false);
-  // const [isLikeDisabled, setIsLikeDisabled] = useState<boolean>(false);
-
-  // console.log("the number of likes: ", resource.likes);
-
-  // const handleToggleLike = async () => {
-  //   try {
-  //     if (hasLiked) {
-  //       // Unlike: Decrement the likes count
-  //       setLikes((prevLikes) => Math.max(prevLikes - 1, 0)); // Prevent negative likes
-  //       await axios.put(`/api/resources/${resource.id}/unlike`);
-  //     } else {
-  //       // Like: Increment the likes count
-  //       setLikes((prevLikes) => prevLikes + 1);
-  //       await axios.put(`/api/resources/${resource.id}/like`);
-  //     }
-  //     setHasLiked(!hasLiked); // Toggle the liked state
-  //     console.log("has liked: ", hasLiked);
-  //   } catch (error) {
-  //     console.error("Error toggling like:", error);
-  //   }
-  // };
-
   return (
     <div
       key={resource.id}
@@ -45,9 +17,9 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
         hover:-translate-y-2 transition ease-in-out delay-100 duration-300 
         motion-reduce:transition-none motion-reduce:hover:transform-none"
     >
-      <figure className="w-full h-[300px]">
+      <figure className="w-full h-[300px] relative">
         <img
-          className="object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
           src={resource.imageUrl}
           alt={resource.title}
         />
