@@ -6,6 +6,7 @@ import Link from "next/link";
 
 interface AccordionProps {
   data: {
+    category: string;
     title: string;
     subtitle: string;
     description: string[];
@@ -68,7 +69,7 @@ const Accordion = ({ data }: AccordionProps) => {
             </ul>
           </div>
           <Link
-            href="/resources"
+            href={`/resources?category=${encodeURIComponent(data.category)}`}
             className="btn btn-primary btn-sm btn-outline"
           >
             More Resources

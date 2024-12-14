@@ -1,6 +1,7 @@
 {
   "civic101": [
     {
+      "category": "Civic Research",
       "title": "Civic Research 101",
       "subtitle": "What is Civic Research?",
       "description": [
@@ -14,6 +15,7 @@
       ]
     },
     {
+      "category": "Civic Data",
       "title": "Civic Data 101",
       "subtitle": "What is Civic Data?",
       "description": [
@@ -27,6 +29,7 @@
       ]
     },
     {
+      "category": "Civic Tech",
       "title": "Civic Tech 101",
       "subtitle": "What is Civic Tech?",
       "description": [
@@ -40,6 +43,7 @@
       ]
     },
     {
+      "category": "Civic Design",
       "title": "Civic Design 101",
       "subtitle": "What is Civic Design?",
       "description": [

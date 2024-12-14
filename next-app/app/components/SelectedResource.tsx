@@ -4,6 +4,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Category } from "@prisma/client";
 
 interface SelectedResourceProps {
   resource: {
@@ -32,7 +33,7 @@ const SelectedResource = ({ resource }: SelectedResourceProps) => {
       }
     };
     fetchResourceByName();
-  }, []);
+  }, [resource.name]);
 
   console.log("resource link: ", resourceLink);
 

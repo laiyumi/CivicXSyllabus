@@ -66,7 +66,10 @@ const NavBar = () => {
           </div>
         </div>
         <div className="navbar-end">
-          <Link href="/add-a-resource" className="btn btn-success mr-2">
+          <Link
+            href="/add-a-resource"
+            className="btn btn-primary mr-2 btn-outline btn-md"
+          >
             Add a Resource
           </Link>
           <LoginButton />

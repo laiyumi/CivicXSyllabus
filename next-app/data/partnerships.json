@@ -1,6 +1,7 @@
 {
   "partnerships": [
     {
+      "category": "Partnerships",
       "title": "Civic X Partnerships",
       "subtitle": "What’s the point of partnerships?",
       "description": [
@@ -14,6 +15,7 @@
       ]
     },
     {
+      "category": "Forge Partnerships",
       "title": "Forging New Civic X Partnerships",
       "subtitle": "How do you start a Ciciv X project anyway?",
       "description": [
@@ -31,6 +33,7 @@
       ]
     },
     {
+      "category": "Power + Expertise + Equity",
       "title": "Who’s at the Table: Power, Expertise, Equity.",
       "subtitle": "Who is our table for? How can we show them that they are welcome?",
       "description": [
@@ -44,6 +47,7 @@
       ]
     },
     {
+      "category": "Building Trust",
       "title": "Trust",
       "subtitle": "What does ‘building trust’ look like? How can we build trust with institutions? How can we build trust across institutions?",
       "description": [

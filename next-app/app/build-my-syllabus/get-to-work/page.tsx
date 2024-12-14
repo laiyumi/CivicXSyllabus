@@ -31,7 +31,6 @@ const GetToWorkPage = () => {
             ))}
           </div>
         </div>
-        <div className="divider"></div>
         <div>
           <div className="divider text-xl pb-4">Project Design</div>
 

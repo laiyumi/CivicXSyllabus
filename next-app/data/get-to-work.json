@@ -1,6 +1,7 @@
 {
   "projectWellbeing": [
     {
+      "category": "Build With",
       "title": "`Build With`",
       "subtitle": "Prompts",
       "description": ["What does ‘Build With, Not For’ mean?"],
@@ -16,6 +17,7 @@
       ]
     },
     {
+      "category": "Burnout",
       "title": "`Burnout`",
       "subtitle": "Prompts",
       "description": ["What is burnout?", "why should it matter?"],
@@ -29,6 +31,7 @@
   ],
   "projectDesign": [
     {
+      "category": "Indicators of Success or Failure",
       "title": "Success, Failure, + Indicators of Either",
       "subtitle": "Prompts",
       "description": [
@@ -43,6 +46,7 @@
       ]
     },
     {
+      "category": "Engagement",
       "title": "Engagement",
       "subtitle": "Prompts",
       "description": [
@@ -59,6 +63,7 @@
   ],
   "projectExecution": [
     {
+      "category": "Asking Questions",
       "title": "Asking Questions",
       "subtitle": "Prompts",
       "description": ["What questions elicit good projects?"],
@@ -70,6 +75,7 @@
       ]
     },
     {
+      "category": "Access + (Dis)Ability",
       "title": "Access + (Dis)Ability",
       "subtitle": "Prompts",
       "description": [
@@ -83,6 +89,7 @@
       ]
     },
     {
+      "category": "Communication + Dissemination",
       "title": "Communication + Dissemination",
       "subtitle": "Prompts",
       "description": [
@@ -96,6 +103,7 @@
       ]
     },
     {
+      "category": "Big Data",
       "title": "Big Data",
       "subtitle": "Prompts",
       "description": [
@@ -118,6 +126,7 @@
       ]
     },
     {
+      "category": "Thick Data",
       "title": "Thick Data",
       "subtitle": "Prompts",
       "description": [
@@ -132,6 +141,7 @@
       ]
     },
     {
+      "category": "Consent",
       "title": "Privacy, Consent, Security, Surveillance, Sovereignty, + Equity",
       "subtitle": "Prompts",
       "description": [
@@ -146,6 +156,7 @@
       ]
     },
     {
+      "category": "Equity in Analytics",
       "title": "Equity in Analytics",
       "subtitle": "Prompts",
       "description": [
@@ -163,6 +174,7 @@
       ]
     },
     {
+      "category": "Digital Services + Digital Equity",
       "title": "Design, Digital Services, + Digital Equity",
       "subtitle": "Prompts",
       "description": [
@@ -181,6 +193,7 @@
       ]
     },
     {
+      "category": "Scale",
       "title": "Scale",
       "subtitle": "Prompts",
       "description": [
