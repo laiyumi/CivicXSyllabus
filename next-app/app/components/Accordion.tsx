@@ -46,7 +46,7 @@ const Accordion = ({ data }: AccordionProps) => {
       {/* Accordion Content */}
       <div
         ref={contentRef}
-        className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
+        className="overflow-hidden transition-[max-height] duration-500 ease-in-out rounded-2xl"
         style={{ maxHeight }}
       >
         <div className="p-4  bg-gray-100">

@@ -2,7 +2,7 @@ import React from "react";
 import Accordion from "../../components/Accordion";
 import civic101 from "../../../data/civic101.json";
 
-interface Civic101Data {
+interface Prop {
   title: string;
   subtitle: string;
   description: string;
@@ -30,8 +30,8 @@ const BeforeYouBeginPage = () => {
             illustrate their thinking and action components.
           </p>
         </div>
-        <div className="flex flex-col gap-8 w-full">
-          {data.map((section: Civic101Data) => (
+        <div className="flex flex-col gap-8">
+          {data.map((section: Prop) => (
             <Accordion key={section.title} data={section} />
           ))}
         </div>
