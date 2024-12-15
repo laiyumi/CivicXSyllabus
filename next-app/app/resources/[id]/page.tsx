@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import prisma from "../../../prisma/client";
 import ToggleLikes from "../../components/ToggleLikes";
 import ToggleSave from "../../components/ToggleSave";
+import RelatedResourceCard from "../../components/ResourceCard/RelatedResourceCard";
 
 interface Props {
   params: { id: string };
@@ -16,8 +17,11 @@ type PostWithRelations = Prisma.PostGetPayload<{
   include: { categories: true; tags: true; source: true };
 }>;
 
+type PostWithScore = PostWithRelations & { score: number };
+
 const ResourceDetailPage = ({ params: { id } }: Props) => {
   const [resource, setResource] = useState<PostWithRelations>();
+  const [relatedResources, setRelatedResources] = useState<PostWithScore[]>();
 
   useEffect(() => {
     const fetchResource = async () => {
@@ -25,7 +29,13 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
       setResource(response.data);
     };
 
+    const fetchRelatedResources = async () => {
+      const response = await axios.get(`/api/resources/${id}/related`);
+      setRelatedResources(response.data);
+    };
+
     fetchResource();
+    fetchRelatedResources();
   }, [id]);
 
   console.log("the resource: ", resource);
@@ -86,8 +96,16 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
           ))}
         </div>
         <div className="divider"></div>
-        <div className="card rounded-box grid h-20 place-items-center">
-          <h3 className="text-xl">Related Resources</h3>
+        <div className="card rounded-box grid place-items-center">
+          <h3 className="text-xl pb-4">Related Resources</h3>
+          <div className="flex gap-8 justify-around">
+            {relatedResources?.map((relatedResource) => (
+              <RelatedResourceCard
+                key={relatedResource.id}
+                resource={relatedResource}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>
