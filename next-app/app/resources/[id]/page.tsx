@@ -44,10 +44,14 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
     <>
       <div
         key={resource?.id}
-        className="card lg:card-side bg-base-100 shadow-xl"
+        className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex flex-row"
       >
         <figure className="lg:w-1/2 md:w-full">
-          <img src={resource?.imageUrl} alt="TODO" />
+          <img
+            src={resource?.imageUrl}
+            alt="TODO"
+            className="object-cover w-full h-full"
+          />
         </figure>
         <div className="card-body flex-auto justify-around">
           <div className="flex gap-3 flex-wrap">
