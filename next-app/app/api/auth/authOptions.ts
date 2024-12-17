@@ -2,7 +2,6 @@ import prisma from "@/prisma/client";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { DefaultSession } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -15,9 +14,13 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  callbacks: {
+    // Forward the user ID to the session
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub; // Add id to session.user
+      }
+      return session;
+    },
+  },
 };
-
-// const handler = NextAuth(authOptions);
-
-// // any resuqest that send to this endpoint will be handled by the handler
-// export { handler as GET, handler as POST };

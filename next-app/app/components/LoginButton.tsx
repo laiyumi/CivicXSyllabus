@@ -1,23 +1,45 @@
-import React from "react";
+"use client";
+
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useState, useEffect, use } from "react";
+import axios from "axios";
+import { signOut } from "next-auth/react";
 
 const LoginButton = () => {
   const { status, data: session } = useSession();
-  const [hasRedirected, setHasRedirected] = useState(false);
   const router = useRouter();
+  const [userId, setUserId] = useState("");
+  const [userRole, setUserRole] = useState("");
 
-  // console.log("session data--------", session);
+  // Fetch the role of the user synchronously inside useEffect
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (status === "authenticated" && session?.user.id) {
+        try {
+          const response = await axios.get(`/api/users/${session.user.id}`);
+          const role = response.data.role;
 
-  // useEffect(() => {
-  //   if (status === "authenticated" && !hasRedirected) {
-  //     router.push("/admin");
-  //     setHasRedirected(true);
-  //   }
-  // }, [status, router, hasRedirected]);
+          // Set the user role
+          setUserRole(role);
+
+          // Redirect based on role
+          if (role === "ADMIN") {
+            console.log("----> this is admin: ", role);
+            router.replace("/admin"); // Prevent back navigation
+          } else {
+            console.log("----> this is regular user: ", role);
+            router.replace("/"); // Prevent back navigation
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+        }
+      }
+    };
+
+    fetchRole(); // Call the async function
+  }, [status, session, router]);
 
   return (
     <>
@@ -61,7 +83,9 @@ const LoginButton = () => {
                 <Link href="/user/contribution">My Contribution</Link>
               </li>
               <li>
-                <Link href="/api/auth/signout">Logout</Link>
+                <button onClick={() => signOut({ callbackUrl: "/" })}>
+                  Logout
+                </button>
               </li>
             </ul>
           </div>

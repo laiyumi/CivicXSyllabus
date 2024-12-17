@@ -5,18 +5,15 @@ import prisma from "../../../../prisma/client";
 // get a single user
 export async function GET(
   request: NextRequest,
-  { params }: { params: { email: string } }
+  { params }: { params: { id: string } }
 ) {
-  console.log("Received email param:", params.email);
+  console.log("Received user id:", params.id);
 
   // fetch data from db, if not found return 404
   const user = await prisma.user.findUnique({
-    where: { email: params.email },
+    where: { id: params.id },
     include: {
       list: true,
-      accounts: true,
-      sessions: true,
-      Authenticator: true,
     },
   });
 
