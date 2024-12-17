@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-const CreateListModal = () => {
+const CreateListModal = ({ userId }: { userId: string }) => {
+  const [listName, setListName] = useState("");
+
+  const handleCreate = () => {
+    console.log("Creating a list");
+
+    // call POST api to create a list
+    axios.post(`/api/users/${userId}/lists`, {
+      name: listName,
+    });
+  };
+
   return (
     <>
       {/* Open the modal using document.getElementById('ID').showModal() method */}
@@ -33,8 +45,15 @@ const CreateListModal = () => {
               type="text"
               placeholder="Enter the name of the list"
               className="input input-primary"
+              onChange={(e) => setListName(e.target.value)}
             />
-            <button className="btn btn-primary mt-4">Create</button>
+            <button
+              className="btn btn-primary mt-4"
+              type="submit"
+              onClick={handleCreate}
+            >
+              Create
+            </button>
           </form>
         </div>
       </dialog>

@@ -10,9 +10,6 @@ import { Prisma } from "@prisma/client";
 type User = Prisma.UserGetPayload<{
   include: {
     list: true;
-    accounts: true;
-    sessions: true;
-    Authenticator: true;
   };
 }>;
 
@@ -24,17 +21,11 @@ const UserSavedResourcesPage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  console.log("email from the session: ", session?.user?.email);
-
   useEffect(() => {
     const fetchUser = async () => {
-      if (!session?.user?.email) return; // Wait until the session is loaded
-
       try {
         // Fetch user data by email
-        const response = await axios.get(
-          `/api/users/${encodeURIComponent(session.user.email)}`
-        );
+        const response = await axios.get(`/api/users/${session?.user.id}`);
         setUser(response.data);
         console.log("Fetched user data:", response.data);
       } catch (error) {
@@ -43,9 +34,8 @@ const UserSavedResourcesPage = () => {
         setLoading(false);
       }
     };
-
     fetchUser();
-  });
+  }, []);
 
   // While loading
   if (loading) {
@@ -63,11 +53,13 @@ const UserSavedResourcesPage = () => {
         {/* <h2 className="text-2xl">My List</h2> */}
         <div className="flex justify-center gap-8 w-full items-center ">
           <select className="select select-primary w-full max-w-xs">
-            <option selected>Syllabus Materials</option>
-            <option>New List</option>
+            {/* {user.list.map((list)=>{
+              return <option>{list.name}</option>
+            })} */}
+            <option>Syllabus Materials</option>
           </select>
           <button className="btn btn-primary">Share the list</button>
-          <CreateListModal />
+          <CreateListModal userId={user.id} />
         </div>
         <div className="divider"></div>
 

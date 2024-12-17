@@ -33,8 +33,8 @@ const UserProfilePage = () => {
     <>
       <div className="flex flex-col gap-8 items-center">
         <h2 className="text-2xl">My Profile</h2>
-        <div className="flex flex-col gap-8 ">
-          <img src={userImage} alt="user image" />
+        <img src={userImage} alt="user image" className="w-12 rounded-full" />
+        <div className="flex flex-col gap-8">
           <label className="input input-bordered flex items-center gap-4">
             Name
             <input type="text" className="text-gray-600" value={userName} />

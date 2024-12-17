@@ -3,9 +3,10 @@ import Accordion from "../../components/Accordion";
 import partnerships from "../../../data/partnerships.json";
 
 interface Prop {
+  category: string;
   title: string;
   subtitle: string;
-  description: string;
+  description: string[];
   selectedResources: {
     name: string;
     summary: string;

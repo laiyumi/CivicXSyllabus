@@ -10,7 +10,6 @@ import { signOut, signIn } from "next-auth/react";
 const LoginButton = () => {
   const { status, data: session } = useSession();
   const router = useRouter();
-  const [userId, setUserId] = useState("");
   const [userRole, setUserRole] = useState("");
 
   // Fetch the role of the user synchronously inside useEffect
@@ -60,8 +59,6 @@ const LoginButton = () => {
                     session.user?.image ||
                     "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                   }
-                  width={500}
-                  height={500}
                   alt="user avatar"
                   className="w-6 h-6 rounded-full"
                 />

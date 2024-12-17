@@ -29,6 +29,16 @@ export async function POST(
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
+  // check if the list name already exists
+  const existingList = await prisma.list.findFirst({
+    where: { name: body.name },
+  });
+  if (existingList)
+    return NextResponse.json(
+      { error: "list with this name already exists" },
+      { status: 400 }
+    );
+
   // create a new list in the db
   const list = await prisma.list.create({
     data: {

@@ -26,8 +26,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  role Role   @default(USER)
-  list List[]
+  role  Role   @default(USER)
+  lists List[]
 }
 
 model Source {

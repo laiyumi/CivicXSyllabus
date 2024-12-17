@@ -3,6 +3,7 @@ import Accordion from "../../components/Accordion";
 import getToWork from "../../../data/get-to-work.json";
 
 interface Prop {
+  category: string;
   title: string;
   subtitle: string;
   description: string[];
@@ -11,6 +12,7 @@ interface Prop {
     summary: string;
   }[];
 }
+
 const GetToWorkPage = () => {
   const wellbeingData = getToWork.projectWellbeing;
   const designData = getToWork.projectDesign;
