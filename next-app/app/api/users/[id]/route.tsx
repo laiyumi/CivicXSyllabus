@@ -13,7 +13,7 @@ export async function GET(
   const user = await prisma.user.findUnique({
     where: { id: params.id },
     include: {
-      list: true,
+      lists: true,
     },
   });
 

@@ -9,7 +9,7 @@ import { Prisma } from "@prisma/client";
 
 type User = Prisma.UserGetPayload<{
   include: {
-    list: true;
+    lists: true;
   };
 }>;
 
@@ -53,10 +53,9 @@ const UserSavedResourcesPage = () => {
         {/* <h2 className="text-2xl">My List</h2> */}
         <div className="flex justify-center gap-8 w-full items-center ">
           <select className="select select-primary w-full max-w-xs">
-            {/* {user.list.map((list)=>{
-              return <option>{list.name}</option>
-            })} */}
-            <option>Syllabus Materials</option>
+            {user.lists.map((list) => (
+              <option key={list.id}>{list.name}</option>
+            ))}
           </select>
           <button className="btn btn-primary">Share the list</button>
           <CreateListModal userId={user.id} />

@@ -8,6 +8,8 @@ import prisma from "../../../prisma/client";
 import ToggleLikes from "../../components/ToggleLikes";
 import ToggleSave from "../../components/ToggleSave";
 import RelatedResourceCard from "../../components/ResourceCard/RelatedResourceCard";
+import { useSession } from "next-auth/react";
+import SaveToListModal from "../../components/SaveToListModal";
 
 interface Props {
   params: { id: string };
@@ -22,6 +24,7 @@ type PostWithScore = PostWithRelations & { score: number };
 const ResourceDetailPage = ({ params: { id } }: Props) => {
   const [resource, setResource] = useState<PostWithRelations>();
   const [relatedResources, setRelatedResources] = useState<PostWithScore[]>();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchResource = async () => {
@@ -73,11 +76,17 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
             <p>Source | {resource?.source.name}</p>
           </div>
           <div className="card-actions justify-between">
-            <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
-              <ToggleLikes resourceId={id} />
-              <div className="text-gray-500">|</div>
-              <ToggleSave resourceId={id} />
-            </div>
+            {session ? (
+              <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
+                <ToggleLikes resourceId={id} />
+                <div className="text-gray-500">|</div>
+                <ToggleSave resourceId={id} />
+              </div>
+            ) : (
+              <div className="rounded-md border border-gray-200	p-3">
+                <ToggleLikes resourceId={id} />
+              </div>
+            )}
             <Link
               href={resource?.link ?? "/resources"}
               className="btn btn-primary"
@@ -86,6 +95,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
             >
               Explore this resource
             </Link>
+            <SaveToListModal />
           </div>
         </div>
       </div>
