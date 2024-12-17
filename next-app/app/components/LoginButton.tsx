@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, use } from "react";
 import axios from "axios";
-import { signOut } from "next-auth/react";
+import { signOut, signIn } from "next-auth/react";
 
 const LoginButton = () => {
   const { status, data: session } = useSession();
@@ -92,9 +92,9 @@ const LoginButton = () => {
         </div>
       )}
       {status === "unauthenticated" && (
-        <Link href="/api/auth/signin" className="btn btn-ghost">
+        <button className="btn btn-ghost" onClick={() => signIn()}>
           Login
-        </Link>
+        </button>
       )}
     </>
   );
