@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
-const CreateListModal = ({ userId }: { userId: string }) => {
+interface CreateListModalProps {
+  onCreateList: (listName: string) => void; // Callback prop to notify the parent
+}
+
+const CreateListModal = ({ onCreateList }: CreateListModalProps) => {
   const [listName, setListName] = useState("");
 
-  const handleCreate = () => {
-    console.log("Creating a list");
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission
+    if (!listName.trim()) {
+      alert("List name cannot be empty");
+      return;
+    }
 
-    // call POST api to create a list
-    axios.post(`/api/users/${userId}/lists`, {
-      name: listName,
-    });
+    onCreateList(listName); // Notify the parent
+    setListName(""); // Reset the input field
+    (
+      document.getElementById("create_list_modal") as HTMLDialogElement
+    )?.close(); // Close the modal
   };
 
   return (
@@ -46,11 +56,12 @@ const CreateListModal = ({ userId }: { userId: string }) => {
               placeholder="Enter the name of the list"
               className="input input-primary"
               onChange={(e) => setListName(e.target.value)}
+              required
             />
             <button
               className="btn btn-primary mt-4"
               type="submit"
-              onClick={handleCreate}
+              onClick={handleSubmit}
             >
               Create
             </button>

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { listSchema } from "../../schema";
 import prisma from "../../../../../prisma/client";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../../auth/authOptions";
 
 // get all lists of a user
 export async function GET(
@@ -23,6 +25,24 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Validate the session
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json(
+      { error: "Unauthorized: No session found" },
+      { status: 401 }
+    );
+  }
+
+  // Validate if the session's user ID matches the `params.id`
+  if (session.user.id !== params.id) {
+    return NextResponse.json(
+      { error: "Forbidden: Invalid user" },
+      { status: 403 }
+    );
+  }
+
   // validate the request body, if invalid, return 400
   const body = await request.json();
   const validation = listSchema.safeParse(body);
