@@ -22,15 +22,6 @@ const LoginButton = () => {
 
           // Set the user role
           setUserRole(role);
-
-          // Redirect based on role
-          if (role === "ADMIN") {
-            console.log("----> this is admin: ", role);
-            router.replace("/admin"); // Prevent back navigation
-          } else {
-            console.log("----> this is regular user: ", role);
-            router.replace("/"); // Prevent back navigation
-          }
         } catch (error) {
           console.error("Error fetching user role:", error);
         }
@@ -73,12 +64,20 @@ const LoginButton = () => {
                   Profile
                 </Link>
               </li>
-              <li>
-                <Link href="/user/list">Saved</Link>
-              </li>
-              <li>
-                <Link href="/user/contribution">My Contribution</Link>
-              </li>
+              {userRole === "ADMIN" ? (
+                <li>
+                  <Link href="/admin">Dashboard</Link>
+                </li>
+              ) : (
+                <div>
+                  <li>
+                    <Link href="/user/list">Saved</Link>
+                  </li>
+                  <li>
+                    <Link href="/user/contribution">My Contribution</Link>
+                  </li>
+                </div>
+              )}
               <li>
                 <button onClick={() => signOut({ callbackUrl: "/" })}>
                   Logout
