@@ -51,13 +51,14 @@ export async function DELETE(
   { params }: { params: { userId: string; listId: string } }
 ) {
   const body = await request.json();
+  const postId = body.postId;
 
   // remove the post from the list
   const updatedList = await prisma.list.update({
     where: { id: params.listId },
     data: {
       posts: {
-        disconnect: { id: body.postId },
+        disconnect: { id: postId },
       },
     },
   });

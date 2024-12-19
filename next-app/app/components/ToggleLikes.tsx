@@ -15,8 +15,6 @@ const ToggleLikes = ({ resourceId }: { resourceId: string }) => {
     fetchLikes();
   }, [resourceId]);
 
-  console.log("the number of likes from api: ", likes);
-
   // handle front end and back end when toggle likes
   const handleToggleLike = async () => {
     try {

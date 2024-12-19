@@ -3,7 +3,13 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { List } from "@prisma/client";
 
-const ToggleSave = ({ onSave }: { onSave: (listId: string) => void }) => {
+const ToggleSave = ({
+  onSave,
+  onRemove,
+}: {
+  onSave: (listId: string) => void;
+  onRemove: (listId: string) => void;
+}) => {
   const [hasSaved, setHasSaved] = useState<boolean>(false);
 
   const [lists, setLists] = useState<List[]>([]);
@@ -18,25 +24,27 @@ const ToggleSave = ({ onSave }: { onSave: (listId: string) => void }) => {
     fetchLists();
   }, []);
 
-  const handleConfirm = () => {
+  const handleConfirmSave = () => {
     onSave(selectedListId);
-    setSelectedListId("");
+    // setSelectedListId("");
     (
       document.getElementById("save_to_list_modal") as HTMLDialogElement
     ).close();
+    setHasSaved(true);
   };
 
   const handleToggleSave = async () => {
     try {
       if (hasSaved) {
         // remove the saved resource
+        onRemove(selectedListId);
+        setHasSaved(false);
       } else {
         // open the modal
         (
           document.getElementById("save_to_list_modal") as HTMLDialogElement
         ).showModal();
       }
-      setHasSaved(!hasSaved); // Toggle the save state
       console.log("current save status: ", hasSaved);
     } catch (error) {
       console.error("Error toggling save:", error);
@@ -87,7 +95,7 @@ const ToggleSave = ({ onSave }: { onSave: (listId: string) => void }) => {
             <button
               className="btn btn-primary"
               type="submit"
-              onClick={handleConfirm}
+              onClick={handleConfirmSave}
             >
               Confirm
             </button>

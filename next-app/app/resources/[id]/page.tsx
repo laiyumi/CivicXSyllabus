@@ -41,8 +41,6 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
     fetchRelatedResources();
   }, [id]);
 
-  console.log("the resource: ", resource);
-
   const handleSave = async (listId: string) => {
     if (status != "authenticated") {
       alert("You need to be logged in to save resources");
@@ -56,9 +54,37 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
           postId: id,
         }
       );
+      console.log("saved to: ", { listId });
     } catch (err) {
       console.error(err);
       alert("Failed to save to the list.");
+    }
+  };
+
+  const handleRemove = async (listId: string) => {
+    if (status !== "authenticated") {
+      alert("You need to be logged in to remove resources");
+      return;
+    }
+    if (!listId) {
+      console.error("List ID is missing");
+      return;
+    }
+
+    try {
+      const response = await axios.delete(
+        `/api/users/${session?.user.id}/lists/${listId}`,
+        {
+          data: { postId: id },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("removed from: ", { listId });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to remove from the list.");
     }
   };
 
@@ -99,7 +125,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
               <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
                 <ToggleLikes resourceId={id} />
                 <div className="text-gray-500">|</div>
-                <ToggleSave onSave={handleSave} />
+                <ToggleSave onSave={handleSave} onRemove={handleRemove} />
               </div>
             ) : (
               <div className="rounded-md border border-gray-200	p-3">
