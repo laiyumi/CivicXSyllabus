@@ -29,7 +29,7 @@ const SourcesTable = async () => {
           <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Saved Posts</th>
+            {/* <th>Saved Posts</th> */}
           </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@ const SourcesTable = async () => {
             <tr key={source.id}>
               <td>{source.id}</td>
               <td>{source.name}</td>
-              <td>2</td>
+              {/* <td>2</td> */}
             </tr>
           ))}
         </tbody>

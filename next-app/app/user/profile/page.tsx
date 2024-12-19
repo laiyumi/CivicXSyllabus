@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 const UserProfilePage = () => {
   const { data: session } = useSession();
@@ -13,13 +13,16 @@ const UserProfilePage = () => {
       if (session?.user.id) {
         try {
           const response = await axios.get(`/api/users/${session.user.id}`);
-          setUserRole(response.data.role);
+          if (response.data.role === "ADMIN") {
+            setUserRole("Admin");
+          } else {
+            setUserRole("Regular User");
+          }
         } catch (error) {
           console.error("Error fetching user role:", error);
         }
       }
     };
-
     fetchRole();
   }, []);
 
@@ -45,15 +48,7 @@ const UserProfilePage = () => {
           </label>
           <label className="input input-bordered flex items-center gap-4">
             Account Type
-            {userRole === "ADMIN" ? (
-              <input type="text" className="text-gray-600" value="Admin" />
-            ) : (
-              <input
-                type="text"
-                className="text-gray-600"
-                value="Regular User"
-              />
-            )}
+            <input type="text" className="text-gray-600" value={userRole} />
           </label>
         </div>
       </div>

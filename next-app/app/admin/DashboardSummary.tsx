@@ -60,7 +60,7 @@ const DashboardSummary = () => {
         <div className="flex justify-between pb-5">
           <h1>Dashboard</h1>
         </div>
-        <div className="stats shadow">
+        <div className="stats shadow w-full">
           {containers.map((container) => (
             <Link
               key={container.label}
@@ -70,9 +70,6 @@ const DashboardSummary = () => {
               <div className="stat place-items-center gap-2">
                 <div className="stat-title">{container.label}</div>
                 <div className="stat-value">{container.value}</div>
-                <div className="stat-desc">
-                  From January 1st to February 1st
-                </div>
               </div>
             </Link>
           ))}

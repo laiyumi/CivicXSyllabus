@@ -7,10 +7,17 @@ import prisma from "../../../prisma/client";
 
 // get all users
 export async function GET(request: NextRequest) {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    include: {
+      lists: {
+        include: {
+          posts: true,
+        },
+      },
+    },
+  });
   return NextResponse.json(users);
 }
-
 // create a new user
 export async function POST(request: NextRequest) {
   const body = await request.json();

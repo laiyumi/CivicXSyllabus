@@ -170,13 +170,15 @@ const UserSavedResourcesPage = () => {
             className="select select-primary w-full max-w-xs"
             onChange={(e) => setSelectedListId(e.target.value)}
           >
+            <option disabled selected>
+              Select a list
+            </option>
             {user.lists.map((list) => (
               <option key={list.id} value={list.id}>
                 {list.name}
               </option>
             ))}
           </select>
-          {/* <button className="btn btn-primary">Share the list</button> */}
           <CreateListModal onCreateList={handleCreateList} />
         </div>
         <div className="divider"></div>

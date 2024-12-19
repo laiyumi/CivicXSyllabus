@@ -9,9 +9,9 @@ const AdminResourcesPage = () => {
     <div className="w-full flex flex-col gap-4">
       <h1>Resources</h1>
       <div className="flex justify-between pb-5">
-        <div className="w-1/3">
+        {/* <div className="w-1/3">
           <SearchBar />
-        </div>
+        </div> */}
         <Link className="btn btn-primary" href="/admin/resources/new">
           Create New Resource
         </Link>
