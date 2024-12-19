@@ -44,3 +44,23 @@ export async function POST(
 
   return NextResponse.json(updatedList, { status: 201 });
 }
+
+// delete a post from the list
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { userId: string; listId: string } }
+) {
+  const body = await request.json();
+
+  // remove the post from the list
+  const updatedList = await prisma.list.update({
+    where: { id: params.listId },
+    data: {
+      posts: {
+        disconnect: { id: body.postId },
+      },
+    },
+  });
+
+  return NextResponse.json(updatedList, { status: 201 });
+}

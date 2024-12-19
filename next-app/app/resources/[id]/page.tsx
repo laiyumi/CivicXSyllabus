@@ -99,7 +99,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
               <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
                 <ToggleLikes resourceId={id} />
                 <div className="text-gray-500">|</div>
-                <ToggleSave resourceId={id} />
+                <ToggleSave onSave={handleSave} />
               </div>
             ) : (
               <div className="rounded-md border border-gray-200	p-3">
@@ -114,7 +114,6 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
             >
               Explore this resource
             </Link>
-            <SaveToListModal onSave={handleSave} />
           </div>
         </div>
       </div>
