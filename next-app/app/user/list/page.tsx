@@ -35,7 +35,7 @@ const UserSavedResourcesPage = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   const [list, setList] = useState<List>();
-  const [selectedList, setSelectedList] = useState<string>("");
+  const [selectedListId, setSelectedListId] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
 
   // fetch user data
@@ -61,7 +61,7 @@ const UserSavedResourcesPage = () => {
       try {
         // Fetch posts in the selected list
         const response = await axios.get(
-          `/api/users/${session?.user.id}/lists/${selectedList}`
+          `/api/users/${session?.user.id}/lists/${selectedListId}`
         );
         console.log("Fetched posts in the selected list:", response.data);
         setList(response.data);
@@ -71,7 +71,7 @@ const UserSavedResourcesPage = () => {
       }
     };
     fetchPosts();
-  }, [selectedList]);
+  }, [selectedListId]);
 
   const handleCreateList = async (listName: string) => {
     if (!session?.user.id) {
@@ -111,6 +111,25 @@ const UserSavedResourcesPage = () => {
     }
   }, [isCreated]);
 
+  const handleRemove = async (postId: string, listId: string) => {
+    try {
+      const response = await axios.delete(
+        `/api/users/${session?.user.id}/lists/${listId}`,
+        {
+          data: { postId: postId },
+        }
+      );
+
+      // Update the posts state by filtering out the removed post
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+
+      console.log(`Post ${postId} removed from list ${listId}`);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to remove from the list.");
+    }
+  };
+
   // While loading
   if (loading) {
     return <p>Loading...</p>;
@@ -149,7 +168,7 @@ const UserSavedResourcesPage = () => {
         <div className="flex justify-center gap-8 w-full items-center ">
           <select
             className="select select-primary w-full max-w-xs"
-            onChange={(e) => setSelectedList(e.target.value)}
+            onChange={(e) => setSelectedListId(e.target.value)}
           >
             {user.lists.map((list) => (
               <option key={list.id} value={list.id}>
@@ -186,7 +205,7 @@ const UserSavedResourcesPage = () => {
                 <img src={post.imageUrl} className="object-cover" />
                 <button
                   className="btn btn-circle absolute top-5 right-5"
-                  onClick={() => alert("Remove from the list.")}
+                  onClick={() => handleRemove(post.id, selectedListId)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
