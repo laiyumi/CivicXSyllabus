@@ -7,11 +7,11 @@ import { authOptions } from "../../../auth/authOptions";
 // get all lists of a user
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { userId: string } }
 ) {
   // fetch data from db, if not found return 404
   const lists = await prisma.list.findMany({
-    where: { userId: params.id },
+    where: { userId: params.userId },
   });
 
   if (!lists)
@@ -23,7 +23,7 @@ export async function GET(
 // create a new list for a user
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { userId: string } }
 ) {
   // Validate the session
   const session = await getServerSession(authOptions);
@@ -36,7 +36,7 @@ export async function POST(
   }
 
   // Validate if the session's user ID matches the `params.id`
-  if (session.user.id !== params.id) {
+  if (session.user.id !== params.userId) {
     return NextResponse.json(
       { error: "Forbidden: Invalid user" },
       { status: 403 }
@@ -63,7 +63,7 @@ export async function POST(
   const list = await prisma.list.create({
     data: {
       name: body.name,
-      userId: params.id,
+      userId: params.userId,
     },
   });
   return NextResponse.json(list, { status: 201 });

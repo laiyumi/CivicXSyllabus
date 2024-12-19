@@ -5,7 +5,7 @@ import Link from "next/link";
 import CreateListModal from "./CreateListModal";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { Prisma, Category, Tag } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -20,6 +20,12 @@ type Post = Prisma.PostGetPayload<{
   };
 }>;
 
+type List = Prisma.ListGetPayload<{
+  include: {
+    posts: true;
+  };
+}>;
+
 const UserSavedResourcesPage = () => {
   const { data: session } = useSession();
 
@@ -28,6 +34,7 @@ const UserSavedResourcesPage = () => {
   const [isCreated, setIsCreated] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState(false);
 
+  const [list, setList] = useState<List>();
   const [selectedList, setSelectedList] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
 
@@ -57,6 +64,7 @@ const UserSavedResourcesPage = () => {
           `/api/users/${session?.user.id}/lists/${selectedList}`
         );
         console.log("Fetched posts in the selected list:", response.data);
+        setList(response.data);
         setPosts(response.data.posts);
       } catch (error) {
         console.error("Error fetching posts in the selected list:", error);
@@ -154,7 +162,7 @@ const UserSavedResourcesPage = () => {
         </div>
         <div className="divider"></div>
         <div className="flex flex-col justify-center items-center gap-2 ">
-          <h2 className="text-2xl">{selectedList}</h2>
+          <h2 className="text-2xl">{list?.name}</h2>
           <div className="text-l flex gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -174,7 +182,7 @@ const UserSavedResourcesPage = () => {
               key={post.id}
               className="card bg-base-100 shadow-xl col-span-1"
             >
-              <figure className="w-full h-[300px]">
+              <figure className="w-full ">
                 <img src={post.imageUrl} className="object-cover" />
                 <button
                   className="btn btn-circle absolute top-5 right-5"
@@ -214,7 +222,10 @@ const UserSavedResourcesPage = () => {
                   ))}
                 </div>
                 <div className="card-actions justify-end mt-4">
-                  <Link href="/" className="btn btn-sm btn-primary">
+                  <Link
+                    href={`/resources/${post.id}`}
+                    className="btn btn-sm btn-primary"
+                  >
                     Read More
                   </Link>
                 </div>

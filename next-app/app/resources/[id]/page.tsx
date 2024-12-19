@@ -24,7 +24,7 @@ type PostWithScore = PostWithRelations & { score: number };
 const ResourceDetailPage = ({ params: { id } }: Props) => {
   const [resource, setResource] = useState<PostWithRelations>();
   const [relatedResources, setRelatedResources] = useState<PostWithScore[]>();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const fetchResource = async () => {
@@ -42,6 +42,25 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
   }, [id]);
 
   console.log("the resource: ", resource);
+
+  const handleSave = async (listId: string) => {
+    if (status != "authenticated") {
+      alert("You need to be logged in to save resources");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `/api/users/${session?.user.id}/lists/${listId}`,
+        {
+          postId: id,
+        }
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save to the list.");
+    }
+  };
 
   return (
     <>
@@ -95,7 +114,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
             >
               Explore this resource
             </Link>
-            <SaveToListModal />
+            <SaveToListModal onSave={handleSave} />
           </div>
         </div>
       </div>

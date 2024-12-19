@@ -3,11 +3,11 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { List } from "@prisma/client";
 
-const SaveToListModal = () => {
+const SaveToListModal = ({ onSave }: { onSave: (listId: string) => void }) => {
   // get the lists of the user
   const [lists, setLists] = useState<List[]>([]);
   const { data: session } = useSession();
-  const [selectedList, setSelectedList] = useState<string | null>(null);
+  const [selectedListId, setSelectedListId] = useState("");
 
   useEffect(() => {
     const fetchLists = async () => {
@@ -16,6 +16,14 @@ const SaveToListModal = () => {
     };
     fetchLists();
   }, []);
+
+  const handleConfirm = () => {
+    onSave(selectedListId);
+    setSelectedListId("");
+    (
+      document.getElementById("save_to_list_modal") as HTMLDialogElement
+    ).close();
+  };
 
   return (
     <>
@@ -40,7 +48,7 @@ const SaveToListModal = () => {
               ✕
             </button>
           </form>
-          <h3 className="font-bold text-lg pb-8">Save to: {selectedList}</h3>
+          <h3 className="font-bold text-lg pb-8">Save to: {selectedListId}</h3>
           <div className="form-control">
             {lists.map((list) => (
               <label className="label cursor-pointer" key={list.id}>
@@ -50,27 +58,18 @@ const SaveToListModal = () => {
                   name="radio-10"
                   className="radio checked:bg-red-500"
                   value={list.id}
-                  checked={selectedList === list.id}
-                  onChange={(e) => setSelectedList(e.target.value)}
+                  // checked={selectedListId === list.id}
+                  onChange={(e) => setSelectedListId(e.target.value)}
                 />
               </label>
             ))}
-            <div className="flex gap-4 justify-between items-baseline py-4">
-              <input
-                type="text"
-                placeholder="Create a new list"
-                className="input input-bordered w-full"
-                //   onChange={(e) => setListName(e.target.value)}
-              />
-              <button
-                className="btn btn-outline"
-                type="submit"
-                //   onClick={handleCreate}
-              >
-                Create
-              </button>
-            </div>
-            <button className="btn btn-primary">Confirm</button>
+            <button
+              className="btn btn-primary"
+              type="submit"
+              onClick={handleConfirm}
+            >
+              Confirm
+            </button>
           </div>
         </div>
       </dialog>
