@@ -45,7 +45,7 @@ export default function Marquee({
             })}
           >
             {React.Children.map(children, (child) => (
-              <div className="bg-slate-50 bg-opacity-80 text-black rounded-lg		">
+              <div className="bg-white bg-opacity-75 text-black rounded-xl">
                 {child}
               </div> // add the bg-gray-800 class to each child
             ))}{" "}

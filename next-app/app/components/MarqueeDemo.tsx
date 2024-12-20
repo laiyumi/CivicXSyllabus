@@ -36,8 +36,8 @@ export default function MarqueeDemo() {
   }, [selectedCategory, pathname, router]);
 
   return (
-    <div className="relative flex h-[200px] w-full flex-col items-center justify-center rounded-lg">
-      <Marquee pauseOnHover className="[--duration:35s]">
+    <div className="relative flex h-[200px] w-full flex-col items-center justify-center ">
+      <Marquee pauseOnHover className="[--duration:80s]">
         {firstRow.map((category) => (
           <ReviewCard
             key={category.name}
@@ -46,7 +46,7 @@ export default function MarqueeDemo() {
           />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:35s]">
+      <Marquee reverse pauseOnHover className="[--duration:80s]">
         {secondRow.map((category) => (
           <ReviewCard
             key={category.name}

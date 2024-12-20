@@ -60,7 +60,7 @@ const NavBar = () => {
                 <Link href="/about/team">Our Team</Link>
               </li>
               <li>
-                <Link href="/about/use-cases">Use Cases</Link>
+                <Link href="/about/use-cases">Who We Serve</Link>
               </li>
             </ul>
           </div>

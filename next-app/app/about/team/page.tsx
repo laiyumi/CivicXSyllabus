@@ -11,7 +11,7 @@ const TeamPage = () => {
             <figure className="col-span-1">
               <img
                 src="https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2022/07/kl-01web-retouched__1_-e1720649516749.jpeg?w=750&ssl=1"
-                alt="profile image"
+                alt="The profile image of Kimberly D. Lucas, PhD"
                 className="object-cover w-full h-full rounded-2xl"
               />
             </figure>
@@ -78,7 +78,7 @@ const TeamPage = () => {
           <figure className="col-span-1">
             <img
               src="https://staging-7c07-civicxsyllabus.wpcomstaging.com/elias-gbadamosi_headshot-2"
-              alt="profile image"
+              alt="The profile image of Elias Gbadamosi"
               className="object-cover w-full h-full rounded-2xl"
             />
           </figure>
@@ -88,7 +88,7 @@ const TeamPage = () => {
           <figure className="col-span-1">
             <img
               src="https://staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/11/WechatIMG994.jpg"
-              alt="profile image"
+              alt="The profile image of Yu Lai"
               className="object-cover w-full h-full rounded-2xl"
             />
           </figure>

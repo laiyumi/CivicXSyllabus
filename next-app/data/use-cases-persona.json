@@ -1,0 +1,32 @@
+[
+  {
+    "persona": "Educator",
+    "imageUrl": "/persona_samantha.svg",
+    "altText": "An illustrated portrait of Dr. Samantha Pate",
+    "name": "Dr. Samantha Patel",
+    "occupation": "Professor of Public Administration",
+    "interests": "Civic engagement, curriculum development, public policy",
+    "intro": "Dr. Samantha Patel is an experienced professor at a leading university specializing in public administration. She seeks to enrich her students&apos; learning experiences by providing them with real-world examples of how civic technology can drive social change.",
+    "painpoints": "The fragmented nature of available civic innovation resources forces Dr. Patel to spend a considerable amount of time piecing together content from various sources. This makes it difficult for her to keep her course materials current and relevant."
+  },
+  {
+    "persona": "Civic and Policy Team",
+    "imageUrl": "/persona_phoenix.svg",
+    "altText": "An illustrated portrait of Phoenix Rivera",
+    "name": "Phoenix Rivera",
+    "occupation": "Policy Analyst at a Government Agency",
+    "interests": "Data-driven policy-making, civic technology, public administration",
+    "intro": "Phoenix Rivera is a seasoned policy analyst working at a government agency focused on urban planning and community development. Phoenix is deeply invested in using technology to make government services more efficient and accessible.",
+    "painpoints": "The fragmented nature of available resources makes it difficult for Phoenix to pull together evidence-based insights that their team can use to support their initiatives."
+  },
+  {
+    "persona": "Civic Enthusiast",
+    "imageUrl": "/persona_jessica.svg",
+    "altText": "An illustrated portrait of Jessica Williams",
+    "name": "Jessica Williams",
+    "occupation": "Community Organizer and Civic Volunteer",
+    "interests": "Civic engagement, curriculum development, public policy",
+    "intro": "Jessica Green is a dedicated community organizer with a deep commitment to social justice and grassroots activism. Jessica’s passion for civic innovation is driven by her belief in the power of collective action to create meaningful change at the local level.",
+    "painpoints": "Jessica often struggles with finding the right resources to turn her vision into actionable projects. She needs practical, user-friendly resources that can help her translate her advocacy goals into tangible projects."
+  }
+]

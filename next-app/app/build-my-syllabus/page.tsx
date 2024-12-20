@@ -6,10 +6,6 @@ const BuildMySyllabusPage = () => {
       <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col gap-2 text-center">
           <h2 className="text-2xl">Use Cases</h2>
-          {/* <p>
-            Create a syllabus, that could, at least in theory, be used to teach
-            a course or workshop.
-          </p> */}
         </div>
         <div>
           <h3 className="text-xl font-bold  pb-6">
@@ -18,6 +14,7 @@ const BuildMySyllabusPage = () => {
           <img
             className="float-right w-1/3 pl-6 pb-6"
             src="/daria-nepriakhina-zoCDWPuiRuA-unsplash.jpg"
+            alt="A brainstorming or problem-solving board filled with sticky notes, each featuring handwritten ideas, placed in a brightly lit workspace."
           ></img>
           <p className="pb-4">
             Our curated resources span four key focus areas: civic research,
@@ -62,6 +59,7 @@ const BuildMySyllabusPage = () => {
             <img
               className="object-cover h-full w-full"
               src="/josh-calabrese-Ev1XqeVL2wI-unsplash.jpg"
+              alt="An aerial view of a rowing team paddling in unison."
             ></img>
           </div>
           <p className="pb-4">
