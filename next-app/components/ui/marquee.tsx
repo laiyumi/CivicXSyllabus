@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import React from "react";
 
 interface MarqueeProps {
   className?: string;
@@ -23,7 +24,7 @@ export default function Marquee({
     <div
       {...props}
       className={cn(
-        "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
+        "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)] ",
         {
           "flex-row": !vertical,
           "flex-col": vertical,
@@ -36,14 +37,18 @@ export default function Marquee({
         .map((_, i) => (
           <div
             key={i}
-            className={cn("flex shrink-0 justify-around [gap:var(--gap)]", {
+            className={cn("flex shrink-0 justify-around [gap:var(--gap)] ", {
               "animate-marquee flex-row": !vertical,
               "animate-marquee-vertical flex-col": vertical,
               "group-hover:[animation-play-state:paused]": pauseOnHover,
               "[animation-direction:reverse]": reverse,
             })}
           >
-            {children}
+            {React.Children.map(children, (child) => (
+              <div className="bg-slate-50 bg-opacity-80 text-black rounded-lg		">
+                {child}
+              </div> // add the bg-gray-800 class to each child
+            ))}{" "}
           </div>
         ))}
     </div>

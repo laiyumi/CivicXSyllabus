@@ -45,7 +45,7 @@ const SearchBar = () => {
       <label className="input input-bordered flex items-center gap-2 w-full">
         <input
           type="text"
-          className="grow"
+          className="grow text-black"
           placeholder="Search anything"
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={(e) => {

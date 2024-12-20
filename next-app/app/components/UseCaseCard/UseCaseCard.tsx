@@ -1,13 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import AddToCart from "../AddToCart";
+import Link from "next/link";
 
 const UseCaseCard = () => {
   return (
     <div className="flex lg:flex-row sm:flex-col  gap-4 justify-evenly m-4">
       <div className="grow card image-full w-96 sm:w-full shadow-xl">
         <figure>
-          <img src="https://placehold.co/800x400" alt="placeholder" />
+          <img
+            src="/ian-schneider-TamMbr4okv4-unsplash.jpg"
+            alt="placeholder"
+          />
         </figure>
         <div className="card-body">
           <p>If you want to </p>
@@ -19,13 +23,18 @@ const UseCaseCard = () => {
             help you learn and explore about different civic innovation topics.
           </p>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary">Get started</button>
+            <Link href="/build-my-syllabus" className="btn btn-primary">
+              Get started
+            </Link>
           </div>
         </div>
       </div>
       <div className="grow card image-full w-96 sm:w-full shadow-xl">
         <figure>
-          <img src="https://placehold.co/800x400" alt="placeholder" />
+          <img
+            src="/daniele-levis-pelusi-AqgHZajV-IU-unsplash.jpg"
+            alt="placeholder"
+          />
         </figure>
         <div className="card-body">
           <p>If you want to </p>
@@ -37,7 +46,9 @@ const UseCaseCard = () => {
             as civic research, civic data, civic tech, and civic design.
           </p>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary">Explore</button>
+            <Link className="btn btn-primary" href="/resources">
+              Explore
+            </Link>
           </div>
         </div>
       </div>

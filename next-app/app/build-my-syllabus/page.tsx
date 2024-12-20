@@ -44,15 +44,14 @@ const BuildMySyllabusPage = () => {
               different domains or topics that interest you.
             </li>
           </ul>
-          <p>You could also explore resources by categories: </p>
+          {/* <p>You could also explore resources by categories: </p>
           <div>
-            <span className="text-red-600">TODO: Add word cloud here</span>
-            {/* <img
+            <img
               src="/word-cloud.png"
               className="w-2/5"
               alt="word cloud of categories"
-            ></img> */}
-          </div>
+            ></img>
+          </div> */}
         </div>
         <div className="divider"></div>
         <div>
@@ -78,7 +77,7 @@ const BuildMySyllabusPage = () => {
           </p>
         </div>
         <div className="divider"></div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 gap-16">
           <div>
             <h3 className="text-xl font-bold pb-6">
               Working Together to Get Something Done
@@ -125,27 +124,6 @@ const BuildMySyllabusPage = () => {
               Use tools filter in resources to support project development and
               scaling efforts. Tools are categorized as follows:
             </p>
-          </div>
-        </div>
-
-        <div className="flex gap-6 w-full">
-          <div className="card bg-slate-200 w-1/3 hover:bg-slate-300 cursor-pointer ">
-            <div className="card-body">
-              <p>Before You Begin</p>
-              <div className="card-actions justify-end"></div>
-            </div>
-          </div>
-          <div className="card bg-slate-200 w-1/3 hover:bg-slate-300 cursor-pointer">
-            <div className="card-body">
-              <p>Build Partnerships</p>
-              <div className="card-actions justify-end"></div>
-            </div>
-          </div>
-          <div className="card bg-slate-200 w-1/3 hover:bg-slate-300 cursor-pointer">
-            <div className="card-body">
-              <p>Get to Work</p>
-              <div className="card-actions justify-end"></div>
-            </div>
           </div>
         </div>
       </div>
