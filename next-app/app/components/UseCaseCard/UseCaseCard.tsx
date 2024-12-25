@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const UseCaseCard = () => {
   return (
-    <div className="flex lg:flex-row sm:flex-col gap-4 justify-evenly m-4 h-80">
+    <div className="flex md:flex-row sm:flex-col gap-4 justify-evenly m-4 sm:h-auto lg:max-h-80">
       <div className="grow card image-full sm:w-full shadow-xl">
         <figure>
           <img
@@ -14,7 +14,7 @@ const UseCaseCard = () => {
             alt="Two pairs of shoes standing near pavement text that reads “Passion led us here,” with dappled sunlight creating shadow patterns."
           />
         </figure>
-        <div className="card-body p-14">
+        <div className="card-body md:p-14 sm:p-10">
           <p>If you want to </p>
           <h2 className="card-title">
             Build a Civic Project | Create a Syllabus for Your Class
@@ -38,7 +38,7 @@ const UseCaseCard = () => {
             alt="A radial arrangement of sharp, translucent white shapes resembling flower petals or abstract wings on a light background."
           />
         </figure>
-        <div className="card-body p-14">
+        <div className="card-body md:p-14 sm:p-10">
           <p>If you want to </p>
           <h2 className="card-title">
             Get Inspired | Explore Civic Innovation Topics

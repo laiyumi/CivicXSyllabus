@@ -60,7 +60,7 @@ const DashboardSummary = () => {
         <div className="flex justify-between pb-5">
           <h1>Dashboard</h1>
         </div>
-        <div className="stats shadow w-full">
+        <div className="stats md:stats-horizontal	 sm:stats-vertical shadow w-full ">
           {containers.map((container) => (
             <Link
               key={container.label}

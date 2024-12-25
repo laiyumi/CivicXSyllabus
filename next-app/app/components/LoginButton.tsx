@@ -79,7 +79,10 @@ const LoginButton = () => {
                 </div>
               )}
               <li>
-                <button onClick={() => signOut({ callbackUrl: "/" })}>
+                <button
+                  className="lg:btn-md sm:btn-sm"
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                >
                   Logout
                 </button>
               </li>
@@ -88,7 +91,10 @@ const LoginButton = () => {
         </div>
       )}
       {status === "unauthenticated" && (
-        <button className="btn btn-ghost" onClick={() => signIn()}>
+        <button
+          className="btn btn-ghost lg:btn-md sm:btn-sm"
+          onClick={() => signIn()}
+        >
           Login
         </button>
       )}

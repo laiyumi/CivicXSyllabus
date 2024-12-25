@@ -12,7 +12,7 @@ const BuildMySyllabusPage = () => {
             Understand the Civic Landscape
           </h3>
           <img
-            className="float-right w-1/3 pl-6 pb-6"
+            className="float-right md:w-1/3 md:pl-6 md:pb-6 sm:pb-4"
             src="/daria-nepriakhina-zoCDWPuiRuA-unsplash.jpg"
             alt="A brainstorming or problem-solving board filled with sticky notes, each featuring handwritten ideas, placed in a brightly lit workspace."
           ></img>
@@ -55,7 +55,7 @@ const BuildMySyllabusPage = () => {
           <h3 className="text-xl font-bold pb-6">
             Create, Cultivate, and Sustain Partnerships
           </h3>
-          <div className="h-96 float-right w-1/3 pl-6 pb-6">
+          <div className="h-96 float-right md:w-1/3 md:pl-6 md:pb-6">
             <img
               className="object-cover h-full w-full"
               src="/josh-calabrese-Ev1XqeVL2wI-unsplash.jpg"
@@ -75,7 +75,7 @@ const BuildMySyllabusPage = () => {
           </p>
         </div>
         <div className="divider"></div>
-        <div className="grid grid-cols-2 gap-16">
+        <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-16">
           <div>
             <h3 className="text-xl font-bold pb-6">
               Working Together to Get Something Done

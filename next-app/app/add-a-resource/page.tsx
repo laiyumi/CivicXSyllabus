@@ -137,7 +137,7 @@ const AddAResourcePage = () => {
 
       <form onSubmit={onSubmit}>
         <div className="grid grid-cols-12">
-          <div className="justify-self-center w-full flex flex-col gap-6 col-start-4 col-span-6">
+          <div className="justify-self-center flex flex-col lg:gap-6 sm:gap-4 lg:col-start-4 lg:col-span-6 sm:col-start-2 sm:col-span-10">
             <div className="justify-self-center w-full flex flex-col gap-4 my-6">
               <p>
                 Thank you for contributing to Civic X Syllabus and sharing your
