@@ -43,15 +43,6 @@ const SearchBar = () => {
   return (
     <div className="w-full flex gap-2">
       <label className="input input-bordered flex items-center gap-2 w-full">
-        <input
-          type="text"
-          className="grow text-black"
-          placeholder="Search anything"
-          onChange={(e) => setSearchText(e.target.value)}
-          onKeyDown={(e) => {
-            handleEnterKey(e);
-          }}
-        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
@@ -65,6 +56,18 @@ const SearchBar = () => {
             clipRule="evenodd"
           />
         </svg>
+        <input
+          aria-label="Search"
+          id="search-input"
+          name="search"
+          type="search"
+          className="grow text-black"
+          placeholder="Search anything"
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e) => {
+            handleEnterKey(e);
+          }}
+        />
       </label>
       <button className="btn btn-primary" onClick={onSearch}>
         Search
