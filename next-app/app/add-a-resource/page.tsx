@@ -124,6 +124,7 @@ const AddAResourcePage = () => {
             fill="none"
             viewBox="0 0 24 24"
           >
+            <title>Error alert icon</title>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -164,6 +165,7 @@ const AddAResourcePage = () => {
                   viewBox="0 0 24 24"
                   className="stroke-info h-6 w-6 shrink-0"
                 >
+                  <title>Information icon</title>
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"

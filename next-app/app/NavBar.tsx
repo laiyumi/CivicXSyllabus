@@ -25,6 +25,7 @@ const NavBar = () => {
               viewBox="0 0 24 24"
               className="inline-block h-5 w-5 stroke-current"
             >
+              <title id="linkedin-title">Hamburger menu icon</title>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -131,7 +132,7 @@ const NavBar = () => {
         <div className="navbar-end">
           <Link
             href="/add-a-resource"
-            className="btn btn-primary mr-2 btn-outline lg:btn-md sm:btn-sm"
+            className="btn btn-primary mr-2 btn-outline lg:btn-md sm:btn-sm "
           >
             Add a Resource
           </Link>

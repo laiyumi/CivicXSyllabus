@@ -17,6 +17,7 @@ const SubmitssionSuccessPage = () => {
                 fill="none"
                 viewBox="0 0 24 24"
               >
+                <title>Success alert icon</title>
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
