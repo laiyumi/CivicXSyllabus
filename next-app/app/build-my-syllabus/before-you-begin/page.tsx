@@ -1,6 +1,7 @@
 import React from "react";
 import Accordion from "../../components/Accordion";
 import civic101 from "../../../data/civic101.json";
+import { Metadata } from "next";
 
 interface Prop {
   category: string;
@@ -41,6 +42,12 @@ const BeforeYouBeginPage = () => {
       </div>
     </>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Civic 101 - Civic X Syllabus",
+  description:
+    "Explore the four key focus areas: civic research, civic data, civic tech, and civic design through insights and example projects.",
 };
 
 export default BeforeYouBeginPage;

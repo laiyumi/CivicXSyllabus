@@ -1,6 +1,7 @@
 import React from "react";
 import Accordion from "../../components/Accordion";
 import getToWork from "../../../data/get-to-work.json";
+import { Metadata } from "next";
 
 interface Prop {
   category: string;
@@ -53,6 +54,12 @@ const GetToWorkPage = () => {
       </div>
     </>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Get to Work - Civic X Syllabus",
+  description:
+    "Guides partnerships through project well-being, design, and execution",
 };
 
 export default GetToWorkPage;

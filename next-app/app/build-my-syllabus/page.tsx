@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React from "react";
 
 const BuildMySyllabusPage = () => {
@@ -127,6 +128,11 @@ const BuildMySyllabusPage = () => {
       </div>
     </>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Use Cases - Civic X Syllabus",
+  description: "Learn how to use this site",
 };
 
 export default BuildMySyllabusPage;

@@ -1,6 +1,7 @@
 import React from "react";
 import useCasePersona from "../../../data/use-cases-persona.json";
 import PersonaCard from "../../components/PersonaCard";
+import { Metadata } from "next";
 
 interface Prop {
   persona: string;
@@ -34,6 +35,11 @@ const UseCasesPage = () => {
       </div>
     </>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Who we server - Civic X Syllabus",
+  description: "Three personas that Civic X Syllabus serves",
 };
 
 export default UseCasesPage;

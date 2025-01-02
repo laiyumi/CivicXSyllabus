@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React from "react";
 
 const AboutPage = () => {
@@ -31,6 +32,11 @@ const AboutPage = () => {
       </div>
     </>
   );
+};
+
+export const metadata: Metadata = {
+  title: "About Us - Civic X Syllabus",
+  description: "Learn about Civic X Syllabus",
 };
 
 export default AboutPage;

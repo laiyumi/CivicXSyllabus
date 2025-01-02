@@ -20,7 +20,7 @@ const ResourcesPage = () => {
 };
 
 export const metadata: Metadata = {
-  title: "Civic X Syllabus - Resources",
+  title: "Resources - Civic X Syllabus",
   description: "View all resources",
 };
 

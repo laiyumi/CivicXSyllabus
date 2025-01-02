@@ -1,6 +1,7 @@
 import React from "react";
 import Accordion from "../../components/Accordion";
 import partnerships from "../../../data/partnerships.json";
+import { Metadata } from "next";
 
 interface Prop {
   category: string;
@@ -41,6 +42,12 @@ const BuildPartnershipsPage = () => {
       </div>
     </>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Build Partnerships - Civic X Syllabus",
+  description:
+    "Discover strategies for building partnerships to foster collaboration, share resources, and engage communities, with support from like-minded individuals and resources.",
 };
 
 export default BuildPartnershipsPage;

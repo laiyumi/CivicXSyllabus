@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 
@@ -127,6 +128,11 @@ const TeamPage = () => {
       </div>
     </>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Our Team - Civic X Syllabus",
+  description: "There are real people behind Civic X Syllabus.",
 };
 
 export default TeamPage;
