@@ -35,7 +35,7 @@ const UserProfilePage = () => {
   return (
     <>
       <div className="flex flex-col gap-8 items-center">
-        <h2 className="text-2xl">My Profile</h2>
+        <h1 className="text-2xl text-center font-normal">My Profile</h1>
         <img src={userImage} alt="user image" className="w-12 rounded-full" />
         <div className="flex flex-col gap-8">
           <label className="input input-bordered flex items-center gap-4">

@@ -115,7 +115,7 @@ const AddAResourcePage = () => {
 
   return (
     <div className="my-10">
-      <h1 className="text-xl font-bold text-center">Add A Resource</h1>
+      <h1 className="text-2xl text-center font-normal">Add A Resource</h1>
       {error && (
         <div role="alert" className="alert alert-error mb-4">
           <svg
@@ -196,7 +196,7 @@ const AddAResourcePage = () => {
               />
               <ErrorMessage>{errors.email?.message}</ErrorMessage>
             </label>
-            <div className="divider divider-neutral">Resource Information</div>
+            <h2 className="divider divider-neutral">Resource Information</h2>
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Resource Name *</span>
               <input
@@ -249,7 +249,7 @@ const AddAResourcePage = () => {
               <ErrorMessage>{errors.moreInfo?.message}</ErrorMessage>
             </label>
 
-            <div className="divider divider-neutral">Categories</div>
+            <h2 className="divider divider-neutral">Categories</h2>
             <div className="flex flex-col gap-6">
               <p>What categories would you add this resource to?</p>
               <div className="flex gap-3 flex-wrap">
@@ -279,7 +279,7 @@ const AddAResourcePage = () => {
               </label>
             </div>
 
-            <div className="divider divider-neutral">Tags</div>
+            <h2 className="divider divider-neutral">Tags</h2>
             <div className="flex flex-col gap-6">
               <p>What tags would you attach to this resource?</p>
               <div className="flex gap-3 flex-wrap">

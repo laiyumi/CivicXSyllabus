@@ -4,7 +4,9 @@ const AboutPage = () => {
   return (
     <>
       <div className="flex flex-col gap-8 items-center">
-        <h2 className="text-2xl">What is Civic X Syllabus?</h2>
+        <h1 className="text-2xl text-center font-normal">
+          What is Civic X Syllabus?
+        </h1>
         <p>
           ‘Civic X’ is an umbrella term that we have adopted to describe the
           body of debated and debatable knowledge produced as part of civic

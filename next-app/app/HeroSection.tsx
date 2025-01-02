@@ -22,12 +22,12 @@ const HeroSection = () => {
             <h1 className="sm:text-2xl md:text-2xl lg:text-3xl text-center">
               Your Roadmap to Civic Innovation
             </h1>
-            <h2 className="md:text-md lg:text-lg text-center">
+            <p className="md:text-md lg:text-lg text-center">
               Your go-to platform for building foundational civic innovation
               knowledge. <br />
               Our platform curates high-quality resources searchable by resource
               type and topic.
-            </h2>
+            </p>
             <div className="lg:w-full sm:w-3/4">
               <SearchBar />
             </div>

@@ -28,7 +28,7 @@ const AdminCategoriesPage = () => {
   return (
     <div className="flex">
       <div className="w-full flex flex-col gap-5">
-        <h1>Categories</h1>
+        <h1 className="text-2xl">Categories</h1>
         <div className="flex gap-4">
           <input
             type="text"

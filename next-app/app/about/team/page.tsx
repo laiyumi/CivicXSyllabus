@@ -5,7 +5,7 @@ const TeamPage = () => {
   return (
     <>
       <div className="flex flex-col gap-8 items-center">
-        <h2 className="text-2xl">Our Team</h2>
+        <h1 className="text-2xl text-center font-normal">Our Team</h1>
         <div>
           <div className="grid grid-cols-3 bg-black mb-8 rounded-2xl">
             <figure className="col-span-1">

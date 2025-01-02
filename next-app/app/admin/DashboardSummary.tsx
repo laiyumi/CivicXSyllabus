@@ -57,8 +57,8 @@ const DashboardSummary = () => {
   return (
     <div className="flex">
       <div className="w-full">
-        <div className="flex justify-between pb-5">
-          <h1>Dashboard</h1>
+        <div className="flex justify-start pb-5">
+          <h1 className="text-2xl text-center">Dashboard</h1>
         </div>
         <div className="stats md:stats-horizontal	 sm:stats-vertical shadow w-full ">
           {containers.map((container) => (
@@ -68,7 +68,7 @@ const DashboardSummary = () => {
               className="hover:bg-slate-200"
             >
               <div className="stat place-items-center gap-2">
-                <div className="stat-title">{container.label}</div>
+                <h2 className="stat-title">{container.label}</h2>
                 <div className="stat-value">{container.value}</div>
               </div>
             </Link>

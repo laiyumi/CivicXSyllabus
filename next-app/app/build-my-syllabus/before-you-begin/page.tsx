@@ -21,7 +21,9 @@ const BeforeYouBeginPage = () => {
     <>
       <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col gap-2 text-center">
-          <h2 className="text-2xl">Before You Begin: Civic 101</h2>
+          <h1 className="text-2xl text-center font-normal">
+            Before You Begin: Civic 101
+          </h1>
         </div>
         <div>
           <p className="pb-4">

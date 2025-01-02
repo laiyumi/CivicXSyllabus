@@ -18,7 +18,7 @@ const UseCasesPage = () => {
   return (
     <>
       <div className="flex flex-col gap-8 items-center">
-        <h2 className="text-2xl">Who We Serve</h2>
+        <h1 className="text-2xl text-center font-normal">Who We Serve</h1>
         <p>
           Civic X Syllabus provides users with a platform that offers easily
           understood, well-organized civic innovation resources and toolkits,

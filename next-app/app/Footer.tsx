@@ -9,7 +9,7 @@ const Footer = () => {
         <p>Copyright © {new Date().getFullYear()} - All rights reserved</p>
       </aside>
       <nav>
-        <h6 className="footer-title">Social</h6>
+        <h3 className="footer-title">Social</h3>
         <div className="grid grid-flow-col gap-4">
           <Link href="https://www.linkedin.com/company/civicxsyllabus">
             <svg
@@ -26,7 +26,7 @@ const Footer = () => {
         </div>
       </nav>
       <nav>
-        <h6 className="footer-title">Legal</h6>
+        <h3 className="footer-title">Legal</h3>
         <Link href="/privacy" className="link link-hover">
           Privacy policy
         </Link>

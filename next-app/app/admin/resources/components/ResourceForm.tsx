@@ -128,9 +128,9 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
       <form onSubmit={onSubmit}>
         <div className="flex flex-col justify-center pb-12">
           <div className="flex justify-between">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">
+            <h1 className="text-2xl font-semibold leading-7 text-gray-900">
               Creating new Resource
-            </h2>
+            </h1>
             <button disabled={isSubmitting} className="btn btn-primary ">
               Save
               {isSubmitting && <Spinner />}

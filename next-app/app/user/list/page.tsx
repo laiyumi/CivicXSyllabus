@@ -143,7 +143,7 @@ const UserSavedResourcesPage = () => {
   return (
     <>
       <div className="flex flex-col gap-8 items-center">
-        {/* <h2 className="text-2xl">My List</h2> */}
+        <h1 className="text-2xl text-center font-normal">My List</h1>
         {showAlert && (
           <div
             role="alert"

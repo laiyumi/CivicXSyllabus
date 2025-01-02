@@ -151,9 +151,9 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
       <form>
         <div className="flex flex-col justify-center pb-12">
           <div className="flex justify-between">
-            <h2 className="text-xl font-semibold leading-10 text-gray-900 pb-8">
+            <h1 className="text-2xl font-semibold leading-10 text-gray-900 pb-8">
               Editing Resource
-            </h2>
+            </h1>
             <button
               type="button"
               onClick={onSubmit}

@@ -5,12 +5,12 @@ const BuildMySyllabusPage = () => {
     <>
       <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col gap-2 text-center">
-          <h2 className="text-2xl">Use Cases</h2>
+          <h1 className="text-2xl text-center font-normal">Use Cases</h1>
         </div>
         <div>
-          <h3 className="text-xl font-bold  pb-6">
+          <h2 className="text-xl font-bold  pb-6">
             Understand the Civic Landscape
-          </h3>
+          </h2>
           <img
             className="float-right md:w-1/3 md:pl-6 md:pb-6 sm:pb-4"
             src="/daria-nepriakhina-zoCDWPuiRuA-unsplash.jpg"
@@ -52,9 +52,9 @@ const BuildMySyllabusPage = () => {
         </div>
         <div className="divider"></div>
         <div>
-          <h3 className="text-xl font-bold pb-6">
+          <h2 className="text-xl font-bold pb-6">
             Create, Cultivate, and Sustain Partnerships
-          </h3>
+          </h2>
           <div className="h-96 float-right md:w-1/3 md:pl-6 md:pb-6">
             <img
               className="object-cover h-full w-full"
@@ -77,9 +77,9 @@ const BuildMySyllabusPage = () => {
         <div className="divider"></div>
         <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-16">
           <div>
-            <h3 className="text-xl font-bold pb-6">
+            <h2 className="text-xl font-bold pb-6">
               Working Together to Get Something Done
-            </h3>
+            </h2>
             <p className="pb-4">
               The Get to Work offers a comprehensive framework for partnerships
               interested in learning how to execute civic projects effectively.
@@ -115,9 +115,9 @@ const BuildMySyllabusPage = () => {
             </p>
           </div>
           <div className="w-full">
-            <h3 className="text-xl font-bold pb-6">
+            <h2 className="text-xl font-bold pb-6">
               You Are Not Alone: Access to Our Extensive Tools
-            </h3>
+            </h2>
             <p className="pb-4">
               Use tools filter in resources to support project development and
               scaling efforts. Tools are categorized as follows:

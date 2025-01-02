@@ -20,7 +20,9 @@ const BuildPartnershipsPage = () => {
     <>
       <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col gap-2 text-center">
-          <h2 className="text-2xl">Build Partnerships</h2>
+          <h1 className="text-2xl text-center font-normal">
+            Build Partnerships
+          </h1>
         </div>
         <div>
           <p className="pb-4">

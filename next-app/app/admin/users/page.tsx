@@ -9,7 +9,7 @@ import SearchBar from "@/app/components/SearchBar";
 const AdminUsersPage = () => {
   return (
     <div className="w-full flex flex-col gap-4">
-      <h1>Users</h1>
+      <h1 className="text-2xl">Users</h1>
       <div className="flex justify-between pb-5">
         {/* <div className="w-1/3">
           <SearchBar />

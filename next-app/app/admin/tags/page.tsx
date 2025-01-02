@@ -28,7 +28,7 @@ const AdminTagsPage = () => {
   return (
     <div className="flex">
       <div className="w-full flex flex-col gap-5">
-        <h1>Tags</h1>
+        <h1 className="text-2xl">Tags</h1>
         <div className="flex gap-4">
           <input
             type="text"

@@ -8,7 +8,7 @@ const AdminMediaPage = async () => {
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <h1>Medias</h1>
+      <h1 className="text-2xl">Medias</h1>
       <div className="flex flex-wrap gap-4 ">
         {resources.map((resource) => (
           <div className="h-full w-[200px]" key={resource.id}>
