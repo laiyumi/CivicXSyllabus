@@ -11,11 +11,13 @@ export default function MarqueeDemo() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  // fetch categories with at least one resource
   useEffect(() => {
     const fetchCategories = async () => {
-      const categoryResponse = await axios.get("/api/categories");
+      const categoryResponse = await axios.get("/api/categories/notEmpty");
       const categoryData = await categoryResponse.data;
       setCategories(categoryData);
+      console.log(categoryData);
     };
     fetchCategories();
   }, []);
@@ -42,7 +44,9 @@ export default function MarqueeDemo() {
           <ReviewCard
             key={category.name}
             {...category}
-            onClick={() => setSelectedCategory(category.name)}
+            onClick={() =>
+              setSelectedCategory(encodeURIComponent(category.name))
+            }
           />
         ))}
       </Marquee>
@@ -51,7 +55,9 @@ export default function MarqueeDemo() {
           <ReviewCard
             key={category.name}
             {...category}
-            onClick={() => setSelectedCategory(category.name)}
+            onClick={() =>
+              setSelectedCategory(encodeURIComponent(category.name))
+            }
           />
         ))}
       </Marquee>

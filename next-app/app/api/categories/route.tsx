@@ -5,8 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 // get all categories
 export async function GET(request: NextRequest) {
   try {
-    const categories = await prisma.category.findMany();
-    // console.log("Fetched categories:", categories);
+    const categories = await prisma.category.findMany({
+      orderBy: {
+        name: "asc",
+      },
+    });
     return NextResponse.json(categories);
   } catch (error) {
     console.error("Failed to fetch categories:", error);

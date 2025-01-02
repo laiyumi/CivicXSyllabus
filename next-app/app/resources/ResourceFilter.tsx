@@ -128,7 +128,9 @@ const ResourceFilter = () => {
         </div>
         <select
           className="select select-bordered w-auto"
-          onChange={(category) => setSelectedCategory(category.target.value)}
+          onChange={(category) =>
+            setSelectedCategory(encodeURIComponent(category.target.value))
+          }
         >
           {categories.map((category) => (
             <option key={category.label} value={category.value || ""}>

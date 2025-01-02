@@ -4,7 +4,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 // get all tags
 export async function GET(request: NextRequest) {
-  const tags = await prisma.tag.findMany();
+  const tags = await prisma.tag.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
   return NextResponse.json(tags);
 }
 
