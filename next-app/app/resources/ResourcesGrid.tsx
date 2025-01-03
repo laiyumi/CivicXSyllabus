@@ -134,7 +134,7 @@ const ResourcesGrid = () => {
               <ResourceCard key={resource.id} resource={resource} />
             ))}
           </div>
-          <div className="mt-16 mb-8 flex justify-center">
+          <div className="mt-16 mb-8 flex justify-center ">
             <Pagination
               itemCount={postCount}
               pageSize={pageSize}

@@ -10,7 +10,8 @@ type PostWithRelations = Prisma.PostGetPayload<{
 
 const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
   return (
-    <div
+    <Link
+      href={`/resources/${resource.id}`}
       key={resource.id}
       className="
         card bg-base-100 shadow-xl col-span-1 
@@ -42,16 +43,12 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
           ))}
         </div>
         <div className="card-actions justify-between mt-4">
-          <ToggleLikes resourceId={resource.id} />
-          <Link
-            href={`/resources/${resource.id}`}
-            className="btn btn-sm btn-primary"
-          >
-            Read More
-          </Link>
+          <div onClick={(e) => e.stopPropagation()}>
+            <ToggleLikes resourceId={resource.id} />
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
