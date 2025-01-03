@@ -17,7 +17,7 @@ const NavBar = () => {
           <div
             tabIndex={0}
             role="button"
-            className="btn btn-ghost lg:hidden sm:btn-sm"
+            className="btn btn-ghost md:hidden xs:btn-sm"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,7 @@ const NavBar = () => {
           </ul>
         </div>
         {/* large screen */}
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center hidden md:flex">
           <Link href="/resources" className="btn btn-ghost">
             Resources
           </Link>
@@ -132,7 +132,7 @@ const NavBar = () => {
         <div className="navbar-end">
           <Link
             href="/add-a-resource"
-            className="btn btn-primary mr-2 btn-outline lg:btn-md sm:btn-sm "
+            className="btn btn-primary mr-2 btn-outline md:btn-md xs:btn-sm "
           >
             Add a Resource
           </Link>

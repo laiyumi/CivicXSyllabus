@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import React from "react";
+import Link from "next/link";
 
 const BuildMySyllabusPage = () => {
   return (
@@ -29,17 +30,30 @@ const BuildMySyllabusPage = () => {
               <strong>
                 If you already know what kind of syllabus you want to build
               </strong>
-              , head to the resources to find materials that align with your
-              topic. Don’t forget to use the filters to make your search more
-              specific.
+              , head to{" "}
+              <Link
+                href="/resources"
+                className="font-medium border-b border-sky-600  hover:border-b-2 "
+              >
+                Resources
+              </Link>{" "}
+              to find materials that align with your topic. Don’t forget to use
+              the filters to make your search more specific.
             </li>
             <li>
               <strong>
                 If you’re unsure or haven’t decided on a topic yet
               </strong>
-              , go to Before You Begin to learn more about our four key focus
-              areas, or use the tags and filters in the resources to explore
-              different domains or topics that interest you.
+              , go to{" "}
+              <Link
+                href="/build-my-syllabus/before-you-begin"
+                className="font-medium border-b border-sky-600  hover:border-b-2 "
+              >
+                Before You Begin
+              </Link>{" "}
+              to learn more about our four key focus areas, or use the tags and
+              filters in the resources to explore different domains or topics
+              that interest you.
             </li>
           </ul>
           {/* <p>You could also explore resources by categories: </p>
@@ -70,9 +84,16 @@ const BuildMySyllabusPage = () => {
             community.
           </p>
           <p className="pb-4">
-            Follow the strategies and tips in Build Partnerships to understand
-            how fostering robust, lasting partnerships support the civic
-            research, civic data, civic design, and civic technology work we do.
+            Follow the strategies and tips in{" "}
+            <Link
+              href="/build-my-syllabus/build-partnerships"
+              className="font-medium border-b border-sky-600  hover:border-b-2 "
+            >
+              Build Partnerships
+            </Link>{" "}
+            to understand how fostering robust, lasting partnerships support the
+            civic research, civic data, civic design, and civic technology work
+            we do.
           </p>
         </div>
         <div className="divider"></div>
@@ -82,9 +103,16 @@ const BuildMySyllabusPage = () => {
               Working Together to Get Something Done
             </h2>
             <p className="pb-4">
-              The Get to Work offers a comprehensive framework for partnerships
-              interested in learning how to execute civic projects effectively.
-              It is structured around three main units:
+              The{" "}
+              <Link
+                href="/build-my-syllabus/get-to-work"
+                className="font-medium border-b border-sky-600  hover:border-b-2 "
+              >
+                Get to Work
+              </Link>{" "}
+              offers a comprehensive framework for partnerships interested in
+              learning how to execute civic projects effectively. It is
+              structured around three main units:
             </p>
             <ul
               role="list"
