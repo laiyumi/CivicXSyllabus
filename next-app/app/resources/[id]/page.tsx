@@ -1,5 +1,6 @@
 "use client";
 
+import { Metadata } from "next";
 import { Prisma } from "@prisma/client";
 import axios from "axios";
 import Link from "next/link";
@@ -171,16 +172,24 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
 };
 
 // need to fix
-
 async function generateMetaData({ params: { id } }: Props) {
+  console.log("generating the meta data...");
   const resource = await prisma.post.findUnique({
     where: { id },
   });
 
-  return {
-    title: resource?.title,
-    description: "Details of " + resource?.id,
+  if (!resource) {
+    throw new Error(`Resource with id ${id} not found`);
+  }
+
+  const metadata: Metadata = {
+    title: resource.title,
+    description: "Details of " + resource.title,
   };
+
+  return metadata;
 }
+
+export { generateMetaData };
 
 export default ResourceDetailPage;

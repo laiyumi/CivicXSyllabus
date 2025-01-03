@@ -150,7 +150,7 @@ const AddAResourcePage = () => {
                 <a
                   href={`mailto:civicxsyllabus@gmail.com?subject=Sharing Some Useful Resources`}
                   target="_blank"
-                  className="text-blue-500"
+                  className="text-blue-600"
                   rel="noopener noreferrer"
                 >
                   civicxsyllabus@gmail.com
@@ -180,7 +180,6 @@ const AddAResourcePage = () => {
               <span className="text-m">Your Name *</span>
               <input
                 type="text"
-                placeholder="Type here"
                 className="input input-bordered w-full"
                 {...register("name")}
               />
@@ -190,7 +189,6 @@ const AddAResourcePage = () => {
               <span className="text-m">Your Email *</span>
               <input
                 type="text"
-                placeholder="Type here"
                 className="input input-bordered w-full"
                 {...register("email")}
               />
@@ -201,13 +199,12 @@ const AddAResourcePage = () => {
               <span className="text-m">Resource Name *</span>
               <input
                 type="text"
-                placeholder="Type here"
                 className="input input-bordered w-full"
                 {...register("resourceName")}
               />
               <ErrorMessage>{errors.resourceName?.message}</ErrorMessage>
             </label>
-            <label className="form-control w-full  flex gap-2">
+            <label className="form-control w-full flex gap-2">
               <span className="text-m">Resource Link *</span>
               <input
                 type="text"
@@ -220,7 +217,7 @@ const AddAResourcePage = () => {
             <label className="form-control w-full flex gap-2">
               <span className="text-m">Short Description *</span>
               <textarea
-                className="textarea textarea-bordered h-24"
+                className="textarea textarea-bordered h-24 text-base placeholder:text-m"
                 placeholder="A one-sentence summary description"
                 {...register("description")}
               ></textarea>
@@ -231,7 +228,8 @@ const AddAResourcePage = () => {
                 Why do you think it is a best fit? *
               </span>
               <textarea
-                className="textarea textarea-bordered h-36"
+                placeholder="Use 2-3 sentences to explain why you think this resource should be included in Civic X Syllabus."
+                className="textarea textarea-bordered h-36 text-base placeholder:text-m"
                 {...register("bestFit")}
               ></textarea>
               <ErrorMessage>{errors.bestFit?.message}</ErrorMessage>
@@ -242,7 +240,7 @@ const AddAResourcePage = () => {
                 Syllabus? (optional)
               </span>
               <textarea
-                className="textarea textarea-bordered h-36"
+                className="textarea textarea-bordered h-36 text-base placeholder:text-m"
                 placeholder="When did it start? Who is it for? What impact has it made? How can others get involved?"
                 {...register("moreInfo")}
               ></textarea>
@@ -269,10 +267,10 @@ const AddAResourcePage = () => {
                 If you can’t find a suitable category, please enter 1-3
                 categories(separate by commas) that you think fit best.
               </p>
-              <label>
+              <label className="form-control w-full flex gap-2">
+                <span className="text-m">Enter New Categories:</span>
                 <input
                   type="text"
-                  placeholder="Type here"
                   className="input input-bordered w-full"
                   onChange={(e) => setNewCategories(e.target.value)}
                 />
@@ -299,10 +297,10 @@ const AddAResourcePage = () => {
                 If you can’t find a suitable tag, please enter 1-3 tags(separate
                 by commas) that you think fit best.
               </p>
-              <label>
+              <label className="form-control w-full flex gap-2">
+                <span className="text-m">Enter New Tags:</span>
                 <input
                   type="text"
-                  placeholder="Type here"
                   className="input input-bordered w-full"
                   onChange={(e) => setNewTags(e.target.value)}
                 />
