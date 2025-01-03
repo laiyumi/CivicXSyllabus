@@ -17,7 +17,7 @@ export const UserSubmittedResourceSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Please enter a valid email address").trim(),
   resourceName: z.string().min(1, "Resource name is required"),
-  resourceLink: z.string().url("Link must includes https://"),
+  resourceLink: z.string().url("Link must include https://"),
   description: z.string().min(1, "Description is required"),
   bestFit: z
     .string()

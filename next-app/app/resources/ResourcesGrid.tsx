@@ -125,18 +125,24 @@ const ResourcesGrid = () => {
   // render
   return (
     <>
-      <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-        {paginatedResources.map((resource) => (
-          <ResourceCard key={resource.id} resource={resource} />
-        ))}
-      </div>
-      <div className="mt-16 mb-8 flex justify-center">
-        <Pagination
-          itemCount={postCount}
-          pageSize={pageSize}
-          currentPage={currentPage}
-        />
-      </div>
+      {filteredResources.length === 0 ? (
+        <p className="text-center">No results found for your search.</p>
+      ) : (
+        <>
+          <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {paginatedResources.map((resource) => (
+              <ResourceCard key={resource.id} resource={resource} />
+            ))}
+          </div>
+          <div className="mt-16 mb-8 flex justify-center">
+            <Pagination
+              itemCount={postCount}
+              pageSize={pageSize}
+              currentPage={currentPage}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 };

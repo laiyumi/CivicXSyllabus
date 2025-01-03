@@ -138,7 +138,7 @@ const AddAResourcePage = () => {
 
       <form onSubmit={onSubmit}>
         <div className="grid grid-cols-12">
-          <div className="justify-self-center flex flex-col lg:gap-6 sm:gap-4 lg:col-start-4 lg:col-span-6 sm:col-start-2 sm:col-span-10">
+          <div className="justify-self-center flex flex-col lg:gap-6 lg:col-start-4 lg:col-span-6 sm:gap-4 xs:gap-2 xs:col-start-2 xs:col-span-10">
             <div className="justify-self-center w-full flex flex-col gap-4 my-6">
               <p>
                 Thank you for contributing to Civic X Syllabus and sharing your
@@ -250,16 +250,19 @@ const AddAResourcePage = () => {
             <h2 className="divider divider-neutral">Categories</h2>
             <div className="flex flex-col gap-6">
               <p>What categories would you add this resource to?</p>
-              <div className="flex gap-3 flex-wrap">
+              <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {categories?.map((category) => (
-                  <label key={category.id} className="label cursor-pointer">
+                  <label
+                    key={category.id}
+                    className="label cursor-pointer justify-start"
+                  >
                     <input
                       type="checkbox"
                       className="checkbox"
                       checked={selectedCategories.includes(category.name)}
                       onChange={(e) => handleCategoryChange(category.name)}
                     />
-                    <span className="label-text pl-3">{category.name}</span>
+                    <span className="label-text pl-2">{category.name}</span>
                   </label>
                 ))}
               </div>
@@ -280,16 +283,19 @@ const AddAResourcePage = () => {
             <h2 className="divider divider-neutral">Tags</h2>
             <div className="flex flex-col gap-6">
               <p>What tags would you attach to this resource?</p>
-              <div className="flex gap-3 flex-wrap">
+              <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {tags?.map((tag) => (
-                  <label key={tag.id} className="label cursor-pointer">
+                  <label
+                    key={tag.id}
+                    className="label cursor-pointer justify-start"
+                  >
                     <input
                       type="checkbox"
                       className="checkbox"
                       checked={selectedTags.includes(tag.name)}
                       onChange={(e) => handleTagChange(tag.name)}
                     />
-                    <span className="label-text pl-3">{tag.name}</span>
+                    <span className="label-text pl-2">{tag.name}</span>
                   </label>
                 ))}
               </div>

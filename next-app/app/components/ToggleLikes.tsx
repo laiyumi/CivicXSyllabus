@@ -38,7 +38,8 @@ const ToggleLikes = ({ resourceId }: { resourceId: string }) => {
     <div className="flex flex-start">
       <div className="rating gap-1" onClick={handleToggleLike}>
         <input
-          type="radio"
+          aria-label={hasLiked ? "Unlike this resource" : "Like this resource"}
+          type="checkbox"
           name="rating-3"
           className={`mask mask-heart ${
             hasLiked ? "bg-red-400" : "bg-red-200"
