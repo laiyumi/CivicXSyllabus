@@ -34,15 +34,19 @@ const Accordion = ({ data }: AccordionProps) => {
   return (
     <div className="w-full  bg-gray-100 rounded-2xl">
       {/* Accordion Header */}
-      <div
-        className="flex justify-between items-center p-4 cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-2xl"
+      <button
+        className="w-full flex justify-between items-center p-4 cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-2xl"
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls={`accordion-content-${data.title}`}
       >
-        <h3 className="text-lg font-medium">{data.title}</h3>
-        <span className="transform transition-transform  duration-300">
-          {isOpen ? <img src="/remove.svg" /> : <img src="/add.svg" />}
-        </span>
-      </div>
+        <h2 className="text-lg font-medium">{data.title}</h2>
+        <img
+          src={isOpen ? "/remove.svg" : "/add.svg"}
+          alt={isOpen ? "Collapse section" : "Expand section"}
+          className="transform transition-transform duration-300"
+        />
+      </button>
 
       {/* Accordion Content */}
       <div
@@ -72,7 +76,7 @@ const Accordion = ({ data }: AccordionProps) => {
             href={`/resources?category=${encodeURIComponent(data.category)}`}
             className="btn btn-primary btn-sm btn-outline"
           >
-            More Resources
+            View More in {data.category}{" "}
           </Link>
         </div>
       </div>

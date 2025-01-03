@@ -42,7 +42,7 @@ const SelectedResource = ({ resource }: SelectedResourceProps) => {
       <li key={resource.name}>
         <Link
           href={resourceLink}
-          className="text-blue-500 underline"
+          className="text-blue-600 underline"
           onClick={(e) => e.stopPropagation()}
         >
           {resource.name}

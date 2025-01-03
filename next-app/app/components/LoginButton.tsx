@@ -60,9 +60,7 @@ const LoginButton = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-5 w-52 p-2 shadow"
             >
               <li>
-                <Link href="/user/profile" className="justify-between">
-                  Profile
-                </Link>
+                <Link href="/user/profile">Profile</Link>
               </li>
               {userRole === "ADMIN" ? (
                 <li>
@@ -73,16 +71,13 @@ const LoginButton = () => {
                   <li>
                     <Link href="/user/list">Saved</Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link href="/user/contribution">My Contribution</Link>
-                  </li>
+                  </li> */}
                 </div>
               )}
               <li>
-                <button
-                  className="lg:btn-md sm:btn-sm"
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                >
+                <button onClick={() => signOut({ callbackUrl: "/" })}>
                   Logout
                 </button>
               </li>
@@ -91,10 +86,7 @@ const LoginButton = () => {
         </div>
       )}
       {status === "unauthenticated" && (
-        <button
-          className="btn btn-ghost lg:btn-md sm:btn-sm"
-          onClick={() => signIn()}
-        >
+        <button className="btn btn-ghost xs:btn-sm" onClick={() => signIn()}>
           Login
         </button>
       )}

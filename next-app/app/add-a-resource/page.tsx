@@ -150,7 +150,7 @@ const AddAResourcePage = () => {
                 <a
                   href={`mailto:civicxsyllabus@gmail.com?subject=Sharing Some Useful Resources`}
                   target="_blank"
-                  className="text-blue-600"
+                  className="text-blue-600 underline"
                   rel="noopener noreferrer"
                 >
                   civicxsyllabus@gmail.com

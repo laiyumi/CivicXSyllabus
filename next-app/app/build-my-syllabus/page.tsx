@@ -149,7 +149,7 @@ const BuildMySyllabusPage = () => {
             </h2>
             <p className="pb-4">
               Use tools filter in resources to support project development and
-              scaling efforts. Tools are categorized as follows:
+              scaling efforts.
             </p>
           </div>
         </div>

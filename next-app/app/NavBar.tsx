@@ -72,7 +72,7 @@ const NavBar = () => {
                   <Link href="/about/team">Our Team</Link>
                 </li>
                 <li>
-                  <Link href="/about/use-cases">Who We Serve</Link>
+                  <Link href="/about/who-we-serve">Who We Serve</Link>
                 </li>
               </ul>
             </li>
@@ -124,7 +124,7 @@ const NavBar = () => {
                 <Link href="/about/team">Our Team</Link>
               </li>
               <li>
-                <Link href="/about/use-cases">Who We Serve</Link>
+                <Link href="/about/who-we-serve">Who We Serve</Link>
               </li>
             </ul>
           </div>

@@ -25,7 +25,8 @@ const UseCasesPage = () => {
           understood, well-organized civic innovation resources and toolkits,
           including peer-reviewed articles, blog posts, web archives, case
           studies, and manuals that will help them launch their civic innovation
-          goals to practical reality.
+          goals to practical reality. Here are 3 fictional users we use to
+          represent our target audiences.
         </p>
         <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-8 h-full">
           {data.map((persona: Prop) => (
