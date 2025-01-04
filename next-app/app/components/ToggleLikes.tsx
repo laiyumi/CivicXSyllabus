@@ -4,7 +4,7 @@ import axios from "axios";
 const ToggleLikes = ({ resourceId }: { resourceId: string }) => {
   const [likes, setLikes] = useState<number>(0);
   const [hasLiked, setHasLiked] = useState<boolean>(false);
-  const [isLikeDisabled, setIsLikeDisabled] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // get the resource likes
   useEffect(() => {
@@ -17,20 +17,28 @@ const ToggleLikes = ({ resourceId }: { resourceId: string }) => {
 
   // handle front end and back end when toggle likes
   const handleToggleLike = async () => {
+    if (loading) return;
+
+    // Optimistically update the UI
+    setHasLiked((prev) => !prev);
+    setLikes((prev) => (hasLiked ? Math.max(prev - 1, 0) : prev + 1));
+    setLoading(true);
+
     try {
       if (hasLiked) {
         // Unlike: Decrement the likes count
-        setLikes((prevLikes) => Math.max(prevLikes - 1, 0)); // Prevent negative likes
         await axios.put(`/api/resources/${resourceId}/unlike`);
       } else {
         // Like: Increment the likes count
-        setLikes((prevLikes) => prevLikes + 1);
         await axios.put(`/api/resources/${resourceId}/like`);
       }
-      setHasLiked(!hasLiked); // Toggle the liked state
-      console.log("has liked: ", hasLiked);
     } catch (error) {
       console.error("Error toggling like:", error);
+      // Revert state on error
+      setHasLiked((prev) => !prev);
+      setLikes((prev) => (hasLiked ? prev + 1 : Math.max(prev - 1, 0)));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,6 +47,7 @@ const ToggleLikes = ({ resourceId }: { resourceId: string }) => {
       <div className="rating gap-1" onClick={handleToggleLike}>
         <input
           aria-label={hasLiked ? "Unlike this resource" : "Like this resource"}
+          disabled={loading}
           type="checkbox"
           name="rating-3"
           className={`mask mask-heart ${
