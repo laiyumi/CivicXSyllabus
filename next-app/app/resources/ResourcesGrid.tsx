@@ -13,6 +13,8 @@ type PostWithRelations = Prisma.PostGetPayload<{
 }>;
 
 const ResourcesGrid = () => {
+  const [loading, setLoading] = useState(true);
+
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
@@ -44,6 +46,7 @@ const ResourcesGrid = () => {
       const resourceResponse = await axios.get("/api/resources");
       setResources(resourceResponse.data);
       setResourcesCopy(resourceResponse.data);
+      setLoading(false);
     };
     fetchResources();
   }, []);
@@ -125,7 +128,9 @@ const ResourcesGrid = () => {
   // render
   return (
     <>
-      {filteredResources.length === 0 ? (
+      {loading ? (
+        <p className="text-center">Loading...</p>
+      ) : filteredResources.length === 0 ? (
         <p className="text-center">No results found for your search.</p>
       ) : (
         <>
