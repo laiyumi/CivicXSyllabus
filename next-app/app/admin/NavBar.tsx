@@ -19,8 +19,8 @@ const AdminDashboardNavBar = () => {
   ];
 
   return (
-    <div className="flex">
-      <aside className="flex flex-col border-r-4 border-slate-300  p-5 mr-5 gap-5 h-auto">
+    <div className="flex h-full">
+      <aside className="flex flex-col border-r-4 border-slate-300 p-5 mr-5 gap-5 h-full">
         {links.map((link) => (
           <Link
             key={link.href}

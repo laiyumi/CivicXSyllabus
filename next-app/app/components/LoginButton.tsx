@@ -86,7 +86,10 @@ const LoginButton = () => {
         </div>
       )}
       {status === "unauthenticated" && (
-        <button className="btn btn-ghost xs:btn-sm" onClick={() => signIn()}>
+        <button
+          className="btn btn-ghost xs:btn-sm md:btn-md"
+          onClick={() => signIn()}
+        >
           Login
         </button>
       )}
