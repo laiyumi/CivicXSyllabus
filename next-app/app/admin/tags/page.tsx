@@ -30,6 +30,10 @@ const AdminTagsPage = () => {
     setNewTag("");
   };
 
+  const handleDelete = (id: string) => {
+    setTags(tags.filter((tag) => tag.id !== id));
+  };
+
   return (
     <div className="flex">
       <div className="w-full flex flex-col gap-5">
@@ -48,7 +52,13 @@ const AdminTagsPage = () => {
         </div>
         <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {tags.map((tag: TagWithPosts) => (
-            <Badge name={tag.name} key={tag.id} postCount={tag.posts.length} />
+            <Badge
+              name={tag.name}
+              key={tag.id}
+              postCount={tag.posts.length}
+              id={tag.id}
+              onDelete={handleDelete}
+            />
           ))}
         </div>
       </div>
