@@ -4,12 +4,14 @@ import React from "react";
 
 interface BadgeProps {
   name: string;
+  postCount: number;
   // onClick: () => void;
 }
-const Badge = ({ name }: BadgeProps) => {
+const Badge = ({ name, postCount }: BadgeProps) => {
   return (
-    <div className="badge bg-slate-200 gap-3 py-3">
-      {name}
+    <div className="badge bg-slate-200 gap-3 py-1 h-auto">
+      <span>{name}</span>
+      <div className="badge badge-secondary badge-sm">{postCount}</div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

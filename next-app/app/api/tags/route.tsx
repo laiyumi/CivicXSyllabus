@@ -8,6 +8,9 @@ export async function GET(request: NextRequest) {
     orderBy: {
       name: "asc",
     },
+    include: {
+      posts: true,
+    },
   });
   return NextResponse.json(tags);
 }

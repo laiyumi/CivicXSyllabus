@@ -1,12 +1,16 @@
 "use client";
 
 import Badge from "@/app/components/Badge";
-import { Category } from "@prisma/client";
+import { Category, Post } from "@prisma/client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+interface CategoryWithPosts extends Category {
+  posts: Post[];
+}
+
 const AdminCategoriesPage = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CategoryWithPosts[]>([]);
   const [newCategory, setNewCategory] = useState("");
 
   useEffect(() => {
@@ -40,9 +44,13 @@ const AdminCategoriesPage = () => {
             Add
           </button>
         </div>
-        <div className="flex gap-6 flex-wrap">
-          {categories.map((category: Category) => (
-            <Badge name={category.name} key={category.id} />
+        <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((category: CategoryWithPosts) => (
+            <Badge
+              name={category.name}
+              key={category.id}
+              postCount={category.posts.length}
+            />
           ))}
         </div>
       </div>

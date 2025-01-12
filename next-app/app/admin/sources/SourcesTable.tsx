@@ -10,6 +10,9 @@ interface SourceProps {
 
 const SourcesTable = async () => {
   const sources = await prisma.source.findMany({
+    orderBy: {
+      name: "asc",
+    },
     include: {
       Posts: {
         select: {

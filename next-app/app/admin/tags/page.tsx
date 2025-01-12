@@ -1,17 +1,22 @@
 "use client";
 import Badge from "@/app/components/Badge";
-import { Tag } from "@prisma/client";
+import { Tag, Post } from "@prisma/client";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
+interface TagWithPosts extends Tag {
+  posts: Post[];
+}
+
 const AdminTagsPage = () => {
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [tags, setTags] = useState<TagWithPosts[]>([]);
   const [error, setError] = useState(null);
   const [newTag, setNewTag] = useState("");
 
   useEffect(() => {
     const fetchTags = async () => {
       const response = await axios.get("/api/tags");
+      console.log("fetching the tags data:" + response.data);
       setTags(response.data);
     };
     fetchTags();
@@ -41,9 +46,9 @@ const AdminTagsPage = () => {
             Add
           </button>
         </div>
-        <div className="flex gap-6 flex-wrap">
-          {tags.map((tag: Tag) => (
-            <Badge name={tag.name} key={tag.id} />
+        <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {tags.map((tag: TagWithPosts) => (
+            <Badge name={tag.name} key={tag.id} postCount={tag.posts.length} />
           ))}
         </div>
       </div>

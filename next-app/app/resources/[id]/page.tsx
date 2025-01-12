@@ -25,11 +25,16 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
   const [resource, setResource] = useState<PostWithRelations>();
   const [relatedResources, setRelatedResources] = useState<PostWithScore[]>();
   const { data: session, status } = useSession();
+  const [paragraphs, setParagraphs] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchResource = async () => {
       const response = await axios.get(`/api/resources/${id}`);
       setResource(response.data);
+      // Split the content into paragraphs
+      const content = response.data.content;
+      const paragraphs = content.split(/\r?\n/);
+      setParagraphs(paragraphs);
     };
 
     const fetchRelatedResources = async () => {
@@ -97,7 +102,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         <figure className="lg:w-1/2 md:w-full">
           <img
             src={resource?.imageUrl}
-            alt="TODO"
+            alt="Resource thumbnail"
             className="object-cover w-full h-full"
           />
         </figure>
@@ -147,7 +152,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         <h3 className="text-xl pt-4 text-center">Overview</h3>
         <div className="divider"></div>
         <div>
-          {resource?.content.split("\n").map((paragraph, index) => (
+          {paragraphs.map((paragraph, index) => (
             <p key={index} className="p-4">
               {paragraph}
             </p>
