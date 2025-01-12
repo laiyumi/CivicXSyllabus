@@ -29,6 +29,10 @@ const AdminCategoriesPage = () => {
     setNewCategory("");
   };
 
+  const handleDelete = (id: string) => {
+    setCategories(categories.filter((category) => category.id !== id));
+  };
+
   return (
     <div className="flex">
       <div className="w-full flex flex-col gap-5">
@@ -47,9 +51,12 @@ const AdminCategoriesPage = () => {
         <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category: CategoryWithPosts) => (
             <Badge
+              type="categories"
               name={category.name}
+              id={category.id}
               key={category.id}
               postCount={category.posts.length}
+              onDelete={handleDelete}
             />
           ))}
         </div>

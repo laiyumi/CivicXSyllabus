@@ -56,10 +56,12 @@ export async function DELETE(
   });
   if (!category)
     return NextResponse.json({ error: "category not found" }, { status: 404 });
+
   await prisma.category.delete({
     where: {
-      id: params.id,
+      id: category.id,
     },
   });
-  return NextResponse.json({ message: "category deleted" });
+
+  return NextResponse.json({ message: "category deleted" }, { status: 200 });
 }

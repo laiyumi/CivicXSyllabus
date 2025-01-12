@@ -53,6 +53,7 @@ const AdminTagsPage = () => {
         <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {tags.map((tag: TagWithPosts) => (
             <Badge
+              type="tags"
               name={tag.name}
               key={tag.id}
               postCount={tag.posts.length}

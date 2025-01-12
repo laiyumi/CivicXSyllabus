@@ -47,6 +47,9 @@ export async function POST(request: NextRequest) {
     data: {
       name: body.name,
     },
+    include: {
+      posts: true,
+    },
   });
   return NextResponse.json(newCategory, { status: 201 });
 }

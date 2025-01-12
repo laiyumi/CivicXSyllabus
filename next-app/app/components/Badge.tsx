@@ -7,18 +7,19 @@ interface BadgeProps {
   name: string;
   postCount: number;
   id: string;
+  type: "tags" | "categories";
   onDelete: (id: string) => void;
 }
-const Badge = ({ name, postCount, id, onDelete }: BadgeProps) => {
+const Badge = ({ type, name, postCount, id, onDelete }: BadgeProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/api/tags/${id}`);
+      await axios.delete(`/api/${type}/${id}`);
       onDelete(id);
       setIsDialogOpen(false);
     } catch (error) {
-      console.error("Error deleting tag:", error);
+      console.error("Error deleting:", error);
     }
   };
 
