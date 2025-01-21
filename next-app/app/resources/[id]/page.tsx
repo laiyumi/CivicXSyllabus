@@ -10,6 +10,9 @@ import ToggleSave from "../../components/ToggleSave";
 import RelatedResourceCard from "../../components/ResourceCard/RelatedResourceCard";
 import { useSession } from "next-auth/react";
 import SaveToListModal from "../../components/SaveToListModal";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import LoadingResourceDetailPage from "./LoadingResourceDetailPage";
 
 interface Props {
   params: { id: string };
@@ -26,6 +29,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
   const [relatedResources, setRelatedResources] = useState<PostWithScore[]>();
   const { data: session, status } = useSession();
   const [paragraphs, setParagraphs] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchResource = async () => {
@@ -44,6 +48,8 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
 
     fetchResource();
     fetchRelatedResources();
+
+    setIsLoading(false);
   }, [id]);
 
   const handleSave = async (listId: string) => {
@@ -92,6 +98,10 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
       alert("Failed to remove from the list.");
     }
   };
+
+  if (isLoading) {
+    return <LoadingResourceDetailPage />;
+  }
 
   return (
     <>
