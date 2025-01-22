@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const DashboardSummary = () => {
   const [counts, setCounts] = useState({
@@ -50,10 +52,6 @@ const DashboardSummary = () => {
     { label: "Tags", value: counts.tags },
   ];
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="flex">
       <div className="w-full">
@@ -69,7 +67,9 @@ const DashboardSummary = () => {
             >
               <div className="stat place-items-center gap-2">
                 <h2 className="stat-title">{container.label}</h2>
-                <div className="stat-value">{container.value}</div>
+                <div className="stat-value">
+                  {loading ? <Skeleton width={50} /> : container.value}
+                </div>
               </div>
             </Link>
           ))}
