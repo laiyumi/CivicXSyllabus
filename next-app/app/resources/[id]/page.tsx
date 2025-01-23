@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 import SaveToListModal from "../../components/SaveToListModal";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import LoadingResourceDetailPage from "./LoadingResourceDetailPage";
+import ResourceDetailCardSkeleton from "./ResourceDetailCardSkeleton";
 
 interface Props {
   params: { id: string };
@@ -99,65 +99,69 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
     }
   };
 
-  if (isLoading) {
-    return <LoadingResourceDetailPage />;
-  }
+  // if (isLoading) {
+  //   return <LoadingResourceDetailPage />;
+  // }
 
   return (
     <>
-      <div
-        key={resource?.id}
-        className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex flex-row"
-      >
-        <figure className="lg:w-1/2 md:w-full">
-          <img
-            src={resource?.imageUrl}
-            alt="Resource thumbnail"
-            className="object-cover w-full h-full"
-          />
-        </figure>
-        <div className="card-body flex-auto justify-around">
-          <div className="flex gap-3 flex-wrap">
-            {resource?.categories.map((category) => (
-              <div key={category.name} className="badge badge-secondary">
-                {category.name}
-              </div>
-            ))}
-          </div>
-          <h2 className="card-title text-3xl">{resource?.title}</h2>
-          <div className="card-actions justify-start flex-wrap">
-            {resource?.tags.map((tag) => (
-              <div key={tag.name} className="badge badge-outline">
-                {tag.name}
-              </div>
-            ))}
-          </div>
-          <div>
-            <p>Source | {resource?.source.name}</p>
-          </div>
-          <div className="card-actions justify-between">
-            {session ? (
-              <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
-                <ToggleLikes resourceId={id} />
-                <div className="text-gray-500">|</div>
-                <ToggleSave onSave={handleSave} onRemove={handleRemove} />
-              </div>
-            ) : (
-              <div className="rounded-md border border-gray-200	p-3">
-                <ToggleLikes resourceId={id} />
-              </div>
-            )}
-            <Link
-              href={resource?.link ?? "/resources"}
-              className="btn btn-primary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Explore this resource
-            </Link>
+      {isLoading ? (
+        <ResourceDetailCardSkeleton />
+      ) : (
+        <div
+          key={resource?.id}
+          className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex flex-row"
+        >
+          <figure className="lg:w-1/2 md:w-full">
+            <img
+              src={resource?.imageUrl}
+              alt="Resource thumbnail"
+              className="object-cover w-full h-full"
+            />
+          </figure>
+          <div className="card-body flex-auto justify-around">
+            <div className="flex gap-3 flex-wrap">
+              {resource?.categories.map((category) => (
+                <div key={category.name} className="badge badge-secondary">
+                  {category.name}
+                </div>
+              ))}
+            </div>
+            <h2 className="card-title text-3xl">{resource?.title}</h2>
+            <div className="card-actions justify-start flex-wrap">
+              {resource?.tags.map((tag) => (
+                <div key={tag.name} className="badge badge-outline">
+                  {tag.name}
+                </div>
+              ))}
+            </div>
+            <div>
+              <p>Source | {resource?.source.name}</p>
+            </div>
+            <div className="card-actions justify-between">
+              {session ? (
+                <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
+                  <ToggleLikes resourceId={id} />
+                  <div className="text-gray-500">|</div>
+                  <ToggleSave onSave={handleSave} onRemove={handleRemove} />
+                </div>
+              ) : (
+                <div className="rounded-md border border-gray-200	p-3">
+                  <ToggleLikes resourceId={id} />
+                </div>
+              )}
+              <Link
+                href={resource?.link ?? "/resources"}
+                className="btn btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Explore this resource
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <div className="flex w-full flex-col pt-4">
         <h3 className="text-xl pt-4 text-center">Overview</h3>
         <div className="divider"></div>

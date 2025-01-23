@@ -1,15 +1,14 @@
-"use client";
+// "use client";
 
-import React, { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const LoadingResourceDetailPage = () => {
+const ResourceDetailCardSkeleton = () => {
   const skeletonItems = Array(3).fill(0);
 
-  useEffect(() => {
-    console.log("rendering loading page-------------");
-  }, []);
+  // useEffect(() => {
+  //   console.log("rendering loading page-------------");
+  // }, []);
 
   return (
     <>
@@ -74,4 +73,4 @@ const LoadingResourceDetailPage = () => {
   );
 };
 
-export default LoadingResourceDetailPage;
+export default ResourceDetailCardSkeleton;
