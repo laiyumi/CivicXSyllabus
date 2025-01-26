@@ -28,14 +28,10 @@ const Footer = () => {
       <nav>
         <h3 className="footer-title">Legal</h3>
         <Link href="/privacy" className="link link-hover">
-          Privacy policy
+          Privacy Policy
         </Link>
-        <Link
-          className="link link-hover"
-          href={`mailto:civicxsyllabus@gmail.com?`}
-          target="_blank"
-        >
-          Contact
+        <Link href="/contact" className="link link-hover">
+          Contact Us
         </Link>
       </nav>
     </footer>
