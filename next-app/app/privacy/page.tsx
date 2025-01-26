@@ -5,7 +5,7 @@ const PrivacyPage = () => {
     <div className="grid grid-cols-12">
       <div className="col-start-2 col-span-10 my-10">
         <div className="flex flex-col gap-8">
-          <h1 className="text-2xl text-center">Privacy Policy</h1>
+          <h1 className="text-2xl text-center font-normal">Privacy Policy</h1>
           <p className="text-center">Last updated: January 25, 2025</p>
           <p>
             This Privacy Policy describes Our policies and procedures on the
@@ -33,15 +33,6 @@ const PrivacyPage = () => {
               <p>
                 <strong>Account</strong> means a unique account created for You
                 to access our Service or parts of our Service.
-              </p>
-            </li>
-            <li className="py-2">
-              <p>
-                <strong>Affiliate</strong> means an entity that controls, is
-                controlled by or is under common control with a party, where
-                &quot;control&quot; means ownership of 50% or more of the
-                shares, equity interest or other securities entitled to vote for
-                election of directors or other managing authority.
               </p>
             </li>
             <li className="py-2">
@@ -128,29 +119,30 @@ const PrivacyPage = () => {
             Collecting and Using Your Personal Data
           </h2>
           <h3 className="text-lg font-bold">Types of Data Collected</h3>
-          <h4 className="font-bold">Personal Data</h4>
+          <h4 className="font-bold">Google Data</h4>
           <p>
-            While using Our Service, We may ask You to provide Us with certain
-            personally identifiable information that can be used to contact or
-            identify You. Personally identifiable information may include, but
-            is not limited to:
+            We provides users to sign in with Google, we will receive your
+            Google account ID to help us identify you when you sign in, and for
+            contacting you with updates and information. All uses of this data
+            will also comply with the{" "}
+            <a
+              href="https://developers.google.com/terms/api-services-user-data-policy"
+              target="_blank"
+              className="text-blue-600 underline"
+              rel="noopener noreferrer"
+            >
+              Google API Services User Data Policy
+            </a>
           </p>
-          <ul className="list-disc pl-8">
-            <li className="py-2">
-              <p>Email address</p>
-            </li>
-            <li className="py-2">
-              <p>Usage Data</p>
-            </li>
-          </ul>
+
           <h4 className="font-bold">Usage Data</h4>
           <p>Usage Data is collected automatically when using the Service.</p>
           <p>
-            Usage Data may include information such as Your Device&apos Internet
-            Protocol address (e.g. IP address), browser type, browser version,
-            the pages of our Service that You visit, the time and date of Your
-            visit, the time spent on those pages, unique device identifiers and
-            other diagnostic data.
+            Usage Data may include information such as Your Device&apos;s
+            Internet Protocol address (e.g. IP address), browser type, browser
+            version, the pages of our Service that You visit, the time and date
+            of Your visit, the time spent on those pages, unique device
+            identifiers and other diagnostic data.
           </p>
           <p>
             When You access the Service by or through a mobile device, We may
@@ -197,16 +189,7 @@ const PrivacyPage = () => {
             Cookies can be &quot;Persistent&quot; or &quot;Session&quot;
             Cookies. Persistent Cookies remain on Your personal computer or
             mobile device when You go offline, while Session Cookies are deleted
-            as soon as You close Your web browser. Learn more about cookies on
-            the{" "}
-            <a
-              href="https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/#Use_Of_Cookies_And_Tracking"
-              target="_blank"
-              className="text-blue-600 underline"
-            >
-              Free Privacy Policy website
-            </a>{" "}
-            article.
+            as soon as You close Your web browser.
           </p>
           <p>
             We use both Session and Persistent Cookies for the purposes set out
@@ -255,11 +238,6 @@ const PrivacyPage = () => {
               </p>
             </li>
           </ul>
-          <p>
-            For more information about the cookies we use and your choices
-            regarding cookies, please visit our Cookies Policy or the Cookies
-            section of our Privacy Policy.
-          </p>
           <h3 className="text-lg font-bold">Use of Your Personal Data</h3>
           <p>The Company may use Personal Data for the following purposes:</p>
           <ul className="list-disc pl-8">
@@ -271,7 +249,7 @@ const PrivacyPage = () => {
             </li>
             <li className="py-2">
               <p>
-                <strong>To manage Your Account:</strong> to manage Your
+                <strong>To manage Your Account:</strong> To manage Your
                 registration as a user of the Service. The Personal Data You
                 provide can give You access to different functionalities of the
                 Service that are available to You as a registered user.
@@ -279,30 +257,10 @@ const PrivacyPage = () => {
             </li>
             <li className="py-2">
               <p>
-                <strong>For the performance of a contract:</strong> the
-                development, compliance and undertaking of the purchase contract
-                for the products, items or services You have purchased or of any
-                other contract with Us through the Service.
-              </p>
-            </li>
-            <li className="py-2">
-              <p>
-                <strong>To contact You:</strong> To contact You by email,
-                telephone calls, SMS, or other equivalent forms of electronic
-                communication, such as a mobile application&apos; push
-                notifications regarding updates or informative communications
-                related to the functionalities, products or contracted services,
-                including the security updates, when necessary or reasonable for
-                their implementation.
-              </p>
-            </li>
-            <li className="py-2">
-              <p>
-                <strong>To provide You</strong> with news, special offers and
-                general information about other goods, services and events which
-                we offer that are similar to those that you have already
-                purchased or enquired about unless You have opted not to receive
-                such information.
+                <strong>To contact You:</strong> To communicate with You via
+                email regarding updates, informational notices, or matters
+                pertaining to the functionalities, content, or services we
+                provide.
               </p>
             </li>
             <li className="py-2">
@@ -313,22 +271,11 @@ const PrivacyPage = () => {
             </li>
             <li className="py-2">
               <p>
-                <strong>For business transfers:</strong> We may use Your
-                information to evaluate or conduct a merger, divestiture,
-                restructuring, reorganization, dissolution, or other sale or
-                transfer of some or all of Our assets, whether as a going
-                concern or as part of bankruptcy, liquidation, or similar
-                proceeding, in which Personal Data held by Us about our Service
-                users is among the assets transferred.
-              </p>
-            </li>
-            <li className="py-2">
-              <p>
                 <strong>For other purposes</strong>: We may use Your information
                 for other purposes, such as data analysis, identifying usage
                 trends, determining the effectiveness of our promotional
-                campaigns and to evaluate and improve our Service, products,
-                services, marketing and your experience.
+                campaigns and to evaluate and improve our Service and your
+                experience.
               </p>
             </li>
           </ul>
@@ -340,26 +287,6 @@ const PrivacyPage = () => {
               <strong>With Service Providers:</strong> We may share Your
               personal information with Service Providers to monitor and analyze
               the use of our Service, to contact You.
-            </li>
-            <li className="py-2">
-              <strong>For business transfers:</strong> We may share or transfer
-              Your personal information in connection with, or during
-              negotiations of, any merger, sale of Company assets, financing, or
-              acquisition of all or a portion of Our business to another
-              company.
-            </li>
-            <li className="py-2">
-              <strong>With Affiliates:</strong> We may share Your information
-              with Our affiliates, in which case we will require those
-              affiliates to honor this Privacy Policy. Affiliates include Our
-              parent company and any other subsidiaries, joint venture partners
-              or other companies that We control or that are under common
-              control with Us.
-            </li>
-            <li className="py-2">
-              <strong>With business partners:</strong> We may share Your
-              information with Our business partners to offer You certain
-              products, services or promotions.
             </li>
             <li className="py-2">
               <strong>With other users:</strong> when You share personal
@@ -412,60 +339,18 @@ const PrivacyPage = () => {
           </p>
           <h3 className="text-lg font-bold">Delete Your Personal Data</h3>
           <p>
-            You have the right to delete or request that We assist in deleting
-            the Personal Data that We have collected about You.
+            You have the right to delete the Personal Data that We have
+            collected about You. To delete your account and associated user
+            data, you can email us at{" "}
+            <a
+              href={`mailto:civicxsyllabus@gmail.com?`}
+              target="_blank"
+              className="text-blue-600 underline"
+              rel="noopener noreferrer"
+            >
+              civicxsyllabus@gmail.com
+            </a>
           </p>
-          <p>
-            Our Service may give You the ability to delete certain information
-            about You from within the Service.
-          </p>
-          <p>
-            You may update, amend, or delete Your information at any time by
-            signing in to Your Account, if you have one, and visiting the
-            account settings section that allows you to manage Your personal
-            information. You may also contact Us to request access to, correct,
-            or delete any personal information that You have provided to Us.
-          </p>
-          <p>
-            Please note, however, that We may need to retain certain information
-            when we have a legal obligation or lawful basis to do so.
-          </p>
-          <h3 className="text-lg font-bold">
-            Disclosure of Your Personal Data
-          </h3>
-          <h4 className="font-bold">Business Transactions</h4>
-          <p>
-            If the Company is involved in a merger, acquisition or asset sale,
-            Your Personal Data may be transferred. We will provide notice before
-            Your Personal Data is transferred and becomes subject to a different
-            Privacy Policy.
-          </p>
-          <h4 className="font-bold">Law enforcement</h4>
-          <p>
-            Under certain circumstances, the Company may be required to disclose
-            Your Personal Data if required to do so by law or in response to
-            valid requests by public authorities (e.g. a court or a government
-            agency).
-          </p>
-          <h4 className="font-bold">Other legal requirements</h4>
-          <p>
-            The Company may disclose Your Personal Data in the good faith belief
-            that such action is necessary to:
-          </p>
-          <ul className="list-disc pl-8">
-            <li className="py-2">Comply with a legal obligation</li>
-            <li className="py-2">
-              Protect and defend the rights or property of the Company
-            </li>
-            <li className="py-2">
-              Prevent or investigate possible wrongdoing in connection with the
-              Service
-            </li>
-            <li className="py-2">
-              Protect the personal safety of Users of the Service or the public
-            </li>
-            <li className="py-2">Protect against legal liability</li>
-          </ul>
           <h3 className="text-lg font-bold">Security of Your Personal Data</h3>
           <p>
             The security of Your Personal Data is important to Us, but remember
@@ -484,12 +369,6 @@ const PrivacyPage = () => {
             from anyone under the age of 13 without verification of parental
             consent, We take steps to remove that information from Our servers.
           </p>
-          <p>
-            If We need to rely on consent as a legal basis for processing Your
-            information and Your country requires consent from a parent, We may
-            require Your parent&apos;s consent before We collect and use that
-            information.
-          </p>
           <h2 className="text-xl font-bold">Links to Other Websites</h2>
           <p>
             Our Service may contain links to other websites that are not
@@ -504,13 +383,8 @@ const PrivacyPage = () => {
           </p>
           <h2 className="text-xl font-bold">Changes to this Privacy Policy</h2>
           <p>
-            We may update Our Privacy Policy from time to time. We will notify
-            You of any changes by posting the new Privacy Policy on this page.
-          </p>
-          <p>
-            We will let You know via email and/or a prominent notice on Our
-            Service, prior to the change becoming effective and update the
-            &quot;Last updated&quot; date at the top of this Privacy Policy.
+            We may update Our Privacy Policy from time to time. We may do this
+            in some cases with limited or no notice.
           </p>
           <p>
             You are advised to review this Privacy Policy periodically for any
@@ -519,37 +393,17 @@ const PrivacyPage = () => {
           </p>
           <h2 className="text-xl font-bold">Contact Us</h2>
           <p>
-            If you have any questions about this Privacy Policy, You can contact
-            us:
+            If you have additional questions about our Privacy Policy, do not
+            hesitate to contact us through email at{" "}
+            <a
+              href={`mailto:civicxsyllabus@gmail.com?`}
+              target="_blank"
+              className="text-blue-600 underline"
+              rel="noopener noreferrer"
+            >
+              civicxsyllabus@gmail.com
+            </a>
           </p>
-          <ul className="list-disc pl-8">
-            <li className="py-2">
-              <p>
-                By email:{" "}
-                <a
-                  href={`mailto:civicxsyllabus@gmail.com?`}
-                  target="_blank"
-                  className="text-blue-600 underline"
-                  rel="noopener noreferrer"
-                >
-                  civicxsyllabus@gmail.com
-                </a>
-              </p>
-            </li>
-            <li className="py-2">
-              <p>
-                By visiting this page on our website:{" "}
-                <a
-                  href="https://www.civicxsyllabus.org/contact"
-                  rel="external nofollow noopener"
-                  target="_blank"
-                  className="text-blue-600 underline"
-                >
-                  https://www.civicxsyllabus.org/contact
-                </a>
-              </p>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
