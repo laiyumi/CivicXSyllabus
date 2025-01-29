@@ -9,9 +9,12 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { userId: string } }
 ) {
-  // fetch data from db, if not found return 404
+  // get all lists and their posts under the user
   const lists = await prisma.list.findMany({
     where: { userId: params.userId },
+    include: {
+      posts: true,
+    },
   });
 
   if (!lists)
