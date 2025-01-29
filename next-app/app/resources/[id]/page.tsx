@@ -99,10 +99,6 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
     }
   };
 
-  // if (isLoading) {
-  //   return <LoadingResourceDetailPage />;
-  // }
-
   return (
     <>
       {isLoading ? (

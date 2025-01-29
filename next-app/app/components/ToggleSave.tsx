@@ -36,6 +36,12 @@ const ToggleSave = ({
         const isSaved = response.data.some((list: ListWithPosts) =>
           list.posts.some((post) => post.id === resourceId)
         );
+
+        const listId = response.data.find((list: ListWithPosts) =>
+          list.posts.some((post) => post.id === resourceId)
+        )?.id;
+
+        setSelectedListId(listId);
         // update the state
         setHasSaved(isSaved);
       } catch (error) {
@@ -46,26 +52,30 @@ const ToggleSave = ({
   }, [session?.user.id, resourceId]);
 
   const handleConfirmSave = () => {
-    onSave(selectedListId);
-    (
-      document.getElementById("save_to_list_modal") as HTMLDialogElement
-    ).close();
-    setHasSaved(true);
+    try {
+      onSave(selectedListId); // call backend
+      setHasSaved((prev) => !prev);
+      (
+        document.getElementById("save_to_list_modal") as HTMLDialogElement
+      ).close();
+    } catch (error) {
+      console.error("Error saving:", error);
+    }
   };
 
   const handleToggleSave = async () => {
     try {
       if (hasSaved) {
-        // remove the saved resource
+        // call backend to remove the post from the list
         onRemove(selectedListId);
-        setHasSaved(false);
+        setHasSaved((prev) => !prev);
       } else {
         // open the modal
         (
           document.getElementById("save_to_list_modal") as HTMLDialogElement
         ).showModal();
       }
-      console.log("current save status: ", hasSaved);
+      console.log("current status: ", !hasSaved);
     } catch (error) {
       console.error("Error toggling save:", error);
     }

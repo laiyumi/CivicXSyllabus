@@ -38,6 +38,8 @@ const UserSavedResourcesPage = () => {
   const [selectedListId, setSelectedListId] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
 
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
   // fetch user data
   useEffect(() => {
     const fetchUser = async () => {
@@ -55,7 +57,7 @@ const UserSavedResourcesPage = () => {
     fetchUser();
   }, []);
 
-  // fetch posts in the selected list
+  // fetch saved posts in the selected list
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -71,7 +73,7 @@ const UserSavedResourcesPage = () => {
       }
     };
     fetchPosts();
-  }, [selectedListId]);
+  }, [session?.user.id, selectedListId, refreshTrigger]);
 
   const handleCreateList = async (listName: string) => {
     if (!session?.user.id) {
