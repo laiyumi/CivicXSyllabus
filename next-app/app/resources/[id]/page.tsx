@@ -36,7 +36,12 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
       const response = await axios.get(`/api/resources/${id}`);
       setResource(response.data);
       // Split the content into paragraphs
-      const content = response.data.content;
+
+      // Debugging: Check what content looks like
+      console.log("Raw content:", response.data.content);
+
+      // Replace double-escaped newlines before splitting
+      const content = response.data.content.replace(/\\n/g, "\n");
       const paragraphs = content.split(/\r?\n/);
       setParagraphs(paragraphs);
     };
@@ -99,10 +104,6 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
     }
   };
 
-  // if (isLoading) {
-  //   return <LoadingResourceDetailPage />;
-  // }
-
   return (
     <>
       {isLoading ? (
@@ -143,7 +144,11 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
                 <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
                   <ToggleLikes resourceId={id} />
                   <div className="text-gray-500">|</div>
-                  <ToggleSave onSave={handleSave} onRemove={handleRemove} />
+                  <ToggleSave
+                    onSave={handleSave}
+                    onRemove={handleRemove}
+                    resourceId={id}
+                  />
                 </div>
               ) : (
                 <div className="rounded-md border border-gray-200	p-3">
@@ -167,7 +172,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         <div className="divider"></div>
         <div>
           {paragraphs.map((paragraph, index) => (
-            <p key={index} className="p-4">
+            <p key={index} className="p-2">
               {paragraph}
             </p>
           ))}

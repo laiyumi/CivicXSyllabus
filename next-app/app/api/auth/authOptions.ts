@@ -21,14 +21,8 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub; // Forward user ID
         session.user.token = token.jti; // Forward accessToken
       }
+
       return session;
     },
-    // Forward the user ID to the session
-    // async session({ session, token }) {
-    //   if (session.user) {
-    //     session.user.id = token.sub; // Add id to session.user
-    //   }
-    //   return session;
-    // },
   },
 };
