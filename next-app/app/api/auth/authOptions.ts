@@ -21,14 +21,61 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub; // Forward user ID
         session.user.token = token.jti; // Forward accessToken
       }
+
       return session;
     },
-    // Forward the user ID to the session
-    // async session({ session, token }) {
-    //   if (session.user) {
-    //     session.user.id = token.sub; // Add id to session.user
-    //   }
-    //   return session;
-    // },
+  },
+  events: {
+    // Runs when a user successfully signs in
+    async signIn({ user }) {
+      if (!user?.id) return; // Ensure user ID exists
+
+      try {
+        // Check if the "default" list exists
+        const existingList = await prisma.list.findFirst({
+          where: {
+            userId: user.id,
+            name: "Default",
+          },
+        });
+
+        // If missing, create the "default" list
+        if (!existingList) {
+          await prisma.list.create({
+            data: {
+              name: "Default",
+              userId: user.id,
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error creating default list on sign-in:", error);
+      }
+    },
+
+    // Runs when a session is created (fallback for existing users)
+    async session({ token }) {
+      if (!token?.sub) return; // Ensure user ID exists
+
+      try {
+        const existingList = await prisma.list.findFirst({
+          where: {
+            userId: token.sub,
+            name: "Default",
+          },
+        });
+
+        if (!existingList) {
+          await prisma.list.create({
+            data: {
+              name: "Default",
+              userId: token.sub,
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error creating default list on session:", error);
+      }
+    },
   },
 };

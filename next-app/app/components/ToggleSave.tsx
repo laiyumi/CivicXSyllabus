@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { List, Post } from "@prisma/client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { List, Post } from "@prisma/client";
+import { useRouter } from "next/navigation"; // Import useRouter
+import React, { useEffect, useState } from "react";
 
 type ListWithPosts = List & { posts: Post[] };
 
@@ -20,6 +21,7 @@ const ToggleSave = ({
   const { data: session } = useSession();
   const [selectedListId, setSelectedListId] = useState("");
   const [selectedListName, setSelectedListName] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     if (!session?.user.id) return;
@@ -61,6 +63,11 @@ const ToggleSave = ({
     } catch (error) {
       console.error("Error saving:", error);
     }
+  };
+
+  const handleCreateAndSave = () => {
+    // redirect to the create list page
+    router.push("/user/list");
   };
 
   const handleToggleSave = async () => {
@@ -112,29 +119,49 @@ const ToggleSave = ({
               ✕
             </button>
           </form>
-          <h3 className="font-bold text-lg pb-8">
-            Save to: {selectedListName}
-          </h3>
+
           <div className="form-control">
-            {lists.map((list) => (
-              <label className="label cursor-pointer" key={list.id}>
-                <span className="label-text">{list.name}</span>
-                <input
-                  type="radio"
-                  name={list.name}
-                  className="radio checked:bg-red-500"
-                  value={list.id}
-                  onChange={handleChange}
-                />
-              </label>
-            ))}
-            <button
-              className="btn btn-primary"
-              type="submit"
-              onClick={handleConfirmSave}
-            >
-              Confirm
-            </button>
+            {lists.length === 0 ? (
+              <>
+                <p className="text-center mb-4">
+                  You don&apos;t have any list yet.
+                </p>
+                <button
+                  className="btn btn-primary mt-4"
+                  type="submit"
+                  onClick={handleCreateAndSave}
+                >
+                  Create a List
+                </button>
+              </>
+            ) : (
+              <div className="flex flex-col gap-6">
+                <h3 className="font-bold text-lg">
+                  Save to: {selectedListName}
+                </h3>
+                <div>
+                  {lists.map((list) => (
+                    <label className="label cursor-pointer" key={list.id}>
+                      <span className="label-text">{list.name}</span>
+                      <input
+                        type="radio"
+                        name={list.name}
+                        className="radio checked:bg-red-500"
+                        value={list.id}
+                        onChange={handleChange}
+                      />
+                    </label>
+                  ))}
+                </div>
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  onClick={handleConfirmSave}
+                >
+                  Confirm
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </dialog>

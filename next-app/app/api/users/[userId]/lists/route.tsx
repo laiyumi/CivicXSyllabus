@@ -68,6 +68,7 @@ export async function POST(
       name: body.name,
       userId: params.userId,
     },
+    select: { id: true, name: true },
   });
   return NextResponse.json(list, { status: 201 });
 }
