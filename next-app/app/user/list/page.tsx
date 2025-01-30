@@ -27,8 +27,6 @@ type List = Prisma.ListGetPayload<{
 }>;
 
 const UserSavedResourcesPage = () => {
-  const { data: session } = useSession();
-
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isCreated, setIsCreated] = useState<boolean>(false);
@@ -40,12 +38,21 @@ const UserSavedResourcesPage = () => {
 
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+  const { data: session, status } = useSession();
+
   // fetch user data
   useEffect(() => {
+    if (status === "loading") return; // Do nothing while loading
+    if (!session) {
+      console.error("No session found");
+      setLoading(false);
+      return;
+    }
+
     const fetchUser = async () => {
       try {
         // Fetch user data by email
-        const response = await axios.get(`/api/users/${session?.user.id}`);
+        const response = await axios.get(`/api/users/${session!.user.id}`);
         setUser(response.data);
         console.log("Fetched user data:", response.data);
       } catch (error) {
@@ -55,7 +62,7 @@ const UserSavedResourcesPage = () => {
       }
     };
     fetchUser();
-  }, []);
+  }, [session, status]);
 
   // fetch saved posts in the selected list
   useEffect(() => {
@@ -175,7 +182,7 @@ const UserSavedResourcesPage = () => {
             <option disabled selected>
               Select a list
             </option>
-            {user.lists.map((list) => (
+            {user?.lists.map((list) => (
               <option key={list.id} value={list.id}>
                 {list.name}
               </option>
