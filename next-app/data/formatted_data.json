@@ -1,497 +1,345 @@
 [
-    {
-        "title": "Tauberer 2015: So you want to reform democracy",
-        "link": "https://medium.com/civic-tech-thoughts-from-joshdata/so-you-want-to-reform-democracy-7f3b1ef10597",
-        "source": "Joshua Tauberer",
-        "tags": [
-            "Article"
-        ],
-        "categories": [
-            "Civic Tech"
-        ],
-        "excerpt": "This article emphasizes that democratic reform is a social and institutional challenge, not a technological one.",
-        "content": "Joshua Tauberer\u2019s article on democratic reform stresses that the core issues are societal and institutional, not merely technological. He argues that technology alone can\u2019t solve the problems of democracy because it often excludes marginalized groups who lack access to digital tools. Effective reform involves addressing power dynamics and understanding democracy as a collective human project. Tauberer highlights the importance of inclusivity and cautions against relying on tech solutions that might exacerbate inequalities. His perspective encourages reformers to focus on building social and institutional frameworks that empower all citizens, particularly the most vulnerable.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/1_VpDAESy7Uh02xWUCq5zS9A.webp?resize=1536%2C1024&ssl=1"
-    },
-    {
-        "title": "Civic Tech Field Guide",
-        "link": "https://civictech.guide/",
-        "source": "Civic Tech Field Guide",
-        "tags": [
-            "Network"
-        ],
-        "categories": [
-            "Civic Tech"
-        ],
-        "excerpt": "Discover the world\u2019s largest collection of projects using tech for the common good.",
-        "content": "The Civic Tech Field Guide is led by its Curator, Matt Stempeck. The project\u2019s mission is to effectively grow the field of civic tech. We have many challenges facing democracies and the world at large, and it\u2019s our belief that we need more people contributing more productively to improving things. This belief drives our core values of:\\nProviding an often missing archival memory of the field, so we can learn from our past mistakes and get better at what we do, rather than brush failures under the carpet.\\nA global perspective, as we can all learn from others\u2019 work.\\nMaking our resources as available as possible through open source code, open data licensing, and strong accessibility.\\nInclusively pointing to helpful resources others have created, even and especially if they could be seen as competitors.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Screenshot-2024-07-18-at-12.11.54-e1723972498683.png?w=1006&ssl=1"
-    },
-    {
-        "title": "Civic Tech Book Club",
-        "link": "https://civictechbook.club/",
-        "source": "Civic Tech Book Club",
-        "tags": [
-            "Book",
-            "Network",
-            "Event"
-        ],
-        "categories": [
-            "Civic Tech"
-        ],
-        "excerpt": "Civic Tech Book Club is a virtual book club that meets sporadically to discuss readings related to civics and technology.",
-        "content": "Civic Tech Book Club is a virtual book club that meets sporadically to discuss readings related to civics and technology. The group was created in 2015 by Rebecca Ackerman, Forest Gregg, and Rebecca Williams who lived far apart from each other and wanted a space to discuss readings. Since the pandemic, the virtual group has taken on a new life and meets more frequently. The membership generally skews a bit more \u201ccivics\u201d in background than \u201ctechnology\u201d and expands via word of mouth but all are welcome. Texts for discussion are organized through the listserv with members joining virtually and informally at their convenience. Meetings are usually 3-6 people, but there are have been surges. This website keeps an archive of readings for the group\u2019s organization and in case it is helpful to others.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/civic-tech-book-club-e1723972607465.webp?w=947&ssl=1"
-    },
-    {
-        "title": "Civic Design Library",
-        "link": "https://www.civicdesignlibrary.com/",
-        "source": "The Civic Design Library",
-        "tags": [
-            "Dataset",
-            "Library"
-        ],
-        "categories": [
-            "Civic Design",
-            "Data Visualization"
-        ],
-        "excerpt": "A crowdsourced data set of civic design resources created by global practitioners working at the intersection of design and the public sector.",
-        "content": "The Civic Design Library is a crowdsourced data set of civic design resources created by global practitioners working at the intersection of design and the public sector.\\nIt aims to showcase the breadth and depth of civic design and offer data and visual formats for peer-to-peer learning and inspiration.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Untitled-design.png?w=600&ssl=1"
-    },
-    {
-        "title": "Design Policy Conference",
-        "link": "https://designpolicyconference.com/",
-        "source": "Word Design Capital Valencia 2022",
-        "tags": [
-            "Network",
-            "Workshop",
-            "Conference"
-        ],
-        "categories": [
-            "Civic Design"
-        ],
-        "excerpt": "The World Design Policy Conference provides a global platform for the exchange of ideas, insights, and best practices from different countries, regions, and cities that are developing, launching, and maintaining effective design policy.",
-        "content": "Design-led urban policies are increasingly recognized as critical to shaping the future prosperity and wellbeing of a city and its inhabitants. The World Design Policy Conference provides a global platform for the exchange of ideas, insights, and best practices from different countries, regions, and cities that are developing, launching, and maintaining effective design policy.\\nA live in-person meeting in Valencia, one of the Signature Events of the World Design Capital 2022, with the mediterranean city at the international spotlight as a pole of attraction for foreign investments seeking opportunities thanks to its development and stability.\\nThe findings and conclusions of this Conference have the potential to set the foundation for a design-led legacy programme that benefits both the design community and mainly the citizens, and that resonates far beyond the designated WDC year. A content that can influence existing policies facilitating a legacy in political management.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Screenshot-2024-07-06-at-17.22.54.webp?resize=1536%2C1052&ssl=1"
-    },
-    {
-        "title": "Returning to Our Roots: The Engaged Institution (February 1999)",
-        "link": "https://www.aplu.org/library/returning-to-our-roots-the-engaged-institution",
-        "source": "The Association of Public and Land-grant Universities (APLU\u00ae)",
-        "tags": [
-            "Report"
-        ],
-        "categories": [
-            "Partnerships",
-            "Engagement"
-        ],
-        "excerpt": "The Kellogg Commission on the Future of State and Land-Grant Universities existed between January 1996 and March 2000 in order to create awareness among public universities of the need for higher education reform. This report in the series focuses on university engagement.",
-        "content": "The Kellogg Commission on the Future of State and Land-Grant Universities existed between January 1996 and March 2000 in order to create awareness among public universities of the need for higher education reform. This report in the series focuses on university engagement.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Screenshot-2024-07-26-at-12.22.00-e1723972093322.png?w=1222&ssl=1"
-    },
-    {
-        "title": "18F Partnership Principles",
-        "link": "https://18f.gsa.gov/partnership-principles/",
-        "source": "18F",
-        "tags": [
-            "Handbook"
-        ],
-        "categories": [
-            "Partnerships",
-            "Forge Partnerships"
-        ],
-        "excerpt": "A guide to help you understand how your agency team and 18F can work together successfully.",
-        "content": "This guide will help you understand how your agency team and 18F can work together successfully. You\u2019ll learn what to expect and how our two teams will form a fed-to-fed partnership that may be different from work you\u2019ve done with private vendors. Many of these ideas build on the U.S. Digital Services Playbook.\\nThe first thing you may notice when partnering with 18F is that your team will be heavily involved in the day-to-day work of the project. We\u2019ve found these close partnerships that pair our technical expertise with your program knowledge are most likely to deliver projects that fulfill federal rules, stay within budget, and provide excellent value to the public. We\u2019ve laid out some methodologies and tactics below that will guide the project.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/18F.jpg?w=1232&ssl=1"
-    },
-    {
-        "title": "Civic Switchboard \u2013 for academic and public libraries interested in civic data",
-        "link": "https://civic-switchboard.github.io/",
-        "source": "Civic Switchboard",
-        "tags": [
-            "Network"
-        ],
-        "categories": [
-            "Civic Data",
-            "Forge Partnerships",
-            "Partnerships"
-        ],
-        "excerpt": "Civic Switchboard is an Institute of Museum and Library Services supported effort that aims to develop the capacity of academic and public libraries in civic data ecosystems.",
-        "content": "Civic data describes a broad range of information related to community life and the decision-making and policies that affect people and places; it can include not only data produced by governmental organizations, but also non-profits, civic institutions (like libraries!), and other community-based organizations. Civic Switchboard is an Institute of Museum and Library Services supported effort that aims to develop the capacity of academic and public libraries in civic data ecosystems.\\nWe encourage partnerships between libraries and local data intermediaries that will better serve data users, further democratize data, and support equitable access to information. Our project created an online guide and toolkit for libraries interested in expanding (or beginning) their role around civic information.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/civic-swithcboard.png?w=600&ssl=1"
-    },
-    {
-        "title": "Community Voice Is Expertise",
-        "link": "https://www.urban.org/urban-wire/community-voice-expertise",
-        "source": "Urban Institute",
-        "tags": [
-            "Article"
-        ],
-        "categories": [
-            "Partnerships",
-            "Power + Expertise + Equity"
-        ],
-        "excerpt": "An article that emphasizes the importance of community engagement in research, policy analysis, and federal agency work to advance equity and inclusion.",
-        "content": "The article from Urban Institute emphasizes the importance of integrating community voice and expertise into policymaking and program development. It argues that effective solutions to social issues require more than just technical knowledge; they also need the insights and experiences of those directly impacted by the issues. By involving community members in decision-making processes, policies can be better tailored to address real needs and promote more equitable outcomes. The article highlights examples of successful community engagement and offers recommendations for incorporating local expertise into various stages of policy and program development.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/https-www.urban_.orgurban-wirecommunity-voice-expertise.jpg?w=1500&ssl=1"
-    },
-    {
-        "title": "Slow Ideas",
-        "link": "https://www.newyorker.com/magazine/2013/07/29/slow-ideas",
-        "source": "Atul Gawande",
-        "tags": [
-            "Article"
-        ],
-        "categories": [
-            "Building Trust",
-            "Civic Tech",
-            "Partnerships"
-        ],
-        "excerpt": "Explores why some innovations spread rapidly while others take much longer to gain acceptance.",
-        "content": "The New Yorker article \u201cSlow Ideas\u201d by Atul Gawande explores why some innovative ideas and technologies take a long time to gain traction and be adopted, even when they promise significant improvements. Gawande contrasts the rapid spread of certain advancements, like smartphones, with the slow adoption of beneficial medical practices and technologies. He attributes this delay to factors such as resistance to change, entrenched habits, and the complexity of implementing new practices in established systems. The article examines case studies, including the spread of hand hygiene practices in hospitals, to illustrate how understanding and addressing these barriers can help accelerate the adoption of transformative ideas.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/slow-ideas.webp?w=1508&ssl=1"
-    },
-    {
-        "title": "\u2018Building Technology With, Not For Communities: An Engagement Guide for Civic Tech\u2019",
-        "link": "https://medium.com/organizer-sandbox/building-technology-with-not-for-communities-an-engagement-guide-for-civic-tech-b8880982e65a",
-        "source": "Laurenellen McCann!!",
-        "tags": [
-            "Article"
-        ],
-        "categories": [
-            "Build With",
-            "Civic Tech",
-            "Partnerships",
-            "Project Well-Being"
-        ],
-        "excerpt": "This article explores the role of civic tech organizations in connecting communities with technology.",
-        "content": "This article discusses the role of civic tech organizations in bridging the gap between communities and technology. It emphasizes that these organizations should not merely build technology for communities, but should rather engage and listen to them, understanding their actual needs and regional contexts before starting the implementation process. The article further highlights the importance of building trust, maintaining transparency, sharing leadership with local residents, and training locals to manage the technology. Also, it stresses the need for civic tech solutions to be sustainable, inclusive, and culturally specific. It concludes by advocating for civic tech to embrace these principles to ensure successful, long-lasting, and valuable partnerships with the communities they serve.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/1_2UBy-9sgkbW2F_rSeVr2sg.webp?resize=2048%2C922&ssl=1"
-    },
-    {
-        "title": "Responsible Tech Job Board",
-        "link": "https://atih.responsibletechguide.com/responsible-tech-job-board",
-        "source": "All Tech is Human",
-        "tags": [
-            "Network"
-        ],
-        "categories": [
-            "Civic Tech"
-        ],
-        "excerpt": "Our Responsible Tech Job Board highlights new career opportunities in Responsible AI, Trust & Safety, Tech & Democracy, Public Interest Technology, and Youth, Tech, and Wellbeing, among many other emerging roles in the rapidly-evolving ecosystem.",
-        "content": "All Tech Is Human\u2019 Responsible Tech Job Board highlights new career opportunities in Responsible AI, Trust & Safety, Tech & Democracy, Public Interest Technology, and Youth, Tech, and Wellbeing, among many other emerging roles in the rapidly-evolving ecosystem. It is the premiere resource in the field for people exploring a career change, new role, or interested in the growing responsible tech ecosystem.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/2eb93f3d-7b91-4b3b-a016-e8ebc26d02f4_1920x1080-e1720301703662.webp?w=726&ssl=1"
-    },
-    {
-        "title": "The Responsible Tech Guide (2024)",
-        "link": "https://atih.responsibletechguide.com/",
-        "source": "All Tech is Human",
-        "tags": [
-            "Report",
-            "Network"
-        ],
-        "categories": [
-            "Civic Tech",
-            "Build With",
-            "Project Well-Being",
-            "Responsible Tech"
-        ],
-        "excerpt": "It is designed to provide information, inspiration, and illumination of pathways for more individuals to be involved in the Responsible Tech ecosystem.",
-        "content": "The people, organizations, and ideas of the Responsible Tech ecosystem and actionable ways to get involved.\\nOur Responsible Tech Guide, along with our many other activities that grow and strengthen the Responsible Tech ecosystem, is entirely free thanks to the Patrick J. McGovern Foundation, Schmidt Futures, and Siegel Family Endowment that support All Tech Is Human.",
-        "imageUrl": "https://images.squarespace-cdn.com/content/v1/60355084905d134a93c099a8/5cc54514-8df7-4681-a0bf-4c70094dfd5c/Responsible+Tech+Guide+2024.png?format=500w"
-    },
-    {
-        "title": "On the Role of Passion for Work in Burnout: A Process Model",
-        "link": "https://www.researchgate.net/publication/43532701_On_the_Role_of_Passion_for_Work_in_Burnout_A_Process_Model",
-        "source": "PubMed",
-        "tags": [
-            "Paper"
-        ],
-        "categories": [
-            "Burnout",
-            "Project Well-Being"
-        ],
-        "excerpt": "The research investigates the role of passion for work in professional burnout among nurses in two cultures.",
-        "content": "The purpose of the present research was to test a model on the role of passion for work in professional burnout. This model posits that obsessive passion produces conflict between work and other life activities because the person cannot let go of the work activity. Conversely, harmonious passion is expected to prevent conflict while positively contributing to work satisfaction. Finally, conflict is expected to contribute to burnout, whereas work satisfaction should prevent its occurrence. This model was tested in 2 studies with nurses in 2 cultures. Using a cross-sectional design, Study 1 (n=97) provided support for the model with nurses from France. In Study 2 (n=258), a prospective design was used to further test the model with nurses from the Province of Quebec over a 6-month period. Results provided support for the model. Specifically, harmonious passion predicted an increase in work satisfaction and a decrease in conflict. Conversely, obsessive passion predicted an increase of conflict. In turn, work satisfaction and conflict predicted decreases and increases in burnout changes that took place over time. The results have important implications for theory and research on passion as well as burnout.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/image.png?w=1024&ssl=1"
-    },
-    {
-        "title": "The Continuum of Community Engagement in Research: A Roadmap for Understanding and Assessing Progress",
-        "link": "https://pubmed.ncbi.nlm.nih.gov/31866597/",
-        "source": "PubMed",
-        "tags": [
-            "Article"
-        ],
-        "categories": [
-            "Indicators of Success or Failure",
-            "Engagement",
-            "Project Design"
-        ],
-        "excerpt": "This article explores a framework for engaging communities in research.",
-        "content": "Background: The past two decades have been marked by increased community involvement in the research process. Community-engaged research (CEnR) is increasingly promoted in the literature, and academic programs with a community-academic partnership focus. Community-based participatory research (CBPR) is an approach to frame equitable community involvement in research and is a critical component of the CEnR continuum. As with CEnR, noted benefits of using CBPR expressed in the literature, which include enhancing the relevance and application of the research data, expertise to complex problems at all stages of research, overcoming community distrust, and improving community health. This article presents a community engagement (CE) model that includes seven defined designations for CEnR. In addition, this model includes equity indicators and contextual factors for consideration at the various levels of engagement along the continuum.\\nMethods: The CE model described in this article combines the principles of CE and CBPR in conjunction with a continuum model. The continuum integrates a focus on health equity and contextual factors providing perspectives from both community and academic partners at each point of engagement.\\nConclusions: A broadly defined CEnR continuum will allow researchers, community members and organizations to readily identify 1) where they are on the continuum of CEnR, 2) appropriate access points to enter the continuum based on existing contextual factors, and 3) actions to promote progression on the continuum. Funders have the opportunity to specify the appropriate level of CE needed to accomplish the goals of their identified priorities.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/hannah-busing-Zyx1bK9mqmA-unsplash.jpg?resize=2048%2C1365&ssl=1"
-    },
-    {
-        "title": "Sturt + Nordstrom 2013: Are You Asking The Right Question?",
-        "link": "https://www.forbes.com/sites/davidsturt/2013/10/18/are-you-asking-the-right-question/",
-        "source": "David Sturt and Todd Nordstrom",
-        "tags": [
-            "Article"
-        ],
-        "categories": [
-            "Project Execution",
-            "Asking Questions"
-        ],
-        "excerpt": "This article discusses the profound impact of asking the right questions on innovation and value creation.",
-        "content": "This article highlights the importance of asking the right questions to solve problems, spur innovation and engage employees. The author argues that asking questions beginning with \u201cwhy,\u201d \u201cwhat if,\u201d and \u201chow\u201d can spark creativity challenges conventional wisdom. Such questions inspire people to think differently and offer constructive solutions. Furthermore, asking good questions creates a more engaged and collaborative environment. The right questions can be \u201cgame changers\u201d that lead to new ideas and major breakthroughs for your organization.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/jon-tyson-hhq1Lxtuwd8-unsplash.jpg?resize=1536%2C1536&ssl=1"
-    },
-    {
-        "title": "Research is a team sport: 11 ideas on how to involve stakeholders in a UX Research project",
-        "link": "https://condens.io/blog/involving-stakeholders-in-ux-user-research",
-        "source": "Sina Schreiber",
-        "tags": [
-            "Article"
-        ],
-        "categories": [
-            "Engagement",
-            "Project Design",
-            "User Experience"
-        ],
-        "excerpt": "The blog post on Condens.io emphasizes the importance of involving stakeholders in User Experience (UX) and User Research.",
-        "content": "The blog post on Condens.io emphasizes the importance of involving stakeholders in User Experience (UX) and User Research. Meaningful stakeholder involvement can provide valuable perspectives, foster understanding, and facilitate decision-making. Furthermore, it promotes ownership and affiliation to the designed solution. The author differentiates between primary and secondary stakeholders and presents ways to engage them using methods such as stakeholder interviews, usability testing, user journey mapping and sharing research findings. The article outlines a three-step process to successfully involve stakeholders: defining the stakeholder group, devising appropriate participation activities, and making these activities meaningful and enjoyable. Overall, the commitment to engage stakeholders in UX and User Research ensures the development of more effective design solutions.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/involving-stakeholdersbrooke-cagle-uhvrvdr7pg-unsplash.webp?w=1080&ssl=1"
-    },
-    {
-        "title": "Disability Inclusion Toolkit",
-        "link": "https://www.fordfoundation.org/work/learning/research-reports/disability-inclusion-toolkit",
-        "source": "Ford Foundation",
-        "tags": [
-            "Report",
-            "Tool"
-        ],
-        "categories": [
-            "Access + (Dis)Ability",
-            "Engagement",
-            "Project Execution"
-        ],
-        "excerpt": "The toolkit serves as a public good available to any organization that can benefit from the tools, tips, and guidance offered within.",
-        "content": "Commissioned by the Ford Foundation\u2019s Civic Engagement & Government program, the Disability Inclusion Toolkit is written and designed by disability community leaders Mia Ives Rublee and Andra\u00e9a LaVant to help social justice organizations advance disability inclusion in their work.\\nThe toolkit includes introductory disability definitions and language guidelines, in addition to guidance on creating accessible in-person and virtual events, social media, and disability inclusive employment practices from recruitment to retention. The toolkit serves as a public good available to any organization that can benefit from the tools, tips, and guidance offered within.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.27.03.png?w=1406&ssl=1"
-    },
-    {
-        "title": "Mike Morrison (#betterposter author) YouTube",
-        "link": "https://www.youtube.com/channel/UCvFo8Iva2rr3uEBk4ERHY_Q",
-        "source": "Mike Morrison",
-        "tags": [
-            "Tool",
-            "Video"
-        ],
-        "categories": [
-            "Communication + Dissemination",
-            "Engagement",
-            "Project Execution"
-        ],
-        "excerpt": "Better design for scientists, better science for designers.",
-        "content": "Mike Morrison develops a new poster format to make academic research posters more accessible to a lay audience and to maximize the information translated to conference attendees.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.32.33-e1723971885390.png?resize=1536%2C1152&ssl=1"
-    },
-    {
-        "title": "Lessons on How to Lie with Statistics",
-        "link": "https://towardsdatascience.com/lessons-from-how-to-lie-with-statistics-57060c0d2f19",
-        "source": "Will Koehrsen",
-        "tags": [
-            "Article",
-            "Book"
-        ],
-        "categories": [
-            "Big Data",
-            "Project Execution"
-        ],
-        "excerpt": "Timeless Data Literacy Advice.",
-        "content": "This article highlights various ways data can be misrepresented and misinterpreted to deceive people. It discusses examples from the book \u201cHow to Lie with Statistics,\u201d including graphing certain ranges, manipulating the Y-axis scale, not considering other variables when comparing two sets or habits, and ignoring small sample sizes or selection bias. The article emphasizes the importance of diligent consideration when reviewing statistics and recommends asking critical questions to avoid being misled. It advises individuals to assess the source, gather context, comprehend visualizations carefully, consider unseen variables, and challenge the interpretation to scrutinize the data objectively.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Lessons-on-How-to-Lie-with-Statistics-.webp?w=2000&ssl=1"
-    },
-    {
-        "title": "Handbook on Using Administrative Data for Research and Evidence-based Policy",
-        "link": "https://admindatahandbook.mit.edu/",
-        "source": "J-PAL NA",
-        "tags": [
-            "Book"
-        ],
-        "categories": [
-            "Big Data",
-            "Project Execution",
-            "Evidence-Based Policy"
-        ],
-        "excerpt": "The Handbook serves as a go-to reference for researchers seeking to use administrative data and for data providers looking to make their data accessible for research.",
-        "content": "The Handbook serves as a go-to reference for researchers seeking to use administrative data and for data providers looking to make their data accessible for research. The handbook is published online under an open licensing model and freely available to all. It provides information, best practices, and case studies on how to create privacy-protected access to, handle, and analyze administrative data, with the aim of pushing the research frontier as well as informing evidence-based policy innovations.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/handbook-on-using-administrative-data-for-reasearch-and-evidence-based-policy-1-e1723971552830.png?w=850&ssl=1"
-    },
-    {
-        "title": "The Abdul Latif Jameel Poverty Action Lab Dataverse",
-        "link": "https://dataverse.harvard.edu/dataverse/jpal",
-        "source": "Harvard Dataverse",
-        "tags": [
-            "Network"
-        ],
-        "categories": [
-            "Big Data",
-            "Project Design"
-        ],
-        "excerpt": "It contains data from randomized experiments in the social sciences. Data, statistical code underlying published research results, surveys, and documentation are included.",
-        "content": "The Abdul Latif Jameel Poverty Action Lab (J-PAL) is a network of affiliated professors from over forty universities. Our mission is to reduce poverty by ensuring that policy is informed by scientific evidence. We do this through research, policy outreach, and training across six regional offices worldwide.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.46.03.png?w=2038&ssl=1"
-    },
-    {
-        "title": "data.org",
-        "link": "http://data.org",
-        "source": "data.org",
-        "tags": [
-            "Library"
-        ],
-        "categories": [
-            "Civic Data"
-        ],
-        "excerpt": "Practical information and inspirational ideas to help social impact organizations use data to solve the world\u2019s biggest challenges.",
-        "content": "A global organization, data.org convenes and coordinates across sectors to support and advance visionary\u2014yet practical\u2014solutions to drive impact, through data.\\ndata.org brings together philanthropy, private sector technology, academia, and social impact organizations to build the field of data and AI for social impact.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/data.org_.png?resize=1536%2C806&ssl=1"
-    },
-    {
-        "title": "Expanding the Qualitative Repertoire: Methodological Innovation",
-        "link": "https://youtu.be/G60sKeFgbj0",
-        "source": "Karen Albright",
-        "tags": [
-            "Video"
-        ],
-        "categories": [
-            "Thick Data",
-            "Project Execution"
-        ],
-        "excerpt": "This cyberseminar provides an introduction to newer and more innovative qualitative approaches that may be less well known to health researchers but which allow additional insights into individual- and system-level factors that influence stakeholder perspectives and behaviors.",
-        "content": "Over the past decade, qualitative methods have become increasingly integrated into health services research. However, the most common qualitative approaches remain those that involve data collection via interviews and focus groups. This cyberseminar provides an introduction to newer and more innovative qualitative approaches that may be less well known to health researchers but which allow additional insights into individual- and system-level factors that influence stakeholder perspectives and behaviors. The advantages and disadvantages of each approach will be discussed so that researchers can determine the appropriate methodological choice for their needs.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.51.51.png?w=1724&ssl=1"
-    },
-    {
-        "title": "Consentful Tech Curriculum",
-        "link": "https://docs.google.com/document/d/177eJBqwXbAxX-rUMoKfbzhBANdEVm8rC1x4VRuZ-Gj4/edit",
-        "source": "Una Lee & Tawana Petty",
-        "tags": [
-            "Tool"
-        ],
-        "categories": [
-            "Ethical Data Practices",
-            "Consent",
-            "Privacy",
-            "Project Execution"
-        ],
-        "excerpt": "A curriculum for building and using technology consentfully.",
-        "content": "From protecting ourselves to taking care of each other: A curriculum for building and using technology consentfully is meant to support those looking to best use technology in service of care, safety, and consent. It will lay the groundwork with key concepts like data and data bodies, safety vs. security, consent, and how these relate to our individual and collective lives. This curriculum guides readers through the application of these concepts to build consentful cultures and technologies and how to advocate for the adoption of such in their communities.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.53.50-e1722524073135.png?w=1463&ssl=1"
-    },
-    {
-        "title": "Gender Shades Project",
-        "link": "http://gendershades.org/",
-        "source": "MIT Media Lab",
-        "tags": [
-            "Paper"
-        ],
-        "categories": [
-            "Equity in Analytics",
-            "Project Execution"
-        ],
-        "excerpt": "The Gender Shades project pilots an intersectional approach to inclusive product testing for AI.",
-        "content": "Gender Shades is a preliminary excavation of the inadvertent negligence that will cripple the age of automation and further exacerbate inequality if left to fester. The deeper we dig, the more remnants of bias we will find in our technology. We cannot afford to look away this time, because the stakes are simply too high.  We risk losing the gains made with the civil rights movement and women\u2019s movement under the false assumption of machine neutrality. Automated systems are not inherently neutral. They reflect the priorities, preferences, and prejudices\u2014the coded gaze\u2014of those who have the power to mold artificial intelligence.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-11.05.20.png?w=1818&ssl=1"
-    },
-    {
-        "title": "Tech Equity Resources and Training",
-        "link": "https://docs.google.com/document/d/1l45mKUttwoSlaubA7Z2fm5N2GSXMk61o_P4KFla-AX8/edit?pli=1#heading=h.a0be4545hn7",
-        "source": "City of Austin",
-        "tags": [
-            "Paper"
-        ],
-        "categories": [
-            "Equity in Analytics",
-            "Project Execution"
-        ],
-        "excerpt": "This repository is a set of training modules created by the City of Austin\u2019s Innovation Office as a part of the Policing Tech Equity project.",
-        "content": "This repository is a set of training modules created by the City of Austin\u2019s Innovation Office as a part of the Policing Tech Equity project. In Spring and Fall of 2021, researchers from the Innovation Office, Equity Office, and the University of Texas conducted a number of interviews with city employees, advocates, and technologists about the intersection between technology and equity.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-11.08.07-e1723971807606.png?w=1618&ssl=1"
-    },
-    {
-        "title": "Digital Government Blueprint",
-        "link": "https://www.tech.gov.sg/digital-government-blueprint/",
-        "source": "Government Technology Agency of Singapore",
-        "tags": [
-            "Policy"
-        ],
-        "categories": [
-            "Digital Services + Digital Equity",
-            "Project Execution"
-        ],
-        "excerpt": "GovTech, Singapore\u2019s government technology agency, aims to create a \u201cDigital to the Core, and Serves with Heart\u201d government.",
-        "content": "GovTech is the lead agency driving Singapore\u2019s Smart Nation initiative and public sector digital transformation. We harness the power of technology to make lives better for citizens, businesses, international audiences and the public service sector.\\nOur goal is to create a government that is \u201cDigital to the Core, and Serves with Heart\u201d. We achieve this by using technology to create services that are easy, seamless and secure for people to use, and placing the needs of citizens and businesses at the centre of everything we do.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Digital_Gov_Info.jpg?w=1200&ssl=1"
-    },
-    {
-        "title": "What I learned in two years of moving government forms online",
-        "link": "https://medium.com/@jgee/what-i-learned-in-two-years-of-moving-government-forms-online-1edc4c2aa089",
-        "source": "Josh Gee",
-        "tags": [
-            "Article"
-        ],
-        "categories": [
-            "Digital Services + Digital Equity",
-            "Project Execution"
-        ],
-        "excerpt": "The experience of transitioning the City of Boston\u2019s paper and PDF forms to online formats.",
-        "content": "The Medium article, written by Josh Gee, shares insights into the challenges and learnings derived from two years of moving government forms online. The process includes digitizing a diverse range of forms, from simple requests to more complex grant applications. Key learnings include the need for ease-of-use in form design, reduction of jargon to improve accessibility and understanding, and enhancement of customer service experiences. Iteration is important \u2013 and should be based on user feedback to constantly improve the system. He also emphasized the usefulness of metrics to track success and identify improvements and highlighted policy and procurement as areas in need of innovation to facilitate digitization.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-18-at-17.01.46-e1723971751345.png?w=2098&ssl=1"
-    },
-    {
-        "title": "On Nonscalability:\u00a0The Living World Is Not Amenable to Precision-Nested Scales",
-        "link": "https://read.dukeupress.edu/common-knowledge/article-abstract/18/3/505/6827/On-NonscalabilityThe-Living-World-Is-Not-Amenable",
-        "source": "Anna Lowenhaupt Tsing",
-        "tags": [
-            "Article"
-        ],
-        "categories": [
-            "Scale",
-            "Project Execution"
-        ],
-        "excerpt": "Ignoring non-scalable effects is a bad idea.",
-        "content": "Because computers zoom across magnifications, it is easy to conclude that both knowledge and things exist by nature in precision-nested scales. The technical term is \u201cscalable,\u201d the ability to expand without distorting the framework. But it takes hard work to make knowledge and things scalable, and this article shows that ignoring nonscalable effects is a bad idea. People stumbled on scalable projects through the same historical contingencies that such projects set out to deny. They cobbled together ways to make things and data self-contained and static, and thus amenable to expansion. In European New World plantations, the natives were wiped out; coerced and alienated plants and workers came to substitute for them. Profits were made because extermination and slavery could be discounted from the books. Such historically indeterminate encounters formed models for later projects of scalability. This essay explores scalability projects from the perspective of an emergent \u201cnonscalability theory\u201d that pays attention to the mounting pile of ruins that scalability leaves behind. The article concludes that, if the world is still diverse and dynamic, it is because scalability never fulfills its own promises.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-11.19.05-e1723971629491.png?w=2014&ssl=1"
-    },
-    {
-        "title": "Round Robin Template",
-        "link": "https://www.mural.co/templates/round-robin?mc_cid=b2163a78a4&mc_eid=1850419c30",
-        "source": "LUMA Institute",
-        "tags": [
-            "Tool",
-            "App"
-        ],
-        "categories": [
-            "Design Sprints"
-        ],
-        "excerpt": "This template guides you through a collaborative session where every team member contributes multiple ideas, making it great for brainstorming and exploration.",
-        "content": "This round robin template, built by LUMA Institute, guides you through a collaborative session where every team member contributes multiple ideas, making it great for brainstorming and exploration. Use this template to generate and iterate on ideas across your whole team./nWith the round robin approach, team members are not only encouraged to think of original solutions to problems, but also build upon the ideas of other participants, helping add context and refine your brainstorming.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-08-at-08.37.39-e1723971439618.png?w=1751&ssl=1"
-    },
-    {
-        "title": "Civic Research Agenda",
-        "link": "https://www.boston.gov/departments/new-urban-mechanics/civic-research-agenda",
-        "source": "City of Boston",
-        "tags": [
-            "Report"
-        ],
-        "categories": [
-            "Civic Research"
-        ],
-        "excerpt": "A primer on the questions we\u2019re asking, the problems that stump us, and the partnerships we need.",
-        "content": "We at New Urban Mechanics want to learn more about our City and its people, and we have a lot of questions. We don\u2019t know how to answer many of those questions, but we do know that when we team up with others, the answers become clearer. We would like to pursue learning about Boston with you. To do this, we don\u2019t need to sit in a classroom or have a fancy string of letters that follow our names. All we need are folks with experience and expertise to share in our questions, challenge our assumptions, and create new ways to serve the people of Boston.",
-        "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Screenshot-2024-07-18-at-12.12.41.png?w=801&ssl=1"
-    }
+  {
+    "title": "Tauberer 2015: So you want to reform democracy",
+    "link": "https://medium.com/civic-tech-thoughts-from-joshdata/so-you-want-to-reform-democracy-7f3b1ef10597",
+    "source": "Joshua Tauberer",
+    "tags": ["Article"],
+    "categories": ["Civic Tech"],
+    "excerpt": "This article emphasizes that democratic reform is a social and institutional challenge, not a technological one.",
+    "content": "Joshua Taubererâs article on democratic reform stresses that the core issues are societal and institutional, not merely technological. He argues that technology alone canât solve the problems of democracy because it often excludes marginalized groups who lack access to digital tools. Effective reform involves addressing power dynamics and understanding democracy as a collective human project. Tauberer highlights the importance of inclusivity and cautions against relying on tech solutions that might exacerbate inequalities. His perspective encourages reformers to focus on building social and institutional frameworks that empower all citizens, particularly the most vulnerable.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/1_VpDAESy7Uh02xWUCq5zS9A.webp?resize=1536%2C1024&ssl=1"
+  },
+  {
+    "title": "Civic Tech Field Guide",
+    "link": "https://civictech.guide/",
+    "source": "Civic Tech Field Guide",
+    "tags": ["Network"],
+    "categories": ["Civic Tech"],
+    "excerpt": "Discover the world’s largest collection of projects using tech for the common good.",
+    "content": "The Civic Tech Field Guide is led by its Curator, Matt Stempeck. The projectâs mission is to effectively grow the field of civic tech. We have many challenges facing democracies and the world at large, and itâs our belief that we need more people contributing more productively to improving things. This belief drives our core values of:\nProviding an often missing archival memory of the field, so we can learn from our past mistakes and get better at what we do, rather than brush failures under the carpet.\nA global perspective, as we can all learn from othersâ work.\nMaking our resources as available as possible through open source code, open data licensing, and strong accessibility.\nInclusively pointing to helpful resources others have created, even and especially if they could be seen as competitors.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Screenshot-2024-07-18-at-12.11.54-e1723972498683.png?w=1006&ssl=1"
+  },
+  {
+    "title": "Civic Tech Book Club",
+    "link": "https://civictechbook.club/",
+    "source": "Civic Tech Book Club",
+    "tags": ["Book", "Network", "Event"],
+    "categories": ["Civic Tech"],
+    "excerpt": "Civic Tech Book Club is a virtual book club that meets sporadically to discuss readings related to civics and technology.",
+    "content": "Civic Tech Book Club is a virtual book club that meets sporadically to discuss readings related to civics and technology. The group was created in 2015 by Rebecca Ackerman, Forest Gregg, and Rebecca Williams who lived far apart from each other and wanted a space to discuss readings. Since the pandemic, the virtual group has taken on a new life and meets more frequently. The membership generally skews a bit more âcivicsâ in background than âtechnologyâ and expands via word of mouth but all are welcome. Texts for discussion are organized through the listserv with members joining virtually and informally at their convenience. Meetings are usually 3-6 people, but there are have been surges. This website keeps an archive of readings for the groupâs organization and in case it is helpful to others.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/civic-tech-book-club-e1723972607465.webp?w=947&ssl=1"
+  },
+  {
+    "title": "Civic Design Library",
+    "link": "https://www.civicdesignlibrary.com/",
+    "source": "The Civic Design Library",
+    "tags": ["Dataset", "Library"],
+    "categories": ["Civic Design", "Data Visualization"],
+    "excerpt": "A crowdsourced data set of civic design resources created by global practitioners working at the intersection of design and the public sector.",
+    "content": "The Civic Design Library is a crowdsourced data set of civic design resources created by global practitioners working at the intersection of design and the public sector.\nIt aims to showcase the breadth and depth of civic design and offer data and visual formats for peer-to-peer learning and inspiration.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Untitled-design.png?w=600&ssl=1"
+  },
+  {
+    "title": "Design Policy Conference",
+    "link": "https://designpolicyconference.com/",
+    "source": "Word Design Capital Valencia 2022",
+    "tags": ["Network", "Workshop", "Conference"],
+    "categories": ["Civic Design"],
+    "excerpt": "The World Design Policy Conference provides a global platform for the exchange of ideas, insights, and best practices from different countries, regions, and cities that are developing, launching, and maintaining effective design policy.",
+    "content": "Design-led urban policies are increasingly recognized as critical to shaping the future prosperity and wellbeing of a city and its inhabitants. The World Design Policy Conference provides a global platform for the exchange of ideas, insights, and best practices from different countries, regions, and cities that are developing, launching, and maintaining effective design policy.\nA live in-person meeting in Valencia, one of the Signature Events of the World Design Capital 2022, with the mediterranean city at the international spotlight as a pole of attraction for foreign investments seeking opportunities thanks to its development and stability.\nThe findings and conclusions of this Conference have the potential to set the foundation for a design-led legacy programme that benefits both the design community and mainly the citizens, and that resonates far beyond the designated WDC year. A content that can influence existing policies facilitating a legacy in political management.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Screenshot-2024-07-06-at-17.22.54.webp?resize=1536%2C1052&ssl=1"
+  },
+  {
+    "title": "Returning to Our Roots: The Engaged Institution (February 1999)",
+    "link": "https://www.aplu.org/library/returning-to-our-roots-the-engaged-institution",
+    "source": "The Association of Public and Land-grant Universities (APLU®)",
+    "tags": ["Report"],
+    "categories": ["Partnerships", "Engagement"],
+    "excerpt": "The Kellogg Commission on the Future of State and Land-Grant Universities existed between January 1996 and March 2000 in order to create awareness among public universities of the need for higher education reform. This report in the series focuses on university engagement.",
+    "content": "The Kellogg Commission on the Future of State and Land-Grant Universities existed between January 1996 and March 2000 in order to create awareness among public universities of the need for higher education reform. This report in the series focuses on university engagement.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Screenshot-2024-07-26-at-12.22.00-e1723972093322.png?w=1222&ssl=1"
+  },
+  {
+    "title": "18F Partnership Principles",
+    "link": "https://18f.gsa.gov/partnership-principles/",
+    "source": "18F",
+    "tags": ["Handbook"],
+    "categories": ["Partnerships", "Forge Partnerships"],
+    "excerpt": "A guide to help you understand how your agency team and 18F can work together successfully.",
+    "content": "This guide will help you understand how your agency team and 18F can work together successfully. Youâll learn what to expect and how our two teams will form a fed-to-fed partnership that may be different from work youâve done with private vendors. Many of these ideas build on the U.S. Digital Services Playbook.\nThe first thing you may notice when partnering with 18F is that your team will be heavily involved in the day-to-day work of the project. Weâve found these close partnerships that pair our technical expertise with your program knowledge are most likely to deliver projects that fulfill federal rules, stay within budget, and provide excellent value to the public. Weâve laid out some methodologies and tactics below that will guide the project.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/18F.jpg?w=1232&ssl=1"
+  },
+  {
+    "title": "Civic Switchboard – for academic and public libraries interested in civic data",
+    "link": "https://civic-switchboard.github.io/",
+    "source": "Civic Switchboard",
+    "tags": ["Network"],
+    "categories": ["Civic Data", "Forge Partnerships", "Partnerships"],
+    "excerpt": "Civic Switchboard is an Institute of Museum and Library Services supported effort that aims to develop the capacity of academic and public libraries in civic data ecosystems.",
+    "content": "Civic data describes a broad range of information related to community life and the decision-making and policies that affect people and places; it can include not only data produced by governmental organizations, but also non-profits, civic institutions (like libraries!), and other community-based organizations. Civic Switchboard is an Institute of Museum and Library Services supported effort that aims to develop the capacity of academic and public libraries in civic data ecosystems.\nWe encourage partnerships between libraries and local data intermediaries that will better serve data users, further democratize data, and support equitable access to information. Our project created an online guide and toolkit for libraries interested in expanding (or beginning) their role around civic information.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/civic-swithcboard.png?w=600&ssl=1"
+  },
+  {
+    "title": "Community Voice Is Expertise",
+    "link": "https://www.urban.org/urban-wire/community-voice-expertise",
+    "source": "Urban Institute",
+    "tags": ["Article"],
+    "categories": ["Partnerships", "Power + Expertise + Equity"],
+    "excerpt": "An article that emphasizes the importance of community engagement in research, policy analysis, and federal agency work to advance equity and inclusion.",
+    "content": "The article from Urban Institute emphasizes the importance of integrating community voice and expertise into policymaking and program development. It argues that effective solutions to social issues require more than just technical knowledge; they also need the insights and experiences of those directly impacted by the issues. By involving community members in decision-making processes, policies can be better tailored to address real needs and promote more equitable outcomes. The article highlights examples of successful community engagement and offers recommendations for incorporating local expertise into various stages of policy and program development.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/https-www.urban_.orgurban-wirecommunity-voice-expertise.jpg?w=1500&ssl=1"
+  },
+  {
+    "title": "Slow Ideas",
+    "link": "https://www.newyorker.com/magazine/2013/07/29/slow-ideas",
+    "source": "Atul Gawande",
+    "tags": ["Article"],
+    "categories": ["Building Trust", "Civic Tech", "Partnerships"],
+    "excerpt": "Explores why some innovations spread rapidly while others take much longer to gain acceptance.",
+    "content": "The New Yorker article âSlow Ideasâ by Atul Gawande explores why some innovative ideas and technologies take a long time to gain traction and be adopted, even when they promise significant improvements. Gawande contrasts the rapid spread of certain advancements, like smartphones, with the slow adoption of beneficial medical practices and technologies. He attributes this delay to factors such as resistance to change, entrenched habits, and the complexity of implementing new practices in established systems. The article examines case studies, including the spread of hand hygiene practices in hospitals, to illustrate how understanding and addressing these barriers can help accelerate the adoption of transformative ideas.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/slow-ideas.webp?w=1508&ssl=1"
+  },
+  {
+    "title": "‘Building Technology With, Not For Communities: An Engagement Guide for Civic Tech’",
+    "link": "https://medium.com/organizer-sandbox/building-technology-with-not-for-communities-an-engagement-guide-for-civic-tech-b8880982e65a",
+    "source": "Laurenellen McCann!!",
+    "tags": ["Article"],
+    "categories": [
+      "Build With",
+      "Civic Tech",
+      "Partnerships",
+      "Project Well-Being"
+    ],
+    "excerpt": "This article explores the role of civic tech organizations in connecting communities with technology.",
+    "content": "This article discusses the role of civic tech organizations in bridging the gap between communities and technology. It emphasizes that these organizations should not merely build technology for communities, but should rather engage and listen to them, understanding their actual needs and regional contexts before starting the implementation process. The article further highlights the importance of building trust, maintaining transparency, sharing leadership with local residents, and training locals to manage the technology. Also, it stresses the need for civic tech solutions to be sustainable, inclusive, and culturally specific. It concludes by advocating for civic tech to embrace these principles to ensure successful, long-lasting, and valuable partnerships with the communities they serve.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/1_2UBy-9sgkbW2F_rSeVr2sg.webp?resize=2048%2C922&ssl=1"
+  },
+  {
+    "title": "Responsible Tech Job Board",
+    "link": "https://atih.responsibletechguide.com/responsible-tech-job-board",
+    "source": "All Tech is Human",
+    "tags": ["Network"],
+    "categories": ["Civic Tech"],
+    "excerpt": "Our Responsible Tech Job Board highlights new career opportunities in Responsible AI, Trust & Safety, Tech & Democracy, Public Interest Technology, and Youth, Tech, and Wellbeing, among many other emerging roles in the rapidly-evolving ecosystem.",
+    "content": "All Tech Is Humanâ Responsible Tech Job Board highlights new career opportunities in Responsible AI, Trust & Safety, Tech & Democracy, Public Interest Technology, and Youth, Tech, and Wellbeing, among many other emerging roles in the rapidly-evolving ecosystem. It is the premiere resource in the field for people exploring a career change, new role, or interested in the growing responsible tech ecosystem.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/2eb93f3d-7b91-4b3b-a016-e8ebc26d02f4_1920x1080-e1720301703662.webp?w=726&ssl=1"
+  },
+  {
+    "title": "The Responsible Tech Guide (2024)",
+    "link": "https://atih.responsibletechguide.com/",
+    "source": "All Tech is Human",
+    "tags": ["Report", "Network"],
+    "categories": [
+      "Civic Tech",
+      "Build With",
+      "Project Well-Being",
+      "Responsible Tech"
+    ],
+    "excerpt": "It is designed to provide information, inspiration, and illumination of pathways for more individuals to be involved in the Responsible Tech ecosystem.",
+    "content": "The people, organizations, and ideas of the Responsible Tech ecosystem and actionable ways to get involved.\nOur Responsible Tech Guide, along with our many other activities that grow and strengthen the Responsible Tech ecosystem, is entirely free thanks to the Patrick J. McGovern Foundation, Schmidt Futures, and Siegel Family Endowment that support All Tech Is Human.",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/60355084905d134a93c099a8/5cc54514-8df7-4681-a0bf-4c70094dfd5c/Responsible+Tech+Guide+2024.png?format=500w"
+  },
+  {
+    "title": "On the Role of Passion for Work in Burnout: A Process Model",
+    "link": "https://www.researchgate.net/publication/43532701_On_the_Role_of_Passion_for_Work_in_Burnout_A_Process_Model",
+    "source": "PubMed",
+    "tags": ["Paper"],
+    "categories": ["Burnout", "Project Well-Being"],
+    "excerpt": "The research investigates the role of passion for work in professional burnout among nurses in two cultures.",
+    "content": "The purpose of the present research was to test a model on the role of passion for work in professional burnout. This model posits that obsessive passion produces conflict between work and other life activities because the person cannot let go of the work activity. Conversely, harmonious passion is expected to prevent conflict while positively contributing to work satisfaction. Finally, conflict is expected to contribute to burnout, whereas work satisfaction should prevent its occurrence. This model was tested in 2 studies with nurses in 2 cultures. Using a cross-sectional design, Study 1 (n=97) provided support for the model with nurses from France. In Study 2 (n=258), a prospective design was used to further test the model with nurses from the Province of Quebec over a 6-month period. Results provided support for the model. Specifically, harmonious passion predicted an increase in work satisfaction and a decrease in conflict. Conversely, obsessive passion predicted an increase of conflict. In turn, work satisfaction and conflict predicted decreases and increases in burnout changes that took place over time. The results have important implications for theory and research on passion as well as burnout.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/image.png?w=1024&ssl=1"
+  },
+  {
+    "title": "The Continuum of Community Engagement in Research: A Roadmap for Understanding and Assessing Progress",
+    "link": "https://pubmed.ncbi.nlm.nih.gov/31866597/",
+    "source": "PubMed",
+    "tags": ["Article"],
+    "categories": [
+      "Indicators of Success or Failure",
+      "Engagement",
+      "Project Design"
+    ],
+    "excerpt": "This article explores a framework for engaging communities in research.",
+    "content": "Background: The past two decades have been marked by increased community involvement in the research process. Community-engaged research (CEnR) is increasingly promoted in the literature, and academic programs with a community-academic partnership focus. Community-based participatory research (CBPR) is an approach to frame equitable community involvement in research and is a critical component of the CEnR continuum. As with CEnR, noted benefits of using CBPR expressed in the literature, which include enhancing the relevance and application of the research data, expertise to complex problems at all stages of research, overcoming community distrust, and improving community health. This article presents a community engagement (CE) model that includes seven defined designations for CEnR. In addition, this model includes equity indicators and contextual factors for consideration at the various levels of engagement along the continuum.\nMethods: The CE model described in this article combines the principles of CE and CBPR in conjunction with a continuum model. The continuum integrates a focus on health equity and contextual factors providing perspectives from both community and academic partners at each point of engagement.\nConclusions: A broadly defined CEnR continuum will allow researchers, community members and organizations to readily identify 1) where they are on the continuum of CEnR, 2) appropriate access points to enter the continuum based on existing contextual factors, and 3) actions to promote progression on the continuum. Funders have the opportunity to specify the appropriate level of CE needed to accomplish the goals of their identified priorities.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/hannah-busing-Zyx1bK9mqmA-unsplash.jpg?resize=2048%2C1365&ssl=1"
+  },
+  {
+    "title": "Sturt + Nordstrom 2013: Are You Asking The Right Question?",
+    "link": "https://www.forbes.com/sites/davidsturt/2013/10/18/are-you-asking-the-right-question/",
+    "source": "David Sturt and Todd Nordstrom",
+    "tags": ["Article"],
+    "categories": ["Project Execution", "Asking Questions"],
+    "excerpt": "This article discusses the profound impact of asking the right questions on innovation and value creation.",
+    "content": "This article highlights the importance of asking the right questions to solve problems, spur innovation and engage employees. The author argues that asking questions beginning with âwhy,â âwhat if,â and âhowâ can spark creativity challenges conventional wisdom. Such questions inspire people to think differently and offer constructive solutions. Furthermore, asking good questions creates a more engaged and collaborative environment. The right questions can be âgame changersâ that lead to new ideas and major breakthroughs for your organization.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/jon-tyson-hhq1Lxtuwd8-unsplash.jpg?resize=1536%2C1536&ssl=1"
+  },
+  {
+    "title": "Research is a team sport: 11 ideas on how to involve stakeholders in a UX Research project",
+    "link": "https://condens.io/blog/involving-stakeholders-in-ux-user-research",
+    "source": "Sina Schreiber",
+    "tags": ["Article"],
+    "categories": ["Engagement", "Project Design", "User Experience"],
+    "excerpt": "The blog post on Condens.io emphasizes the importance of involving stakeholders in User Experience (UX) and User Research.",
+    "content": "The blog post on Condens.io emphasizes the importance of involving stakeholders in User Experience (UX) and User Research. Meaningful stakeholder involvement can provide valuable perspectives, foster understanding, and facilitate decision-making. Furthermore, it promotes ownership and affiliation to the designed solution. The author differentiates between primary and secondary stakeholders and presents ways to engage them using methods such as stakeholder interviews, usability testing, user journey mapping and sharing research findings. The article outlines a three-step process to successfully involve stakeholders: defining the stakeholder group, devising appropriate participation activities, and making these activities meaningful and enjoyable. Overall, the commitment to engage stakeholders in UX and User Research ensures the development of more effective design solutions.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/involving-stakeholdersbrooke-cagle-uhvrvdr7pg-unsplash.webp?w=1080&ssl=1"
+  },
+  {
+    "title": "Disability Inclusion Toolkit",
+    "link": "https://www.fordfoundation.org/work/learning/research-reports/disability-inclusion-toolkit",
+    "source": "Ford Foundation",
+    "tags": ["Report", "Tool"],
+    "categories": ["Access + (Dis)Ability", "Engagement", "Project Execution"],
+    "excerpt": "The toolkit serves as a public good available to any organization that can benefit from the tools, tips, and guidance offered within.",
+    "content": "Commissioned by the Ford Foundationâs Civic Engagement & Government program, the Disability Inclusion Toolkit is written and designed by disability community leaders Mia Ives Rublee and AndraÃ©a LaVant to help social justice organizations advance disability inclusion in their work.\nThe toolkit includes introductory disability definitions and language guidelines, in addition to guidance on creating accessible in-person and virtual events, social media, and disability inclusive employment practices from recruitment to retention. The toolkit serves as a public good available to any organization that can benefit from the tools, tips, and guidance offered within.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.27.03.png?w=1406&ssl=1"
+  },
+  {
+    "title": "Mike Morrison (#betterposter author) YouTube",
+    "link": "https://www.youtube.com/channel/UCvFo8Iva2rr3uEBk4ERHY_Q",
+    "source": "Mike Morrison",
+    "tags": ["Tool", "Video"],
+    "categories": [
+      "Communication + Dissemination",
+      "Engagement",
+      "Project Execution"
+    ],
+    "excerpt": "Better design for scientists, better science for designers.",
+    "content": "Mike Morrison develops a new poster format to make academic research posters more accessible to a lay audience and to maximize the information translated to conference attendees.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.32.33-e1723971885390.png?resize=1536%2C1152&ssl=1"
+  },
+  {
+    "title": "Lessons on How to Lie with Statistics",
+    "link": "https://towardsdatascience.com/lessons-from-how-to-lie-with-statistics-57060c0d2f19",
+    "source": "Will Koehrsen",
+    "tags": ["Article", "Book"],
+    "categories": ["Big Data", "Project Execution"],
+    "excerpt": "Timeless Data Literacy Advice.",
+    "content": "This article highlights various ways data can be misrepresented and misinterpreted to deceive people. It discusses examples from the book âHow to Lie with Statistics,â including graphing certain ranges, manipulating the Y-axis scale, not considering other variables when comparing two sets or habits, and ignoring small sample sizes or selection bias. The article emphasizes the importance of diligent consideration when reviewing statistics and recommends asking critical questions to avoid being misled. It advises individuals to assess the source, gather context, comprehend visualizations carefully, consider unseen variables, and challenge the interpretation to scrutinize the data objectively.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Lessons-on-How-to-Lie-with-Statistics-.webp?w=2000&ssl=1"
+  },
+  {
+    "title": "Handbook on Using Administrative Data for Research and Evidence-based Policy",
+    "link": "https://admindatahandbook.mit.edu/",
+    "source": "J-PAL NA",
+    "tags": ["Book"],
+    "categories": ["Big Data", "Project Execution", "Evidence-Based Policy"],
+    "excerpt": "The Handbook serves as a go-to reference for researchers seeking to use administrative data and for data providers looking to make their data accessible for research.",
+    "content": "The Handbook serves as a go-to reference for researchers seeking to use administrative data and for data providers looking to make their data accessible for research. The handbook is published online under an open licensing model and freely available to all. It provides information, best practices, and case studies on how to create privacy-protected access to, handle, and analyze administrative data, with the aim of pushing the research frontier as well as informing evidence-based policy innovations.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/handbook-on-using-administrative-data-for-reasearch-and-evidence-based-policy-1-e1723971552830.png?w=850&ssl=1"
+  },
+  {
+    "title": "The Abdul Latif Jameel Poverty Action Lab Dataverse",
+    "link": "https://dataverse.harvard.edu/dataverse/jpal",
+    "source": "Harvard Dataverse",
+    "tags": ["Network"],
+    "categories": ["Big Data", "Project Design"],
+    "excerpt": "It contains data from randomized experiments in the social sciences. Data, statistical code underlying published research results, surveys, and documentation are included.",
+    "content": "The Abdul Latif Jameel Poverty Action Lab (J-PAL) is a network of affiliated professors from over forty universities. Our mission is to reduce poverty by ensuring that policy is informed by scientific evidence. We do this through research, policy outreach, and training across six regional offices worldwide.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.46.03.png?w=2038&ssl=1"
+  },
+  {
+    "title": "data.org",
+    "link": "http://data.org",
+    "source": "data.org",
+    "tags": ["Library"],
+    "categories": ["Civic Data"],
+    "excerpt": "Practical information and inspirational ideas to help social impact organizations use data to solve the world’s biggest challenges.",
+    "content": "A global organization, data.org convenes and coordinates across sectors to support and advance visionaryâyet practicalâsolutions to drive impact, through data.\ndata.org brings together philanthropy, private sector technology, academia, and social impact organizations to build the field of data and AI for social impact.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/data.org_.png?resize=1536%2C806&ssl=1"
+  },
+  {
+    "title": "Expanding the Qualitative Repertoire: Methodological Innovation",
+    "link": "https://youtu.be/G60sKeFgbj0",
+    "source": "Karen Albright",
+    "tags": ["Video"],
+    "categories": ["Thick Data", "Project Execution"],
+    "excerpt": "This cyberseminar provides an introduction to newer and more innovative qualitative approaches that may be less well known to health researchers but which allow additional insights into individual- and system-level factors that influence stakeholder perspectives and behaviors.",
+    "content": "Over the past decade, qualitative methods have become increasingly integrated into health services research. However, the most common qualitative approaches remain those that involve data collection via interviews and focus groups. This cyberseminar provides an introduction to newer and more innovative qualitative approaches that may be less well known to health researchers but which allow additional insights into individual- and system-level factors that influence stakeholder perspectives and behaviors. The advantages and disadvantages of each approach will be discussed so that researchers can determine the appropriate methodological choice for their needs.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.51.51.png?w=1724&ssl=1"
+  },
+  {
+    "title": "Consentful Tech Curriculum",
+    "link": "https://docs.google.com/document/d/177eJBqwXbAxX-rUMoKfbzhBANdEVm8rC1x4VRuZ-Gj4/edit",
+    "source": "Una Lee & Tawana Petty",
+    "tags": ["Tool"],
+    "categories": [
+      "Ethical Data Practices",
+      "Consent",
+      "Privacy",
+      "Project Execution"
+    ],
+    "excerpt": "A curriculum for building and using technology consentfully.",
+    "content": "From protecting ourselves to taking care of each other: A curriculum for building and using technology consentfully is meant to support those looking to best use technology in service of care, safety, and consent. It will lay the groundwork with key concepts like data and data bodies, safety vs. security, consent, and how these relate to our individual and collective lives. This curriculum guides readers through the application of these concepts to build consentful cultures and technologies and how to advocate for the adoption of such in their communities.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-10.53.50-e1722524073135.png?w=1463&ssl=1"
+  },
+  {
+    "title": "Gender Shades Project",
+    "link": "http://gendershades.org/",
+    "source": "MIT Media Lab",
+    "tags": ["Paper"],
+    "categories": ["Equity in Analytics", "Project Execution"],
+    "excerpt": "The Gender Shades project pilots an intersectional approach to inclusive product testing for AI.",
+    "content": "Gender Shades is a preliminary excavation of the inadvertent negligence that will cripple the age of automation and further exacerbate inequality if left to fester. The deeper we dig, the more remnants of bias we will find in our technology. We cannot afford to look away this time, because the stakes are simply too high.  We risk losing the gains made with the civil rights movement and womenâs movement under the false assumption of machine neutrality. Automated systems are not inherently neutral. They reflect the priorities, preferences, and prejudicesâthe coded gazeâof those who have the power to mold artificial intelligence.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-11.05.20.png?w=1818&ssl=1"
+  },
+  {
+    "title": "Tech Equity Resources and Training",
+    "link": "https://docs.google.com/document/d/1l45mKUttwoSlaubA7Z2fm5N2GSXMk61o_P4KFla-AX8/edit?pli=1#heading=h.a0be4545hn7",
+    "source": "City of Austin",
+    "tags": ["Paper"],
+    "categories": ["Equity in Analytics", "Project Execution"],
+    "excerpt": "This repository is a set of training modules created by the City of Austin’s Innovation Office as a part of the Policing Tech Equity project.",
+    "content": "This repository is a set of training modules created by the City of Austinâs Innovation Office as a part of the Policing Tech Equity project. In Spring and Fall of 2021, researchers from the Innovation Office, Equity Office, and the University of Texas conducted a number of interviews with city employees, advocates, and technologists about the intersection between technology and equity.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-11.08.07-e1723971807606.png?w=1618&ssl=1"
+  },
+  {
+    "title": "Digital Government Blueprint",
+    "link": "https://www.tech.gov.sg/digital-government-blueprint/",
+    "source": "Government Technology Agency of Singapore",
+    "tags": ["Policy"],
+    "categories": ["Digital Services + Digital Equity", "Project Execution"],
+    "excerpt": "GovTech, Singapore’s government technology agency, aims to create a “Digital to the Core, and Serves with Heart” government.",
+    "content": "GovTech is the lead agency driving Singaporeâs Smart Nation initiative and public sector digital transformation. We harness the power of technology to make lives better for citizens, businesses, international audiences and the public service sector.\nOur goal is to create a government that is âDigital to the Core, and Serves with Heartâ. We achieve this by using technology to create services that are easy, seamless and secure for people to use, and placing the needs of citizens and businesses at the centre of everything we do.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Digital_Gov_Info.jpg?w=1200&ssl=1"
+  },
+  {
+    "title": "What I learned in two years of moving government forms online",
+    "link": "https://medium.com/@jgee/what-i-learned-in-two-years-of-moving-government-forms-online-1edc4c2aa089",
+    "source": "Josh Gee",
+    "tags": ["Article"],
+    "categories": ["Digital Services + Digital Equity", "Project Execution"],
+    "excerpt": "The experience of transitioning the City of Boston’s paper and PDF forms to online formats.",
+    "content": "The Medium article, written by Josh Gee, shares insights into the challenges and learnings derived from two years of moving government forms online. The process includes digitizing a diverse range of forms, from simple requests to more complex grant applications. Key learnings include the need for ease-of-use in form design, reduction of jargon to improve accessibility and understanding, and enhancement of customer service experiences. Iteration is important â and should be based on user feedback to constantly improve the system. He also emphasized the usefulness of metrics to track success and identify improvements and highlighted policy and procurement as areas in need of innovation to facilitate digitization.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-18-at-17.01.46-e1723971751345.png?w=2098&ssl=1"
+  },
+  {
+    "title": "On Nonscalability: The Living World Is Not Amenable to Precision-Nested Scales",
+    "link": "https://read.dukeupress.edu/common-knowledge/article-abstract/18/3/505/6827/On-NonscalabilityThe-Living-World-Is-Not-Amenable",
+    "source": "Anna Lowenhaupt Tsing",
+    "tags": ["Article"],
+    "categories": ["Scale", "Project Execution"],
+    "excerpt": "Ignoring non-scalable effects is a bad idea.",
+    "content": "Because computers zoom across magnifications, it is easy to conclude that both knowledge and things exist by nature in precision-nested scales. The technical term is âscalable,â the ability to expand without distorting the framework. But it takes hard work to make knowledge and things scalable, and this article shows that ignoring nonscalable effects is a bad idea. People stumbled on scalable projects through the same historical contingencies that such projects set out to deny. They cobbled together ways to make things and data self-contained and static, and thus amenable to expansion. In European New World plantations, the natives were wiped out; coerced and alienated plants and workers came to substitute for them. Profits were made because extermination and slavery could be discounted from the books. Such historically indeterminate encounters formed models for later projects of scalability. This essay explores scalability projects from the perspective of an emergent ânonscalability theoryâ that pays attention to the mounting pile of ruins that scalability leaves behind. The article concludes that, if the world is still diverse and dynamic, it is because scalability never fulfills its own promises.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-01-at-11.19.05-e1723971629491.png?w=2014&ssl=1"
+  },
+  {
+    "title": "Round Robin Template",
+    "link": "https://www.mural.co/templates/round-robin?mc_cid=b2163a78a4&mc_eid=1850419c30",
+    "source": "LUMA Institute",
+    "tags": ["Tool", "App"],
+    "categories": ["Design Sprints"],
+    "excerpt": "This template guides you through a collaborative session where every team member contributes multiple ideas, making it great for brainstorming and exploration.",
+    "content": "This round robin template, built by LUMA Institute, guides you through a collaborative session where every team member contributes multiple ideas, making it great for brainstorming and exploration. Use this template to generate and iterate on ideas across your whole team.\nWith the round robin approach, team members are not only encouraged to think of original solutions to problems, but also build upon the ideas of other participants, helping add context and refine your brainstorming.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/08/Screenshot-2024-08-08-at-08.37.39-e1723971439618.png?w=1751&ssl=1"
+  },
+  {
+    "title": "Civic Research Agenda",
+    "link": "https://www.boston.gov/departments/new-urban-mechanics/civic-research-agenda",
+    "source": "City of Boston",
+    "tags": ["Report"],
+    "categories": ["Civic Research"],
+    "excerpt": "A primer on the questions we’re asking, the problems that stump us, and the partnerships we need.",
+    "content": "We at New Urban Mechanics want to learn more about our City and its people, and we have a lot of questions. We donât know how to answer many of those questions, but we do know that when we team up with others, the answers become clearer. We would like to pursue learning about Boston with you. To do this, we donât need to sit in a classroom or have a fancy string of letters that follow our names. All we need are folks with experience and expertise to share in our questions, challenge our assumptions, and create new ways to serve the people of Boston.",
+    "imageUrl": "https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/07/Screenshot-2024-07-18-at-12.12.41.png?w=801&ssl=1"
+  }
 ]

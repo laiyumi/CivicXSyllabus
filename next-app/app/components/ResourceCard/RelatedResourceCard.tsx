@@ -18,7 +18,7 @@ const RelatedResourceCard = ({ resource }: { resource: PostWithRelations }) => {
       {/* <figure>
         <img src={resource.imageUrl} alt={resource.title} />
       </figure> */}
-      <div className="card-body">
+      <div className="card-body ">
         <div className="flex flex-wrap gap-3">
           {resource.categories.map((category) => (
             <div key={category.name} className="badge badge-secondary">

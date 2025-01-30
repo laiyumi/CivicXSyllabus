@@ -17,7 +17,7 @@ with open('raw-data.csv', 'r') as file:
         # remove any leading or trailing white spaces
         tags = [tag.strip() for tag in tags]
         categories = [category.strip() for category in categories]
-        content = row[11].strip()
+        content = row[11].replace('/n', '\n').strip().encode().decode("unicode_escape")        
         excerpt = row[10].strip()
         title = row[4].strip()
         link = row[5].strip()
@@ -37,5 +37,5 @@ with open('raw-data.csv', 'r') as file:
 
 # write the json data to a file
 with open('formatted_data.json', 'w') as file:
-    json.dump(json_data, file, indent=4)
+    json.dump(json_data, file, indent=4, ensure_ascii=False)
 
