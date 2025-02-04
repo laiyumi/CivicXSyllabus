@@ -127,14 +127,14 @@ const ResourcesGrid = () => {
 
   // render
   return (
-    <>
+    <div className="flex justify-center">
       {loading ? (
-        <p className="text-center">Loading...</p>
+        <span className="loading loading-spinner loading-md"></span>
       ) : filteredResources.length === 0 ? (
         <p className="text-center">No results found for your search.</p>
       ) : (
-        <>
-          <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+        <div>
+          <div className="grid grid-cols-12 gap-10 ">
             {paginatedResources.map((resource) => (
               <ResourceCard key={resource.id} resource={resource} />
             ))}
@@ -146,9 +146,9 @@ const ResourcesGrid = () => {
               currentPage={currentPage}
             />
           </div>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -64,7 +64,7 @@ model Post {
   published Boolean  @default(false)
 
   title    String @unique
-  excerpt  String
+  excerpt  String @db.Text
   content  String @db.Text
   link     String @unique
   imageUrl String
