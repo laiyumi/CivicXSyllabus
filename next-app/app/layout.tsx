@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import AuthProvider from "./auth/Provider";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +22,13 @@ export default function RootLayout({
     <html lang="en" data-theme="winter">
       <body className={inter.className}>
         <AuthProvider>
-          <NavBar />
-          <main className="p-0">{children}</main>
-          <Footer />
+          {/* Default Layout */}
+          <div className="flex flex-col min-h-screen">
+            <NavBar />
+            <main className="p-0 flex-1">{children}</main>
+            <Analytics />
+            <Footer />
+          </div>
         </AuthProvider>
       </body>
     </html>

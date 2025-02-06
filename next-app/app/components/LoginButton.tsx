@@ -48,7 +48,7 @@ const LoginButton = () => {
                 <img
                   src={
                     session.user?.image ||
-                    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    "https://webgradients.com/public/webgradients_png/024%20Near%20Moon.png"
                   }
                   alt="user avatar"
                   className="w-6 h-6 rounded-full"
