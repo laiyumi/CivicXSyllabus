@@ -95,7 +95,10 @@ const SignInPage = () => {
           )}
           {/* Sign in form */}
           <div className="flex flex-col gap-6">
-            <form onSubmit={onSubmit} className="flex flex-col gap-4 w-72">
+            <form
+              onSubmit={onSubmit}
+              className="flex flex-col gap-4 w-72 items-center"
+            >
               {/* CSRF Token (Hidden Input) */}
               <input name="csrfToken" type="hidden" value={csrfToken || ""} />
               <label className="form-control w-full flex gap-2">
@@ -153,15 +156,27 @@ const SignInPage = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn btn-primary mt-4"
+                className="btn btn-primary mt-4 w-full"
               >
                 Sign In
+                {isSubmitting && <Spinner />}
               </button>
+              {/* <label className="label cursor-pointer">
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm mr-2"
+                />
+                <span className="label-text">Remember me</span>
+              </label>
+              <Link href="/password/reset" className="text-blue-600 label-text">
+                Forgot password?
+              </Link> */}
             </form>
             <div>
               <p className="text-center">
                 Don&apos;t have an account yet?{" "}
-                <Link href="/signup" className="text-blue-600 underline">
+                <Link href="/signup" className="text-blue-600 ">
                   Sign up
                 </Link>
               </p>
