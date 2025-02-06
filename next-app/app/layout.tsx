@@ -23,9 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           {/* Default Layout */}
-          <div className="default-layout">
+          <div className="flex flex-col min-h-screen">
             <NavBar />
-            <main className="p-0">{children}</main>
+            <main className="p-0 flex-1">{children}</main>
             <Analytics />
             <Footer />
           </div>
