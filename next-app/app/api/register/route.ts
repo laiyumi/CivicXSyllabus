@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
     data: {
       email: body.email,
       password: hashedPassword,
+      image: "/default_avatar.png",
     },
   });
 

@@ -30,13 +30,17 @@ const UserProfilePage = () => {
   const userEmail = session?.user?.email || "Unknown Email";
   const userImage =
     session?.user?.image ||
-    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp";
+    "https://webgradients.com/public/webgradients_png/024%20Near%20Moon.png";
 
   return (
     <>
       <div className="flex flex-col gap-8 items-center">
         <h1 className="text-2xl text-center font-normal">My Profile</h1>
-        <img src={userImage} alt="user image" className="w-12 rounded-full" />
+        <img
+          src={userImage}
+          alt="user image"
+          className="w-12 h-12 rounded-full"
+        />
         <div className="flex flex-col gap-8">
           <label className="input input-bordered flex items-center gap-4">
             Name
