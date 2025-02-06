@@ -76,7 +76,7 @@ export default function SignIn() {
             </form>
             <div>
               <p className="text-center">
-                Do not have an account?{" "}
+                Don&apos;t have an account yet?{" "}
                 <Link href="/signup" className="text-blue-600 underline">
                   Sign up
                 </Link>
