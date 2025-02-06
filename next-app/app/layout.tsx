@@ -22,10 +22,13 @@ export default function RootLayout({
     <html lang="en" data-theme="winter">
       <body className={inter.className}>
         <AuthProvider>
-          <NavBar />
-          <main className="p-0">{children}</main>
-          <Analytics />
-          <Footer />
+          {/* Default Layout */}
+          <div className="default-layout">
+            <NavBar />
+            <main className="p-0">{children}</main>
+            <Analytics />
+            <Footer />
+          </div>
         </AuthProvider>
       </body>
     </html>
