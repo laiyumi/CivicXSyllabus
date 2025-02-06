@@ -88,7 +88,7 @@ export default function SignIn() {
             {/* Google Sign-In Option */}
             <div>
               <button
-                onClick={() => signIn("google", { redirectTo: "/" })}
+                onClick={() => signIn("google", { callbackUrl: "/" })}
                 className="btn btn-secondary w-full "
               >
                 <div className="">
