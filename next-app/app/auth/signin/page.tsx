@@ -44,6 +44,7 @@ const SignInPage = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
+      console.log(data);
       const res = await signIn("credentials", {
         email: data.email,
         password: data.password,
@@ -54,7 +55,7 @@ const SignInPage = () => {
         if (res.error === "CredentialsSignin") {
           setError("Invalid email or password");
         }
-        console.log(error);
+        console.log(res.error);
         setIsSubmitting(false);
         return;
       }

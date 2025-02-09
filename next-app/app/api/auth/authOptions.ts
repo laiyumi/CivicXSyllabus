@@ -14,13 +14,18 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Missing email or password");
+        }
         try {
+          const { email, password } = credentials;
+
           const res = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/sign-in`,
             {
               method: "POST",
-              body: JSON.stringify(credentials),
+              body: JSON.stringify({ email, password }),
               headers: { "Content-Type": "application/json" },
             }
           );
