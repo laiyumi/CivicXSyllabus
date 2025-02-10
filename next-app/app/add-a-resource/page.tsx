@@ -1,6 +1,7 @@
 "use client";
 import { Category, Tag } from "@prisma/client";
 import axios from "axios";
+import apiClient from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -76,11 +77,11 @@ const AddAResourcePage = () => {
   // Display current tagories and tags
   useEffect(() => {
     const fetchData = async () => {
-      const tasResponse = await axios.get("/api/tags");
+      const tasResponse = await apiClient.get("/tags");
       const tags = await tasResponse.data;
       setTags(tags);
 
-      const categoryResponse = await axios.get("/api/categories");
+      const categoryResponse = await apiClient.get("/categories");
       const categories = await categoryResponse.data;
       setCategories(categories);
     };
@@ -104,7 +105,7 @@ const AddAResourcePage = () => {
     // call endpoints to send data to airtable
     try {
       setIsSubmitting(true);
-      await axios.post("/api/add-a-resource", data);
+      await axios.post("/add-a-resource", data);
       console.log("sending data object to endpoint: ", data);
       router.replace("/add-a-resource/submission-success");
     } catch (error) {

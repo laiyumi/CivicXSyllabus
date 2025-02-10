@@ -20,14 +20,14 @@ export const authOptions: NextAuthOptions = {
         }
         try {
           const { email, password } = credentials;
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/sign-in`,
-            {
-              method: "POST",
-              body: JSON.stringify({ email, password }),
-              headers: { "Content-Type": "application/json" },
-            }
-          );
+          const res = await fetch(`${process.env.NEXTAUTH_URL}/api/sign-in`, {
+            method: "POST",
+            body: JSON.stringify({ email, password }),
+            headers: {
+              "Content-Type": "application/json",
+              referer: process.env.NEXT_PUBLIC_BASE_URL ?? "",
+            },
+          });
           const user = await res.json();
 
           // If no error and we have user data, return it
@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.role = user.role;
       }
       return token;
     },
@@ -61,6 +62,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.sub; // Forward user ID
         session.user.token = token.jti; // Forward accessToken
+        session.user.role = token.role; // Forward user role
       }
       return session;
     },

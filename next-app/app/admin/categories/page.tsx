@@ -4,6 +4,7 @@ import Badge from "@/app/components/Badge";
 import { Category, Post } from "@prisma/client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import apiClient from "@/utils/axiosInstance";
 
 interface CategoryWithPosts extends Category {
   posts: Post[];
