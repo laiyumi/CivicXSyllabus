@@ -20,14 +20,11 @@ export const authOptions: NextAuthOptions = {
         }
         try {
           const { email, password } = credentials;
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/sign-in`,
-            {
-              method: "POST",
-              body: JSON.stringify({ email, password }),
-              headers: { "Content-Type": "application/json" },
-            }
-          );
+          const res = await fetch(`${process.env.NEXTAUTH_URL}/api/sign-in`, {
+            method: "POST",
+            body: JSON.stringify({ email, password }),
+            headers: { "Content-Type": "application/json" },
+          });
           const user = await res.json();
 
           // If no error and we have user data, return it
