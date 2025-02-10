@@ -25,7 +25,7 @@ export async function middleware(req: NextRequest) {
   // Block API access to non-admin users in production
   if (
     nextUrl.pathname.startsWith("/api/") &&
-    (!token || token.role !== "admin")
+    (!token || token.role !== "ADMIN")
   ) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
