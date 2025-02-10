@@ -13,9 +13,9 @@ export async function middleware(req: NextRequest) {
   console.log("isInternal", isInternal);
 
   // Allow all requests during development
-  if (process.env.NODE_ENV === "development") {
-    return NextResponse.next();
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   return NextResponse.next();
+  // }
 
   // Allow requests from internal sources (frontend)
   if (isInternal) {
@@ -28,6 +28,14 @@ export async function middleware(req: NextRequest) {
     (!token || token.role !== "ADMIN")
   ) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  // Restrict access to "/admin/:path*" (only allow admins)
+  if (
+    nextUrl.pathname.startsWith("/admin") &&
+    (!token || token.role !== "ADMIN")
+  ) {
+    return NextResponse.redirect(new URL("/", req.url)); // Redirect unauthorized users
   }
 
   return NextResponse.next();
