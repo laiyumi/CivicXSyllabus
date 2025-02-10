@@ -20,7 +20,6 @@ export const authOptions: NextAuthOptions = {
         }
         try {
           const { email, password } = credentials;
-
           const res = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/sign-in`,
             {
