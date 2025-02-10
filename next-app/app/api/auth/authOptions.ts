@@ -23,7 +23,10 @@ export const authOptions: NextAuthOptions = {
           const res = await fetch(`${process.env.NEXTAUTH_URL}/api/sign-in`, {
             method: "POST",
             body: JSON.stringify({ email, password }),
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              referer: process.env.NEXT_PUBLIC_BASE_URL ?? "",
+            },
           });
           const user = await res.json();
 
