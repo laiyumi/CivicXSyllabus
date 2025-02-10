@@ -50,6 +50,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.role = user.role;
       }
       return token;
     },
@@ -58,6 +59,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.sub; // Forward user ID
         session.user.token = token.jti; // Forward accessToken
+        session.user.role = token.role; // Forward user role
       }
       return session;
     },
