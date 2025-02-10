@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import CreateListModal from "./CreateListModal";
 import { useSession } from "next-auth/react";
-import axios from "axios";
+import axios, { all } from "axios";
 import { Prisma } from "@prisma/client";
 
 type User = Prisma.UserGetPayload<{
@@ -36,6 +36,7 @@ const UserSavedResourcesPage = () => {
   const [selectedListId, setSelectedListId] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
 
+  const [allLists, setAllLists] = useState<List[]>([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const { data: session, status } = useSession();
@@ -184,7 +185,7 @@ const UserSavedResourcesPage = () => {
             </option>
             {user?.lists.map((list) => (
               <option key={list.id} value={list.id}>
-                {list.name}
+                {list.name} <span>({posts?.length}) </span>
               </option>
             ))}
           </select>

@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   }
 
   // check if the password is correct
-  const isMatch = await bcrypt.compare(body.password, user.password);
+  const isMatch = await bcrypt.compare(body.password.trim(), user.password);
   if (!isMatch) {
     return NextResponse.json({ error: "Password incorrect" }, { status: 400 });
   }
