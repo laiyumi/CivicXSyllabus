@@ -13,9 +13,9 @@ export async function middleware(req: NextRequest) {
   console.log("isInternal", isInternal);
 
   // Allow all requests during development
-  // if (process.env.NODE_ENV === "development") {
-  //   return NextResponse.next();
-  // }
+  if (process.env.NODE_ENV === "development") {
+    return NextResponse.next();
+  }
 
   // Allow requests from internal sources (frontend)
   if (isInternal) {

@@ -25,6 +25,8 @@ const SignInPage = () => {
   const router = useRouter();
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
+  const [rememberMe, setRememberMe] = useState(false);
+
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -49,6 +51,7 @@ const SignInPage = () => {
         email: data.email,
         password: data.password,
         redirect: false,
+        rememberMe: rememberMe ? "true" : "false",
       });
 
       if (res?.error) {
@@ -162,15 +165,15 @@ const SignInPage = () => {
                 Sign In
                 {isSubmitting && <Spinner />}
               </button>
-              {/* <label className="label cursor-pointer">
+              <label className="label cursor-pointer">
                 <input
                   type="checkbox"
-                  defaultChecked
                   className="checkbox checkbox-sm mr-2"
+                  onChange={() => setRememberMe(!rememberMe)}
                 />
                 <span className="label-text">Remember me</span>
               </label>
-              <Link href="/password/reset" className="text-blue-600 label-text">
+              {/* <Link href="/password/reset" className="text-blue-600 label-text">
                 Forgot password?
               </Link> */}
             </form>
