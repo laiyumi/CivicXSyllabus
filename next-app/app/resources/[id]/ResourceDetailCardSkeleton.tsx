@@ -6,10 +6,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 const ResourceDetailCardSkeleton = () => {
   const skeletonItems = Array(3).fill(0);
 
-  // useEffect(() => {
-  //   console.log("rendering loading page-------------");
-  // }, []);
-
   return (
     <>
       <div className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex flex-row">
@@ -61,8 +57,8 @@ const ResourceDetailCardSkeleton = () => {
             {skeletonItems.map((_, index) => (
               <Skeleton
                 key={index}
-                width={100}
-                height={100}
+                width={300}
+                height={150}
                 className="rounded-md"
               />
             ))}

@@ -51,10 +51,13 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
       setRelatedResources(response.data);
     };
 
-    fetchResource();
-    fetchRelatedResources();
+    const fetchData = async () => {
+      await fetchResource();
+      await fetchRelatedResources();
+      setIsLoading(false);
+    };
 
-    setIsLoading(false);
+    fetchData();
   }, [id]);
 
   const handleSave = async (listId: string) => {
@@ -109,87 +112,90 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
       {isLoading ? (
         <ResourceDetailCardSkeleton />
       ) : (
-        <div
-          key={resource?.id}
-          className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex flex-row"
-        >
-          <figure className="lg:w-1/2 md:w-full">
-            <img
-              src={resource?.imageUrl}
-              alt="Resource thumbnail"
-              className="object-cover w-full h-full"
-            />
-          </figure>
-          <div className="card-body flex-auto justify-around">
-            <div className="flex gap-3 flex-wrap">
-              {resource?.categories.map((category) => (
-                <div key={category.name} className="badge badge-secondary">
-                  {category.name}
-                </div>
-              ))}
-            </div>
-            <h2 className="card-title text-3xl">{resource?.title}</h2>
-            <div className="card-actions justify-start flex-wrap">
-              {resource?.tags.map((tag) => (
-                <div key={tag.name} className="badge badge-outline">
-                  {tag.name}
-                </div>
-              ))}
-            </div>
-            <div>
-              <p>Source | {resource?.source.name}</p>
-            </div>
-            <div className="card-actions justify-between">
-              {session ? (
-                <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
-                  <ToggleLikes resourceId={id} />
-                  <div className="text-gray-500">|</div>
-                  <ToggleSave
-                    onSave={handleSave}
-                    onRemove={handleRemove}
-                    resourceId={id}
-                  />
-                </div>
-              ) : (
-                <div className="rounded-md border border-gray-200	p-3">
-                  <ToggleLikes resourceId={id} />
-                </div>
-              )}
-              <Link
-                href={resource?.link ?? "/resources"}
-                className="btn btn-primary"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Explore this resource
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-      <div className="flex w-full flex-col pt-4">
-        <h3 className="text-xl pt-4 text-center">Overview</h3>
-        <div className="divider"></div>
-        <div>
-          {paragraphs.map((paragraph, index) => (
-            <p key={index} className="p-2">
-              {paragraph}
-            </p>
-          ))}
-        </div>
-        <div className="divider"></div>
-        <div className="card rounded-box grid place-items-center">
-          <h3 className="text-xl pb-4">Related Resources</h3>
-          <div className="flex gap-8 justify-around">
-            {relatedResources?.map((relatedResource) => (
-              <RelatedResourceCard
-                key={relatedResource.id}
-                resource={relatedResource}
+        <>
+          <div
+            key={resource?.id}
+            className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex flex-row"
+          >
+            <figure className="lg:w-1/2 md:w-full">
+              <img
+                src={resource?.imageUrl}
+                alt="Resource thumbnail"
+                className="object-cover w-full h-full"
               />
-            ))}
+            </figure>
+            <div className="card-body flex-auto justify-around">
+              <div className="flex gap-3 flex-wrap">
+                {resource?.categories.map((category) => (
+                  <div key={category.name} className="badge badge-secondary">
+                    {category.name}
+                  </div>
+                ))}
+              </div>
+              <h2 className="card-title text-3xl">{resource?.title}</h2>
+              <div className="card-actions justify-start flex-wrap">
+                {resource?.tags.map((tag) => (
+                  <div key={tag.name} className="badge badge-outline">
+                    {tag.name}
+                  </div>
+                ))}
+              </div>
+              <div>
+                <p>Source | {resource?.source.name}</p>
+              </div>
+              <div className="card-actions justify-between">
+                {session ? (
+                  <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
+                    <ToggleLikes resourceId={id} />
+                    <div className="text-gray-500">|</div>
+                    <ToggleSave
+                      onSave={handleSave}
+                      onRemove={handleRemove}
+                      resourceId={id}
+                    />
+                  </div>
+                ) : (
+                  <div className="rounded-md border border-gray-200	p-3">
+                    <ToggleLikes resourceId={id} />
+                  </div>
+                )}
+                <Link
+                  href={resource?.link ?? "/resources"}
+                  className="btn btn-primary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Explore this resource
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+
+          <div className="flex w-full flex-col pt-4">
+            <h3 className="text-xl pt-4 text-center">Overview</h3>
+            <div className="divider"></div>
+            <div>
+              {paragraphs.map((paragraph, index) => (
+                <p key={index} className="p-2">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <div className="divider"></div>
+            <div className="card rounded-box grid place-items-center">
+              <h3 className="text-xl pb-4">Related Resources</h3>
+              <div className="flex gap-8 justify-around">
+                {relatedResources?.map((relatedResource) => (
+                  <RelatedResourceCard
+                    key={relatedResource.id}
+                    resource={relatedResource}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };

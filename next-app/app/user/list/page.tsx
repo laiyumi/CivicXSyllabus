@@ -6,6 +6,7 @@ import CreateListModal from "./CreateListModal";
 import { useSession } from "next-auth/react";
 import axios, { all } from "axios";
 import { Prisma } from "@prisma/client";
+import Spinner from "@/app/components/Spinner";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -29,6 +30,7 @@ type List = Prisma.ListGetPayload<{
 const UserSavedResourcesPage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
   const [isCreated, setIsCreated] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -113,11 +115,20 @@ const UserSavedResourcesPage = () => {
 
   useEffect(() => {
     if (isCreated) {
-      setShowAlert(true);
-      setTimeout(() => {
-        const alertElement = document.querySelector(".alert");
-        alertElement?.classList.add("opacity-0");
-      }, 5000);
+      setShowAlert(true); // Show the alert immediately
+
+      const fadeOutTimer = setTimeout(() => {
+        setShowAlert(false); // After 2 seconds, fade out
+      }, 3000);
+
+      const removeAlertTimer = setTimeout(() => {
+        setIsCreated(false); // Reset after animation completes
+      }, 3000);
+
+      return () => {
+        clearTimeout(fadeOutTimer);
+        clearTimeout(removeAlertTimer);
+      };
     }
   }, [isCreated]);
 
@@ -142,7 +153,11 @@ const UserSavedResourcesPage = () => {
 
   // While loading
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center ">
+        <Spinner />
+      </div>
+    );
   }
 
   // When the user is not found
@@ -154,27 +169,27 @@ const UserSavedResourcesPage = () => {
     <>
       <div className="flex flex-col gap-8 items-center">
         <h1 className="text-2xl text-center font-normal">My List</h1>
-        {showAlert && (
-          <div
-            role="alert"
-            className="alert alert-success absolute w-1/2 top-10 opacity-100 transition-opacity duration-3000"
+        <div
+          role="alert"
+          className={`alert alert-success absolute w-1/2 top-20 transition-opacity duration-500 ${
+            showAlert ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 shrink-0 stroke-current"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>List created successfully!</span>
-          </div>
-        )}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>List created successfully!</span>
+        </div>
         <div className="flex justify-center gap-8 w-full items-center ">
           <select
             className="select select-primary w-full max-w-xs"
@@ -185,7 +200,7 @@ const UserSavedResourcesPage = () => {
             </option>
             {user?.lists.map((list) => (
               <option key={list.id} value={list.id}>
-                {list.name} <span>({posts?.length}) </span>
+                {list.name}
               </option>
             ))}
           </select>
