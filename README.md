@@ -38,4 +38,4 @@ My mission was to revamp the website to make it:
 - **Back-end**: Next.js
 - **Database**: MySQL, AWS RDS
 - **Deployment**: Vercel
-- **Other Tools**: Prisma, Axios, Zod, Postman, DataGrip
+- **Other Tools**: Prisma, Axios, Zod, Zustand, NextAuth, Google Gloud Platform, Postman, DataGrip
