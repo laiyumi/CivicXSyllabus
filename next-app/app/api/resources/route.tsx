@@ -4,8 +4,18 @@ import prisma from "../../../prisma/client";
 
 // get all posts
 export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl;
+  const publishedParam = searchParams.get("published");
+
+  // Define filtering conditions
+  let filter = {};
+  if (publishedParam !== null) {
+    filter = { published: publishedParam === "true" };
+  }
+
   try {
     const posts = await prisma.post.findMany({
+      where: filter,
       include: {
         categories: true,
         tags: true,

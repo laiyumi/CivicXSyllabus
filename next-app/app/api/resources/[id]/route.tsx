@@ -10,6 +10,7 @@ export async function GET(
   const resource = await prisma.post.findUnique({
     where: {
       id: params.id,
+      published: true,
     },
     include: {
       categories: true,
@@ -95,9 +96,15 @@ export async function DELETE(
     return NextResponse.json({ error: "resource not found" }, { status: 404 });
 
   // delete the resource
-  await prisma.post.delete({
+  await prisma.post.update({
     where: { id: resource.id },
+    data: {
+      published: false,
+    },
   });
 
-  return NextResponse.json({ message: "resource deleted" }, { status: 200 });
+  return NextResponse.json(
+    { message: "resource deleted(soft)" },
+    { status: 200 }
+  );
 }

@@ -43,7 +43,7 @@ const ResourcesGrid = () => {
   // fetch all resources from the endpoint
   useEffect(() => {
     const fetchResources = async () => {
-      const resourceResponse = await axios.get("/api/resources");
+      const resourceResponse = await axios.get("/api/resources?published=true");
       setResources(resourceResponse.data);
       setResourcesCopy(resourceResponse.data);
       setLoading(false);

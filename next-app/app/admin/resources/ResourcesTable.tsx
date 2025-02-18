@@ -1,36 +1,38 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import prisma from "../../../prisma/client";
 import delay from "delay";
 import Link from "next/link";
+import axios from "axios";
+import { Prisma, Post } from "@prisma/client";
 
-interface ResourcesTableProps {
-  id: string;
-  title: string;
-  excerpt: string;
-  link: string;
-  imageUrl: string;
-  published: boolean;
-  sourceId: string;
-}
+type PostWithSource = Prisma.PostGetPayload<{
+  include: { source: true };
+}>;
 
-const ResourcesTable = async () => {
-  // fetch resources from endpiont
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/resources`, {
-    next: { revalidate: 10 },
-  });
+const ResourcesTable = () => {
+  const [resources, setResources] = useState<PostWithSource[]>([]);
 
-  // convert response to json
-  const resources = await prisma.post.findMany({
-    include: {
-      source: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
+  useEffect(() => {
+    const fetchResources = async () => {
+      const response = await axios.get(`/api/resources`);
+      setResources(response.data);
+    };
+    fetchResources();
+  }, []);
 
-  await delay(2000);
+  // handle publish toggle
+  const handlePublish = async (id: string, published: boolean) => {
+    try {
+      if (published) {
+        await axios.put(`/api/resources/${id}/unPublished`);
+      } else {
+        await axios.put(`/api/resources/${id}/isPublished`);
+      }
+    } catch (error) {
+      console.error("Error occurs on toggling publish status:", error);
+    }
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -72,11 +74,15 @@ const ResourcesTable = async () => {
               </td>
               <td> {resouce.source.name}</td>
               <td>
-                {resouce.published ? (
-                  <input type="checkbox" className="toggle" defaultChecked />
-                ) : (
-                  <input type="checkbox" className="toggle" />
-                )}
+                <div
+                  onClick={() => handlePublish(resouce.id, resouce.published)}
+                >
+                  <input
+                    type="checkbox"
+                    className="toggle"
+                    defaultChecked={resouce.published}
+                  />
+                </div>
               </td>
               <td className="hidden md:table-cell">{resouce.excerpt}</td>
               <td className="flex gap-2">
@@ -96,16 +102,6 @@ const ResourcesTable = async () => {
             </tr>
           ))}
         </tbody>
-        {/* foot */}
-        {/* <tfoot>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
-            <th></th>
-          </tr>
-        </tfoot> */}
       </table>
     </div>
   );
