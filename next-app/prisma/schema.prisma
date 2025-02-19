@@ -67,6 +67,7 @@ model Post {
   title    String @unique
   excerpt  String @db.Text
   content  String @db.Text
+  year     Int    @default(2025)
   link     String @unique
   imageUrl String
 

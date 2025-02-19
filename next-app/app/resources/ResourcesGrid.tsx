@@ -26,7 +26,7 @@ const ResourcesGrid = () => {
     // get the search parameters from the URL
     const passedCategory = searchParams.get("category") || "";
     const passedTag = searchParams.get("tag") || "";
-    const passedOrder = searchParams.get("order") || "createdAt";
+    const passedOrder = searchParams.get("order") || "title";
     const passedSearchText = searchParams.get("search") || "";
     const passedPage = searchParams.get("page") || "1";
 
@@ -106,7 +106,13 @@ const ResourcesGrid = () => {
 
   const paginatedResources = filteredResources
     .sort((a, b) => {
-      if (selectedOrder === "createdAt") {
+      if (selectedOrder === "title") {
+        return a.title.localeCompare(b.title);
+      } else if (selectedOrder === "OldestToNewest") {
+        return a.year - b.year;
+      } else if (selectedOrder === "NewestToOldest") {
+        return b.year - a.year;
+      } else if (selectedOrder === "createdAt") {
         return (
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
         );
@@ -114,8 +120,6 @@ const ResourcesGrid = () => {
         return (
           new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
         );
-      } else if (selectedOrder === "title") {
-        return a.title.localeCompare(b.title);
       }
       return 0;
     })
