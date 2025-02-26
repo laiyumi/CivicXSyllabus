@@ -242,7 +242,7 @@ const AddAResourcePage = () => {
                       d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
                     />
                   </svg>
-                  <p>Learn how we develop these criteria.</p>
+                  <p>Learn More about Civic X Syllabus Submission Criteria</p>
                 </Link>
               </div>
             </div>
