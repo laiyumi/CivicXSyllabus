@@ -173,9 +173,12 @@ const SignInPage = () => {
                 />
                 <span className="label-text">Remember me</span>
               </label>
-              {/* <Link href="/password/reset" className="text-blue-600 label-text">
+              <Link
+                href="/password/forgot"
+                className="text-blue-600 label-text"
+              >
                 Forgot password?
-              </Link> */}
+              </Link>
             </form>
             <div>
               <p className="text-center">

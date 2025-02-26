@@ -1,24 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 import axios from "axios";
+// import ReCAPTCHA from "react-google-recaptcha";
 
-const ResetPasswordPage = () => {
-  const router = useRouter();
-  const { token } = router.query;
+// const siteKey = process.env.REACT_APP_SITE_KEY!;
 
-  const [newPassword, setNewPassword] = useState("");
-  const [message, setMessage] = useState("");
+const ForgotPasswordPage = () => {
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      await axios.post("/api/auth/reset-password", { token, newPassword });
-      setMessage("Password reset successful! You can now log in.");
-      router.push("/login");
+      const { data } = await axios.post("/api/auth/forgot-password", { email });
+      setMessage(data.message);
     } catch (error) {
-      setMessage("Error resetting password.");
+      setMessage("Error sending reset email.");
     }
   };
 
@@ -27,7 +26,9 @@ const ResetPasswordPage = () => {
       <div className="col-start-2 col-span-10 my-10">
         <div className="flex flex-col gap-8 items-center">
           <div className="flex flex-col gap-2 text-center">
-            <h1 className="text-2xl text-center font-normal">Reset Password</h1>
+            <h1 className="text-2xl text-center font-normal">
+              Forgot Password
+            </h1>
           </div>
 
           <div className="flex flex-col gap-6">
@@ -35,15 +36,15 @@ const ResetPasswordPage = () => {
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Email</span>
                 <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className="input input-bordered w-full"
                 />
               </label>
               <button type="submit" className="btn btn-primary my-4">
-                Reset Password
+                Send Reset Code
               </button>
             </form>
             {message && <p className="text-green-500">{message}</p>}
@@ -54,4 +55,4 @@ const ResetPasswordPage = () => {
   );
 };
 
-export default ResetPasswordPage;
+export default ForgotPasswordPage;
