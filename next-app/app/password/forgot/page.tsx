@@ -2,22 +2,44 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-// import ReCAPTCHA from "react-google-recaptcha";
-
-// const siteKey = process.env.REACT_APP_SITE_KEY!;
+import { useRouter } from "next/navigation";
 
 const ForgotPasswordPage = () => {
+  const router = useRouter();
+
   const [email, setEmail] = useState<string>("");
+  const [resetCode, setResetCode] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [isSent, setIsSent] = useState<boolean>(false);
+  const [isVerified, setIsVerified] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("/api/auth/forgot-password", { email });
+      const { data } = await axios.post("/api/auth/request-reset", { email });
       setMessage(data.message);
+
+      setIsSent(true);
     } catch (error) {
       setMessage("Error sending reset email.");
+    }
+  };
+
+  const submitRestCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await axios.post("/api/auth/verify-reset", {
+        email,
+        resetToken: resetCode,
+      });
+      setMessage(data.message);
+      setIsVerified(true);
+      router.push(`/password/reset?email=${email}&token=${resetCode}`);
+    } catch (error) {
+      console.log(error);
+      setMessage("Error verifying reset code.");
     }
   };
 
@@ -49,6 +71,26 @@ const ForgotPasswordPage = () => {
             </form>
             {message && <p className="text-green-500">{message}</p>}
           </div>
+          {isSent && (
+            <form
+              className="flex flex-col w-72 gap-4"
+              onSubmit={submitRestCode}
+            >
+              <label className="form-control w-full flex gap-2">
+                <span className="text-m">Reset Code</span>
+                <input
+                  type="text"
+                  value={resetCode}
+                  onChange={(e) => setResetCode(e.target.value)}
+                  required
+                  className="input input-bordered w-full"
+                />
+              </label>
+              <button type="submit" className="btn btn-primary my-4">
+                Reset Password
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
