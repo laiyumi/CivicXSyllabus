@@ -15,7 +15,7 @@ const SaveToListModal = ({ onSave }: { onSave: (listId: string) => void }) => {
       setLists(response.data);
     };
     fetchLists();
-  }, []);
+  }, [session?.user.id]);
 
   const handleConfirm = () => {
     onSave(selectedListId);

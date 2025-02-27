@@ -24,7 +24,7 @@ const UserProfilePage = () => {
       }
     };
     fetchRole();
-  }, []);
+  }, [session?.user.id]);
 
   const userName = session?.user?.name || "Unknown User";
   const userEmail = session?.user?.email || "Unknown Email";

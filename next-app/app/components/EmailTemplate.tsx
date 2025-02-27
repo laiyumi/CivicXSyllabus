@@ -49,8 +49,8 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
           <Text style={validityText}>(This code is valid for 5 minutes)</Text>
 
           <Text style={text}>
-            If you didn't request this, please ignore this email. Your account
-            is still secure.
+            If you didn&apos;t request this, please ignore this email. Your
+            account is still secure.
           </Text>
 
           <Text style={footerText}>Thank you,</Text>
