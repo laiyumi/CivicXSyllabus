@@ -10,6 +10,7 @@ const ForgotPasswordPage = () => {
   const [email, setEmail] = useState<string>("");
   const [resetCode, setResetCode] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const [isSent, setIsSent] = useState<boolean>(false);
   const [isVerified, setIsVerified] = useState<boolean>(false);
 
@@ -18,11 +19,12 @@ const ForgotPasswordPage = () => {
 
     try {
       const { data } = await axios.post("/api/auth/request-reset", { email });
-      setMessage(data.message);
-
+      setMessage(
+        "Please check your email for the reset code. If not found, please check your spam folder."
+      );
       setIsSent(true);
-    } catch (error) {
-      setMessage("Error sending reset email.");
+    } catch (error: any) {
+      setError(error.response?.data?.error || "An unexpected error occurred.");
     }
   };
 
@@ -34,12 +36,12 @@ const ForgotPasswordPage = () => {
         email,
         resetToken: resetCode,
       });
-      setMessage(data.message);
+
       setIsVerified(true);
       router.push(`/password/reset?email=${email}&token=${resetCode}`);
     } catch (error) {
       console.log(error);
-      setMessage("Error verifying reset code.");
+      setError("Error verifying reset code.");
     }
   };
 
@@ -53,7 +55,7 @@ const ForgotPasswordPage = () => {
             </h1>
           </div>
 
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 items-center">
             <form className="flex flex-col w-72 gap-4" onSubmit={handleSubmit}>
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Email</span>
@@ -68,8 +70,43 @@ const ForgotPasswordPage = () => {
               <button type="submit" className="btn btn-primary my-4">
                 Send Reset Code
               </button>
+              {!error && message && (
+                <div role="alert" className="alert">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span className="text-sm">{message}</span>
+                </div>
+              )}
             </form>
-            {message && <p className="text-green-500">{message}</p>}
+            {error && (
+              <div role="alert" className="alert alert-error">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 shrink-0 stroke-current"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+                <span className="text-sm">{error}</span>
+              </div>
+            )}
           </div>
           {isSent && (
             <form

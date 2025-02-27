@@ -22,8 +22,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "User not found" }, { status: 400 });
   }
 
-  // generate a reset token
-  const resetToken = crypto.randomBytes(8).toString("hex");
+  if (!user.password) {
+    return NextResponse.json(
+      {
+        error: "User does not have a password, try to login via Google account",
+      },
+      { status: 400 }
+    );
+  }
+
+  // generate a reset token with 6-Character Alphanumeric Code
+  const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // Avoid ambiguous characters
+  let resetToken = "";
+  for (let i = 0; i < 6; i++) {
+    resetToken += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+
   const hashedToken = await bcrypt.hash(resetToken, 10);
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes expiry
 
@@ -54,7 +70,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Resend API Error:", error);
     return NextResponse.json(
-      { error: "Failed to send email", details: error },
+      { error: "Failed to send email" },
       { status: 500 }
     );
   }

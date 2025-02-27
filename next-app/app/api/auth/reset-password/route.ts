@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
   if (!tokensRecord.length) {
     return NextResponse.json(
-      { error: "Token not found or expired" },
+      { error: "Reset code not found or expired" },
       { status: 400 }
     );
   }
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   ).catch(() => false);
 
   if (!isValid) {
-    return NextResponse.json({ error: "Invalid reset token" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid reset code" }, { status: 400 });
   }
 
   // check if the new password is the same as the old password
