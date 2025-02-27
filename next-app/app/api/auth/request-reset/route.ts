@@ -4,6 +4,7 @@ import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { Resend } from "resend";
 import bcrypt from "bcrypt";
+import { EmailTemplate } from "@/app/components/EmailTemplate";
 
 export async function POST(request: NextRequest) {
   const { email } = await request.json();
@@ -59,7 +60,7 @@ export async function POST(request: NextRequest) {
       from: process.env.EMAIL_USER ?? "contact@civicxsyllabus.org",
       to: email,
       subject: "Civic X Syllabus Password Reset",
-      html: `<p>Your password reset code is: <strong>${resetToken}</strong>. Please use it to reset your passoword in 5 mins.</p>`,
+      react: EmailTemplate({ resetToken: resetToken }),
     });
 
     console.log("Resend API Response:", response);
