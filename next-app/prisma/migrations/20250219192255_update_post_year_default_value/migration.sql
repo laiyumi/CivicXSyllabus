@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Post` MODIFY `year` INTEGER NOT NULL DEFAULT 2025;

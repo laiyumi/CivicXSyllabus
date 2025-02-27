@@ -141,7 +141,10 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
                 ))}
               </div>
               <div>
-                <p>Source | {resource?.source.name}</p>
+                <span>Provided by | </span> {resource?.source.name}
+              </div>
+              <div>
+                <span>Last Updated | </span> {resource?.year}
               </div>
               <div className="card-actions justify-between">
                 {session ? (

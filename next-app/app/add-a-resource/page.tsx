@@ -10,6 +10,7 @@ import { UserSubmittedResourceSchema } from "../validationSchemas";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorMessage from "../components/ErrorMessage";
+import Link from "next/link";
 
 type UserSubmittedFormInputs = z.infer<typeof UserSubmittedResourceSchema>;
 
@@ -175,6 +176,74 @@ const AddAResourcePage = () => {
                   ></path>
                 </svg>
                 <span>Required field is mark with an asterisk.</span>
+              </div>
+              <div>
+                <h2 className="divider divider-neutral">
+                  Resource Submission Guidelines
+                </h2>
+                <p className="pb-4">
+                  Before submitting a resource to our platform, please review
+                  the following criteria to ensure it meets our standards. This
+                  helps us maintain high-quality, relevant, and accessible
+                  content for our users.
+                </p>
+                <ul
+                  role="list"
+                  className="marker:text-slate-400 list-disc pl-8 space-y-3 pb-4"
+                >
+                  <li>
+                    <strong>Subject Alignment: </strong>The resource should
+                    offer actionable insights into known civic issues and
+                    address the needs of key civic audiences, including civic
+                    professionals, policymakers, public policy professionals,
+                    students, professors, and curious civic innovation
+                    enthusiasts.
+                  </li>
+                  <li>
+                    <strong>Timeliness or Timelessness: </strong>The resource
+                    should be timely and relevant. Ideally, we expect resources
+                    that are about two years old, given that knowledge across
+                    the civic innovation landscape moves at the speed of light.
+                    However, we will host and accept submissions that are older
+                    than two years and hold timeless civic lessons.
+                  </li>
+                  <li>
+                    <strong>Legitimacy: </strong>We expect the resource to be
+                    from credible, verifiable sources.
+                  </li>
+                  <li>
+                    <strong>Accessibility: </strong>The resource should be
+                    clear, intuitive, and user-friendly, providing an equal
+                    experience for different user demographics.
+                  </li>
+                  <li>
+                    <strong>Openness: </strong> While we especially prefer
+                    open-source resources not hidden behind a paywall, we will
+                    consider hosting paywalled resources for the benefit of the
+                    section of our audiences who may have access to paywalled
+                    resources through their organizations.
+                  </li>
+                </ul>
+                <Link
+                  href="/criteria"
+                  className="flex gap-2 justify-end items-center text-blue-600 underline"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                  <p>Learn More about Civic X Syllabus Submission Criteria</p>
+                </Link>
               </div>
             </div>
             <label className="form-control w-full flex gap-2">

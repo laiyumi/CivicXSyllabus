@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../prisma/client";
 import bcrypt from "bcrypt";
-import { schema } from "./schema";
+import { passowordSchema } from "./schema";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
-  const validation = schema.safeParse(body);
+  const validation = passowordSchema.safeParse(body);
   if (!validation.success) {
     return NextResponse.json({ error: validation.error }, { status: 400 });
   }

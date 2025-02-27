@@ -13,10 +13,11 @@ const ResourceFilter = () => {
   >([]);
   const [tags, setTags] = useState<{ label: string; value?: string }[]>([]);
 
-  const orders: { label: string; value: keyof Post }[] = [
-    { label: "Created Date", value: "createdAt" },
-    { label: "Updated Date", value: "updatedAt" },
+  const orders: { label: string; value: string }[] = [
+    // { label: "Created Date", value: "createdAt" },
     { label: "Title", value: "title" },
+    { label: "Newest to Oldest", value: "NewestToOldest" },
+    { label: "Oldest to Newest", value: "OldestToNewest" },
   ];
 
   useEffect(() => {
