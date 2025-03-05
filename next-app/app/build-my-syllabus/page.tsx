@@ -11,7 +11,7 @@ const BuildMySyllabusPage = () => {
         </div>
         <div>
           <h2 className="text-xl font-bold  pb-6">
-            Understand the Civic Landscape
+            Understanding the Civic X Landscape
           </h2>
           <img
             className="float-right md:w-1/3 md:pl-6 md:pb-6 sm:pb-4"
@@ -19,8 +19,8 @@ const BuildMySyllabusPage = () => {
             alt="A brainstorming or problem-solving board filled with sticky notes, each featuring handwritten ideas, placed in a brightly lit workspace."
           ></img>
           <p className="pb-4">
-            Our curated resources span four key focus areas: civic research,
-            civic data, civic tech, and civic design.
+            We&apos;re curated resources that span our four key focus areas:
+            civic research, civic data, civic tech, and civic design.
           </p>
           <ul
             role="list"
@@ -28,7 +28,8 @@ const BuildMySyllabusPage = () => {
           >
             <li>
               <strong>
-                If you already know what kind of syllabus you want to build
+                If you already know what civic innovation topics you&apos;re
+                interested
               </strong>
               , head to{" "}
               <Link
@@ -37,12 +38,12 @@ const BuildMySyllabusPage = () => {
               >
                 Resources
               </Link>{" "}
-              to find materials that align with your topic. Don’t forget to use
-              the filters to make your search more specific.
+              to find materials that align with your topics. Don&apos;t forget
+              to use the filters to make your search more specific.
             </li>
             <li>
               <strong>
-                If you’re unsure or haven’t decided on a topic yet
+                If you&apos;re unsure or haven&apos;t decided on a topic yet
               </strong>
               , go to{" "}
               <Link
@@ -68,7 +69,7 @@ const BuildMySyllabusPage = () => {
         <div className="divider"></div>
         <div>
           <h2 className="text-xl font-bold pb-6">
-            Create, Cultivate, and Sustain Partnerships
+            Creating, Cultivating, and Sustaining Partnerships
           </h2>
           <div className="h-96 float-right md:w-1/3 md:pl-6 md:pb-6">
             <img
@@ -78,80 +79,39 @@ const BuildMySyllabusPage = () => {
             ></img>
           </div>
           <p className="pb-4">
-            By building strong partnerships, civic programs can leverage
+            By building strong partnerships, civic projects can leverage
             collective strengths, resources, and expertise to create more
-            impactful and sustainable initiatives that truly benefit the
+            meaningful and sustainable initiatives that truly benefit the
             community.
           </p>
           <p className="pb-4">
-            Follow the strategies and tips in{" "}
+            Our curated strategies and tips in{" "}
             <Link
               href="/build-my-syllabus/build-partnerships"
               className="font-medium border-b border-sky-600  hover:border-b-2 "
             >
               Build Partnerships
             </Link>{" "}
-            to understand how fostering robust, lasting partnerships support the
-            civic research, civic data, civic design, and civic technology work
-            we do.
+            highlight how fostering robust, lasting partnerships support the
+            civic innovation work we do.
           </p>
         </div>
         <div className="divider"></div>
-        <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-16">
-          <div>
-            <h2 className="text-xl font-bold pb-6">
-              Working Together to Get Something Done
-            </h2>
-            <p className="pb-4">
-              The{" "}
-              <Link
-                href="/build-my-syllabus/get-to-work"
-                className="font-medium border-b border-sky-600  hover:border-b-2 "
-              >
-                Get to Work
-              </Link>{" "}
-              offers a comprehensive framework for partnerships interested in
-              learning how to execute civic projects effectively. It is
-              structured around three main units:
-            </p>
-            <ul
-              role="list"
-              className="marker:text-slate-400 list-disc pl-8 space-y-3 pb-4"
+        <div>
+          <h2 className="text-xl font-bold pb-6">Getting Things Done</h2>
+          <p className="pb-4">
+            We’ve curated resources that support different phases of a project
+            in{" "}
+            <Link
+              href="/build-my-syllabus/get-to-work"
+              className="font-medium border-b border-sky-600  hover:border-b-2 "
             >
-              <li>
-                <strong>Project Well-Being</strong> focuses on the foundational
-                principles of collaborative creation and maintaining team
-                health, emphasizing the importance of working “with” communities
-                rather than “for” them and addressing issues like burnout.
-              </li>
-              <li>
-                <strong>Project Design</strong> covers the conceptualization and
-                planning stages, defining success and failure metrics, and
-                strategies for engaging stakeholders effectively.
-              </li>
-              <li>
-                <strong>Project Execution</strong> delves into the practical
-                aspects of carrying out a project, including asking the right
-                questions, ensuring accessibility, effective communication,
-                managing data (both big and thick), maintaining privacy and
-                consent, and incorporating equity in analytics and digital
-                services. It also addresses scaling successful projects.
-              </li>
-            </ul>
-            <p className="pb-4">
-              These units provide your partnership with a cohesive approach to
-              developing impactful and sustainable civic projects.
-            </p>
-          </div>
-          <div className="w-full">
-            <h2 className="text-xl font-bold pb-6">
-              You Are Not Alone: Access to Our Extensive Tools
-            </h2>
-            <p className="pb-4">
-              Use tools filter in resources to support project development and
-              scaling efforts.
-            </p>
-          </div>
+              Get to Work
+            </Link>
+            . These units provide your partnership with resources that support
+            the “project basics” of project design, project implementation, and
+            project sustainability.
+          </p>
         </div>
       </div>
     </>

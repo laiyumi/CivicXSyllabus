@@ -17,7 +17,7 @@ interface Prop {
 const GetToWorkPage = () => {
   const wellbeingData = getToWork.projectWellbeing;
   const designData = getToWork.projectDesign;
-  const projectExecutionData = getToWork.projectExecution;
+  const projectImplementationData = getToWork.projectImplementation;
 
   return (
     <>
@@ -25,8 +25,14 @@ const GetToWorkPage = () => {
         <div className="flex flex-col gap-2 text-center">
           <h1 className="text-2xl text-center font-normal">Get To Work</h1>
         </div>
-        <div className="flex flex-col gap-12">
-          <div>
+        <div>
+          <p className="pb-4">
+            Civic innovation projects are all different, but they will likely go
+            through at least three phases of a project life cycle: design,
+            implementation, and sustainability. Here, we break each of these
+            phases down into different units that are integral for that phase.
+          </p>
+          <div className="p-4">
             <h2 className="divider text-xl pb-4">Project Well-being</h2>
             <div className="flex flex-col gap-8">
               {wellbeingData.map((section: Prop) => (
@@ -34,7 +40,7 @@ const GetToWorkPage = () => {
               ))}
             </div>
           </div>
-          <div>
+          <div className="p-4">
             <h2 className="divider text-xl pb-4">Project Design</h2>
             <div className="flex flex-col gap-8">
               {designData.map((section: Prop) => (
@@ -42,10 +48,10 @@ const GetToWorkPage = () => {
               ))}
             </div>
           </div>
-          <div>
-            <h2 className="divider text-xl pb-4">Project Execution</h2>
+          <div className="p-4">
+            <h2 className="divider text-xl pb-4">Project Implementation</h2>
             <div className="flex flex-col gap-8">
-              {projectExecutionData.map((section: Prop) => (
+              {projectImplementationData.map((section: Prop) => (
                 <Accordion key={section.title} data={section} />
               ))}
             </div>
