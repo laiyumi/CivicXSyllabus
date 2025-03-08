@@ -150,12 +150,12 @@ const AddAResourcePage = () => {
                 To submit a resource, please fill out the form below. If you
                 have multiple resources to add, feel free to contact us at{" "}
                 <a
-                  href={`mailto:civicxsyllabus@gmail.com?subject=Sharing Some Useful Resources`}
+                  href={`mailto:contact@civicxsyllabus.org?subject=Sharing Some Useful Resources`}
                   target="_blank"
                   className="text-blue-600 underline"
                   rel="noopener noreferrer"
                 >
-                  civicxsyllabus@gmail.com
+                  contact@civicxsyllabus.org
                 </a>
                 .
               </div>

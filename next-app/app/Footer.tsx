@@ -1,13 +1,46 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    if (currentTheme) {
+      setTheme(currentTheme);
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "data-theme"
+        ) {
+          const newTheme = document.documentElement.getAttribute("data-theme");
+          if (newTheme) {
+            setTheme(newTheme);
+          }
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <footer className="footer bg-neutral text-neutral-content p-10">
+    <footer className="footer bg-base-100 text-base-content p-10">
       <div>
         <Link href="/" className="w-24">
           <img
-            src="/new-logo-white.png"
+            src={theme === "dark" ? "/new-logo-white.png" : "/new-logo.png"}
             className="w-24 pb-2"
             alt="Site logo"
           />
@@ -20,7 +53,7 @@ const Footer = () => {
         </Link>
         <span>|</span>
         <Link
-          href={`mailto:civicxsyllabus@gmail.com?`}
+          href={`mailto:contact@civicxsyllabus.org?`}
           target="_blank"
           className="link link-hover"
           rel="noopener noreferrer"
