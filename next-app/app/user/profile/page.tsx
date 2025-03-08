@@ -122,7 +122,7 @@ const UserProfilePage = () => {
                 <span>{name}</span>
               )}
             </label>
-            <div className="absolute left-full pl-4">
+            <div className="absolute left-full ml-4">
               {isNameEditing ? (
                 <div className="flex gap-2">
                   <button className="btn btn-md" onClick={handleNameChange}>
@@ -145,17 +145,53 @@ const UserProfilePage = () => {
               )}
             </div>
           </div>
-          <div className="flex gap-4 relative items-center">
-            <label className="input input-bordered flex items-center gap-4 w-64">
-              Password
-              {isPasswordEditing ? (
-                <>
-                  <input
-                    type="password"
-                    className="text-gray-600"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+          <div className="flex flex-col gap-4 ">
+            <div className="flex gap-4 relative items-center">
+              <label className="input input-bordered flex items-center gap-4 w-64">
+                Password
+                {isPasswordEditing ? (
+                  <>
+                    <input
+                      type="password"
+                      className="text-gray-600"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <span>********</span>
+                  </>
+                )}
+              </label>
+            </div>
+
+            <button
+              className="btn btn-md left-full ml-4"
+              onClick={() => setIsPasswordEditing(true)}
+            >
+              Change
+            </button>
+
+            <div className=" left-full ml-4">
+              <div className="flex gap-2 ">
+                <button className="btn btn-md" onClick={handlePasswordChange}>
+                  Save
+                </button>
+                <button
+                  className="btn btn-md"
+                  onClick={() => setIsPasswordEditing(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            {/* 
+            {isPasswordEditing && (
+              <div>
+                <label className="input input-bordered flex items-center gap-4 w-64">
+                  Confirmed Password
                   <input
                     type="password"
                     className="text-gray-600"
@@ -163,34 +199,11 @@ const UserProfilePage = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
-                </>
-              ) : (
-                <span>********</span>
-              )}
-            </label>
-            <div className="absolute left-full pl-4">
-              {isPasswordEditing ? (
-                <div className="flex gap-2">
-                  <button className="btn btn-md" onClick={handlePasswordChange}>
-                    Save
-                  </button>
-                  <button
-                    className="btn btn-md"
-                    onClick={() => setIsPasswordEditing(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              ) : (
-                <button
-                  className="btn btn-md"
-                  onClick={() => setIsPasswordEditing(true)}
-                >
-                  Change
-                </button>
-              )}
-            </div>
+                </label>
+              </div>
+            )} */}
           </div>
+
           {error && (
             <FadeOutMessage
               key={key}

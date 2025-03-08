@@ -12,9 +12,9 @@ export default async function Home() {
   return (
     <div>
       <HeroSection />
-      <div>
+      {/* <div>
         <UseCaseCard />
-      </div>
+      </div> */}
     </div>
   );
 }
