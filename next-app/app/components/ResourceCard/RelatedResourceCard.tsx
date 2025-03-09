@@ -12,7 +12,7 @@ const RelatedResourceCard = ({ resource }: { resource: PostWithRelations }) => {
     <div
       key={resource.id}
       className="card bg-base-100 shadow-xl
-              col-span-full md:col-span-6 xl:col-span-4 
+              col-span-full xl:col-span-4 
                 hover:-translate-y-2 transition ease-in-out delay-100 duration-300 
         motion-reduce:transition-none motion-reduce:hover:transform-none"
     >

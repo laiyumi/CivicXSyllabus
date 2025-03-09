@@ -113,11 +113,12 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         <ResourceDetailCardSkeleton />
       ) : (
         <>
+          {/* Resources card */}
           <div
             key={resource?.id}
-            className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex flex-row"
+            className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex lg:flex-row sm:flex-col"
           >
-            <figure className="lg:w-1/2 md:w-full">
+            <figure className="lg:w-1/2 sm:w-full">
               <img
                 src={resource?.imageUrl}
                 alt="Resource thumbnail"
@@ -174,6 +175,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
             </div>
           </div>
 
+          {/* Resource overview */}
           <div className="flex w-full flex-col pt-4">
             <h3 className="text-xl pt-4 text-center">Overview</h3>
             <div className="divider"></div>
@@ -185,6 +187,8 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
               ))}
             </div>
             <div className="divider"></div>
+
+            {/* Related Resource */}
             <div className="card rounded-box grid place-items-center">
               <h3 className="text-xl pb-4">Related Resources</h3>
               <div className="grid grid-cols-12 gap-8 justify-around ">

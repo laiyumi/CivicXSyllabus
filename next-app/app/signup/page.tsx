@@ -66,8 +66,8 @@ const SignUpPage = () => {
               <span>{error}</span>
             </div>
           )}
-          <div className="flex flex-col gap-6">
-            <div role="alert" className="alert">
+          <div className="flex flex-col gap-6 ">
+            <div role="alert" className="alert bg-base-content text-base-100">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -125,11 +125,22 @@ const SignUpPage = () => {
                 Create Account
                 {isSubmitting && <Spinner />}
               </button>
+              <div>
+                <p className="text-center">
+                  Already have an account ?{" "}
+                  <Link
+                    href="/auth/signin"
+                    className="text-blue-600 hover:underline"
+                  >
+                    Sign in
+                  </Link>
+                </p>
+              </div>
               <p className="text-xs text-slate-600">
                 By clicking &quot;Create Account&quot; above, you acknowledge
                 that you have read, understood, and agree to Civic X
                 Syllabus&apos;s{" "}
-                <Link href="/privacy" className="text-blue-600">
+                <Link href="/privacy" className="text-blue-600 hover:underline">
                   Privacy Policy
                 </Link>
                 .

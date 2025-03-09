@@ -162,7 +162,7 @@ const AddAResourcePage = () => {
               <p>We’ll send you the link once your resource is confirmed.</p>
               <div
                 role="alert"
-                className="alert alert-vertical sm:alert-horizontal bg-base-100"
+                className="alert alert-vertical sm:alert-horizontal text-base-100 bg-base-content"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
