@@ -15,7 +15,7 @@ const HeroSection = () => {
       role="img"
       aria-label="A close-up of a group of hands stacked together in a show of unity and teamwork, with colorful sweaters in the background."
     >
-      <div className="hero-overlay bg-opacity-70"></div>
+      <div className="hero-overlay bg-opacity-60"></div>
       <div className="hero-content text-neutral-content text-center sm:py-20 lg:py-32">
         <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto">
           <div className="flex flex-col lg:gap-8 sm:gap-6 items-center">

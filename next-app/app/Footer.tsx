@@ -4,47 +4,14 @@ import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import React from "react";
+import ThemeLogo from "./components/ThemeLogo";
 
 const Footer = () => {
-  const [theme, setTheme] = useState("light");
-
-  useEffect(() => {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
-    if (currentTheme) {
-      setTheme(currentTheme);
-    }
-
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (
-          mutation.type === "attributes" &&
-          mutation.attributeName === "data-theme"
-        ) {
-          const newTheme = document.documentElement.getAttribute("data-theme");
-          if (newTheme) {
-            setTheme(newTheme);
-          }
-        }
-      });
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <footer className="footer bg-base-100 text-base-content p-10">
+    <footer className="footer p-10 text-base-content bg-base-300">
       <div>
-        <Link href="/" className="w-24">
-          <img
-            src={theme === "dark" ? "/new-logo-white.png" : "/new-logo.png"}
-            className="w-24 pb-2"
-            alt="Site logo"
-          />
-        </Link>
+        <ThemeLogo />
+
         <p>Copyright © {new Date().getFullYear()} - All rights reserved.</p>
       </div>
       <div className="flex gap-4 justify-self-end self-end items-center">

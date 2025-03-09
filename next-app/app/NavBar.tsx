@@ -4,47 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import LoginButton from "./components/LoginButton";
 import ThemeController from "./components/ThemeController";
+import ThemeLogo from "./components/ThemeLogo";
 
 const NavBar = () => {
-  const [theme, setTheme] = useState("light");
-
-  useEffect(() => {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
-    if (currentTheme) {
-      setTheme(currentTheme);
-    }
-
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (
-          mutation.type === "attributes" &&
-          mutation.attributeName === "data-theme"
-        ) {
-          const newTheme = document.documentElement.getAttribute("data-theme");
-          if (newTheme) {
-            setTheme(newTheme);
-          }
-        }
-      });
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
-      <div className="navbar bg-base-100 text-base-content p-5">
+      <div className="navbar p-5 text-base-content bg-base-300">
         <div className="navbar-start">
-          <Link href="/" className="w-24">
-            <img
-              src={theme === "dark" ? "/new-logo-white.png" : "/new-logo.png"}
-              alt="site logo"
-            />
-          </Link>
+          <ThemeLogo />
         </div>
         {/* small screen */}
         <div className="dropdown">
@@ -70,7 +37,7 @@ const NavBar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 text-base-content rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-base-300 text-base-content rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
               <Link href="/resources">Resources</Link>
@@ -123,7 +90,7 @@ const NavBar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="text-base-content dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              className="text-base-content dropdown-content menu bg-base-300 rounded-box z-[1] w-52 p-2 shadow"
             >
               <li>
                 <Link href="/build-my-syllabus">Use Cases</Link>
@@ -149,7 +116,7 @@ const NavBar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="text-base-content dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              className="text-base-content dropdown-content menu bg-base-300 rounded-box z-[1] w-52 p-2 shadow"
             >
               <li>
                 <Link href="/about">About Us</Link>

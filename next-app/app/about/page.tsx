@@ -8,13 +8,13 @@ const AboutPage = () => {
         <h1 className="text-2xl text-center font-normal">
           What is Civic X Syllabus?
         </h1>
+        <img
+          src="/logo_interpretation_resized.png"
+          alt="site logo"
+          className="w-96 h-auto"
+        />
         <div>
           <h2 className="text-xl pb-4 font-semibold">An Umbrella Term </h2>
-          <img
-            src="/logo_interpretation_resized.png"
-            alt="site logo"
-            className="w-96 h-auto float-end"
-          />
           <p className="pb-4">
             ‘Civic X’ is an umbrella term that we have adopted to describe the
             body of the constantly evolving, debated, and debatable knowledge
@@ -45,7 +45,7 @@ const AboutPage = () => {
               learning.
             </li>
           </ul>
-          <h2 className="text-xl pb-4 font-semibold">
+          <h2 className="text-xl py-4 font-semibold">
             Making Quality Civic Knowledge Accessible
           </h2>
           <div>

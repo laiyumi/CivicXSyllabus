@@ -187,7 +187,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
             <div className="divider"></div>
             <div className="card rounded-box grid place-items-center">
               <h3 className="text-xl pb-4">Related Resources</h3>
-              <div className="flex gap-8 justify-around">
+              <div className="grid grid-cols-12 gap-8 justify-around ">
                 {relatedResources?.map((relatedResource) => (
                   <RelatedResourceCard
                     key={relatedResource.id}

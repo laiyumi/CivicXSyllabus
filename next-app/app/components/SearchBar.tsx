@@ -42,12 +42,11 @@ const SearchBar = () => {
 
   return (
     <div className="w-full flex gap-2">
-      <label className="input input-bordered flex items-center gap-2 w-full">
+      <label className="input input-bordered flex items-center gap-2 w-full bg-base-100">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
-          fill="currentColor"
-          className="h-4 w-4 opacity-70"
+          className="h-4 w-4 opacity-70  fill-base-content"
         >
           <title>Search icon</title>
           <path
@@ -61,7 +60,7 @@ const SearchBar = () => {
           id="search-input"
           name="search"
           type="search"
-          className="grow text-black"
+          className="grow text-base-content"
           placeholder="Search anything"
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={(e) => {

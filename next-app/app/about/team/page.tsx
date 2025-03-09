@@ -8,7 +8,7 @@ const TeamPage = () => {
       <div className="flex flex-col gap-8 items-center">
         <h1 className="text-2xl text-center font-normal">Our Team</h1>
         <div>
-          <div className="grid grid-cols-3 bg-black mb-8 rounded-2xl">
+          <div className="md:grid md:grid-cols-3 xs:flex xs:flex-col bg-base-100 mb-8 rounded-2xl">
             <figure className="col-span-1">
               <img
                 src="https://i0.wp.com/staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2022/07/kl-01web-retouched__1_-e1720649516749.jpeg?w=750&ssl=1"
@@ -17,17 +17,15 @@ const TeamPage = () => {
               />
             </figure>
             <div className="col-span-2 p-8">
-              <div className="flex justify-between pb-10">
-                <h2 className="card-title text-white">
-                  Kimberly D. Lucas, PhD
-                </h2>
+              <div className="flex justify-between pb-10 text-base-content">
+                <h2 className="card-title ">Kimberly D. Lucas, PhD</h2>
                 <Link href="https://www.linkedin.com/in/kimberlydlucas/">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
                     fill="white"
-                    className="bi bi-linkedin"
+                    className="bi bi-linkedin text-base-content fill-current hover:text-blue-700"
                     viewBox="0 0 16 16"
                   >
                     <title>Kimberly&apos;s LinkedIn</title>
@@ -35,7 +33,7 @@ const TeamPage = () => {
                   </svg>
                 </Link>
               </div>
-              <p className="text-white">
+              <p className="text-base-content">
                 Kim is an academic-practitioner who is committed to
                 community-driven civic research, innovation in city-university
                 collaborations, and leveraging our collective expertise for the
@@ -52,17 +50,17 @@ const TeamPage = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 bg-black mb-8 rounded-2xl">
+        <div className="md:grid md:grid-cols-3 xs:flex xs:flex-col bg-base-100 mb-8 rounded-2xl">
           <div className="col-span-2 p-8">
-            <div className="flex justify-between pb-10">
-              <h2 className="card-title text-white">Elias Gbadamosi</h2>
+            <div className="flex justify-between pb-10 text-base-content">
+              <h2 className="card-title">Elias Gbadamosi</h2>
               <Link href="https://www.linkedin.com/in/eliasgbadamosi/">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
                   fill="white"
-                  className="bi bi-linkedin"
+                  className="bi bi-linkedin text-base-content fill-current hover:text-blue-700"
                   viewBox="0 0 16 16"
                 >
                   <title>Elia&apos;s LinkedIn</title>
@@ -70,7 +68,7 @@ const TeamPage = () => {
                 </svg>
               </Link>
             </div>
-            <p className="text-white">
+            <p className="text-base-content">
               Elias works with cities, academic institutions, and local
               communities to foster inclusive partnerships – through
               communication and engagement – geared towards translating research
@@ -87,7 +85,7 @@ const TeamPage = () => {
           </figure>
         </div>
 
-        <div className="grid grid-cols-3 bg-black mb-8 rounded-2xl">
+        <div className="md:grid md:grid-cols-3 xs:flex xs:flex-col bg-base-100 mb-8 rounded-2xl">
           <figure className="col-span-1">
             <img
               src="https://staging-7c07-civicxsyllabus.wpcomstaging.com/wp-content/uploads/2024/11/WechatIMG994.jpg"
@@ -97,14 +95,14 @@ const TeamPage = () => {
           </figure>
           <div className="col-span-2 p-8">
             <div className="flex justify-between pb-10">
-              <h2 className="card-title text-white">Yu Lai</h2>
+              <h2 className="card-title text-base-content">Yu Lai</h2>
               <Link href="https://www.linkedin.com/in/yu-lai/">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
                   fill="white"
-                  className="bi bi-linkedin"
+                  className="bi bi-linkedin text-base-content fill-current hover:text-blue-700"
                   viewBox="0 0 16 16"
                 >
                   <title>Yu&apos;s LinkedIn</title>
@@ -112,7 +110,7 @@ const TeamPage = () => {
                 </svg>
               </Link>
             </div>
-            <p className="text-white">
+            <p className="text-base-content">
               Yu is a graduate student in Information Systems at Northeastern
               University. Her background as a seasoned project manager in the
               education industry has provided her with valuable insights into

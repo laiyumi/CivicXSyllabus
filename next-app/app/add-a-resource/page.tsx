@@ -160,7 +160,10 @@ const AddAResourcePage = () => {
                 .
               </div>
               <p>We’ll send you the link once your resource is confirmed.</p>
-              <div role="alert" className="alert">
+              <div
+                role="alert"
+                className="alert alert-vertical sm:alert-horizontal bg-base-100"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -328,7 +331,7 @@ const AddAResourcePage = () => {
                   >
                     <input
                       type="checkbox"
-                      className="checkbox"
+                      className="checkbox bg-base-100 checkbox-primary"
                       checked={selectedCategories.includes(category.name)}
                       onChange={(e) => handleCategoryChange(category.name)}
                     />
@@ -361,7 +364,7 @@ const AddAResourcePage = () => {
                   >
                     <input
                       type="checkbox"
-                      className="checkbox"
+                      className="checkbox bg-base-100 checkbox-primary"
                       checked={selectedTags.includes(tag.name)}
                       onChange={(e) => handleTagChange(tag.name)}
                     />

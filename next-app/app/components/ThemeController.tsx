@@ -3,10 +3,17 @@
 import { useEffect, useState } from "react";
 import { themeChange } from "theme-change";
 
+export const themes = {
+  light: "winter",
+  dark: "night",
+};
+
 const ThemeController = () => {
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== "undefined") {
-      return document.documentElement.getAttribute("data-theme") === "dark";
+      return (
+        document.documentElement.getAttribute("data-theme") === themes.dark
+      );
     }
     return false;
   });
@@ -15,7 +22,9 @@ const ThemeController = () => {
     themeChange(false);
 
     const updateThemeState = () => {
-      setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
+      setIsDark(
+        document.documentElement.getAttribute("data-theme") === themes.dark
+      );
     };
 
     updateThemeState(); // Initial state
@@ -30,7 +39,7 @@ const ThemeController = () => {
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = isDark ? "light" : "dark";
+    const newTheme = isDark ? themes.light : themes.dark;
     document.documentElement.setAttribute("data-theme", newTheme);
     setIsDark(!isDark);
     localStorage.setItem("theme", newTheme);
