@@ -126,19 +126,19 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
       )}
 
       <form onSubmit={onSubmit}>
-        <div className="flex flex-col justify-center pb-12">
+        <div className="flex flex-col  justify-center ">
           <div className="flex justify-between">
-            <h1 className="text-2xl font-semibold leading-7 text-gray-900">
+            <h1 className="text-2xl font-semibold leading-7 text-base-content">
               Creating new Resource
             </h1>
-            <button disabled={isSubmitting} className="btn btn-primary ">
+            <button disabled={isSubmitting} className="btn btn-primary mr-4 ">
               Save
               {isSubmitting && <Spinner />}
             </button>
           </div>
 
-          <div className="grid grid-cols-3 gap-16">
-            <div className="col-span-2 justify-self-center w-full flex flex-col gap-6">
+          <div className="flex lg:flex-row xs:flex-col gap-8">
+            <div className="justify-self-center lg:w-1/2 xs:w-full flex flex-col gap-6">
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Title *</span>
                 <input
@@ -200,7 +200,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 ></img>
                 <UploadImage
                   onImageUpload={handleImageUpload}
-                  buttonName="Replace"
+                  buttonName="Select Image"
                 />
                 {uploadImageUrl && (
                   <img
@@ -213,9 +213,9 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
               </label>
             </div>
 
-            <div className="col-span-1 justify-self-center border-l border-gray-900/10 w-full">
-              <div className="flex flex-col gap-6 pl-16">
-                <div>
+            <div className="justify-self-center lg:w-1/2  xs:w-full lg:pl-8">
+              <div className="flex flex-col gap-6 pb-16">
+                <div className="flex flex-col gap-2">
                   <h2>Categories</h2>
                   <div className="flex gap-3 flex-wrap">
                     {categories?.map((category) => (
@@ -235,7 +235,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                     ))}
                   </div>
                 </div>
-                <div>
+                <div className="flex flex-col gap-2">
                   <h2>Tags</h2>
                   <div className="flex gap-3 flex-wrap">
                     {tags?.map((tag) => (

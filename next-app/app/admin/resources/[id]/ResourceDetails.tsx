@@ -47,11 +47,31 @@ const ResourceDetails = async ({ resourceId }: { resourceId: string }) => {
   const updated_date = format(resource.updatedAt, "MM/dd/yy");
 
   return (
-    <div className="grid grid-cols-3 gap-16">
-      <div className="col-span-2 justify-self-center w-full flex flex-col gap-6">
-        <div className="flex justify-between">
+    <div className="flex flex-col gap-16">
+      <div className="justify-self-center w-full flex flex-col gap-6">
+        <div className="flex justify-between mr-5">
           <p>Created at: {created_date}</p>
           <p>Updated at: {updated_date}</p>
+        </div>
+        <div className="flex items-baseline gap-4">
+          <h2>Categories</h2>
+          <div className="flex gap-3 flex-wrap mt-4">
+            {resource.categories.map((category) => (
+              <div key={category.id} className="badge badge-secondary">
+                {category.name}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-baseline gap-4">
+          <h2>Tags</h2>
+          <div className="flex gap-3 flex-wrap mt-4">
+            {resource.tags.map((tag) => (
+              <div key={tag.id} className="badge badge-secondary">
+                {tag.name}
+              </div>
+            ))}
+          </div>
         </div>
         <label className="form-control w-full flex gap-2">
           <span className="text-m">Source</span>
@@ -82,7 +102,7 @@ const ResourceDetails = async ({ resourceId }: { resourceId: string }) => {
         <label className="form-control w-full flex gap-2">
           <span className="text-m">Content</span>
           <textarea
-            className="textarea textarea-bordered h-36"
+            className="textarea textarea-bordered h-48"
             value={resource.content}
             disabled
           ></textarea>
@@ -93,30 +113,7 @@ const ResourceDetails = async ({ resourceId }: { resourceId: string }) => {
         </label>
       </div>
 
-      <div className="col-span-1 justify-self-center border-l border-gray-900/10 w-full">
-        <div className="flex flex-col gap-6 pl-16">
-          <div>
-            <h2>Categories</h2>
-            <div className="flex gap-3 flex-wrap mt-4">
-              {resource.categories.map((category) => (
-                <div key={category.id} className="badge badge-ghost">
-                  {category.name}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h2>Tags</h2>
-            <div className="flex gap-3 flex-wrap mt-4">
-              {resource.tags.map((tag) => (
-                <div key={tag.id} className="badge badge-ghost">
-                  {tag.name}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="flex flex-col gap-6 pl-16"></div>
     </div>
   );
 };

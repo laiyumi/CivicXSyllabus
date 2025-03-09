@@ -25,7 +25,7 @@ const Badge = ({ type, name, postCount, id, onDelete }: BadgeProps) => {
 
   return (
     <div>
-      <div className="badge bg-slate-200 gap-3 py-1 h-auto">
+      <div className="badge bg-base-100 gap-3 py-1 h-auto">
         <span>{name}</span>
         <div className="badge badge-secondary badge-sm">{postCount}</div>
         <svg

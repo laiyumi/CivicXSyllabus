@@ -79,7 +79,7 @@ const UsersTable = () => {
                   <td>{format(new Date(user.updatedAt), "PPP")}</td>{" "}
                   {user.role === "ADMIN" ? (
                     <td>
-                      <span className="badge badge-neutral">Admin</span>
+                      <span className="badge badge-primary">Admin</span>
                     </td>
                   ) : (
                     <td>

@@ -41,7 +41,7 @@ const ViewResourceDetailPage = async ({ params }: Props) => {
     <div className="flex">
       <div className="w-full">
         <div className="flex justify-between">
-          <h1 className="text-2xl font-semibold leading-10 text-gray-900 pb-8">
+          <h1 className="text-2xl font-semibold leading-10 text-base-content pb-8">
             {resource.title}
           </h1>
           <EditResourceButton resourceId={params.id} />
