@@ -1,16 +1,15 @@
 "use client";
 
+import ErrorMessage from "@/app/components/ErrorMessage";
+import FadeOutMessage from "@/app/components/FadeOutMessage";
+import { ResetPasswordSchema } from "@/app/validationSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import FadeOutMessage from "@/app/components/FadeOutMessage";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ResetPasswordSchema } from "@/app/validationSchemas";
-import ErrorMessage from "@/app/components/ErrorMessage";
 import { z } from "zod";
-import { set } from "date-fns";
 
 type ResetPasswordFormInputs = z.infer<typeof ResetPasswordSchema>;
 
@@ -19,7 +18,6 @@ const UserProfilePage = () => {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<ResetPasswordFormInputs>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -191,9 +189,9 @@ const UserProfilePage = () => {
               onSubmit={handlePasswordChange}
               className="flex flex-col gap-8"
             >
-              <div className="relative flex gap-4 items-center">
-                <div className="w-72">
-                  <label className="input input-bordered flex items-center gap-4  first-line:grow">
+              <div className="relative flex gap-4 items-start">
+                <div className="w-72 flex flex-col gap-4">
+                  <label className="input input-bordered flex items-center gap-4 w-72 first-line:grow">
                     <span className="whitespace-nowrap">
                       {isPasswordEditing ? "New Password" : "Password"}
                     </span>
@@ -201,7 +199,7 @@ const UserProfilePage = () => {
                     <div className="flex flex-col gap-2">
                       <input
                         type="password"
-                        className="text-gray-600 flex-grow"
+                        className="text-gray-600 w-full"
                         disabled={!isPasswordEditing}
                         placeholder={isPasswordEditing ? "" : "••••••••"}
                         {...register("newPassword")}
@@ -257,7 +255,7 @@ const UserProfilePage = () => {
                     </span>
                     <input
                       type="password"
-                      className="text-gray-600 flex-grow"
+                      className="text-gray-600 w-full"
                       // value={confirmedPassword}
                       {...register("confirmedNewPassword")}
                     />
