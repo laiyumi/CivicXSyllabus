@@ -73,7 +73,11 @@ const UserProfilePage = () => {
             "https://webgradients.com/public/webgradients_png/024%20Near%20Moon.png"
         );
         setJoinDate(
-          new Intl.DateTimeFormat("en-US").format(new Date(userData.createdAt))
+          new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "2-digit",
+          }).format(new Date(userData.createdAt))
         );
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -149,10 +153,10 @@ const UserProfilePage = () => {
         />
         <div className="flex items-center gap-4">
           Email
-          <span className="text-gray-600">{userEmail}</span>
+          <span className="text-base-content">{userEmail}</span>
         </div>
         <div className="flex items-center gap-4">
-          Member starts on
+          Member since
           <span className="badge badge-outline badge-primary">{joinDate}</span>
         </div>
 
@@ -167,7 +171,7 @@ const UserProfilePage = () => {
                   {isNameEditing ? (
                     <input
                       type="text"
-                      className="text-gray-600"
+                      className="text-base-content"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
@@ -314,11 +318,6 @@ const UserProfilePage = () => {
             </div>
           </>
         ) : (
-          // <p className="w-1/2">
-          //   {" "}
-          //   You signed in with your Google account. If you want to manage your
-          //   security settings, please visit your Google Account settings.
-          // </p>
           <div role="alert" className="alert">
             <svg
               xmlns="http://www.w3.org/2000/svg"
