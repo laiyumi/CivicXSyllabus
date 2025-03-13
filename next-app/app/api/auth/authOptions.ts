@@ -57,15 +57,25 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.role = user.role;
         token.rememberMe = user.rememberMe;
+        token.name = user.name;
       }
 
-      console.log("Before JWT update:", token.exp);
+      // fetch the updated user from the db
+      if (trigger === "update") {
+        const updatedUser = await prisma.user.findUnique({
+          where: { id: token.sub },
+        });
+        if (updatedUser) {
+          token.name = updatedUser.name;
+        }
+      }
+
       if (token.rememberMe === "true") {
         token.exp = Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60; // 30 days
-        console.log("Now staying logged in until:", token.exp);
       } else {
         token.exp = Math.floor(Date.now() / 1000) + 24 * 60 * 60; // Default 1 day
       }
+      console.log("Staying logged in until:", token.exp);
 
       return token;
     },
@@ -75,6 +85,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub;
         session.user.token = token.jti; // Forward accessToken
         session.user.role = token.role;
+        session.user.name = token.name;
       }
 
       // Ensure session expiration matches JWT expiration

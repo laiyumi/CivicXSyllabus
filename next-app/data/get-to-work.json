@@ -2,7 +2,7 @@
   "projectWellbeing": [
     {
       "category": "Build With",
-      "title": "`Build With`",
+      "title": "'Build With'",
       "subtitle": "Prompts",
       "description": ["What does ‘Build With, Not For’ mean?"],
       "selectedResources": [
@@ -18,9 +18,9 @@
     },
     {
       "category": "Burnout",
-      "title": "`Burnout`",
+      "title": "'Burnout'",
       "subtitle": "Prompts",
-      "description": ["What is burnout?", "why should it matter?"],
+      "description": ["What is burnout?", "Why should it matter?"],
       "selectedResources": [
         {
           "name": "On the Role of Passion for Work in Burnout: A Process Model",
@@ -35,8 +35,8 @@
       "title": "Success, Failure, + Indicators of Either",
       "subtitle": "Prompts",
       "description": [
-        "What does ‘success’ mean?",
-        "What does it look like for our project?"
+        "What does 'success' mean? What does it mean to 'fail'?",
+        "What do  'success' and 'failure' look like for our project?"
       ],
       "selectedResources": [
         {
@@ -49,10 +49,7 @@
       "category": "Engagement",
       "title": "Engagement",
       "subtitle": "Prompts",
-      "description": [
-        "What does it mean to ‘engage’ people in our project?",
-        "What can that look like?"
-      ],
+      "description": ["What does it mean to 'engage' people in our project?"],
       "selectedResources": [
         {
           "name": "Research is a team sport: 12 ideas on how to involve stakeholders in a UX Research project",
@@ -61,7 +58,7 @@
       ]
     }
   ],
-  "projectExecution": [
+  "projectImplementation": [
     {
       "category": "Asking Questions",
       "title": "Asking Questions",

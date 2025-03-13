@@ -28,10 +28,10 @@ const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
   };
 
   return (
-    <div className="flex items-center justify-between  bg-white px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between bg-base-300 px-4 py-3 sm:px-6">
       <div className="hidden xs:flex flex-col gap-4 sm:flex-1 sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-base-content">
             Showing{" "}
             <span className="font-medium">
               {(currentPage - 1) * pageSize + 1}
@@ -46,12 +46,12 @@ const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
         <div>
           <nav
             aria-label="Pagination"
-            className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+            className="isolate inline-flex -space-x-px rounded-md shadow-sm bg-base-100"
           >
             <button
               disabled={currentPage === 1}
               onClick={() => changePage(currentPage - 1)}
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-200 focus:z-20 focus:outline-offset-0 ${
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-base-content ring-1 ring-inset ring-gray-300 hover:bg-base-300 focus:z-20 focus:outline-offset-0 ${
                 currentPage === 1 ? "cursor-not-allowed" : ""
               }`}
             >
@@ -66,8 +66,8 @@ const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
                   onClick={() => changePage(page)}
                   className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
                     page === currentPage
-                      ? "z-10 bg-blue-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-200 focus:z-20 focus:outline-offset-0"
+                      ? "z-10 bg-base-content text-base-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      : "text-base-content ring-1 ring-inset ring-gray-300 hover:bg-base-300 focus:z-20 focus:outline-offset-0"
                   }`}
                 >
                   {page}
@@ -77,7 +77,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
             <button
               disabled={currentPage === pageCount}
               onClick={() => changePage(currentPage + 1)}
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-200 focus:z-20 focus:outline-offset-0 ${
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-base-content ring-1 ring-inset ring-gray-300 hover:bg-base-300 focus:z-20 focus:outline-offset-0 ${
                 currentPage === pageCount ? "cursor-not-allowed" : ""
               }`}
             >

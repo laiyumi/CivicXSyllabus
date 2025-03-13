@@ -7,7 +7,7 @@ const ResourcesPage = () => {
   return (
     <>
       <div>
-        <h1 className="text-2xl text-center font-normal">
+        <h1 className="text-2xl text-center font-normal text-base-content ">
           Explore Our Resources
         </h1>
         <ResourceFilter />

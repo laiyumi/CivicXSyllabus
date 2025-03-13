@@ -28,10 +28,12 @@ const BeforeYouBeginPage = () => {
         </div>
         <div>
           <p className="pb-4">
-            In this part, we&apos;ll guide you through the four key focus areas:
-            civic research, civic data, civic tech and civic design. You will
-            learn what each area entails and explore example projects that
-            illustrate their thinking and action components.
+            If you&apos;re not sure where to start–or just want a refresher on
+            Civic X basics–we&apos;ve curated resources on our four key focus
+            areas: civic research, civic data, civic tech, and civic design. The
+            resources we share here are some of the foundational resources that
+            are good starting points for those unfamiliar with or new to these
+            focus areas.
           </p>
         </div>
         <div className="flex flex-col gap-8">

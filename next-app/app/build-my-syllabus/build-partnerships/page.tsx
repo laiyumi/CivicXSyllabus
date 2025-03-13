@@ -27,11 +27,11 @@ const BuildPartnershipsPage = () => {
         </div>
         <div>
           <p className="pb-4">
-            This part offers an in-depth guide on creating, cultivating, and
-            sustaining partnerships to enhance collaboration, resource-sharing,
-            and community engagement. These units demonstrate that you are not
-            alone—many like-minded individuals and resources are available to
-            assist you in launching your syllabus.
+            Because partnerships and collaboration are a common key factor of
+            success for any civic project, we have curated resources that offer
+            in-depth guidance on creating, cultivating, and sustaining
+            partnerships to enhance collaboration, resource-sharing, and
+            community engagement.
           </p>
         </div>
         <div className="flex flex-col gap-8">

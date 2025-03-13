@@ -25,7 +25,9 @@ export default function RootLayout({
           {/* Default Layout */}
           <div className="flex flex-col min-h-screen">
             <NavBar />
-            <main className="p-0 flex-1">{children}</main>
+            <main className="p-0 flex-1 text-base-content bg-base-300">
+              {children}
+            </main>
             <Analytics />
             <Footer />
           </div>

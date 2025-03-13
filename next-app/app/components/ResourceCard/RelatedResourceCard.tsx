@@ -11,7 +11,8 @@ const RelatedResourceCard = ({ resource }: { resource: PostWithRelations }) => {
   return (
     <div
       key={resource.id}
-      className="card bg-base-100 w-96 shadow-xl
+      className="card bg-base-100 shadow-xl
+              col-span-full xl:col-span-4 
                 hover:-translate-y-2 transition ease-in-out delay-100 duration-300 
         motion-reduce:transition-none motion-reduce:hover:transform-none"
     >
@@ -35,7 +36,7 @@ const RelatedResourceCard = ({ resource }: { resource: PostWithRelations }) => {
             </div>
           ))}
         </div>
-        <div className="card-actions justify-between mt-4">
+        <div className="card-actions mt-4 justify-end">
           <Link
             href={`/resources/${resource.id}`}
             className="btn btn-sm btn-primary"

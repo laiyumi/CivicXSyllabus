@@ -1,17 +1,17 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import Link from "next/link";
 import React from "react";
+import ThemeLogo from "./components/ThemeLogo";
 
 const Footer = () => {
   return (
-    <footer className="footer bg-neutral text-neutral-content p-10">
+    <footer className="footer p-10 text-base-content bg-base-300">
       <div>
-        <Link href="/" className="w-24">
-          <img
-            src="/new-logo-white.png"
-            className="w-24 pb-2"
-            alt="Site logo"
-          />
-        </Link>
+        <ThemeLogo />
+
         <p>Copyright © {new Date().getFullYear()} - All rights reserved.</p>
       </div>
       <div className="flex gap-4 justify-self-end self-end items-center">
@@ -20,7 +20,7 @@ const Footer = () => {
         </Link>
         <span>|</span>
         <Link
-          href={`mailto:civicxsyllabus@gmail.com?`}
+          href={`mailto:contact@civicxsyllabus.org?`}
           target="_blank"
           className="link link-hover"
           rel="noopener noreferrer"

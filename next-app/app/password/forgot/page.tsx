@@ -18,7 +18,10 @@ const ForgotPasswordPage = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("/api/auth/request-reset", { email });
+      const { data } = await axios.post("/api/auth/request-reset", {
+        email,
+        type: "byEmail",
+      });
       setMessage(
         "Please check your email for the reset code. If not found, please check your spam folder."
       );

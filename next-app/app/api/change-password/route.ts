@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "../../../../prisma/client";
+import prisma from "../../../prisma/client";
 import bcrypt from "bcrypt";
-import { schema } from "./schema";
+import { schema } from "../auth/reset-password/schema";
 
 export async function POST(request: NextRequest) {
-  const { email, resetToken, newPassword, confirmedNewPassword } =
-    await request.json();
+  const { email, newPassword, confirmedNewPassword } = await request.json();
 
   const missingFields: string[] = [];
   if (!email) missingFields.push("Email");
-  if (!resetToken) missingFields.push("Reset token");
   if (!newPassword) missingFields.push("New password");
   if (!confirmedNewPassword) missingFields.push("Confirmed new password");
 
@@ -20,30 +18,6 @@ export async function POST(request: NextRequest) {
       },
       { status: 400 }
     );
-  }
-
-  // find the hashed token in db
-  const tokensRecord = await prisma.verificationToken.findMany({
-    where: {
-      identifier: email,
-      expires: { gt: new Date() }, // filter out expired tokens
-    },
-  });
-
-  if (!tokensRecord.length) {
-    return NextResponse.json(
-      { error: "Reset code not found or expired" },
-      { status: 400 }
-    );
-  }
-
-  // compare the reset token
-  const isValid = await Promise.any(
-    tokensRecord.map((record) => bcrypt.compare(resetToken, record.token))
-  ).catch(() => false);
-
-  if (!isValid) {
-    return NextResponse.json({ error: "Invalid reset code" }, { status: 400 });
   }
 
   // check if the new password is the same as the old password
@@ -90,13 +64,6 @@ export async function POST(request: NextRequest) {
     where: { email },
     data: {
       password: hashedPassword,
-    },
-  });
-
-  // clean up: delete all tokens for this user
-  await prisma.verificationToken.deleteMany({
-    where: {
-      identifier: email,
     },
   });
 

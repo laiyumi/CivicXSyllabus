@@ -343,12 +343,12 @@ const PrivacyPage = () => {
             collected about You. To delete your account and associated user
             data, you can email us at{" "}
             <a
-              href={`mailto:civicxsyllabus@gmail.com?`}
+              href={`mailto:contact@civicxsyllabus.org?`}
               target="_blank"
               className="text-blue-600 underline"
               rel="noopener noreferrer"
             >
-              civicxsyllabus@gmail.com
+              contact@civicxsyllabus.org
             </a>
           </p>
           <h3 className="text-lg font-bold">Security of Your Personal Data</h3>
@@ -396,12 +396,12 @@ const PrivacyPage = () => {
             If you have additional questions about our Privacy Policy, do not
             hesitate to contact us through email at{" "}
             <a
-              href={`mailto:civicxsyllabus@gmail.com?`}
+              href={`mailto:contact@civicxsyllabus.org?`}
               target="_blank"
               className="text-blue-600 underline"
               rel="noopener noreferrer"
             >
-              civicxsyllabus@gmail.com
+              contact@civicxsyllabus.org
             </a>
           </p>
         </div>

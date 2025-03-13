@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import { EmailTemplate } from "@/app/components/EmailTemplate";
 
 export async function POST(request: NextRequest) {
-  const { email } = await request.json();
+  const { email, type } = await request.json();
   if (!email) {
     return NextResponse.json({ error: "Email is required" }, { status: 400 });
   }
@@ -55,24 +55,32 @@ export async function POST(request: NextRequest) {
 
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-  try {
-    const response = await resend.emails.send({
-      from: process.env.EMAIL_USER ?? "contact@civicxsyllabus.org",
-      to: email,
-      subject: "Civic X Syllabus Password Reset",
-      react: EmailTemplate({ resetToken: resetToken }),
-    });
+  if (type === "byEmail") {
+    try {
+      const response = await resend.emails.send({
+        from: process.env.EMAIL_USER ?? "contact@civicxsyllabus.org",
+        to: email,
+        subject: "Civic X Syllabus Password Reset",
+        react: EmailTemplate({ resetToken: resetToken }),
+      });
 
-    console.log("Resend API Response:", response);
+      console.log("Resend API Response:", response);
+      return NextResponse.json({
+        message: "Reset token sent to email",
+        response,
+      });
+    } catch (error) {
+      console.error("Resend API Error:", error);
+      return NextResponse.json(
+        { error: "Failed to send email" },
+        { status: 500 }
+      );
+    }
+  }
+  if (type === "default") {
     return NextResponse.json({
-      message: "Reset token sent to email",
-      response,
+      Message: "Reset token generated",
+      resetToken,
     });
-  } catch (error) {
-    console.error("Resend API Error:", error);
-    return NextResponse.json(
-      { error: "Failed to send email" },
-      { status: 500 }
-    );
   }
 }

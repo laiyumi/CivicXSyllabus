@@ -150,17 +150,20 @@ const AddAResourcePage = () => {
                 To submit a resource, please fill out the form below. If you
                 have multiple resources to add, feel free to contact us at{" "}
                 <a
-                  href={`mailto:civicxsyllabus@gmail.com?subject=Sharing Some Useful Resources`}
+                  href={`mailto:contact@civicxsyllabus.org?subject=Sharing Some Useful Resources`}
                   target="_blank"
                   className="text-blue-600 underline"
                   rel="noopener noreferrer"
                 >
-                  civicxsyllabus@gmail.com
+                  contact@civicxsyllabus.org
                 </a>
                 .
               </div>
               <p>We’ll send you the link once your resource is confirmed.</p>
-              <div role="alert" className="alert">
+              <div
+                role="alert"
+                className="alert alert-vertical sm:alert-horizontal text-base-100 bg-base-content"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -328,7 +331,7 @@ const AddAResourcePage = () => {
                   >
                     <input
                       type="checkbox"
-                      className="checkbox"
+                      className="checkbox bg-base-100 checkbox-primary"
                       checked={selectedCategories.includes(category.name)}
                       onChange={(e) => handleCategoryChange(category.name)}
                     />
@@ -361,7 +364,7 @@ const AddAResourcePage = () => {
                   >
                     <input
                       type="checkbox"
-                      className="checkbox"
+                      className="checkbox bg-base-100 checkbox-primary"
                       checked={selectedTags.includes(tag.name)}
                       onChange={(e) => handleTagChange(tag.name)}
                     />

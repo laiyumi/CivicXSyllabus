@@ -128,7 +128,7 @@ const ResourceFilter = () => {
           </label>
         </div>
         <select
-          className="select select-bordered w-auto"
+          className="select select-bordered w-auto text-base-content "
           aria-label="Select a category"
           onChange={(category) =>
             setSelectedCategory(encodeURIComponent(category.target.value))
@@ -141,7 +141,7 @@ const ResourceFilter = () => {
           ))}
         </select>
         <select
-          className="select select-bordered w-auto"
+          className="select select-bordered w-auto text-base-content "
           onChange={(tag) => setSelectedTag(tag.target.value)}
           aria-label="Select a tag"
         >
@@ -152,7 +152,7 @@ const ResourceFilter = () => {
           ))}
         </select>
         <select
-          className="select select-bordered w-auto"
+          className="select select-bordered w-auto text-base-content "
           aria-label="Select an order"
           onChange={(e) => setOrder(e.target.value)}
           defaultValue={orders[0].value}
