@@ -1,6 +1,6 @@
 describe("login", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/auth/signin");
+    cy.visit("/auth/signin");
   });
 
   context("sign in by Google account", () => {
