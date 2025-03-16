@@ -46,7 +46,10 @@ const ThemeController = () => {
   };
 
   return (
-    <label className="flex items-center cursor-pointer space-x-2">
+    <label
+      data-test="toggle-theme-button"
+      className="flex items-center cursor-pointer space-x-2"
+    >
       <input
         type="checkbox"
         className="hidden"

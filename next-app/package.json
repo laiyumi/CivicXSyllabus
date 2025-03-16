@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "cy:open": "cypress open"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -60,10 +60,9 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@types/bcrypt": "^5.0.2",
-    "@types/jest": "^29.5.14",
     "@types/react-google-recaptcha": "^2.1.9",
+    "cypress": "^14.2.0",
     "daisyui": "^4.12.13",
-    "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-mock-axios": "^4.8.0",
     "ts-node": "^10.9.2"

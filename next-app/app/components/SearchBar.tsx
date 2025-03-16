@@ -56,6 +56,7 @@ const SearchBar = () => {
           />
         </svg>
         <input
+          data-test="search-input"
           aria-label="Search"
           id="search-input"
           name="search"
@@ -68,7 +69,11 @@ const SearchBar = () => {
           }}
         />
       </label>
-      <button className="btn btn-primary" onClick={onSearch}>
+      <button
+        data-test="search-button"
+        className="btn btn-primary"
+        onClick={onSearch}
+      >
         Search
       </button>
     </div>

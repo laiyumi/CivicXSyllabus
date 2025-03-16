@@ -19,7 +19,10 @@ const HeroSection = () => {
       <div className="hero-content text-neutral-content text-center sm:py-20 lg:py-32">
         <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto">
           <div className="flex flex-col lg:gap-8 sm:gap-6 items-center">
-            <h1 className="sm:text-2xl md:text-2xl lg:text-3xl text-center">
+            <h1
+              data-test="hero-heading"
+              className="sm:text-2xl md:text-2xl lg:text-3xl text-center"
+            >
               Your Roadmap to Civic Innovation
             </h1>
             <p className="md:text-md lg:text-lg text-center">
