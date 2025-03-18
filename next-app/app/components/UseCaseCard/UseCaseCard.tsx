@@ -1,6 +1,3 @@
-import React from "react";
-import Image from "next/image";
-import AddToCart from "../AddToCart";
 import Link from "next/link";
 
 const UseCaseCard = () => {
