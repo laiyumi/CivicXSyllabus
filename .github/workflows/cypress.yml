@@ -3,11 +3,11 @@ name: Run Cypress Tests
 on:
   push:
     branches:
-      - testing # Only runs on the "testing" branch
+      - testing
       - main
   pull_request:
     branches:
-      - testing # Runs when a PR is made to "testing" branch
+      - testing
       - main
 
 jobs:
@@ -68,7 +68,3 @@ jobs:
       - name: Notify failure
         if: failure()
         run: echo "Cypress tests failed. Check artifacts for details."
-
-      - name: Deploy to Vercel (Only on main)
-        if: github.ref == 'refs/heads/main'
-        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
