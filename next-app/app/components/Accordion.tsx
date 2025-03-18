@@ -37,6 +37,7 @@ const Accordion = ({ data }: AccordionProps) => {
     <div className="w-full rounded-2xl bg-base-100">
       {/* Accordion Header */}
       <button
+        data-test="accordion-header"
         className="w-full flex justify-between items-center p-4 cursor-pointer bg-base-100 hover:bg-base-200 rounded-2xl"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}

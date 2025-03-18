@@ -39,9 +39,25 @@
 declare namespace Cypress {
   interface Chainable {
     getByData(dataTestAttribute: string): Chainable<JQuery<HTMLElement>>;
+    login(): Chainable<void>;
   }
 }
 
 Cypress.Commands.add("getByData", (selector) => {
   return cy.get(`[data-test=${selector}]`);
+});
+
+Cypress.Commands.add("login", () => {
+  cy.request("POST", "/api/auth/signin/credentials", {
+    email: "testuser@example.com",
+    password: "testpassword123",
+    redirect: false,
+    rememberMe: "false",
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    // Extract session token from response and store it as a cookie
+    cy.setCookie("next-auth.session-token", response.body.token);
+  });
+
+  cy.visit("/");
 });

@@ -1,5 +1,6 @@
 "use client";
 
+import { DeleteAccountButton } from "@/app/components/DeleteAccountButton";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import FadeOutMessage from "@/app/components/FadeOutMessage";
 import { ResetPasswordSchema } from "@/app/validationSchemas";
@@ -141,6 +142,10 @@ const UserProfilePage = () => {
       setMessage("");
     }
   });
+
+  const handleDeleteAccount = async () => {
+    console.log("Deleting account...");
+  };
 
   return (
     <>
@@ -316,6 +321,7 @@ const UserProfilePage = () => {
                 />
               )}
             </div>
+            <DeleteAccountButton id={userId} />
           </>
         ) : (
           <div role="alert" className="alert">
