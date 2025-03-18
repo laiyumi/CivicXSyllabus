@@ -79,7 +79,11 @@ const SignInPage = () => {
           </div>
           {/* display input error */}
           {error && (
-            <div role="alert" className="alert alert-error mb-4 w-1/2">
+            <div
+              data-test="error-alert"
+              role="alert"
+              className="alert alert-error mb-4 w-1/2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 shrink-0 stroke-current"
@@ -108,6 +112,7 @@ const SignInPage = () => {
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Email</span>
                 <input
+                  data-test="email-input"
                   type="text"
                   className="input input-bordered w-full"
                   {...register("email")}
@@ -118,6 +123,7 @@ const SignInPage = () => {
                 <span className="text-m">Password</span>
                 <div className="relative">
                   <input
+                    data-test="password-input"
                     type={showPassword ? "text" : "password"}
                     className="input input-bordered w-full"
                     {...register("password")}
@@ -158,6 +164,7 @@ const SignInPage = () => {
                 <ErrorMessage>{errors.password?.message}</ErrorMessage>
               </label>
               <button
+                data-test="signin-button"
                 type="submit"
                 disabled={isSubmitting}
                 className="btn btn-primary mt-4 w-full"
@@ -194,6 +201,7 @@ const SignInPage = () => {
             {/* Google Sign-In Option */}
             <div>
               <button
+                data-test="google-login-button"
                 onClick={() => signIn("google", { callbackUrl: "/" })}
                 className="btn btn-secondary w-full "
               >

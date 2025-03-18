@@ -135,7 +135,9 @@ const ResourcesGrid = () => {
       {loading ? (
         <span className="loading loading-spinner loading-md"></span>
       ) : filteredResources.length === 0 ? (
-        <p className="text-center">No results found for your search.</p>
+        <p className="text-center" data-test="not-found-message">
+          No results found for your search.
+        </p>
       ) : (
         <div>
           <div className="grid grid-cols-12 gap-10 ">

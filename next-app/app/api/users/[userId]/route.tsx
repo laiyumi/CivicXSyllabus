@@ -74,3 +74,48 @@ export async function PUT(
     );
   }
 }
+
+// Delete a user
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { userId: string } }
+) {
+  // find the user
+  const user = await prisma.user.findUnique({
+    where: { id: params.userId },
+  });
+
+  if (!user) {
+    return NextResponse.json(
+      { error: "user not found in database" },
+      { status: 404 }
+    );
+  }
+
+  console.log("Received user id:", params.userId);
+
+  try {
+    // Step 1: Delete dependent relations first
+    await prisma.session.deleteMany({ where: { userId: params.userId } });
+    await prisma.account.deleteMany({ where: { userId: params.userId } });
+    await prisma.authenticator.deleteMany({ where: { userId: params.userId } });
+    await prisma.list.deleteMany({ where: { userId: params.userId } });
+
+    // Step 2: Delete the user
+    await prisma.user.delete({ where: { id: params.userId } });
+    console.log(
+      `User ${params.userId} and all related data deleted successfully.`
+    );
+
+    return NextResponse.json(
+      { message: "User deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Failed to delete user" },
+      { status: 500 }
+    );
+  }
+}

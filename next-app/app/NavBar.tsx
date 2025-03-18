@@ -10,11 +10,11 @@ const NavBar = () => {
   return (
     <>
       <div className="navbar p-5 text-base-content bg-base-300">
-        <div className="navbar-start">
+        <div data-test="site-logo" className="navbar-start">
           <ThemeLogo />
         </div>
         {/* small screen */}
-        <div className="dropdown">
+        <div data-test="hamburger-menu" className="dropdown">
           <div
             tabIndex={0}
             role="button"
@@ -40,7 +40,9 @@ const NavBar = () => {
             className="menu menu-sm dropdown-content bg-base-300 text-base-content rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link href="/resources">Resources</Link>
+              <Link href="/resources" data-test="resources-link">
+                Resources
+              </Link>
             </li>
             <li>
               <a> How to Use</a>
@@ -80,12 +82,24 @@ const NavBar = () => {
           </ul>
         </div>
         {/* large screen */}
-        <div className="navbar-center hidden md:flex">
-          <Link href="/resources" className="btn btn-ghost text-base-content">
+        <div
+          data-test="horizontal-menu"
+          className="navbar-center hidden md:flex"
+        >
+          <Link
+            data-test="resources-link"
+            href="/resources"
+            className="btn btn-ghost text-base-content"
+          >
             Resources
           </Link>
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost m-1">
+            <div
+              data-test="how-to-use-link-large-screen"
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost m-1"
+            >
               How to Use
             </div>
             <ul
@@ -111,7 +125,12 @@ const NavBar = () => {
             </ul>
           </div>
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost m-1">
+            <div
+              data-test="about-link-large-screen"
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost m-1"
+            >
               About
             </div>
             <ul
@@ -132,6 +151,7 @@ const NavBar = () => {
         </div>
         <div className="navbar-end">
           <Link
+            data-test="add-a-resource-link"
             href="/add-a-resource"
             className="btn btn-primary mr-2 btn-outline md:btn-md xs:btn-sm "
           >

@@ -1,0 +1,74 @@
+name: Run Cypress Tests
+
+on:
+  push:
+    branches:
+      - testing # Only runs on the "testing" branch
+      - main
+  pull_request:
+    branches:
+      - testing # Runs when a PR is made to "testing" branch
+      - main
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Pulls the latest code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # Ensure compatibility with Cypress
+
+      - name: Install dependencies
+        working-directory: next-app
+        run: npm install
+
+      - name: Start application server
+        working-directory: next-app
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_ID: ${{ secrets.AIRTABLE_TABLE_ID }}
+          REACT_APP_SITE_KEY: ${{ secrets.REACT_APP_SITE_KEY }}
+          SITE_SECRET: ${{ secrets.SITE_SECRET }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npm run dev &
+
+      - name: Wait for server to be ready
+        working-directory: next-app
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Cypress tests
+        working-directory: next-app
+        run: npx cypress run # Runs Cypress in headless mode
+
+      - name: Upload Cypress test artifacts (screenshots & videos on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts
+          path: next-app/cypress/screenshots
+
+      - name: Notify failure
+        if: failure()
+        run: echo "Cypress tests failed. Check artifacts for details."
+
+      - name: Deploy to Vercel (Only on main)
+        if: github.ref == 'refs/heads/main'
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }}

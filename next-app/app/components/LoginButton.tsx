@@ -46,6 +46,7 @@ const LoginButton = () => {
             >
               <div className="w-8 rounded-full">
                 <img
+                  data-test="user-avatar"
                   src={
                     session.user?.image ||
                     "https://webgradients.com/public/webgradients_png/024%20Near%20Moon.png"
