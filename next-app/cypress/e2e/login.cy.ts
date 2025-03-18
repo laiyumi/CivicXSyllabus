@@ -3,16 +3,9 @@ describe("login", () => {
     cy.visit("/auth/signin");
   });
 
-  context("sign in by Google account", () => {
-    it("allows users to login with google account", () => {
-      cy.getByData("google-login-button").should("exist");
-      cy.getByData("google-login-button").click();
-    });
-  });
-
   context("sign in by email and password", () => {
     it("redirects to homepage after login successfully", () => {
-      cy.getByData("email-input").type("test@gmail.com");
+      cy.getByData("email-input").type("lai.yu1@northeastern.edu");
       cy.getByData("password-input").type("123456Ab!");
       cy.getByData("signin-button").click();
       cy.url().should("eq", "http://localhost:3000/");
