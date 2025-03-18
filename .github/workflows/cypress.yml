@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - testing # Only runs on the "testing" branch
+      - main
   pull_request:
     branches:
       - testing # Runs when a PR is made to "testing" branch
+      - main
 
 jobs:
   cypress-run:
@@ -45,6 +47,7 @@ jobs:
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: npm run dev &
 
       - name: Wait for server to be ready
@@ -65,3 +68,7 @@ jobs:
       - name: Notify failure
         if: failure()
         run: echo "Cypress tests failed. Check artifacts for details."
+
+      - name: Deploy to Vercel (Only on main)
+        if: github.ref == 'refs/heads/main'
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
