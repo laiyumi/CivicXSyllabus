@@ -4,7 +4,7 @@ import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { Resend } from "resend";
 import bcrypt from "bcrypt";
-import { EmailTemplate } from "@/app/components/EmailTemplate";
+import { RestPasswordEmailTemplate } from "@/app/components/RestPasswordEmailTemplate";
 
 export async function POST(request: NextRequest) {
   const { email, type } = await request.json();
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
         from: process.env.EMAIL_USER ?? "contact@civicxsyllabus.org",
         to: email,
         subject: "Civic X Syllabus Password Reset",
-        react: EmailTemplate({ resetToken: resetToken }),
+        react: RestPasswordEmailTemplate({ resetToken: resetToken }),
       });
 
       console.log("Resend API Response:", response);
