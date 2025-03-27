@@ -39,6 +39,8 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
   // handle if user uploads a new image
   const [newImageUrl, setnewImageUrl] = useState("");
 
+  const [message, setMessage] = useState("");
+
   // handle the new image url
   const handleImageUpload = (imageUrl: string) => {
     setValue("imageUrl", imageUrl);
@@ -119,9 +121,12 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
 
     try {
       setIsSubmitting(true);
-      await axios.put(`/api/resources/${resource?.id}`, data);
-      router.replace(`/admin/resources/${resource?.id}`);
-      setIsSubmitting(false);
+      const response = await axios.put(`/api/resources/${resource?.id}`, data);
+      if (response.status === 200) {
+        setMessage("Resource updated successfully");
+        router.replace(`/admin/resources/${resource?.id}`);
+        setIsSubmitting(false);
+      }
     } catch (error) {
       setError("An unexpected error occurred");
     }

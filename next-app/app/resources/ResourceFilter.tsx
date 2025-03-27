@@ -57,7 +57,7 @@ const ResourceFilter = () => {
   const [searchParams, setSearchParams] = useState({
     category: "",
     tag: "",
-    order: "",
+    // order: "",
     search: "",
   });
 
@@ -66,7 +66,7 @@ const ResourceFilter = () => {
     const newSearchParams = {
       category: selectedCategory,
       tag: selectedTag,
-      order: order,
+      // order: order,
       search: searchInput,
     };
 
@@ -85,6 +85,16 @@ const ResourceFilter = () => {
       .join("&");
 
     // navigate to the page with the search parameters
+    router.push(`/resources?${queryString}`);
+  };
+
+  const changeOrder = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOrder = e.target.value;
+
+    const currentParams = new URLSearchParams(window.location.search);
+    currentParams.set("order", selectedOrder);
+
+    const queryString = currentParams.toString();
     router.push(`/resources?${queryString}`);
   };
 
@@ -154,7 +164,8 @@ const ResourceFilter = () => {
         <select
           className="select select-bordered w-auto text-base-content "
           aria-label="Select an order"
-          onChange={(e) => setOrder(e.target.value)}
+          // onChange={(e) => setOrder(e.target.value)}
+          onChange={changeOrder}
           defaultValue={orders[0].value}
         >
           {orders.map((order) => (

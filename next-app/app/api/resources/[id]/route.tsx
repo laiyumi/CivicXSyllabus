@@ -13,9 +13,24 @@ export async function GET(
       published: true,
     },
     include: {
-      categories: true,
-      tags: true,
-      source: true,
+      categories: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      tags: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      source: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
   if (!resource)

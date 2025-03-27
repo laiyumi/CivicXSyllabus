@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow requests from internal sources (frontend)
+  // Allow requests from internal sources
   if (isInternal) {
     return NextResponse.next();
   }
@@ -30,7 +30,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  // Restrict access to "/admin/:path*" (only allow admins)
+  // Only allow admins to access admin pages
   if (
     nextUrl.pathname.startsWith("/admin") &&
     (!token || token.role !== "ADMIN")
