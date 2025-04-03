@@ -38,29 +38,31 @@ export default function MarqueeDemo() {
   }, [selectedCategory, pathname, router]);
 
   return (
-    <div className="relative flex h-[200px] w-full flex-col items-center justify-center ">
-      <Marquee pauseOnHover className="[--duration:80s]">
-        {firstRow.map((category) => (
-          <ReviewCard
-            key={category.name}
-            {...category}
-            onClick={() =>
-              setSelectedCategory(encodeURIComponent(category.name))
-            }
-          />
-        ))}
-      </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:80s]">
-        {secondRow.map((category) => (
-          <ReviewCard
-            key={category.name}
-            {...category}
-            onClick={() =>
-              setSelectedCategory(encodeURIComponent(category.name))
-            }
-          />
-        ))}
-      </Marquee>
+    <div className="relative flex sm:h-[200px] xs:h-[150px] w-full flex-col items-center justify-center overflow-hidden">
+      <div className="w-full max-w-screen-2xl mx-auto">
+        <Marquee pauseOnHover className="[--duration:80s]">
+          {firstRow.map((category) => (
+            <ReviewCard
+              key={category.name}
+              {...category}
+              onClick={() =>
+                setSelectedCategory(encodeURIComponent(category.name))
+              }
+            />
+          ))}
+        </Marquee>
+        <Marquee reverse pauseOnHover className="[--duration:80s]">
+          {secondRow.map((category) => (
+            <ReviewCard
+              key={category.name}
+              {...category}
+              onClick={() =>
+                setSelectedCategory(encodeURIComponent(category.name))
+              }
+            />
+          ))}
+        </Marquee>
+      </div>
     </div>
   );
 }
