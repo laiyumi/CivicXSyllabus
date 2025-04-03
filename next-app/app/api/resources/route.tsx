@@ -59,6 +59,7 @@ export async function POST(request: NextRequest) {
       excerpt: body.excerpt,
       content: body.content,
       link: body.link,
+      year: body.year,
       imageUrl: body.imageUrl,
       source: {
         connectOrCreate: {

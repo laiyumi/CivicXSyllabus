@@ -9,12 +9,12 @@ import ThemeLogo from "./components/ThemeLogo";
 const NavBar = () => {
   return (
     <>
-      <div className="navbar p-5 text-base-content bg-base-300">
+      <div className="navbar p-5 text-base-content bg-base-300 relative z-10">
         <div data-test="site-logo" className="navbar-start">
           <ThemeLogo />
         </div>
         {/* small screen */}
-        <div data-test="hamburger-menu" className="dropdown">
+        <div data-test="hamburger-menu" className="dropdown dropdown-end">
           <div
             tabIndex={0}
             role="button"
@@ -37,7 +37,7 @@ const NavBar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-300 text-base-content rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-base-300 text-base-content rounded-box z-20 mt-3 w-52 p-2 shadow"
           >
             <li>
               <Link href="/resources" data-test="resources-link">
@@ -79,6 +79,15 @@ const NavBar = () => {
                 </li>
               </ul>
             </li>
+            <li className="mt-2">
+              <Link
+                href="/add-a-resource"
+                data-test="add-a-resource-link-mobile"
+                className="btn btn-primary xs:btn-sm"
+              >
+                Add a Resource
+              </Link>
+            </li>
           </ul>
         </div>
         {/* large screen */}
@@ -93,7 +102,7 @@ const NavBar = () => {
           >
             Resources
           </Link>
-          <div className="dropdown">
+          <div className="dropdown dropdown-hover">
             <div
               data-test="how-to-use-link-large-screen"
               tabIndex={0}
@@ -104,7 +113,7 @@ const NavBar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="text-base-content dropdown-content menu bg-base-300 rounded-box z-[1] w-52 p-2 shadow"
+              className="text-base-content dropdown-content menu bg-base-300 rounded-box z-20 w-52 p-2 shadow"
             >
               <li>
                 <Link href="/build-my-syllabus">Use Cases</Link>
@@ -153,7 +162,7 @@ const NavBar = () => {
           <Link
             data-test="add-a-resource-link"
             href="/add-a-resource"
-            className="btn btn-primary mr-2 btn-outline md:btn-md xs:btn-sm "
+            className="btn btn-primary mr-2 btn-outline md:btn-md  md:flex hidden"
           >
             Add a Resource
           </Link>

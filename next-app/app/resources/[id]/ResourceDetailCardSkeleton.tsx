@@ -8,11 +8,11 @@ const ResourceDetailCardSkeleton = () => {
 
   return (
     <>
-      <div className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex flex-row">
+      <div className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex lg:flex-row sm:flex-col">
         {/* Left-side image skeleton */}
         <div className="lg:w-1/2 md:w-full">
           <Skeleton
-            className="object-cover w-full h-full bg-base-300"
+            className="object-cover w-full h-full bg-base-300 line-height-0"
             height="100%"
           />
         </div>

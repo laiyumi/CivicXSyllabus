@@ -74,6 +74,15 @@ const ResourceDetails = async ({ resourceId }: { resourceId: string }) => {
           </div>
         </div>
         <label className="form-control w-full flex gap-2">
+          <span className="text-m">Year</span>
+          <input
+            type="text"
+            value={resource.year}
+            className="input input-bordered w-full"
+            disabled
+          />
+        </label>
+        <label className="form-control w-full flex gap-2">
           <span className="text-m">Source</span>
           <input
             type="text"

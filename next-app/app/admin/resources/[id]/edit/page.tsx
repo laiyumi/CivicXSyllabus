@@ -4,6 +4,7 @@ import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
 import AdminDashboardNavBar from "@/app/admin/NavBar";
 import EditResourceForm from "../../components/EditResourceForm";
+import axios from "axios";
 
 interface Props {
   params: { id: string };

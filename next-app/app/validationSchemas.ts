@@ -3,6 +3,7 @@ import { z } from "zod";
 const createResourceSchema = z.object({
   title: z.string().min(1, "Title is required"),
   excerpt: z.string().min(1, "Excerpt is required"),
+  year: z.number().int().gte(1900).lte(2100).optional(),
   content: z.string().min(1, "Content is required"),
   link: z.string().url("Link must includes https://"),
   imageUrl: z.string().url("Link must includes https://"),

@@ -12,17 +12,15 @@ import {
   Text,
 } from "@react-email/components";
 
-interface EmailTemplateProps {
-  resetToken: string;
+interface Props {
+  username: string | null;
 }
 
-export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
-  resetToken,
-}) => (
+export const AccountDeletionEmailTemplate = ({ username }: Props) => (
   <Html>
     <Head />
     <Body style={main}>
-      <Preview>Password Reset Code for Civic X Syllabus</Preview>
+      <Preview>Your Civic X Syllabus Account Has Been Deleted</Preview>
       <Container style={container}>
         {/* Logo */}
         <Section style={logoSection}>
@@ -38,22 +36,27 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
 
         {/* Email Content */}
         <Section>
-          <Text style={text}>Hello,</Text>
+          {username ? (
+            <Text style={text}>Dear {username}</Text>
+          ) : (
+            <Text style={text}>Dear friend,</Text>
+          )}
           <Text style={text}>
-            A request was made to reset your password for Civic X Syllabus. Use
-            the code below to reset your password:
+            We wanted to let you know that your account with Civic X Syllabus
+            has been successfully deleted.
           </Text>
 
-          {/* Reset Code */}
-          <Text style={resetCode}>{resetToken}</Text>
-          <Text style={validityText}>(This code is valid for 5 minutes)</Text>
-
           <Text style={text}>
-            If you didn&apos;t request this, please ignore this email. Your
-            account is still secure.
+            Thank you for your support and involvement in our community. We
+            appreciate the time and energy you’ve contributed to the platform.
           </Text>
 
-          <Text style={footerText}>Thank you,</Text>
+          <Text style={text}>
+            If you have any questions or need further assistance, feel free to
+            reach out to us at any time.
+          </Text>
+
+          <Text style={footerText}>Wishing you all the best,</Text>
           <Text style={footerText}>Civic X Syllabus Team</Text>
         </Section>
       </Container>

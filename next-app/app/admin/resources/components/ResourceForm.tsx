@@ -28,6 +28,9 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
 
   const [uploadImageUrl, setUploadImageUrl] = useState("");
 
+  const [excerpt, setExcerpt] = useState("");
+  // const [truncatedText, setTruncatedText] = useState("");
+
   const [tags, setTags] = useState<Tag[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -64,6 +67,20 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
         : [...prevSelectedCategories, categoryName]
     );
     setValue("categories", selectedCategories);
+  };
+
+  // truncuate the excerpt to 30 words
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputText = e.target.value;
+    const words = inputText.trim().split(/\s+/);
+
+    let finalText = inputText;
+    if (words.length > 30) {
+      finalText = words.slice(0, 30).join(" ");
+    }
+
+    setExcerpt(finalText); // update textarea UI
+    setValue("excerpt", finalText); // update react-hook-form state
   };
 
   useEffect(() => {
@@ -144,7 +161,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <input
                   type="text"
                   defaultValue={resource?.title}
-                  placeholder="Type here"
+                  placeholder="Enter the title of the resource"
                   className="input input-bordered w-full"
                   {...register("title")}
                 />
@@ -154,7 +171,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <span className="text-m">Source *</span>
                 <input
                   type="text"
-                  placeholder="Type here"
+                  placeholder="What is the source of this resource? "
                   defaultValue={resource?.sourceId}
                   className="input input-bordered w-full"
                   {...register("source")}
@@ -162,12 +179,24 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                 <ErrorMessage>{errors.source?.message}</ErrorMessage>
               </label>
               <label className="form-control w-full flex gap-2">
+                <span className="text-m">Year</span>
+                <input
+                  type="text"
+                  placeholder="What year was this resource published/updated? "
+                  defaultValue={resource?.year}
+                  className="input input-bordered w-full"
+                  {...register("year")}
+                />
+                <ErrorMessage>{errors.year?.message}</ErrorMessage>
+              </label>
+              <label className="form-control w-full flex gap-2">
                 <span className="text-m">Excerpt *</span>
                 <textarea
                   className="textarea textarea-bordered h-24"
                   placeholder="Please limit to 30 words"
-                  defaultValue={resource?.excerpt}
+                  value={excerpt}
                   {...register("excerpt")}
+                  onChange={handleTextAreaChange}
                 ></textarea>
                 <ErrorMessage>{errors.excerpt?.message}</ErrorMessage>
               </label>

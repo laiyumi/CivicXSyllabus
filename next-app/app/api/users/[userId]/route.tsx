@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { userSchema } from "../schema";
 import prisma from "../../../../prisma/client";
+import { Resend } from "resend";
+import { AccountDeletionEmailTemplate } from "@/app/components/AccountDeletionEmailTemplate";
 
 // get a single user
 export async function GET(
@@ -85,14 +87,14 @@ export async function DELETE(
     where: { id: params.userId },
   });
 
+  console.log("Received user id:", params.userId);
+
   if (!user) {
     return NextResponse.json(
       { error: "user not found in database" },
       { status: 404 }
     );
   }
-
-  console.log("Received user id:", params.userId);
 
   try {
     // Step 1: Delete dependent relations first
@@ -106,6 +108,32 @@ export async function DELETE(
     console.log(
       `User ${params.userId} and all related data deleted successfully.`
     );
+
+    // Step 3: Send an email to inform the user that their account has been deleted
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    try {
+      const response = await resend.emails.send({
+        from: process.env.EMAIL_USER ?? "contact@civicxsyllabus.org",
+        to: user.email!,
+        subject: "Your Civic X Syllabus Account Has Been Deleted",
+        react: AccountDeletionEmailTemplate({
+          username: user.name,
+        }),
+      });
+
+      console.log("Resend API Response:", response);
+      return NextResponse.json({
+        message: "Account deletion email sent successfully",
+        status: 200,
+        response,
+      });
+    } catch (error) {
+      console.error("Resend API Error:", error);
+      return NextResponse.json(
+        { error: "Failed to send email" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       { message: "User deleted successfully" },
