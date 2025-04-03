@@ -43,8 +43,11 @@ const ToggleLikes = ({ resourceId }: { resourceId: string }) => {
   };
 
   return (
-    <div className="flex flex-start">
-      <div className="rating gap-1" onClick={handleToggleLike}>
+    <div className="flex flex-start items-center">
+      <div
+        className="rating rating-sm md:rating-md gap-1"
+        onClick={handleToggleLike}
+      >
         <input
           aria-label={hasLiked ? "Unlike this resource" : "Like this resource"}
           disabled={loading}

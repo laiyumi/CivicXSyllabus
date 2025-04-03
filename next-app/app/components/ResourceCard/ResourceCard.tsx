@@ -31,7 +31,7 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
           {resource.categories.map((category) => (
             <div
               key={category.name}
-              className="badge badge-secondary badge-sm md:*:badge-md"
+              className="badge badge-secondary badge-sm md:badge-md"
             >
               {category.name}
             </div>
@@ -43,7 +43,7 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
           {resource.tags.map((tag) => (
             <div
               key={tag.name}
-              className="badge badge-outline badge-sm md:*:badge-md"
+              className="badge badge-outline badge-sm md:badge-md"
             >
               {tag.name}
             </div>

@@ -94,8 +94,11 @@ const ToggleSave = ({
   };
 
   return (
-    <>
-      <div className="rating gap-1" onClick={handleToggleSave}>
+    <div className="flex flex-start items-center">
+      <div
+        className="rating rating-sm md:rating-md gap-1"
+        onClick={handleToggleSave}
+      >
         <input
           type="radio"
           name="rating-2"
@@ -165,7 +168,7 @@ const ToggleSave = ({
           </div>
         </div>
       </dialog>
-    </>
+    </div>
   );
 };
 
