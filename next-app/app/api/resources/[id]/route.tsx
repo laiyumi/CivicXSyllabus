@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import schema from "../../../validationSchemas";
+import createResourceSchema from "../../../validationSchemas";
 import prisma from "../../../../prisma/client";
 
 // get a single resource
@@ -50,7 +50,7 @@ export async function PUT(
   console.log("receiving resource body: ", body);
 
   // validate the request body
-  const validation = schema.safeParse(body);
+  const validation = createResourceSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
@@ -70,6 +70,7 @@ export async function PUT(
     data: {
       title: body.title,
       excerpt: body.excerpt,
+      year: Number(body.year),
       content: body.content,
       link: body.link,
       imageUrl: body.imageUrl,

@@ -7,7 +7,6 @@ import createResourceSchema from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Post, Tag } from "@prisma/client";
 import axios from "axios";
-import { get } from "http";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
@@ -31,9 +30,18 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
   } = useForm<NewResourceFormInputs>({
     resolver: zodResolver(createResourceSchema),
     defaultValues: {
+      title: resource.title,
+      source: resource.source.name,
+      year: resource.year,
+      excerpt: resource.excerpt,
+      link: resource.link,
+      content: resource.content,
       imageUrl: resource.imageUrl,
+      tags: resource.tags.map((tag) => tag.id),
+      categories: resource.categories.map((cat) => cat.id),
     },
   });
+
   const router = useRouter();
 
   // handle if user uploads a new image
@@ -48,20 +56,25 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
     console.log("replace image url: ", newImageUrl);
   };
 
-  const [tags, setTags] = useState<Tag[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  // sort tags and categories
-  tags.sort((a, b) => a.name.localeCompare(b.name));
-  categories.sort((a, b) => a.name.localeCompare(b.name));
-
   // get the resource's tags id
   const resourceTags = resource.tags.map((tag) => tag.id);
   const resourceCategories = resource.categories.map((category) => category.id);
 
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>(resourceTags);
   const [selectedCategories, setSelectedCategories] =
     useState<string[]>(resourceCategories);
+
+  // sort tags and categories
+  useEffect(() => {
+    if (tags.length > 0) {
+      tags.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    if (categories.length > 0) {
+      categories.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  }, [tags, categories]);
 
   const handleTagChange = (tagId: string) => {
     setSelectedTags((prevSelectedTags) => {
@@ -69,6 +82,7 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
         ? prevSelectedTags.filter((id) => id !== tagId)
         : [...prevSelectedTags, tagId];
       setValue("tags", updatedTags);
+      setSelectedTags(updatedTags);
       console.log("after updating tags: ", updatedTags);
 
       return updatedTags;
@@ -82,6 +96,7 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
         : [...prevSelectedCategories, categoryId];
 
       setValue("categories", updatedCategories);
+      setSelectedCategories(updatedCategories);
       console.log("after updating categories: ", updatedCategories);
 
       return updatedCategories;
@@ -94,41 +109,61 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
   // get all tags and categories from the db
   useEffect(() => {
     const fetchTags = async () => {
-      const response = await axios.get("/api/tags");
-      const tags = await response.data;
-      setTags(tags);
+      try {
+        const response = await axios.get("/api/tags");
+        const tags = await response.data;
+        setTags(tags);
+      } catch (error) {
+        console.log("Error fetching tags: ", error);
+        setError("Failed to fetch tags");
+      }
     };
 
     const fetchCategories = async () => {
-      const response = await axios.get("/api/categories");
-      const categories = await response.data;
-      setCategories(categories);
+      try {
+        const response = await axios.get("/api/categories");
+        const categories = await response.data;
+        setCategories(categories);
+      } catch (error) {
+        console.log("Error fetching categories: ", error);
+        setError("Failed to fetch categories");
+      }
     };
 
     fetchTags();
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    console.log("form errors:", errors);
+  }, [errors]);
+
   const onSubmit = handleSubmit(async (data) => {
-    console.log("Form submitted");
-
-    data.imageUrl = getValues("imageUrl");
-    data.tags = getValues("tags");
-    data.categories = getValues("categories");
-
-    // for testing purposes
-    console.log("sending data", data);
+    console.log("Update resource with data:", data);
+    setIsSubmitting(true);
+    setError("");
 
     try {
-      setIsSubmitting(true);
+      {
+        // get values from the form state
+        data.imageUrl = getValues("imageUrl");
+        data.tags = getValues("tags");
+        data.categories = getValues("categories");
+        data.year = Number(data.year);
+      }
+
+      console.log("sending data", data);
+
       const response = await axios.put(`/api/resources/${resource?.id}`, data);
       if (response.status === 200) {
         setMessage("Resource updated successfully");
         router.replace(`/admin/resources/${resource?.id}`);
-        setIsSubmitting(false);
       }
-    } catch (error) {
-      setError("An unexpected error occurred");
+    } catch (error: any) {
+      console.error("Error updating resource:", error);
+      setError(error.response?.data?.error || "An unexpected error occurred");
+    } finally {
+      setIsSubmitting(false);
     }
   });
 
@@ -153,15 +188,14 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
         </div>
       )}
 
-      <form>
+      <form onSubmit={onSubmit}>
         <div className="flex flex-col justify-center pb-12">
           <div className="flex justify-between">
             <h1 className="text-2xl font-semibold leading-10 text-base-content pb-8">
               Editing Resource
             </h1>
             <button
-              type="button"
-              onClick={onSubmit}
+              type="submit"
               disabled={isSubmitting}
               className="btn btn-primary "
             >
@@ -193,6 +227,17 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
                   {...register("source")}
                 />
                 <ErrorMessage>{errors.source?.message}</ErrorMessage>
+              </label>
+              <label className="form-control w-full flex gap-2">
+                <span className="text-m">Year</span>
+                <input
+                  type="number"
+                  placeholder="What year was this resource published/updated? "
+                  defaultValue={resource?.year}
+                  className="input input-bordered w-full"
+                  {...register("year", { valueAsNumber: true })}
+                />
+                <ErrorMessage>{errors.year?.message}</ErrorMessage>
               </label>
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Excerpt *</span>
