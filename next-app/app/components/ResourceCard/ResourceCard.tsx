@@ -19,7 +19,7 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
         hover:-translate-y-2 transition ease-in-out delay-100 duration-300 
         motion-reduce:transition-none motion-reduce:hover:transform-none"
     >
-      <figure className="w-full h-[300px] relative md:h-[250px]">
+      <figure className="w-full h-[300px] relative md:h-[250px] xs: h-[200px]">
         <img
           className="absolute inset-0 w-full h-full object-cover"
           src={resource.imageUrl}
@@ -29,7 +29,10 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
       <div className="card-body">
         <div className="flex flex-wrap gap-3">
           {resource.categories.map((category) => (
-            <div key={category.name} className="badge badge-secondary">
+            <div
+              key={category.name}
+              className="badge badge-secondary badge-sm md:*:badge-md"
+            >
               {category.name}
             </div>
           ))}
@@ -38,7 +41,10 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
         <p className="text-sm">{resource.excerpt}</p>
         <div className="flex flex-wrap gap-3 mt-1">
           {resource.tags.map((tag) => (
-            <div key={tag.name} className="badge badge-outline">
+            <div
+              key={tag.name}
+              className="badge badge-outline badge-sm md:*:badge-md"
+            >
               {tag.name}
             </div>
           ))}
@@ -54,7 +60,7 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="size-6 xs:size-4"
             >
               <path
                 strokeLinecap="round"

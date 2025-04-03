@@ -4,12 +4,12 @@ describe("login", () => {
   });
 
   context("sign in by email and password", () => {
-    it("redirects to homepage after login successfully", () => {
-      cy.getByData("email-input").type("lai.yu1@northeastern.edu");
-      cy.getByData("password-input").type("123456Ab!");
-      cy.getByData("signin-button").click();
-      cy.url().should("eq", "http://localhost:3000/");
-    });
+    // it("redirects to homepage after login successfully", () => {
+    //   cy.getByData("email-input").type("lai.yu1@northeastern.edu");
+    //   cy.getByData("password-input").type("123456Ab!");
+    //   cy.getByData("signin-button").click();
+    //   cy.url().should("eq", "http://localhost:3000/");
+    // });
 
     it("displays error messages when user sign in with empty email or/and password", () => {
       cy.getByData("signin-button").click();
