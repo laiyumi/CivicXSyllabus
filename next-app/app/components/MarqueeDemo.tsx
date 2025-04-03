@@ -39,7 +39,7 @@ export default function MarqueeDemo() {
 
   return (
     <div className="relative flex sm:h-[200px] xs:h-[150px] w-full flex-col items-center justify-center overflow-hidden">
-      <div className="w-full max-w-screen-2xl mx-auto">
+      <div className="w-full max-w-screen-3xl mx-auto">
         <Marquee pauseOnHover className="[--duration:80s]">
           {firstRow.map((category) => (
             <ReviewCard

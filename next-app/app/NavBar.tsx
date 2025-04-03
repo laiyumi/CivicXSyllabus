@@ -83,7 +83,7 @@ const NavBar = () => {
               <Link
                 href="/add-a-resource"
                 data-test="add-a-resource-link-mobile"
-                className="bg-primary text-primary-content rounded-lg font-medium"
+                className="btn btn-primary xs:btn-sm"
               >
                 Add a Resource
               </Link>
@@ -162,7 +162,7 @@ const NavBar = () => {
           <Link
             data-test="add-a-resource-link"
             href="/add-a-resource"
-            className="btn btn-primary mr-2 btn-outline md:btn-md xs:btn-sm md:flex hidden"
+            className="btn btn-primary mr-2 btn-outline md:btn-md  md:flex hidden"
           >
             Add a Resource
           </Link>
