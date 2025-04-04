@@ -2,11 +2,10 @@
 
 import { DeleteAccountButton } from "@/app/components/DeleteAccountButton";
 import ErrorMessage from "@/app/components/ErrorMessage";
-import FadeOutMessage from "@/app/components/FadeOutMessage";
+import { useNotifications } from "../../contexts/NotificationContext";
 import { ResetPasswordSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { set } from "date-fns";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,6 +24,8 @@ const UserProfilePage = () => {
     resolver: zodResolver(ResetPasswordSchema),
     mode: "onChange",
   });
+
+  const { showNotification, clearAllNotifications } = useNotifications();
 
   const { data: session, status, update } = useSession();
 
@@ -146,6 +147,25 @@ const UserProfilePage = () => {
   const handleDeleteAccount = async () => {
     console.log("Deleting account...");
   };
+
+  // Show notifications when error or message changes
+  useEffect(() => {
+    if (error) {
+      clearAllNotifications();
+      showNotification(error, "error");
+      // Clear the error state after showing notification
+      setTimeout(() => setError(""), 3000);
+    }
+  }, [error, showNotification, clearAllNotifications]);
+
+  useEffect(() => {
+    if (message) {
+      clearAllNotifications();
+      showNotification(message, "success");
+      // Clear the message state after showing notification
+      setTimeout(() => setMessage(""), 3000);
+    }
+  }, [message, showNotification, clearAllNotifications]);
 
   return (
     <>
@@ -303,7 +323,7 @@ const UserProfilePage = () => {
                 </form>
               </div>
             </div>
-            <div>
+            {/* <div>
               {error && (
                 <FadeOutMessage
                   key={key}
@@ -320,7 +340,7 @@ const UserProfilePage = () => {
                   onAnimationEnd={() => setMessage("")}
                 />
               )}
-            </div>
+            </div> */}
             <DeleteAccountButton id={userId} />
           </>
         ) : (
