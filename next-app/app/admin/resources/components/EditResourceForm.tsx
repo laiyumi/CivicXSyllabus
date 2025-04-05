@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useNotifications } from "../../../contexts/NotificationContext";
 
 interface Resource extends Post {
   categories: { id: string; name: string }[];
@@ -44,10 +45,13 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
 
   const router = useRouter();
 
+  const { showNotification, clearAllNotifications } = useNotifications();
+
   // handle if user uploads a new image
   const [newImageUrl, setnewImageUrl] = useState("");
-
+  const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // handle the new image url
   const handleImageUpload = (imageUrl: string) => {
@@ -103,9 +107,6 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
     });
   };
 
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   // get all tags and categories from the db
   useEffect(() => {
     const fetchTags = async () => {
@@ -115,7 +116,6 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
         setTags(tags);
       } catch (error) {
         console.log("Error fetching tags: ", error);
-        setError("Failed to fetch tags");
       }
     };
 
@@ -126,7 +126,6 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
         setCategories(categories);
       } catch (error) {
         console.log("Error fetching categories: ", error);
-        setError("Failed to fetch categories");
       }
     };
 
@@ -162,10 +161,30 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
     } catch (error: any) {
       console.error("Error updating resource:", error);
       setError(error.response?.data?.error || "An unexpected error occurred");
+      setMessage("");
     } finally {
       setIsSubmitting(false);
     }
   });
+
+  // Show notifications when error or message changes
+  useEffect(() => {
+    if (error) {
+      clearAllNotifications();
+      showNotification(error, "error");
+      // Clear the error state after showing notification
+      setTimeout(() => setError(""), 3000);
+    }
+  }, [error, showNotification, clearAllNotifications]);
+
+  useEffect(() => {
+    if (message) {
+      clearAllNotifications();
+      showNotification(message, "success");
+      // Clear the message state after showing notification
+      setTimeout(() => setMessage(""), 3000);
+    }
+  }, [message, showNotification, clearAllNotifications]);
 
   return (
     <div>

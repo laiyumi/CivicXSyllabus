@@ -116,7 +116,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
           {/* Resources card */}
           <div
             key={resource?.id}
-            className="card lg:card-side bg-base-100 shadow-xl h-[500px] flex lg:flex-row sm:flex-col"
+            className="card lg:card-side bg-base-100 shadow-xl h-[500px] xs:h-auto flex lg:flex-row sm:flex-col"
           >
             <figure className="lg:w-1/2 sm:w-full">
               <img
@@ -128,28 +128,36 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
             <div className="card-body flex-auto justify-around">
               <div className="flex gap-3 flex-wrap">
                 {resource?.categories.map((category) => (
-                  <div key={category.name} className="badge badge-secondary">
+                  <div
+                    key={category.name}
+                    className="badge badge-secondary badge-sm md:badge-md"
+                  >
                     {category.name}
                   </div>
                 ))}
               </div>
-              <h2 className="card-title text-3xl">{resource?.title}</h2>
+              <h2 className="card-title md:text-3xl text-md">
+                {resource?.title}
+              </h2>
               <div className="card-actions justify-start flex-wrap">
                 {resource?.tags.map((tag) => (
-                  <div key={tag.name} className="badge badge-outline">
+                  <div
+                    key={tag.name}
+                    className="badge badge-outline badge-sm md:badge-md"
+                  >
                     {tag.name}
                   </div>
                 ))}
               </div>
-              <div>
+              <div className="text-sm md:text-md">
                 <span>Provided by | </span> {resource?.source.name}
               </div>
-              <div>
+              <div className="text-sm md:text-md">
                 <span>Last Updated | </span> {resource?.year}
               </div>
-              <div className="card-actions justify-between">
+              <div className="card-actions justify-between items-center">
                 {session ? (
-                  <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200	p-3">
+                  <div className="flex justify-center align-middle gap-2 rounded-md border border-gray-200 md:p-3 p-2">
                     <ToggleLikes resourceId={id} />
                     <div className="text-gray-500">|</div>
                     <ToggleSave
@@ -165,7 +173,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
                 )}
                 <Link
                   href={resource?.link ?? "/resources"}
-                  className="btn btn-primary"
+                  className="btn btn-primary btn-sm md:btn-md"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -191,7 +199,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
             {/* Related Resource */}
             <div className="card rounded-box grid place-items-center">
               <h3 className="text-xl pb-4">Related Resources</h3>
-              <div className="grid grid-cols-12 gap-8 justify-around ">
+              <div className="sm:grid sm:grid-cols-12 sm:gap-8 justify-around xs:flex xs:flex-col xs:gap-4">
                 {relatedResources?.map((relatedResource) => (
                   <RelatedResourceCard
                     key={relatedResource.id}

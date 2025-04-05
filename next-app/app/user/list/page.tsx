@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import axios, { all } from "axios";
 import { Prisma } from "@prisma/client";
 import Spinner from "@/app/components/Spinner";
+import { useNotifications } from "../../contexts/NotificationContext";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -28,18 +29,17 @@ type List = Prisma.ListGetPayload<{
 }>;
 
 const UserSavedResourcesPage = () => {
+  const { showNotification, clearAllNotifications } = useNotifications();
+
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const [isCreated, setIsCreated] = useState<boolean>(false);
-  const [showAlert, setShowAlert] = useState(false);
 
   const [list, setList] = useState<List>();
   const [selectedListId, setSelectedListId] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
-
-  const [allLists, setAllLists] = useState<List[]>([]);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const { data: session, status } = useSession();
 
@@ -83,7 +83,7 @@ const UserSavedResourcesPage = () => {
       }
     };
     fetchPosts();
-  }, [session?.user.id, selectedListId, refreshTrigger]);
+  }, [session?.user.id, selectedListId]);
 
   const handleCreateList = async (listName: string) => {
     if (!session?.user.id) {
@@ -106,31 +106,17 @@ const UserSavedResourcesPage = () => {
           : null
       );
 
-      setIsCreated(true);
-    } catch (error) {
+      setMessage("List created successfully!");
+      setError("");
+    } catch (error: any) {
       console.error("Error creating list:", error);
-      alert("Failed to create list. Please try again.");
+      setError(
+        error.response?.data?.error ||
+          "Failed to create list. Please try again."
+      );
+      setMessage("");
     }
   };
-
-  useEffect(() => {
-    if (isCreated) {
-      setShowAlert(true); // Show the alert immediately
-
-      const fadeOutTimer = setTimeout(() => {
-        setShowAlert(false); // After 2 seconds, fade out
-      }, 3000);
-
-      const removeAlertTimer = setTimeout(() => {
-        setIsCreated(false); // Reset after animation completes
-      }, 3000);
-
-      return () => {
-        clearTimeout(fadeOutTimer);
-        clearTimeout(removeAlertTimer);
-      };
-    }
-  }, [isCreated]);
 
   const handleRemove = async (postId: string, listId: string) => {
     try {
@@ -151,6 +137,25 @@ const UserSavedResourcesPage = () => {
     }
   };
 
+  // Show notifications when error or message changes
+  useEffect(() => {
+    if (error) {
+      clearAllNotifications();
+      showNotification(error, "error");
+      // Clear the error state after showing notification
+      setTimeout(() => setError(""), 3000);
+    }
+  }, [error, showNotification, clearAllNotifications]);
+
+  useEffect(() => {
+    if (message) {
+      clearAllNotifications();
+      showNotification(message, "success");
+      // Clear the message state after showing notification
+      setTimeout(() => setMessage(""), 3000);
+    }
+  }, [message, showNotification, clearAllNotifications]);
+
   // While loading
   if (loading) {
     return (
@@ -169,27 +174,6 @@ const UserSavedResourcesPage = () => {
     <>
       <div className="flex flex-col gap-8 items-center">
         <h1 className="text-2xl text-center font-normal">My List</h1>
-        <div
-          role="alert"
-          className={`alert alert-success absolute w-1/2 top-20 transition-opacity duration-500 ${
-            showAlert ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span>List created successfully!</span>
-        </div>
         <div className="flex justify-center gap-8 w-full items-center ">
           <select
             className="select select-primary w-full max-w-xs"

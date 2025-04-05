@@ -5,6 +5,8 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 import AuthProvider from "./auth/Provider";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { NotificationProvider } from "./contexts/NotificationContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,16 +24,19 @@ export default function RootLayout({
     <html lang="en" data-theme="winter">
       <body className={inter.className}>
         <AuthProvider>
-          {/* Default Layout */}
-          <div className="flex flex-col min-h-screen">
-            <NavBar />
-            <main className="p-0 flex-1 text-base-content bg-base-300">
-              {children}
-            </main>
-            <Analytics />
-            <Footer />
-          </div>
+          <NotificationProvider>
+            {/* Default Layout */}
+            <div className="flex flex-col min-h-screen">
+              <NavBar />
+              <main className="p-0 flex-1 text-base-content bg-base-300">
+                {children}
+              </main>
+              <Analytics />
+              <Footer />
+            </div>
+          </NotificationProvider>
         </AuthProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

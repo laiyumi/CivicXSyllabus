@@ -22,7 +22,10 @@ const RelatedResourceCard = ({ resource }: { resource: PostWithRelations }) => {
       <div className="card-body ">
         <div className="flex flex-wrap gap-3">
           {resource.categories.map((category) => (
-            <div key={category.name} className="badge badge-secondary">
+            <div
+              key={category.name}
+              className="badge badge-secondary badge-sm md:badge-md"
+            >
               {category.name}
             </div>
           ))}
@@ -31,7 +34,10 @@ const RelatedResourceCard = ({ resource }: { resource: PostWithRelations }) => {
         <p className="text-sm">{resource.excerpt}</p>
         <div className="flex gap-3 mt-1">
           {resource.tags.map((tag) => (
-            <div key={tag.name} className="badge badge-outline">
+            <div
+              key={tag.name}
+              className="badge badge-outline badge-sm md:badge-md"
+            >
               {tag.name}
             </div>
           ))}

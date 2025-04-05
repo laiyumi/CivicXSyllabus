@@ -140,7 +140,7 @@ const ResourcesGrid = () => {
         </p>
       ) : (
         <div>
-          <div className="grid grid-cols-12 gap-10 xs:flex xs:flex-col xs:gap-5">
+          <div className="md:grid md:grid-cols-12 md:gap-10 xs:flex xs:flex-col xs:gap-5">
             {paginatedResources.map((resource) => (
               <ResourceCard key={resource.id} resource={resource} />
             ))}

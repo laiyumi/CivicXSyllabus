@@ -20,15 +20,31 @@ const FadeOutMessage: React.FC<FadeOutMessageProps> = ({
     setIsVisible(true);
   }, [message]);
 
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     setIsVisible(false);
+  //   }, duration);
+
+  //   return () => {
+  //     clearTimeout(timeoutId);
+  //   };
+  // }, [message, duration]);
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsVisible(false);
+      // Call onAnimationEnd after the fade out animation duration (500ms)
+      setTimeout(() => {
+        if (onAnimationEnd) {
+          onAnimationEnd();
+        }
+      }, 500);
     }, duration);
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [message, duration]);
+  }, [message, duration, onAnimationEnd]);
 
   const handleAnimationEnd = () => {
     if (onAnimationEnd) {
