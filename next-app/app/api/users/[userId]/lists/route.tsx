@@ -18,7 +18,7 @@ export async function GET(
   });
 
   if (!lists)
-    return NextResponse.json({ error: "lists not found" }, { status: 404 });
+    return NextResponse.json({ error: "Lists not found" }, { status: 404 });
 
   return NextResponse.json(lists);
 }
@@ -54,11 +54,14 @@ export async function POST(
 
   // check if the list name already exists
   const existingList = await prisma.list.findFirst({
-    where: { name: body.name },
+    where: {
+      name: body.name,
+      userId: params.userId,
+    },
   });
   if (existingList)
     return NextResponse.json(
-      { error: "list with this name already exists" },
+      { error: "List with this name already exists" },
       { status: 400 }
     );
 
