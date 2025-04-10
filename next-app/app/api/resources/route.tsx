@@ -22,7 +22,14 @@ export async function GET(request: NextRequest) {
         source: true,
       },
     });
-    return NextResponse.json(posts);
+    // return NextResponse.json(posts);
+    return new NextResponse(JSON.stringify(posts), {
+      status: 200,
+      headers: {
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+        "Content-Type": "application/json",
+      },
+    });
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch resources" },

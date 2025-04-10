@@ -16,7 +16,14 @@ export async function GET(request: NextRequest) {
       },
     },
   });
-  return NextResponse.json(users);
+  // return NextResponse.json(users);
+  return new NextResponse(JSON.stringify(users), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // Create a new user

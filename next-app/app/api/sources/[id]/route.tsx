@@ -14,7 +14,14 @@ export async function GET(
   });
   if (!source)
     return NextResponse.json({ error: "source not found" }, { status: 404 });
-  return NextResponse.json(source);
+  // return NextResponse.json(source);
+  return new NextResponse(JSON.stringify(source), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // update a source

@@ -5,7 +5,14 @@ import prisma from "../../../prisma/client";
 // get all sources
 export async function GET(request: NextRequest) {
   const sources = await prisma.source.findMany();
-  return NextResponse.json(sources);
+  // return NextResponse.json(sources);
+  return new NextResponse(JSON.stringify(sources), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // create a new source

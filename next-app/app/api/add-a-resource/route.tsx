@@ -33,7 +33,15 @@ export async function GET(request: NextRequest) {
         fetchNextPage();
       });
 
-    return NextResponse.json(records);
+    // return NextResponse.json(records);
+    // Add 1 hour cache to the response
+    return new NextResponse(JSON.stringify(records), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      },
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

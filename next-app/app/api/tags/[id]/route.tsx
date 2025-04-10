@@ -15,7 +15,14 @@ export async function GET(
 
   if (!tag)
     return NextResponse.json({ error: "tag not found" }, { status: 404 });
-  return NextResponse.json(tag);
+  // return NextResponse.json(tag);
+  return new NextResponse(JSON.stringify(tag), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // update a tag

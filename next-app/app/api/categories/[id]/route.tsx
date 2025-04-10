@@ -14,7 +14,14 @@ export async function GET(
   });
   if (!category)
     return NextResponse.json({ error: "category not found" }, { status: 404 });
-  return NextResponse.json(category);
+  // return NextResponse.json(category);
+  return new NextResponse(JSON.stringify(category), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // update a category

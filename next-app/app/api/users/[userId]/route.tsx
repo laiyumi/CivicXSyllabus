@@ -30,7 +30,14 @@ export async function GET(
     user
   );
 
-  return NextResponse.json(user, { status: 200 });
+  // return NextResponse.json(user, { status: 200 });
+  return new NextResponse(JSON.stringify(user), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // update username

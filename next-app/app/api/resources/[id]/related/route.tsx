@@ -96,5 +96,12 @@ export async function GET(
   const topRelatedPostsScores = topRelatedPosts.map((post) => post.score);
   console.log("topRelatedPostsScores", topRelatedPostsScores);
 
-  return NextResponse.json(topRelatedPosts, { status: 200 });
+  // return NextResponse.json(topRelatedPosts, { status: 200 });
+  return new NextResponse(JSON.stringify(topRelatedPosts), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }

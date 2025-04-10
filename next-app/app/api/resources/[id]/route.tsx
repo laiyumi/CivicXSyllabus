@@ -35,7 +35,14 @@ export async function GET(
   });
   if (!resource)
     return NextResponse.json({ error: "resource not found" }, { status: 404 });
-  return NextResponse.json(resource);
+  // return NextResponse.json(resource);
+  return new NextResponse(JSON.stringify(resource), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // update a single resource
