@@ -20,7 +20,14 @@ export async function GET(
   if (!lists)
     return NextResponse.json({ error: "Lists not found" }, { status: 404 });
 
-  return NextResponse.json(lists);
+  // return NextResponse.json(lists);
+  return new NextResponse(JSON.stringify(lists), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // create a new list for a user

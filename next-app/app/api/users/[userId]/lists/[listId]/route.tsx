@@ -22,7 +22,14 @@ export async function GET(
   if (!posts)
     return NextResponse.json({ error: "list not found" }, { status: 404 });
 
-  return NextResponse.json(posts);
+  // return NextResponse.json(posts);
+  return new NextResponse(JSON.stringify(posts), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // add a post to the list

@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "migrate:test": "dotenv -e .env.test -- npx prisma migrate deploy",
+    "seed:test": "dotenv -e .env.test -- ts-node prisma/seed.ts",
+    "dev:test": "dotenv -e .env.test -- next dev"
   },
   "dependencies": {
     "@cypress/react": "^9.0.0",
@@ -18,6 +21,8 @@
     "@radix-ui/react-icons": "^1.3.1",
     "@react-email/components": "^0.0.33",
     "@react-email/render": "^1.0.5",
+    "@tanstack/react-query": "^5.72.2",
+    "@tanstack/react-query-devtools": "^5.72.2",
     "@types/cypress": "^0.1.6",
     "@types/node": "22.7.5",
     "@types/nodemailer": "^6.4.17",
@@ -49,6 +54,7 @@
     "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.46.1",
     "react-loading-skeleton": "^3.3.1",
+    "react-query": "^3.39.3",
     "resend": "^4.1.2",
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "3.4.13",
@@ -66,6 +72,7 @@
     "@types/react-google-recaptcha": "^2.1.9",
     "cypress": "^14.2.0",
     "daisyui": "^4.12.13",
+    "dotenv-cli": "^8.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-mock-axios": "^4.8.0",
     "ts-node": "^10.9.2"

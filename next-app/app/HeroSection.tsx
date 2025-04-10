@@ -6,7 +6,7 @@ import MarqueeDemo from "./components/MarqueeDemo";
 const HeroSection = () => {
   return (
     <div
-      className="relative"
+      className="relative [min-height:75dvh]"
       style={{
         backgroundImage: "url(/hannah-busing-Zyx1bK9mqmA-unsplash.jpg)",
         backgroundSize: "cover",

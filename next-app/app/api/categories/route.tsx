@@ -13,7 +13,14 @@ export async function GET(request: NextRequest) {
         posts: true,
       },
     });
-    return NextResponse.json(categories);
+    // return NextResponse.json(categories);
+    return new NextResponse(JSON.stringify(categories), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      },
+    });
   } catch (error) {
     console.error("Failed to fetch categories:", error);
     return NextResponse.json(

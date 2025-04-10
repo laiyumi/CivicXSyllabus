@@ -12,7 +12,14 @@ export async function GET(request: NextRequest) {
       posts: true,
     },
   });
-  return NextResponse.json(tags);
+  // return NextResponse.json(tags);
+  return new NextResponse(JSON.stringify(tags), {
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 // create a new tag
