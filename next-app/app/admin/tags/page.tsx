@@ -3,36 +3,37 @@ import Badge from "@/app/components/Badge";
 import { Tag, Post } from "@prisma/client";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useTags } from "@/app/hooks/useTags";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Spinner from "@/app/components/Spinner";
 
 interface TagWithPosts extends Tag {
   posts: Post[];
 }
 
 const AdminTagsPage = () => {
-  const [tags, setTags] = useState<TagWithPosts[]>([]);
-  const [error, setError] = useState(null);
+  const queryClient = useQueryClient();
+  const { data: tags = [], isLoading, error, refetch } = useTags();
   const [newTag, setNewTag] = useState("");
 
-  useEffect(() => {
-    const fetchTags = async () => {
-      const response = await axios.get("/api/tags");
-      console.log("fetching the tags data:" + response.data);
-      setTags(response.data);
-    };
-    fetchTags();
-  }, []);
-
   const handleAdd = async () => {
-    const response = await axios.post("/api/tags", {
+    // Bypass the CDN cache
+    const response = await axios.post(`/api/tags?ts=${Date.now()}`, {
       name: newTag,
     });
-    setTags([...tags, response.data]);
     setNewTag("");
+    refetch();
   };
 
-  const handleDelete = (id: string) => {
-    setTags(tags.filter((tag) => tag.id !== id));
-  };
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await axios.delete(`/api/tags/${id}`);
+    },
+    onSuccess: () => {
+      // Force refetch (bypasses cache)
+      queryClient.refetchQueries({ queryKey: ["tags"] });
+    },
+  });
 
   return (
     <div className="flex">
@@ -50,18 +51,31 @@ const AdminTagsPage = () => {
             Add
           </button>
         </div>
-        <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {tags.map((tag: TagWithPosts) => (
-            <Badge
-              type="tags"
-              name={tag.name}
-              key={tag.id}
-              postCount={tag.posts.length}
-              id={tag.id}
-              onDelete={handleDelete}
-            />
-          ))}
-        </div>
+        {isLoading ? (
+          <Spinner />
+        ) : error ? (
+          <p>Error: {error.message}</p>
+        ) : (
+          <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {tags.map((tag: TagWithPosts) => (
+              <Badge
+                type="tags"
+                name={tag.name}
+                key={tag.id}
+                postCount={tag.posts.length}
+                id={tag.id}
+                onDelete={(id, onComplete) => {
+                  deleteMutation.mutate(id, {
+                    onSuccess: () => {
+                      queryClient.refetchQueries({ queryKey: ["tags"] });
+                      onComplete();
+                    },
+                  });
+                }}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

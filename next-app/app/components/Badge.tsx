@@ -1,27 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 
 interface BadgeProps {
   name: string;
   postCount: number;
   id: string;
   type: "tags" | "categories";
-  onDelete: (id: string) => void;
+  onDelete: (id: string, onComplete: () => void) => void;
 }
 const Badge = ({ type, name, postCount, id, onDelete }: BadgeProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`/api/${type}/${id}`);
-      onDelete(id);
-      setIsDialogOpen(false);
-    } catch (error) {
-      console.error("Error deleting:", error);
-    }
-  };
 
   return (
     <div>
@@ -60,7 +49,12 @@ const Badge = ({ type, name, postCount, id, onDelete }: BadgeProps) => {
               Are you sure you want to delete this tag?
             </p>
             <div className="modal-action">
-              <button className="btn btn-error" onClick={handleDelete}>
+              <button
+                className="btn btn-error"
+                onClick={() => {
+                  onDelete(id, () => setIsDialogOpen(false));
+                }}
+              >
                 Yes, Delete
               </button>
               <button className="btn" onClick={() => setIsDialogOpen(false)}>
