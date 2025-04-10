@@ -18,7 +18,7 @@ const AdminTagsPage = () => {
 
   const handleAdd = async () => {
     // Bypass the CDN cache
-    const response = await axios.post(`/api/tags?ts=${Date.now()}`, {
+    const response = await axios.post("/api/tags?", {
       name: newTag,
     });
     setNewTag("");

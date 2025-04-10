@@ -34,13 +34,13 @@ export default function RootLayout({
           <AuthProvider>
             <NotificationProvider>
               {/* Default Layout */}
-              <div className="flex flex-col min-h-screen">
+              <div className="flex flex-col ">
                 <NavBar />
-                <main className="p-0 flex-1 text-base-content bg-base-300">
+                <main className="flex-grow text-base-content bg-base-300">
                   {children}
                 </main>
-                <Analytics />
                 <Footer />
+                <Analytics />
               </div>
             </NotificationProvider>
           </AuthProvider>

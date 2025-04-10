@@ -26,7 +26,7 @@ const ResourceFilter = () => {
       const categoryResponse = await axios.get("/api/categories");
       const categoriesObj = await categoryResponse.data;
       const categoriesData = [
-        { label: "All Categories" },
+        { label: "All Topics" },
         ...categoriesObj.map((category: Category) => ({
           label: category.name,
           value: category.name,
@@ -38,7 +38,7 @@ const ResourceFilter = () => {
       const tagResponse = await axios.get("/api/tags");
       const tagsObj = await tagResponse.data;
       const tagsData = [
-        { label: "All Tags" },
+        { label: "All Types" },
         ...tagsObj.map((tag: Tag) => ({
           label: tag.name,
           value: tag.name,
