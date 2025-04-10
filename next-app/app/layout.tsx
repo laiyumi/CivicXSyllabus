@@ -34,7 +34,7 @@ export default function RootLayout({
           <AuthProvider>
             <NotificationProvider>
               {/* Default Layout */}
-              <div className="flex flex-col ">
+              <div className="flex flex-col min-h-screen">
                 <NavBar />
                 <main className="flex-grow text-base-content bg-base-300">
                   {children}
