@@ -10,8 +10,10 @@ const ResourceFilter = () => {
 
   const [categories, setCategories] = useState<
     { label: string; value?: string }[]
-  >([]);
-  const [tags, setTags] = useState<{ label: string; value?: string }[]>([]);
+  >([{ label: "All Topics", value: "" }]);
+  const [tags, setTags] = useState<{ label: string; value?: string }[]>([
+    { label: "All Types", value: "" },
+  ]);
 
   const orders: { label: string; value: string }[] = [
     // { label: "Created Date", value: "createdAt" },
@@ -25,26 +27,24 @@ const ResourceFilter = () => {
     const fetchData = async () => {
       const categoryResponse = await axios.get("/api/categories");
       const categoriesObj = await categoryResponse.data;
-      const categoriesData = [
-        { label: "All Topics" },
+      setCategories((prev) => [
+        ...prev,
         ...categoriesObj.map((category: Category) => ({
           label: category.name,
           value: category.name,
         })),
-      ];
-      setCategories(categoriesData);
+      ]);
 
       // fetch all tags and map them to options
       const tagResponse = await axios.get("/api/tags");
       const tagsObj = await tagResponse.data;
-      const tagsData = [
-        { label: "All Types" },
+      setTags((prev) => [
+        ...prev,
         ...tagsObj.map((tag: Tag) => ({
           label: tag.name,
           value: tag.name,
         })),
-      ];
-      setTags(tagsData);
+      ]);
     };
     fetchData();
   }, []);
