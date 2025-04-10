@@ -98,6 +98,25 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  events: {
+    createUser: async ({ user }) => {
+      // Create a default list for the new user
+      try {
+        await prisma.list.create({
+          data: {
+            name: "Default",
+            userId: user.id,
+          },
+        });
+        console.log(`Created default list for user ${user.id}`);
+      } catch (error) {
+        console.error(
+          `Failed to create default list for user ${user.id}:`,
+          error
+        );
+      }
+    },
+  },
   pages: {
     signIn: "/auth/signin",
   },

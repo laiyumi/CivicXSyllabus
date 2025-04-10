@@ -18,7 +18,8 @@ export async function GET(request: NextRequest) {
   });
   return NextResponse.json(users);
 }
-// add a new user
+
+// Create a new user
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
@@ -35,15 +36,29 @@ export async function POST(request: NextRequest) {
     },
   });
   if (user)
-    return NextResponse.json({ error: "user already exists" }, { status: 400 });
+    return NextResponse.json({ error: "User already exists" }, { status: 400 });
 
-  // add the new user
-  const newUser = await prisma.user.create({
-    data: {
-      name: body.name,
-      email: body.email,
-      role: body.role,
-    },
+  // Create the user and default list in a transaction
+  const newUser = await prisma.$transaction(async (tx) => {
+    // Create the user
+    const user = await tx.user.create({
+      data: {
+        name: body.name,
+        email: body.email,
+        role: body.role,
+      },
+    });
+
+    // Create a default list for the user
+    await tx.list.create({
+      data: {
+        name: "Default",
+        userId: user.id,
+      },
+    });
+
+    return user;
   });
+
   return NextResponse.json(newUser, { status: 201 });
 }
