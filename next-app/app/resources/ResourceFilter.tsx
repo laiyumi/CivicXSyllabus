@@ -27,8 +27,8 @@ const ResourceFilter = () => {
     const fetchData = async () => {
       const categoryResponse = await axios.get("/api/categories");
       const categoriesObj = await categoryResponse.data;
-      setCategories((prev) => [
-        ...prev,
+      setCategories([
+        { label: "All Topics", value: "" },
         ...categoriesObj.map((category: Category) => ({
           label: category.name,
           value: category.name,
@@ -38,8 +38,8 @@ const ResourceFilter = () => {
       // fetch all tags and map them to options
       const tagResponse = await axios.get("/api/tags");
       const tagsObj = await tagResponse.data;
-      setTags((prev) => [
-        ...prev,
+      setTags([
+        { label: "All Types", value: "" },
         ...tagsObj.map((tag: Tag) => ({
           label: tag.name,
           value: tag.name,
@@ -62,30 +62,18 @@ const ResourceFilter = () => {
   });
 
   const onSearch = () => {
-    // update the search parameters
-    const newSearchParams = {
-      category: selectedCategory,
-      tag: selectedTag,
-      // order: order,
-      search: searchInput,
-    };
+    const searchParams = new URLSearchParams();
+    if (selectedCategory) {
+      searchParams.set("category", selectedCategory);
+    }
+    if (selectedTag) {
+      searchParams.set("tag", selectedTag);
+    }
+    if (searchInput) {
+      searchParams.set("search", searchInput);
+    }
 
-    // update the search parameters
-    setSearchParams(newSearchParams);
-
-    // update the search parameters in the URL
-    const queryString = Object.keys(newSearchParams)
-      .filter(
-        (key) => newSearchParams[key as keyof typeof newSearchParams] !== ""
-      )
-      .map(
-        (key) =>
-          `${key}=${newSearchParams[key as keyof typeof newSearchParams]}`
-      )
-      .join("&");
-
-    // navigate to the page with the search parameters
-    router.push(`/resources?${queryString}`);
+    router.push(`/resources?${searchParams.toString()}`);
   };
 
   const changeOrder = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -96,6 +84,26 @@ const ResourceFilter = () => {
 
     const queryString = currentParams.toString();
     router.push(`/resources?${queryString}`);
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = encodeURIComponent(e.target.value);
+    setSelectedCategory(value);
+    const searchParams = new URLSearchParams();
+    if (value) searchParams.set("category", value);
+    if (selectedTag) searchParams.set("tag", selectedTag);
+    if (searchInput) searchParams.set("search", searchInput);
+    router.push(`/resources?${searchParams.toString()}`);
+  };
+
+  const handleTagChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setSelectedTag(value);
+    const searchParams = new URLSearchParams();
+    if (selectedCategory) searchParams.set("category", selectedCategory);
+    if (value) searchParams.set("tag", value);
+    if (searchInput) searchParams.set("search", searchInput);
+    router.push(`/resources?${searchParams.toString()}`);
   };
 
   const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -140,9 +148,7 @@ const ResourceFilter = () => {
         <select
           className="select select-bordered w-auto text-base-content "
           aria-label="Select a category"
-          onChange={(category) =>
-            setSelectedCategory(encodeURIComponent(category.target.value))
-          }
+          onChange={handleCategoryChange}
         >
           {categories.map((category) => (
             <option key={category.label} value={category.value || ""}>
@@ -152,7 +158,7 @@ const ResourceFilter = () => {
         </select>
         <select
           className="select select-bordered w-auto text-base-content "
-          onChange={(tag) => setSelectedTag(tag.target.value)}
+          onChange={handleTagChange}
           aria-label="Select a tag"
         >
           {tags.map((tag) => (
