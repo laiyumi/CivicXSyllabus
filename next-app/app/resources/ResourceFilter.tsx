@@ -4,6 +4,7 @@ import { Category, Post, Tag } from "@prisma/client";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import MultiSelectDropdown from "../components/MultiSelectDropdown";
 
 const ResourceFilter = () => {
   const router = useRouter();
@@ -11,6 +12,7 @@ const ResourceFilter = () => {
   const [categories, setCategories] = useState<
     { label: string; value?: string }[]
   >([{ label: "All Topics", value: "" }]);
+
   const [tags, setTags] = useState<{ label: string; value?: string }[]>([
     { label: "All Types", value: "" },
   ]);
@@ -87,22 +89,26 @@ const ResourceFilter = () => {
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = encodeURIComponent(e.target.value);
+    const value = e.target.value;
     setSelectedCategory(value);
+
     const searchParams = new URLSearchParams();
     if (value) searchParams.set("category", value);
     if (selectedTag) searchParams.set("tag", selectedTag);
     if (searchInput) searchParams.set("search", searchInput);
+
     router.push(`/resources?${searchParams.toString()}`);
   };
 
   const handleTagChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setSelectedTag(value);
+
     const searchParams = new URLSearchParams();
     if (selectedCategory) searchParams.set("category", selectedCategory);
     if (value) searchParams.set("tag", value);
     if (searchInput) searchParams.set("search", searchInput);
+
     router.push(`/resources?${searchParams.toString()}`);
   };
 
@@ -170,7 +176,6 @@ const ResourceFilter = () => {
         <select
           className="select select-bordered w-auto text-base-content "
           aria-label="Select an order"
-          // onChange={(e) => setOrder(e.target.value)}
           onChange={changeOrder}
           defaultValue={orders[0].value}
         >
