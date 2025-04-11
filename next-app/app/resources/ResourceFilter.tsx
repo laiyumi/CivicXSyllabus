@@ -86,6 +86,26 @@ const ResourceFilter = () => {
     router.push(`/resources?${queryString}`);
   };
 
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = encodeURIComponent(e.target.value);
+    setSelectedCategory(value);
+    const searchParams = new URLSearchParams();
+    if (value) searchParams.set("category", value);
+    if (selectedTag) searchParams.set("tag", selectedTag);
+    if (searchInput) searchParams.set("search", searchInput);
+    router.push(`/resources?${searchParams.toString()}`);
+  };
+
+  const handleTagChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setSelectedTag(value);
+    const searchParams = new URLSearchParams();
+    if (selectedCategory) searchParams.set("category", selectedCategory);
+    if (value) searchParams.set("tag", value);
+    if (searchInput) searchParams.set("search", searchInput);
+    router.push(`/resources?${searchParams.toString()}`);
+  };
+
   const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     {
       if (e.key === "Enter") {
@@ -128,9 +148,7 @@ const ResourceFilter = () => {
         <select
           className="select select-bordered w-auto text-base-content "
           aria-label="Select a category"
-          onChange={(category) =>
-            setSelectedCategory(encodeURIComponent(category.target.value))
-          }
+          onChange={handleCategoryChange}
         >
           {categories.map((category) => (
             <option key={category.label} value={category.value || ""}>
@@ -140,7 +158,7 @@ const ResourceFilter = () => {
         </select>
         <select
           className="select select-bordered w-auto text-base-content "
-          onChange={(tag) => setSelectedTag(tag.target.value)}
+          onChange={handleTagChange}
           aria-label="Select a tag"
         >
           {tags.map((tag) => (
