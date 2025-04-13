@@ -48,8 +48,8 @@ const DashboardSummary = () => {
     { label: "Resources", value: counts.resources },
     { label: "Users", value: counts.users },
     { label: "Sources", value: counts.sources },
-    { label: "Categories", value: counts.categories },
-    { label: "Tags", value: counts.tags },
+    { label: "Topics", value: counts.categories },
+    { label: "Types", value: counts.tags },
   ];
 
   return (

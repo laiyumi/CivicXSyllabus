@@ -25,23 +25,29 @@ export async function GET(request: NextRequest) {
 // create a new tag
 export async function POST(request: NextRequest) {
   const body = await request.json();
+  const inputName = body.name.trim();
+
   const validation = schema.safeParse(body);
   if (!validation.success) {
     return NextResponse.json(validation.error.errors, { status: 400 });
   }
 
-  const tag = await prisma.tag.findUnique({
+  // Format the name (first letter capitalized)
+  const formattedName =
+    inputName.charAt(0).toUpperCase() + inputName.slice(1).toLowerCase();
+
+  const existingTag = await prisma.tag.findUnique({
     where: {
-      name: body.name,
+      name: formattedName,
     },
   });
-  if (tag) {
-    return NextResponse.json({ error: "tag already exists" }, { status: 400 });
+  if (existingTag) {
+    return NextResponse.json({ error: "Type already exists" }, { status: 409 });
   }
 
   const newTag = await prisma.tag.create({
     data: {
-      name: body.name,
+      name: formattedName,
     },
     include: {
       posts: true,

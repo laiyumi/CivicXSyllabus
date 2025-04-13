@@ -6,6 +6,8 @@ import React, { useState, useEffect } from "react";
 import { useTags } from "@/app/hooks/useTags";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/app/components/Spinner";
+import { useNotifications } from "../../contexts/NotificationContext";
+import { set } from "zod";
 
 interface TagWithPosts extends Tag {
   posts: Post[];
@@ -13,16 +15,31 @@ interface TagWithPosts extends Tag {
 
 const AdminTagsPage = () => {
   const queryClient = useQueryClient();
-  const { data: tags = [], isLoading, error, refetch } = useTags();
+
+  const { data: tags = [], isLoading, refetch } = useTags();
   const [newTag, setNewTag] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  const { showNotification, clearAllNotifications } = useNotifications();
 
   const handleAdd = async () => {
-    // Bypass the CDN cache
-    const response = await axios.post("/api/tags?", {
-      name: newTag,
-    });
-    setNewTag("");
-    refetch();
+    try {
+      const response = await axios.post("/api/tags", {
+        name: newTag.trim(),
+      });
+
+      if (response.status === 201) {
+        setMessage("Type added successfully");
+        setNewTag("");
+        refetch();
+        return;
+      }
+    } catch (error: any) {
+      let errorMessage =
+        error.response?.data?.error || "An unexpected error occurred.";
+      setError(`${errorMessage}_${Date.now()}`);
+    }
   };
 
   const deleteMutation = useMutation({
@@ -32,17 +49,39 @@ const AdminTagsPage = () => {
     onSuccess: () => {
       // Force refetch (bypasses cache)
       queryClient.refetchQueries({ queryKey: ["tags"] });
+      setMessage("Type deleted successfully");
     },
   });
+
+  // Show notifications when error or message changes
+  useEffect(() => {
+    if (error) {
+      clearAllNotifications();
+      const actualErrorMessage = error.includes("_")
+        ? error.split("_")[0]
+        : error;
+      showNotification(actualErrorMessage, "error");
+      setTimeout(() => setError(""), 3000);
+    }
+  }, [error, showNotification, clearAllNotifications]);
+
+  useEffect(() => {
+    if (message) {
+      clearAllNotifications();
+      showNotification(message, "success");
+      // Clear the message state after showing notification
+      setTimeout(() => setMessage(""), 3000);
+    }
+  }, [message, showNotification, clearAllNotifications]);
 
   return (
     <div className="flex">
       <div className="w-full flex flex-col gap-5">
-        <h1 className="text-2xl">Tags</h1>
+        <h1 className="text-2xl">Types</h1>
         <div className="flex gap-4">
           <input
             type="text"
-            placeholder="Enter a new tag"
+            placeholder="Enter a new type"
             value={newTag}
             className="input input-bordered w-full max-w-xs"
             onChange={(e) => setNewTag(e.target.value)}
@@ -53,8 +92,6 @@ const AdminTagsPage = () => {
         </div>
         {isLoading ? (
           <Spinner />
-        ) : error ? (
-          <p>Error: {error.message}</p>
         ) : (
           <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {tags.map((tag: TagWithPosts) => (
