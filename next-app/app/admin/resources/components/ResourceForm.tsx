@@ -1,5 +1,6 @@
 "use client";
 
+import ContentTypeAdder from "@/app/components/ContentTypeAdder";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 import UploadImage from "@/app/components/UploadImage";
@@ -8,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Post, Tag } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -23,6 +24,9 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
     formState: { errors },
   } = useForm<NewResourceFormInputs>({
     resolver: zodResolver(createResourceSchema),
+    defaultValues: {
+      year: undefined, // or some other default value
+    },
   });
   const router = useRouter();
 
@@ -57,7 +61,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
         ? prevSelectedTags.filter((name) => name !== tagName)
         : [...prevSelectedTags, tagName]
     );
-    setValue("tags", selectedTags);
+    // setValue("tags", selectedTags);
   };
 
   const handleCategoryChange = (categoryName: string) => {
@@ -66,7 +70,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
         ? prevSelectedCategories.filter((name) => name !== categoryName)
         : [...prevSelectedCategories, categoryName]
     );
-    setValue("categories", selectedCategories);
+    // setValue("categories", selectedCategories);
   };
 
   // truncuate the excerpt to 30 words
@@ -83,25 +87,51 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
     setValue("excerpt", finalText); // update react-hook-form state
   };
 
-  useEffect(() => {
-    const fetchTags = async () => {
+  // Function to fetch tags
+  const fetchTags = async () => {
+    try {
       const response = await axios.get("/api/tags");
-      const tags = await response.data;
-      setTags(tags);
-    };
+      setTags(response.data);
+    } catch (error) {
+      console.error("Error fetching tags:", error);
+    }
+  };
 
-    const fetchCategories = async () => {
+  // Function to fetch categories
+  const fetchCategories = async () => {
+    try {
       const response = await axios.get("/api/categories");
-      const categories = await response.data;
-      setCategories(categories);
-    };
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
+  // Initial data loading
+  useEffect(() => {
     fetchTags();
     fetchCategories();
   }, []);
 
   console.log("tags: ", tags);
   console.log("categories: ", categories);
+
+  const handleCategoryAdded = useCallback((newCategoryName: string) => {
+    fetchCategories();
+    setSelectedCategories((prev) => [...prev, newCategoryName]);
+  }, []);
+
+  const handleTagAdded = useCallback(() => {
+    fetchTags();
+  }, []);
+
+  useEffect(() => {
+    setValue("tags", selectedTags);
+  }, [selectedTags, setValue]);
+
+  useEffect(() => {
+    setValue("categories", selectedCategories);
+  }, [selectedCategories, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
     data.imageUrl = getValues().imageUrl;
@@ -181,11 +211,11 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Year</span>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="What year was this resource published/updated? "
                   defaultValue={resource?.year}
                   className="input input-bordered w-full"
-                  {...register("year")}
+                  {...register("year", { valueAsNumber: true })}
                 />
                 <ErrorMessage>{errors.year?.message}</ErrorMessage>
               </label>
@@ -245,7 +275,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
             <div className="justify-self-center lg:w-1/2  xs:w-full lg:pl-8">
               <div className="flex flex-col gap-6 pb-16">
                 <div className="flex flex-col gap-2">
-                  <h2>Categories</h2>
+                  <h2>Topics</h2>
                   <div className="flex gap-3 flex-wrap">
                     {categories?.map((category) => (
                       <div key={category.id}>
@@ -263,9 +293,13 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                       </div>
                     ))}
                   </div>
+                  <ContentTypeAdder
+                    type={"categories"}
+                    onSuccess={handleCategoryAdded}
+                  />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <h2>Tags</h2>
+                  <h2>Types</h2>
                   <div className="flex gap-3 flex-wrap">
                     {tags?.map((tag) => (
                       <label key={tag.id} className="label cursor-pointer">

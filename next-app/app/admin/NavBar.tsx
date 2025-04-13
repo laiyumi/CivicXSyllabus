@@ -12,8 +12,8 @@ const AdminDashboardNavBar = () => {
     { label: "Dashboard", href: "/admin" },
     { label: "Resources", href: "/admin/resources" },
     { label: "Users", href: "/admin/users" },
-    { label: "Topics", href: "/admin/categories" },
-    { label: "Types", href: "/admin/tags" },
+    { label: "Topics", href: "/admin/topics" },
+    { label: "Types", href: "/admin/types" },
     { label: "Sources", href: "/admin/sources" },
     { label: "Media", href: "/admin/media" },
   ];

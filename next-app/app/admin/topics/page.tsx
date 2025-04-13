@@ -28,7 +28,6 @@ const AdminCategoriesPage = () => {
   const [error, setError] = useState("");
 
   const { showNotification, clearAllNotifications } = useNotifications();
-  // const [categories, setCategories] = useState<CategoryWithPosts[]>([]);
 
   // Watch errors from the hook
   useEffect(() => {
@@ -38,21 +37,11 @@ const AdminCategoriesPage = () => {
     }
   }, [categoriesError, showNotification, clearAllNotifications]);
 
-  // useEffect(() => {
-  //   const fetchCategories = async () => {
-  //     const categoryResponse = await axios.get("/api/categories");
-  //     setCategories(categoryResponse.data);
-  //   };
-  //   fetchCategories();
-  // }, []);
-
   const handleAdd = async () => {
     try {
       const response = await axios.post("/api/categories", {
         name: newCategory.trim(),
       });
-      // setCategories([...categories, response.data]);
-      // setNewCategory("");}
 
       if (response.status === 201) {
         setMessage("Topic added successfully");
@@ -86,10 +75,6 @@ const AdminCategoriesPage = () => {
       }
     }
   };
-
-  // const handleDelete = (id: string) => {
-  //   setCategories(categories.filter((category) => category.id !== id));
-  // };
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {

@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Admin create a resource schema
 const createResourceSchema = z.object({
   title: z.string().min(1, "Title is required"),
   excerpt: z.string().min(1, "Excerpt is required"),
@@ -14,6 +15,7 @@ const createResourceSchema = z.object({
 
 export default createResourceSchema;
 
+// User add a resource schema
 export const UserSubmittedResourceSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Please enter a valid email address").trim(),
@@ -31,11 +33,13 @@ export const UserSubmittedResourceSchema = z.object({
   categories: z.string().optional(),
 });
 
+// User sign in schema
 export const SignInSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+// User sign up schema
 export const CreateAccountSchema = z
   .object({
     email: z.string().email("Please enter a valid email address"),
@@ -79,6 +83,7 @@ export const CreateAccountSchema = z
     }
   });
 
+// User reset password schema
 export const ResetPasswordSchema = z
   .object({
     newPassword: z.string().min(6, "Password must be at least 6 characters"),
