@@ -1,6 +1,7 @@
 import schema from "./schema";
 import prisma from "../../../prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { formatTitleCase } from "@/utils/formatter";
 
 // get all tags
 export async function GET(request: NextRequest) {
@@ -32,15 +33,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(validation.error.errors, { status: 400 });
   }
 
-  // Format the name (first letter capitalized)
-  const formattedName =
-    inputName.charAt(0).toUpperCase() + inputName.slice(1).toLowerCase();
+  const formattedName = formatTitleCase(inputName);
 
-  const existingTag = await prisma.tag.findUnique({
-    where: {
-      name: formattedName,
-    },
-  });
+  // Get all tags and filter case-insensitively in JS
+  const allTags = await prisma.tag.findMany();
+  const existingTag = allTags.find(
+    (tag) => tag.name.toLowerCase() === inputName.toLowerCase()
+  );
+
   if (existingTag) {
     return NextResponse.json({ error: "Type already exists" }, { status: 409 });
   }

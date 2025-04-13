@@ -7,7 +7,6 @@ import { useTags } from "@/app/hooks/useTags";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/app/components/Spinner";
 import { useNotifications } from "../../contexts/NotificationContext";
-import { set } from "zod";
 
 interface TagWithPosts extends Tag {
   posts: Post[];
@@ -16,12 +15,20 @@ interface TagWithPosts extends Tag {
 const AdminTagsPage = () => {
   const queryClient = useQueryClient();
 
-  const { data: tags = [], isLoading, refetch } = useTags();
+  const { data: tags = [], isLoading, error: tagsError, refetch } = useTags();
   const [newTag, setNewTag] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   const { showNotification, clearAllNotifications } = useNotifications();
+
+  // Watch errors from the hook
+  useEffect(() => {
+    if (tagsError) {
+      clearAllNotifications();
+      showNotification(tagsError.message, "error");
+    }
+  }, [tagsError, showNotification, clearAllNotifications]);
 
   const handleAdd = async () => {
     try {
@@ -36,9 +43,31 @@ const AdminTagsPage = () => {
         return;
       }
     } catch (error: any) {
-      let errorMessage =
-        error.response?.data?.error || "An unexpected error occurred.";
-      setError(`${errorMessage}_${Date.now()}`);
+      if (error.response) {
+        const { status, data } = error.response;
+
+        if (status === 400) {
+          // Zod validation errors - extract the message from the response
+          // Zod returns an array of errors - get the first one's message
+          if (Array.isArray(data) && data.length > 0) {
+            const errorMessage = data[0]?.message || "Validation failed";
+            setError(`${errorMessage}_${Date.now()}`);
+          } else {
+            setError(`Validation failed_${Date.now()}`);
+          }
+        } else if (status === 409) {
+          // Duplicate error
+          setError(`${data?.error || "Type already exists"}_${Date.now()}`);
+        } else {
+          // Other errors
+          setError(
+            `${data?.error || "An unexpected error occurred"}_${Date.now()}`
+          );
+        }
+      } else {
+        // Network errors or other issues without a response
+        setError(`Failed to add type: ${error.message}_${Date.now()}`);
+      }
     }
   };
 

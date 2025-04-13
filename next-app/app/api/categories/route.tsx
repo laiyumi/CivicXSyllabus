@@ -1,6 +1,7 @@
 import schema from "./schema";
 import prisma from "../../../prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { formatTitleCase } from "@/utils/formatter";
 
 // get all categories
 export async function GET(request: NextRequest) {
@@ -33,26 +34,30 @@ export async function GET(request: NextRequest) {
 // create a new category
 export async function POST(request: NextRequest) {
   const body = await request.json();
+  const inputName = body.name.trim();
+
   const validation = schema.safeParse(body);
   if (!validation.success) {
     return NextResponse.json(validation.error.errors, { status: 400 });
   }
 
-  const category = await prisma.category.findUnique({
-    where: {
-      name: body.name,
-    },
-  });
-  if (category) {
+  const formattedName = formatTitleCase(inputName);
+
+  const allCategories = await prisma.category.findMany();
+  const existingCategory = allCategories.find(
+    (category) => category.name.toLowerCase() === inputName.toLowerCase()
+  );
+
+  if (existingCategory) {
     return NextResponse.json(
-      { error: "category already exists" },
-      { status: 400 }
+      { error: "Topic already exists" },
+      { status: 409 }
     );
   }
 
   const newCategory = await prisma.category.create({
     data: {
-      name: body.name,
+      name: formattedName,
     },
     include: {
       posts: true,
