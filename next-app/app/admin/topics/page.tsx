@@ -13,6 +13,11 @@ interface CategoryWithPosts extends Category {
   posts: Post[];
 }
 
+type SortOption = {
+  label: string;
+  value: string;
+};
+
 const AdminCategoriesPage = () => {
   const queryClient = useQueryClient();
 
@@ -26,8 +31,16 @@ const AdminCategoriesPage = () => {
   const [newCategory, setNewCategory] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [sortBy, setSortBy] = useState<string>("name-asc");
 
   const { showNotification, clearAllNotifications } = useNotifications();
+
+  const sortOptions: SortOption[] = [
+    { label: "Name: A to Z", value: "name-asc" },
+    { label: "Name: Z to A", value: "name-desc" },
+    { label: "Count: Low to High", value: "count-asc" },
+    { label: "Count: High to Low", value: "count-desc" },
+  ];
 
   // Watch errors from the hook
   useEffect(() => {
@@ -36,6 +49,28 @@ const AdminCategoriesPage = () => {
       showNotification(categoriesError.message, "error");
     }
   }, [categoriesError, showNotification, clearAllNotifications]);
+
+  const sortedCategories = [...categories].sort(
+    (a: CategoryWithPosts, b: CategoryWithPosts) => {
+      const [field, direction] = sortBy.split("-");
+
+      if (field === "name") {
+        return direction === "asc"
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name);
+      } else if (field === "count") {
+        return direction === "asc"
+          ? a.posts.length - b.posts.length
+          : b.posts.length - a.posts.length;
+      }
+
+      return 0;
+    }
+  );
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(e.target.value);
+  };
 
   const handleAdd = async () => {
     try {
@@ -111,22 +146,41 @@ const AdminCategoriesPage = () => {
     <div className="flex">
       <div className="w-full flex flex-col gap-5">
         <h1 className="text-2xl">Topics</h1>
-        <div className="flex gap-4">
-          <input
-            type="text"
-            placeholder="Enter a new topic"
-            className="input input-bordered w-full max-w-xs"
-            onChange={(e) => setNewCategory(e.target.value)}
-          />{" "}
-          <button className="btn btn-primary ml-2d" onClick={handleAdd}>
-            Add
-          </button>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-4">
+            <input
+              type="text"
+              placeholder="Enter a new topic"
+              className="input input-bordered w-full max-w-xs"
+              onChange={(e) => setNewCategory(e.target.value)}
+            />{" "}
+            <button className="btn btn-primary ml-2d" onClick={handleAdd}>
+              Add
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <label htmlFor="sort-select" className="text-sm font-medium">
+              Sort by:
+            </label>
+            <select
+              id="sort-select"
+              className="select select-bordered select-md"
+              value={sortBy}
+              onChange={handleSortChange}
+            >
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         {isLoading ? (
           <Spinner />
         ) : (
           <div className="grid gap-5 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map((category: CategoryWithPosts) => (
+            {sortedCategories.map((category: CategoryWithPosts) => (
               <Badge
                 type="categories"
                 name={category.name}
