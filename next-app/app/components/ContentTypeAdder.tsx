@@ -138,7 +138,11 @@ const ContentTypeAdder = ({
         onChange={(e) => setNewContent(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleAdd()}
       />
-      <button className="btn btn-primary" onClick={handleAdd}>
+      <button
+        type="button"
+        className="btn btn-primary btn-outline"
+        onClick={handleAdd}
+      >
         {buttonText || config.defaultButtonText}
       </button>
     </div>

@@ -121,8 +121,9 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
     setSelectedCategories((prev) => [...prev, newCategoryName]);
   }, []);
 
-  const handleTagAdded = useCallback(() => {
+  const handleTagAdded = useCallback((newTagName: string) => {
     fetchTags();
+    setSelectedTags((prev) => [...prev, newTagName]);
   }, []);
 
   useEffect(() => {
@@ -314,6 +315,7 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
                     ))}
                   </div>
                 </div>
+                <ContentTypeAdder type={"tags"} onSuccess={handleTagAdded} />
               </div>
             </div>
           </div>
