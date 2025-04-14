@@ -30,6 +30,7 @@ export async function GET(
           name: true,
         },
       },
+      lists: true,
     },
   });
   if (!resource)
