@@ -11,7 +11,7 @@ const AdminLayout = ({ children }: Props) => {
       <div className="sticky top-0 h-full flex-shrink-0">
         <AdminDashboardNavBar />
       </div>
-      <div className="w-full overflow-auto">{children}</div>
+      <div className="w-full overflow-auto px-5">{children}</div>
     </div>
   );
 };

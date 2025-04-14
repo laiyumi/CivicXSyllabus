@@ -1,14 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import SearchBarWithoutBtn from "@/app/components/SearchBarWithoutBtn";
+import Spinner from "@/app/components/Spinner";
 import { Prisma } from "@prisma/client";
 import axios from "axios";
-import AdminDashboardNavBar from "../NavBar";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import ResourcesTable from "./ResourcesTable";
-import SearchBar from "@/app/components/SearchBar";
-import React, { useEffect, useState } from "react";
-import Spinner from "@/app/components/Spinner";
-import SearchBarWithoutBtn from "@/app/components/SearchBarWithoutBtn";
 
 type PostWithSource = Prisma.PostGetPayload<{
   include: { source: true; lists: true };
@@ -24,15 +22,34 @@ const AdminResourcesPage = () => {
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const fetchResources = async () => {
+  const fetchResources = async () => {
+    try {
+      setIsLoading(true);
       const response = await axios.get(`/api/resources`);
       setResources(response.data);
+    } catch (error) {
+      console.error("Error fetching resources:", error);
+    } finally {
       setIsLoading(false);
-    };
+    }
+  };
+
+  useEffect(() => {
     fetchResources();
   }, []);
 
+  const handleResourceUpdate = (
+    resourceId: string,
+    newPublishedStatus: boolean
+  ) => {
+    setResources((prevResources) =>
+      prevResources.map((resource) =>
+        resource.id === resourceId
+          ? { ...resource, published: newPublishedStatus }
+          : resource
+      )
+    );
+  };
   const sortedResources = [...resources].sort((a, b) => {
     let aValue: any;
     let bValue: any;
@@ -93,7 +110,21 @@ const AdminResourcesPage = () => {
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <h1 className="text-2xl">Resources</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl">Resources</h1>
+        <div className="flex gap-4">
+          <p>
+            <span className="font-bold">Total:</span>{" "}
+            <span className="badge badge-primary">{resources.length}</span>
+          </p>
+          <p>
+            <span className="font-bold">Published:</span>{" "}
+            <span className="badge badge-primary">
+              {resources.filter((resource) => resource.published).length}
+            </span>
+          </p>
+        </div>
+      </div>
       <div className="flex justify-between pb-5">
         <Link className="btn btn-primary" href="/admin/resources/new">
           Create New Resource
@@ -112,6 +143,7 @@ const AdminResourcesPage = () => {
           sortOrder={sortOrder}
           setSortBy={setSortBy}
           setSortOrder={setSortOrder}
+          onResourceUpdate={handleResourceUpdate}
         />
       )}
     </div>

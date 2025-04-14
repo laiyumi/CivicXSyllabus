@@ -15,18 +15,15 @@ const ResourcesTable = ({
   sortOrder,
   setSortBy,
   setSortOrder,
+  onResourceUpdate,
 }: {
   resources: PostWithSource[];
   sortBy: string;
   sortOrder: "asc" | "desc";
   setSortBy: (field: string) => void;
   setSortOrder: (order: "asc" | "desc") => void;
+  onResourceUpdate: (resourceId: string, newPublishedStatus: boolean) => void;
 }) => {
-  // const [sortConfig, setSortConfig] = useState({
-  //   key: "name",
-  //   direction: "asc",
-  // });
-
   const handleSort = (field: string) => {
     if (sortBy === field) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -41,21 +38,15 @@ const ResourcesTable = ({
     try {
       if (published) {
         await axios.put(`/api/resources/${id}/unPublished`);
+        onResourceUpdate(id, false);
       } else {
         await axios.put(`/api/resources/${id}/isPublished`);
+        onResourceUpdate(id, true);
       }
     } catch (error) {
       console.error("Error occurs on toggling publish status:", error);
     }
   };
-
-  // const renderSortArrow = (field: string) => {
-  //   const isActive = sortBy === field;
-  //   const arrow = sortOrder === "asc" ? "▲" : "▼";
-  //   return (
-  //     <span className={isActive ? "font-bold" : "text-gray-400"}>{arrow}</span>
-  //   );
-  // };
 
   const getSortIcon = (key: string) => {
     if (sortBy !== key)
@@ -156,41 +147,42 @@ const ResourcesTable = ({
         </thead>
         <tbody>
           {/* row 1 */}
-          {resources.map((resouce) => (
-            <tr key={resouce.id}>
+          {resources.map((resource) => (
+            <tr key={resource.id}>
               <td>
                 <div className="flex items-center gap-3">
                   <div className="avatar">
                     <div className="mask mask-square h-12 w-12">
-                      <img src={resouce.imageUrl} alt="post thumbnail" />
+                      <img src={resource.imageUrl} alt="post thumbnail" />
                     </div>
                   </div>
-                  <div className="font-bold">{resouce.title}</div>
+                  <div className="font-bold">{resource.title}</div>
                 </div>
               </td>
-              <td> {resouce.source.name}</td>
+              <td> {resource.source.name}</td>
               <td>
                 <div
-                  onClick={() => handlePublish(resouce.id, resouce.published)}
+                  onClick={() => handlePublish(resource.id, resource.published)}
                 >
                   <input
                     type="checkbox"
                     className="toggle"
-                    defaultChecked={resouce.published}
+                    checked={resource.published}
+                    readOnly
                   />
                 </div>
               </td>
-              <td>{resouce.likes}</td>
-              <td>{resouce.lists?.length || 0}</td>
+              <td>{resource.likes}</td>
+              <td>{resource.lists?.length || 0}</td>
               <td className="flex gap-2">
                 <Link
-                  href={`/admin/resources/${resouce.id}`}
+                  href={`/admin/resources/${resource.id}`}
                   className="btn btn-outline btn-sm"
                 >
                   View
                 </Link>
                 <Link
-                  href={`/admin/resources/${resouce.id}/edit`}
+                  href={`/admin/resources/${resource.id}/edit`}
                   className="btn btn-outline btn-sm"
                 >
                   Edit
