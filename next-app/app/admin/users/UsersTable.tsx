@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { Prisma } from "@prisma/client";
-import axios from "axios";
 import { format } from "date-fns";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -17,24 +15,13 @@ type User = Prisma.UserGetPayload<{
   };
 }>;
 
-const UsersTable = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("/api/users");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers();
-  }, []);
-
+const UsersTable = ({
+  users,
+  loading,
+}: {
+  users: User[];
+  loading: boolean;
+}) => {
   return (
     <div className="overflow-x-auto">
       <table className="table table-zebra table-pin-rows">

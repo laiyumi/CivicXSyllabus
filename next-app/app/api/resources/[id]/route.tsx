@@ -10,7 +10,6 @@ export async function GET(
   const resource = await prisma.post.findUnique({
     where: {
       id: params.id,
-      published: true,
     },
     include: {
       categories: {
@@ -31,11 +30,11 @@ export async function GET(
           name: true,
         },
       },
+      lists: true,
     },
   });
   if (!resource)
     return NextResponse.json({ error: "resource not found" }, { status: 404 });
-  // return NextResponse.json(resource);
   return new NextResponse(JSON.stringify(resource), {
     status: 200,
     headers: {

@@ -14,6 +14,6 @@ export const useTags = () => {
       const res = await axios.get(`/api/tags?ts=${Date.now()}`);
       return res.data;
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5, // cache for 5 minutes
   });
 };

@@ -17,8 +17,11 @@ const TeamPage = () => {
               />
             </figure>
             <div className="col-span-2 p-8">
-              <div className="flex justify-between pb-10 text-base-content">
-                <h2 className="card-title ">Kimberly D. Lucas, PhD</h2>
+              <div className="flex justify-between pb-6 text-base-content">
+                <div>
+                  <h2 className="card-title ">Kimberly D. Lucas, PhD</h2>
+                  <p className="text-md">Co-Founder & Managing Director</p>
+                </div>
                 <Link href="https://www.linkedin.com/in/kimberlydlucas/">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -52,8 +55,11 @@ const TeamPage = () => {
 
         <div className="md:grid md:grid-cols-3 xs:flex xs:flex-col bg-base-100 mb-8 rounded-2xl">
           <div className="col-span-2 p-8">
-            <div className="flex justify-between pb-10 text-base-content">
-              <h2 className="card-title">Elias Gbadamosi</h2>
+            <div className="flex justify-between pb-6 text-base-content">
+              <div>
+                <h2 className="card-title">Elias Gbadamosi</h2>
+                <p className="text-md">Co-Founder & Communications Lead</p>
+              </div>
               <Link href="https://www.linkedin.com/in/eliasgbadamosi/">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -94,8 +100,11 @@ const TeamPage = () => {
             />
           </figure>
           <div className="col-span-2 p-8">
-            <div className="flex justify-between pb-10">
-              <h2 className="card-title text-base-content">Yu Lai</h2>
+            <div className="flex justify-between pb-6">
+              <div>
+                <h2 className="card-title text-base-content">Yu Lai</h2>
+                <p className="text-md">Co-Founder & Lead Software Enigneer</p>
+              </div>
               <Link href="https://www.linkedin.com/in/yu-lai/">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

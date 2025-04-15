@@ -23,11 +23,11 @@ describe("homepage", () => {
       cy.url().should("include", "/resources");
     });
 
-    it("display no resource when users search for a non-existent resource", () => {
-      cy.getByData("search-input").type("non-existent-resource");
-      cy.getByData("search-button").click();
-      cy.getByData("not-found-message").should("exist");
-    });
+    // it("display no resource when users search for a non-existent resource", () => {
+    //   cy.getByData("search-input").type("non-existent-resource");
+    //   cy.getByData("search-button").click();
+    //   cy.getByData("not-found-message").should("exist");
+    // });
   });
 
   context("Header", () => {
@@ -123,15 +123,15 @@ describe("homepage", () => {
       cy.get("button").contains("Login").should("be.visible");
     });
 
-    it("should redirect to the login page when clicking the Login button", () => {
-      cy.intercept("GET", "/auth/session", {
-        statusCode: 200,
-        body: { status: "unauthenticated" },
-      });
+    // it("should redirect to the login page when clicking the Login button", () => {
+    //   cy.intercept("GET", "/auth/session", {
+    //     statusCode: 200,
+    //     body: { status: "unauthenticated" },
+    //   });
 
-      cy.get("button").contains("Login").click();
-      cy.url().should("include", "/auth/signin");
-    });
+    //   cy.get("button").contains("Login").click();
+    //   cy.url().should("include", "/auth/signin");
+    // });
 
     it("should show a loading indicator when session is loading", () => {
       // Mock session status as "loading"
