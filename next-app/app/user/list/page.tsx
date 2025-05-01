@@ -67,23 +67,41 @@ const UserSavedResourcesPage = () => {
     fetchUser();
   }, [session, status]);
 
+  const fetchPosts = async (listId: string) => {
+    try {
+      const response = await axios.get(
+        `/api/users/${session?.user.id}/lists/${listId}`
+      );
+      setList(response.data);
+      setPosts(response.data.posts);
+    } catch (error) {
+      console.error("Error fetching posts in the selected list:", error);
+    }
+  };
+
   // fetch saved posts in the selected list
+  // useEffect(() => {
+  // const fetchPosts = async () => {
+  //   try {
+  //     // Fetch posts in the selected list
+  //     const response = await axios.get(
+  //       `/api/users/${session?.user.id}/lists/${selectedListId}`
+  //     );
+  //     console.log("Fetched posts in the selected list:", response.data);
+  //     setList(response.data);
+  //     setPosts(response.data.posts);
+  //   } catch (error) {
+  //     console.error("Error fetching posts in the selected list:", error);
+  //   }
+  // };
+  // fetchPosts();
+  // }, [session?.user.id, selectedListId]);
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        // Fetch posts in the selected list
-        const response = await axios.get(
-          `/api/users/${session?.user.id}/lists/${selectedListId}`
-        );
-        console.log("Fetched posts in the selected list:", response.data);
-        setList(response.data);
-        setPosts(response.data.posts);
-      } catch (error) {
-        console.error("Error fetching posts in the selected list:", error);
-      }
-    };
-    fetchPosts();
-  }, [session?.user.id, selectedListId]);
+    if (selectedListId) {
+      fetchPosts(selectedListId);
+    }
+  }, [selectedListId]);
 
   const handleCreateList = async (listName: string) => {
     if (!session?.user.id) {
@@ -129,6 +147,7 @@ const UserSavedResourcesPage = () => {
 
       // Update the posts state by filtering out the removed post
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+      fetchPosts(listId);
 
       console.log(`Post ${postId} removed from list ${listId}`);
     } catch (err) {
