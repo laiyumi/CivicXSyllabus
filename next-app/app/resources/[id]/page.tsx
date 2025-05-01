@@ -1,17 +1,15 @@
 "use client";
 
+import { useNotifications } from "@/app/contexts/NotificationContext";
 import { Prisma } from "@prisma/client";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import prisma from "../../../prisma/client";
+import "react-loading-skeleton/dist/skeleton.css";
+import RelatedResourceCard from "../../components/ResourceCard/RelatedResourceCard";
 import ToggleLikes from "../../components/ToggleLikes";
 import ToggleSave from "../../components/ToggleSave";
-import RelatedResourceCard from "../../components/ResourceCard/RelatedResourceCard";
-import { useSession } from "next-auth/react";
-import SaveToListModal from "../../components/SaveToListModal";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import ResourceDetailCardSkeleton from "./ResourceDetailCardSkeleton";
 
 interface Props {
@@ -30,6 +28,10 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
   const { data: session, status } = useSession();
   const [paragraphs, setParagraphs] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { showNotification, clearAllNotifications } = useNotifications();
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchResource = async () => {
@@ -60,7 +62,28 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
     fetchData();
   }, [id]);
 
-  const handleSave = async (listId: string) => {
+  // Show notifications when error or message changes
+  useEffect(() => {
+    if (error) {
+      clearAllNotifications();
+      const actualErrorMessage = error.includes("_")
+        ? error.split("_")[0]
+        : error;
+      showNotification(actualErrorMessage, "error");
+      setTimeout(() => setError(""), 3000);
+    }
+  }, [error, showNotification, clearAllNotifications]);
+
+  useEffect(() => {
+    if (message) {
+      clearAllNotifications();
+      showNotification(message, "success");
+      // Clear the message state after showing notification
+      setTimeout(() => setMessage(""), 3000);
+    }
+  }, [message, showNotification, clearAllNotifications]);
+
+  const handleSave = async (listId: string, listName: string) => {
     if (status != "authenticated") {
       alert("You need to be logged in to save resources");
       return;
@@ -73,14 +96,17 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
           postId: id,
         }
       );
-      console.log("saved to: ", { listId });
-    } catch (err) {
-      console.error(err);
-      alert("Failed to save to the list.");
+      if (response.status === 201) {
+        setMessage(`Resource saved to ${listName}`);
+        return;
+      }
+    } catch (error: any) {
+      setError(error.response.data.message);
+      console.error("Error saving resource:", error);
     }
   };
 
-  const handleRemove = async (listId: string) => {
+  const handleRemove = async (listId: string, listName: string) => {
     if (status !== "authenticated") {
       alert("You need to be logged in to remove resources");
       return;
@@ -100,7 +126,10 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
           },
         }
       );
-      console.log("removed from: ", { listId });
+      if (response.status === 201) {
+        setMessage(`Resource removed from ${listName}`);
+        return;
+      }
     } catch (err) {
       console.error(err);
       alert("Failed to remove from the list.");
@@ -161,8 +190,12 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
                     <ToggleLikes resourceId={id} />
                     <div className="text-gray-500">|</div>
                     <ToggleSave
-                      onSave={handleSave}
-                      onRemove={handleRemove}
+                      onSave={(listId, listName) =>
+                        handleSave(listId, listName)
+                      }
+                      onRemove={(listId, listName) =>
+                        handleRemove(listId, listName)
+                      }
                       resourceId={id}
                     />
                   </div>
