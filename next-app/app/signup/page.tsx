@@ -142,6 +142,13 @@ const SignUpPage = () => {
                 Syllabus&apos;s{" "}
                 <Link href="/privacy" className="text-blue-600 hover:underline">
                   Privacy Policy
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/terms-of-use"
+                  className="text-blue-600 hover:underline"
+                >
+                  Terms of Use
                 </Link>
                 .
               </p>
