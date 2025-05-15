@@ -9,6 +9,7 @@ import { Prisma } from "@prisma/client";
 import Spinner from "@/app/components/Spinner";
 import { useNotifications } from "../../contexts/NotificationContext";
 import { use } from "chai";
+import { set } from "date-fns";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -39,6 +40,7 @@ const UserSavedResourcesPage = () => {
   const { showNotification, clearAllNotifications } = useNotifications();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownButtonRef = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const [error, setError] = useState("");
@@ -56,23 +58,43 @@ const UserSavedResourcesPage = () => {
 
   const { data: session, status } = useSession();
 
+  // Function to manually close the dropdown
+  const closeDropdown = () => {
+    // only close if not in editing mode
+    if (!editingListId) {
+      if (dropdownButtonRef.current) {
+        // blur the dropdown trigger to close it
+        dropdownButtonRef.current.blur();
+      }
+      setDropdownOpen(false);
+    }
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // If dropdown ref exists and click is outside of it
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        isDropdownOpen
+        !dropdownRef.current.contains(event.target as Node)
       ) {
-        setDropdownOpen(false);
+        // If we're in editing mode, exit it
+        if (editingListId) {
+          setEditingListId(null);
+          setEditedListName("");
+        }
+        // Always close the dropdown when clicking outside
+        closeDropdown();
       }
     };
 
+    // Add listener for mousedown events (will catch clicks outside)
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isDropdownOpen]);
+  }, [editingListId]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -80,8 +102,17 @@ const UserSavedResourcesPage = () => {
 
   // Function to select a list and close the dropdown
   const handleSelectList = (listId: string) => {
+    // Exit any edit mode first
+    setEditingListId(null);
+
+    // Set the selected list ID
     setSelectedListId(listId);
-    setDropdownOpen(false); // close dorpdown
+
+    // Immediately close the dropdown without delay
+    setDropdownOpen(false);
+    if (dropdownButtonRef.current) {
+      dropdownButtonRef.current.blur();
+    }
   };
 
   // fetch user data
@@ -115,6 +146,24 @@ const UserSavedResourcesPage = () => {
       );
       setList(response.data);
       setPosts(response.data.posts);
+      // Sync the post count in the user state for this list
+      setUser((prevUser) => {
+        if (!prevUser) return null;
+        return {
+          ...prevUser,
+          lists: prevUser.lists.map((l) =>
+            l.id === listId
+              ? {
+                  ...l,
+                  _count: {
+                    ...l._count,
+                    posts: response.data.posts.length,
+                  },
+                }
+              : l
+          ),
+        };
+      });
     } catch (error) {
       console.error("Error fetching posts in the selected list:", error);
     }
@@ -166,13 +215,17 @@ const UserSavedResourcesPage = () => {
     e: React.MouseEvent
   ) => {
     e.stopPropagation(); // Prevent click from closing dropdown
+    e.preventDefault(); // Prevent other default actions
+
     setEditingListId(listId);
     setEditedListName(currentName);
   };
 
   // Function to cancel editing
   const handleCancelEdit = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent click from closing dropdown
+    e.stopPropagation();
+    e.preventDefault();
+
     setEditingListId(null);
     setEditedListName("");
   };
@@ -253,16 +306,53 @@ const UserSavedResourcesPage = () => {
 
       // Update the posts state by filtering out the removed post
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+      // Update the post count in the user state for this list
+      setUser((prevUser) => {
+        if (!prevUser) return null;
+        return {
+          ...prevUser,
+          lists: prevUser.lists.map((list) =>
+            list.id === listId
+              ? {
+                  ...list,
+                  _count: {
+                    ...list._count,
+                    posts: (list._count?.posts ?? 1) - 1,
+                  },
+                }
+              : list
+          ),
+        };
+      });
       fetchPosts(listId);
 
+      setMessage(`Removed from the ${list?.name}`);
+
       console.log(`Post ${postId} removed from list ${listId}`);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert("Failed to remove from the list.");
+      setError("Failed to remove from the list.");
     }
   };
 
-  const handleDeleteList = async (listId: string) => {
+  const handleDeleteList = (
+    listId: string,
+    listName: string,
+    e: React.MouseEvent
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    // Show a simple confirmation dialog
+    if (
+      window.confirm(
+        `Are you sure you want to delete the list "${listName}"? This action cannot be undone.`
+      )
+    ) {
+      deleteList(listId);
+    }
+  };
+  const deleteList = async (listId: string) => {
     if (!session?.user.id) return;
 
     try {
@@ -329,11 +419,12 @@ const UserSavedResourcesPage = () => {
         <h1 className="text-2xl text-center font-normal">My List</h1>
         <div className="flex justify-center gap-8 w-full items-center ">
           <div className="flex justify-center items-center gap-2">
-            <p>Select list: </p>
             <div
-              className={`dropdown ${isDropdownOpen ? "dropdown-open" : ""}`}
+              ref={dropdownRef}
+              className={`dropdown ${isDropdownOpen || editingListId ? "dropdown-open" : ""}`}
             >
               <div
+                ref={dropdownButtonRef}
                 tabIndex={0}
                 role="button"
                 className="btn m-1 w-full max-w-xs"
@@ -358,7 +449,6 @@ const UserSavedResourcesPage = () => {
               <ul
                 tabIndex={0}
                 className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-72 z-50"
-                onClick={(e) => e.stopPropagation()}
               >
                 {user?.lists.map((listItem) => (
                   <li
@@ -367,7 +457,10 @@ const UserSavedResourcesPage = () => {
                   >
                     {editingListId === listItem.id ? (
                       // Editing mode
-                      <div className="w-full flex justify-between items-center p-2">
+                      <div
+                        className="w-full flex justify-between items-center p-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <input
                           type="text"
                           value={editedListName}
@@ -381,6 +474,7 @@ const UserSavedResourcesPage = () => {
                             className="btn btn-xs btn-ghost"
                             onClick={(e) => {
                               e.stopPropagation();
+                              e.preventDefault();
                               handleSaveEdit(listItem.id);
                             }}
                           >
@@ -402,7 +496,6 @@ const UserSavedResourcesPage = () => {
                           <button
                             className="btn btn-xs btn-ghost"
                             onClick={(e) => {
-                              e.stopPropagation();
                               handleCancelEdit(e);
                             }}
                           >
@@ -430,16 +523,16 @@ const UserSavedResourcesPage = () => {
                         className="w-full flex justify-between items-center"
                       >
                         <div>
-                          {listItem.name}{" "}
-                          <span className="text-xs text-gray-500">
-                            ({listItem._count?.posts ?? 0})
+                          {listItem.name}
+                          {"  "}
+                          <span className="badge badge-primary badge-sm">
+                            {listItem._count?.posts ?? 0}
                           </span>
                         </div>
                         <div className="flex gap-2">
                           <button
                             className="btn btn-xs btn-ghost"
                             onClick={(e) => {
-                              e.stopPropagation();
                               handleStartEdit(listItem.id, listItem.name, e);
                             }}
                           >
@@ -461,8 +554,7 @@ const UserSavedResourcesPage = () => {
                           <button
                             className="btn btn-xs btn-ghost"
                             onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteList(listItem.id);
+                              handleDeleteList(listItem.id, listItem.name, e);
                             }}
                           >
                             <svg

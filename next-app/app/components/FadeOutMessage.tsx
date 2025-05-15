@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 
 interface FadeOutMessageProps {
-  message: string;
+  message: ReactNode;
   duration?: number; // default is 3 seconds
   onAnimationEnd?: () => void;
   type: "success" | "error" | "info" | "warning";

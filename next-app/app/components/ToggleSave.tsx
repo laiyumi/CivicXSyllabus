@@ -66,6 +66,8 @@ const ToggleSave = ({
       (
         document.getElementById("save_to_list_modal") as HTMLDialogElement
       ).close();
+      setSelectedListId("");
+      setSelectedListName("");
     } catch (error) {
       console.error("Error saving:", error);
     }
@@ -154,10 +156,11 @@ const ToggleSave = ({
                       <span className="label-text">{list.name}</span>
                       <input
                         type="radio"
-                        name={list.name}
-                        className="radio checked:bg-red-500"
+                        name="list"
+                        className="radio radio-primary"
                         value={list.id}
                         onChange={handleChange}
+                        checked={selectedListId === list.id}
                       />
                     </label>
                   ))}

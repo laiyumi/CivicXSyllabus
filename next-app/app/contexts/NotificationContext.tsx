@@ -13,7 +13,7 @@ type NotificationType = "success" | "error" | "info" | "warning";
 
 interface Notification {
   id: number;
-  message: string;
+  message: ReactNode;
   type: NotificationType;
   duration?: number;
 }
@@ -21,7 +21,7 @@ interface Notification {
 interface NotificationContextType {
   notifications: Notification[];
   showNotification: (
-    message: string,
+    message: ReactNode,
     type: NotificationType,
     duration?: number
   ) => void;
@@ -50,7 +50,7 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
 
   // Improved showNotification with deduplication
   const showNotification = useCallback(
-    (message: string, type: NotificationType, duration = 3000) => {
+    (message: ReactNode, type: NotificationType, duration = 3000) => {
       const id = Date.now();
 
       // Remove duplicate notifications (same message and type)
