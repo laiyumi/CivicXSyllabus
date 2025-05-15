@@ -12,8 +12,8 @@ const ToggleSave = ({
   onRemove,
 }: {
   resourceId: string;
-  onSave: (listId: string) => void;
-  onRemove: (listId: string) => void;
+  onSave: (listId: string, listName: string) => void;
+  onRemove: (listId: string, listName: string) => void;
 }) => {
   const [hasSaved, setHasSaved] = useState<boolean>(false);
 
@@ -34,8 +34,8 @@ const ToggleSave = ({
         );
         setLists(response.data);
 
-        // check if the post is already saved
-        const isSaved = response.data.some((list: ListWithPosts) =>
+        // check if the post is already saved and set selected list info
+        const savedList = response.data.find((list: ListWithPosts) =>
           list.posts.some((post) => post.id === resourceId)
         );
 
@@ -43,9 +43,15 @@ const ToggleSave = ({
           list.posts.some((post) => post.id === resourceId)
         )?.id;
 
-        setSelectedListId(listId);
-        // update the state
-        setHasSaved(isSaved);
+        if (savedList) {
+          setSelectedListId(savedList.id);
+          setSelectedListName(savedList.name);
+          setHasSaved(true);
+        } else {
+          setSelectedListId("");
+          setSelectedListName("");
+          setHasSaved(false);
+        }
       } catch (error) {
         console.error("Error fetching lists:", error);
       }
@@ -55,7 +61,7 @@ const ToggleSave = ({
 
   const handleConfirmSave = () => {
     try {
-      onSave(selectedListId); // call backend
+      onSave(selectedListId, selectedListName); // call backend
       setHasSaved((prev) => !prev);
       (
         document.getElementById("save_to_list_modal") as HTMLDialogElement
@@ -74,7 +80,7 @@ const ToggleSave = ({
     try {
       if (hasSaved) {
         // call backend to remove the post from the list
-        onRemove(selectedListId);
+        onRemove(selectedListId, selectedListName);
         setHasSaved((prev) => !prev);
       } else {
         // open the modal
