@@ -1,17 +1,24 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import CreateListModal from "./CreateListModal";
-import { useSession } from "next-auth/react";
-import axios, { all } from "axios";
-import { Prisma } from "@prisma/client";
 import Spinner from "@/app/components/Spinner";
+import { Prisma } from "@prisma/client";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
 import { useNotifications } from "../../contexts/NotificationContext";
+import CreateListModal from "./CreateListModal";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type User = Prisma.UserGetPayload<{
   include: {
-    lists: true;
+    lists: {
+      include: {
+        _count: {
+          select: { posts: true };
+        };
+      };
+    };
   };
 }>;
 
@@ -29,7 +36,14 @@ type List = Prisma.ListGetPayload<{
 }>;
 
 const UserSavedResourcesPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const { showNotification, clearAllNotifications } = useNotifications();
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownButtonRef = useRef<HTMLDivElement>(null);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -41,7 +55,92 @@ const UserSavedResourcesPage = () => {
   const [selectedListId, setSelectedListId] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
 
+  const [editingListId, setEditingListId] = useState<string | null>(null);
+  const [editedListName, setEditedListName] = useState<string>("");
+
   const { data: session, status } = useSession();
+
+  // Function to manually close the dropdown
+  const closeDropdown = () => {
+    // only close if not in editing mode
+    if (!editingListId) {
+      if (dropdownButtonRef.current) {
+        // blur the dropdown trigger to close it
+        dropdownButtonRef.current.blur();
+      }
+      setDropdownOpen(false);
+    }
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // If dropdown ref exists and click is outside of it
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        // If we're in editing mode, exit it
+        if (editingListId) {
+          setEditingListId(null);
+          setEditedListName("");
+        }
+        // Always close the dropdown when clicking outside
+        closeDropdown();
+      }
+    };
+
+    // Add listener for mousedown events (will catch clicks outside)
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editingListId]);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  // Check for list ID in URL on initial load
+  useEffect(() => {
+    const listIdFromUrl = searchParams.get("list");
+    if (listIdFromUrl) {
+      setSelectedListId(listIdFromUrl);
+    }
+  }, [searchParams]);
+
+  const updateUrlWithSelectedList = (listId: string) => {
+    // Create new URL with the list parameter
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (listId) {
+      params.set("list", listId);
+    } else {
+      params.delete("list");
+    }
+
+    // Update URL without reloading the page
+    const url = `${window.location.pathname}?${params.toString()}`;
+    router.push(url, { scroll: false });
+  };
+
+  // Function to select a list and close the dropdown
+  const handleSelectList = (listId: string) => {
+    // Exit any edit mode first
+    setEditingListId(null);
+
+    // Set the selected list ID
+    setSelectedListId(listId);
+
+    updateUrlWithSelectedList(listId);
+
+    // Immediately close the dropdown without delay
+    setDropdownOpen(false);
+    if (dropdownButtonRef.current) {
+      dropdownButtonRef.current.blur();
+    }
+  };
 
   // fetch user data
   useEffect(() => {
@@ -74,6 +173,24 @@ const UserSavedResourcesPage = () => {
       );
       setList(response.data);
       setPosts(response.data.posts);
+      // Sync the post count in the user state for this list
+      setUser((prevUser) => {
+        if (!prevUser) return null;
+        return {
+          ...prevUser,
+          lists: prevUser.lists.map((l) =>
+            l.id === listId
+              ? {
+                  ...l,
+                  _count: {
+                    ...l._count,
+                    posts: response.data.posts.length,
+                  },
+                }
+              : l
+          ),
+        };
+      });
     } catch (error) {
       console.error("Error fetching posts in the selected list:", error);
     }
@@ -118,7 +235,94 @@ const UserSavedResourcesPage = () => {
     }
   };
 
-  const handleRemove = async (postId: string, listId: string) => {
+  // Function to start editing a list name
+  const handleStartEdit = (
+    listId: string,
+    currentName: string,
+    e: React.MouseEvent
+  ) => {
+    e.stopPropagation(); // Prevent click from closing dropdown
+    e.preventDefault(); // Prevent other default actions
+
+    setEditingListId(listId);
+    setEditedListName(currentName);
+  };
+
+  // Function to cancel editing
+  const handleCancelEdit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    setEditingListId(null);
+    setEditedListName("");
+  };
+
+  // Function to save the edited list name
+  const handleSaveEdit = async (listId: string) => {
+    if (!session?.user.id) return;
+
+    // Check if the new name is empty
+    if (editedListName.trim() === "") {
+      setError("List name cannot be empty");
+      return;
+    }
+
+    // Check if the new name is different from the current name
+    // Find the current list name to compare
+    const currentList = user?.lists.find((list) => list.id === listId);
+    const currentName = currentList?.name || "";
+
+    // Check if the name hasn't changed
+    if (editedListName.trim() === currentName.trim()) {
+      setEditingListId(null);
+      setError("List name hasn't changed");
+      return;
+    }
+
+    // Check if the new name is too long
+    if (editedListName.trim().length > 30) {
+      setError("List name is too long (maximum 30 characters)");
+      return;
+    }
+
+    try {
+      // Update list name in the backend
+      await axios.put(`/api/users/${session.user.id}/lists/${listId}`, {
+        name: editedListName,
+      });
+
+      // Update the list name in the UI
+      setUser((prevUser) => {
+        if (!prevUser) return null;
+
+        return {
+          ...prevUser,
+          lists: prevUser.lists.map((list) =>
+            list.id === listId ? { ...list, name: editedListName } : list
+          ),
+        };
+      });
+
+      // If the edited list is currently selected, update its name in the state
+      if (selectedListId === listId) {
+        setList((prevList) =>
+          prevList ? { ...prevList, name: editedListName } : undefined
+        );
+      }
+
+      setEditingListId(null);
+      setMessage("List name updated successfully!");
+      setDropdownOpen(false); // Close dropdown
+    } catch (error: any) {
+      console.error("Error updating list name:", error);
+      setError(
+        error.response?.data?.error ||
+          "Failed to update list name. Please try again."
+      );
+    }
+  };
+
+  const handlePostRemove = async (postId: string, listId: string) => {
     try {
       const response = await axios.delete(
         `/api/users/${session?.user.id}/lists/${listId}`,
@@ -129,12 +333,84 @@ const UserSavedResourcesPage = () => {
 
       // Update the posts state by filtering out the removed post
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+      // Update the post count in the user state for this list
+      setUser((prevUser) => {
+        if (!prevUser) return null;
+        return {
+          ...prevUser,
+          lists: prevUser.lists.map((list) =>
+            list.id === listId
+              ? {
+                  ...list,
+                  _count: {
+                    ...list._count,
+                    posts: (list._count?.posts ?? 1) - 1,
+                  },
+                }
+              : list
+          ),
+        };
+      });
       fetchPosts(listId);
 
+      setMessage(`Removed from the ${list?.name}`);
+
       console.log(`Post ${postId} removed from list ${listId}`);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert("Failed to remove from the list.");
+      setError("Failed to remove from the list.");
+    }
+  };
+
+  const handleDeleteList = (
+    listId: string,
+    listName: string,
+    e: React.MouseEvent
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    // Show a simple confirmation dialog
+    if (
+      window.confirm(
+        `Are you sure you want to delete the list "${listName}"? This action cannot be undone.`
+      )
+    ) {
+      deleteList(listId);
+    }
+  };
+  const deleteList = async (listId: string) => {
+    if (!session?.user.id) return;
+
+    if (selectedListId === listId) {
+      setSelectedListId("");
+      setList(undefined);
+      setPosts([]);
+      updateUrlWithSelectedList(""); // Remove list from URL
+    }
+
+    try {
+      await axios.delete(`/api/users/${session.user.id}/lists/${listId}`, {
+        data: {},
+      });
+
+      // Update the user state by filtering out the deleted list
+      setUser((prevUser) => {
+        if (!prevUser) return null;
+
+        return {
+          ...prevUser,
+          lists: prevUser.lists.filter((list) => list.id !== listId),
+        };
+      });
+
+      setMessage("List deleted successfully!");
+    } catch (error: any) {
+      console.error("Error deleting list:", error);
+      setError(
+        error.response?.data?.error ||
+          "Failed to delete list. Please try again."
+      );
     }
   };
 
@@ -176,19 +452,169 @@ const UserSavedResourcesPage = () => {
       <div className="flex flex-col gap-8 items-center">
         <h1 className="text-2xl text-center font-normal">My List</h1>
         <div className="flex justify-center gap-8 w-full items-center ">
-          <select
-            className="select select-primary w-full max-w-xs"
-            onChange={(e) => setSelectedListId(e.target.value)}
-          >
-            <option disabled selected>
-              Select a list
-            </option>
-            {user?.lists.map((list) => (
-              <option key={list.id} value={list.id}>
-                {list.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex justify-center items-center gap-2">
+            <div
+              ref={dropdownRef}
+              className={`dropdown ${isDropdownOpen || editingListId ? "dropdown-open" : ""}`}
+            >
+              <div
+                ref={dropdownButtonRef}
+                tabIndex={0}
+                role="button"
+                className="btn m-1 w-full max-w-xs"
+                onClick={toggleDropdown}
+              >
+                {list?.name || "Select a list"}{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                  />
+                </svg>
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-72 z-50"
+              >
+                {user?.lists.map((listItem) => (
+                  <li
+                    key={listItem.id}
+                    className="flex justify-between items-center"
+                  >
+                    {editingListId === listItem.id ? (
+                      // Editing mode (layout matches normal mode)
+                      <button
+                        className="w-full flex justify-between items-center px-2 py-1"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex-grow">
+                          <input
+                            type="text"
+                            value={editedListName}
+                            onChange={(e) => setEditedListName(e.target.value)}
+                            className="input input-bordered input-sm w-full"
+                            autoFocus
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </div>
+                        <div className="flex gap-2 ml-2">
+                          <button
+                            className="btn btn-xs btn-ghost btn-square"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
+                              handleSaveEdit(listItem.id);
+                            }}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="size-6 p-0.5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="m4.5 12.75 6 6 9-13.5"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            className="btn btn-xs btn-ghost btn-square"
+                            onClick={(e) => handleCancelEdit(e)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="size-6 p-0.5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </button>
+                    ) : (
+                      // Normal mode (not editing)
+                      <button
+                        onClick={() => handleSelectList(listItem.id)}
+                        className="w-full flex justify-between items-center"
+                      >
+                        <div>
+                          {listItem.name}
+                          {"  "}
+                          <span className="badge badge-primary badge-sm">
+                            {listItem._count?.posts ?? 0}
+                          </span>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            className="btn btn-xs btn-square btn-ghost"
+                            onClick={(e) => {
+                              handleStartEdit(listItem.id, listItem.name, e);
+                            }}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="size-6 p-0.5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            className="btn btn-xs btn-square btn-ghost"
+                            onClick={(e) => {
+                              handleDeleteList(listItem.id, listItem.name, e);
+                            }}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="size-6 p-0.5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
           <CreateListModal onCreateList={handleCreateList} />
         </div>
         <div className="divider"></div>
@@ -217,7 +643,7 @@ const UserSavedResourcesPage = () => {
                 <img src={post.imageUrl} className="object-cover" />
                 <button
                   className="btn btn-circle absolute top-5 right-5"
-                  onClick={() => handleRemove(post.id, selectedListId)}
+                  onClick={() => handlePostRemove(post.id, selectedListId)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

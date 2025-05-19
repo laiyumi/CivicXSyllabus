@@ -21,6 +21,10 @@ const Footer = () => {
           Privacy Policy
         </Link>
         <span className="hidden xs:inline">|</span>
+        <Link href="/terms-of-use" className="link link-hover">
+          Terms of Use
+        </Link>
+        <span className="hidden xs:inline">|</span>
         <Link
           href={`mailto:contact@civicxsyllabus.org?`}
           target="_blank"

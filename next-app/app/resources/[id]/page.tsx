@@ -30,7 +30,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { showNotification, clearAllNotifications } = useNotifications();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<React.ReactNode>("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -76,6 +76,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
 
   useEffect(() => {
     if (message) {
+      // const messageString = message.toString();
       clearAllNotifications();
       showNotification(message, "success");
       // Clear the message state after showing notification
@@ -97,7 +98,17 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         }
       );
       if (response.status === 201) {
-        setMessage(`Resource saved to ${listName}`);
+        setMessage(
+          <span>
+            Resource saved to{" "}
+            <Link
+              href={`/user/list?list=${listId}`}
+              className="link link-primary underline"
+            >
+              {listName}
+            </Link>
+          </span>
+        );
         return;
       }
     } catch (error: any) {

@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@cypress/react": "^9.0.0",
+    "@headlessui/react": "^2.2.3",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.3.1",
     "@next-auth/prisma-adapter": "^1.0.7",
