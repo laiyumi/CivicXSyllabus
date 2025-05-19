@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import CreateListModal from "./CreateListModal";
-import { useSession } from "next-auth/react";
-import axios, { all } from "axios";
-import { Prisma } from "@prisma/client";
 import Spinner from "@/app/components/Spinner";
+import { Prisma } from "@prisma/client";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
 import { useNotifications } from "../../contexts/NotificationContext";
-import { use } from "chai";
-import { set } from "date-fns";
+import CreateListModal from "./CreateListModal";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -37,6 +36,9 @@ type List = Prisma.ListGetPayload<{
 }>;
 
 const UserSavedResourcesPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const { showNotification, clearAllNotifications } = useNotifications();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -100,6 +102,29 @@ const UserSavedResourcesPage = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
+  // Check for list ID in URL on initial load
+  useEffect(() => {
+    const listIdFromUrl = searchParams.get("list");
+    if (listIdFromUrl) {
+      setSelectedListId(listIdFromUrl);
+    }
+  }, [searchParams]);
+
+  const updateUrlWithSelectedList = (listId: string) => {
+    // Create new URL with the list parameter
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (listId) {
+      params.set("list", listId);
+    } else {
+      params.delete("list");
+    }
+
+    // Update URL without reloading the page
+    const url = `${window.location.pathname}?${params.toString()}`;
+    router.push(url, { scroll: false });
+  };
+
   // Function to select a list and close the dropdown
   const handleSelectList = (listId: string) => {
     // Exit any edit mode first
@@ -107,6 +132,8 @@ const UserSavedResourcesPage = () => {
 
     // Set the selected list ID
     setSelectedListId(listId);
+
+    updateUrlWithSelectedList(listId);
 
     // Immediately close the dropdown without delay
     setDropdownOpen(false);
@@ -355,6 +382,13 @@ const UserSavedResourcesPage = () => {
   const deleteList = async (listId: string) => {
     if (!session?.user.id) return;
 
+    if (selectedListId === listId) {
+      setSelectedListId("");
+      setList(undefined);
+      setPosts([]);
+      updateUrlWithSelectedList(""); // Remove list from URL
+    }
+
     try {
       await axios.delete(`/api/users/${session.user.id}/lists/${listId}`, {
         data: {},
@@ -456,22 +490,24 @@ const UserSavedResourcesPage = () => {
                     className="flex justify-between items-center"
                   >
                     {editingListId === listItem.id ? (
-                      // Editing mode
-                      <div
-                        className="w-full flex justify-between items-center p-2"
+                      // Editing mode (layout matches normal mode)
+                      <button
+                        className="w-full flex justify-between items-center px-2 py-1"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <input
-                          type="text"
-                          value={editedListName}
-                          onChange={(e) => setEditedListName(e.target.value)}
-                          className="input input-bordered input-sm w-full max-w-xs"
-                          autoFocus
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                        <div className="flex gap-2">
+                        <div className="flex-grow">
+                          <input
+                            type="text"
+                            value={editedListName}
+                            onChange={(e) => setEditedListName(e.target.value)}
+                            className="input input-bordered input-sm w-full"
+                            autoFocus
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </div>
+                        <div className="flex gap-2 ml-2">
                           <button
-                            className="btn btn-xs btn-ghost"
+                            className="btn btn-xs btn-ghost btn-square"
                             onClick={(e) => {
                               e.stopPropagation();
                               e.preventDefault();
@@ -484,7 +520,7 @@ const UserSavedResourcesPage = () => {
                               viewBox="0 0 24 24"
                               strokeWidth={1.5}
                               stroke="currentColor"
-                              className="size-6"
+                              className="size-6 p-0.5"
                             >
                               <path
                                 strokeLinecap="round"
@@ -494,10 +530,8 @@ const UserSavedResourcesPage = () => {
                             </svg>
                           </button>
                           <button
-                            className="btn btn-xs btn-ghost"
-                            onClick={(e) => {
-                              handleCancelEdit(e);
-                            }}
+                            className="btn btn-xs btn-ghost btn-square"
+                            onClick={(e) => handleCancelEdit(e)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -505,7 +539,7 @@ const UserSavedResourcesPage = () => {
                               viewBox="0 0 24 24"
                               strokeWidth={1.5}
                               stroke="currentColor"
-                              className="size-6"
+                              className="size-6 p-0.5"
                             >
                               <path
                                 strokeLinecap="round"
@@ -515,7 +549,7 @@ const UserSavedResourcesPage = () => {
                             </svg>
                           </button>
                         </div>
-                      </div>
+                      </button>
                     ) : (
                       // Normal mode (not editing)
                       <button
@@ -531,7 +565,7 @@ const UserSavedResourcesPage = () => {
                         </div>
                         <div className="flex gap-2">
                           <button
-                            className="btn btn-xs btn-ghost"
+                            className="btn btn-xs btn-square btn-ghost"
                             onClick={(e) => {
                               handleStartEdit(listItem.id, listItem.name, e);
                             }}
@@ -542,7 +576,7 @@ const UserSavedResourcesPage = () => {
                               viewBox="0 0 24 24"
                               strokeWidth={1.5}
                               stroke="currentColor"
-                              className="size-6"
+                              className="size-6 p-0.5"
                             >
                               <path
                                 strokeLinecap="round"
@@ -552,7 +586,7 @@ const UserSavedResourcesPage = () => {
                             </svg>
                           </button>
                           <button
-                            className="btn btn-xs btn-ghost"
+                            className="btn btn-xs btn-square btn-ghost"
                             onClick={(e) => {
                               handleDeleteList(listItem.id, listItem.name, e);
                             }}
@@ -563,7 +597,7 @@ const UserSavedResourcesPage = () => {
                               viewBox="0 0 24 24"
                               strokeWidth={1.5}
                               stroke="currentColor"
-                              className="size-6"
+                              className="size-6 p-0.5"
                             >
                               <path
                                 strokeLinecap="round"

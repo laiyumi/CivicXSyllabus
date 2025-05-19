@@ -101,7 +101,10 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         setMessage(
           <span>
             Resource saved to{" "}
-            <Link href={"/user/list/"} className="link link-primary underline">
+            <Link
+              href={`/user/list?list=${listId}`}
+              className="link link-primary underline"
+            >
               {listName}
             </Link>
           </span>

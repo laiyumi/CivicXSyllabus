@@ -29,6 +29,12 @@ export default function RootLayout({
 
   return (
     <html lang="en" data-theme="winter">
+      <head>
+        <meta
+          property="og:image"
+          content="https://www.civicxsyllabus.org/favicon-for-public/web-app-manifest-192x192.png"
+        />
+      </head>
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
