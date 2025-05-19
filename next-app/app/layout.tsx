@@ -32,7 +32,7 @@ export default function RootLayout({
       <head>
         <meta
           property="og:image"
-          content="https://www.civicxsyllabus.org/favicon-for-public/web-app-manifest-192x192.png"
+          content="https://www.civicxsyllabus.org/favicon-for-public/web-app-manifest-512x512.png"
         />
       </head>
       <body className={inter.className}>
