@@ -103,7 +103,7 @@ const TeamPage = () => {
             <div className="flex justify-between pb-6">
               <div>
                 <h2 className="card-title text-base-content">Yu Lai</h2>
-                <p className="text-md">Co-Founder & Lead Software Enigneer</p>
+                <p className="text-md">Co-Founder & Lead Software Engineer</p>
               </div>
               <Link href="https://www.linkedin.com/in/yu-lai/">
                 <svg
