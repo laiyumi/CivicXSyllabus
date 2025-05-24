@@ -21,8 +21,7 @@ model User {
   password      String?
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
+  Authenticator Authenticator[] // Optional for WebAuthn support
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -54,6 +54,7 @@ const CreateListModal = ({ onCreateList }: CreateListModalProps) => {
             <input
               type="text"
               placeholder="Enter the name of the list"
+              value={listName}
               className="input input-primary"
               onChange={(e) => setListName(e.target.value)}
               required

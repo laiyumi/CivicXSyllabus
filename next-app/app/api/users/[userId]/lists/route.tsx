@@ -14,6 +14,9 @@ export async function GET(
     where: { userId: params.userId },
     include: {
       posts: true,
+      _count: {
+        select: { posts: true },
+      },
     },
   });
 
@@ -72,13 +75,18 @@ export async function POST(
       { status: 400 }
     );
 
-  // create a new list in the db
+  // create a new list with the attaced user id
   const list = await prisma.list.create({
     data: {
       name: body.name,
       userId: params.userId,
     },
-    select: { id: true, name: true },
+    include: {
+      posts: true,
+      _count: {
+        select: { posts: true },
+      },
+    },
   });
   return NextResponse.json(list, { status: 201 });
 }

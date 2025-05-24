@@ -17,6 +17,12 @@ export async function GET(
     include: {
       lists: {
         include: {
+          posts: {
+            include: {
+              categories: true,
+              tags: true,
+            },
+          },
           _count: {
             select: { posts: true },
           },

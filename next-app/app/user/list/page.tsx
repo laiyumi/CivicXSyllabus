@@ -9,6 +9,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNotifications } from "../../contexts/NotificationContext";
 import CreateListModal from "./CreateListModal";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useUserStore } from "@/app/stores/useUserStore";
+import { use } from "chai";
+import { set } from "date-fns";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -48,12 +51,14 @@ const UserSavedResourcesPage = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  const [user, setUser] = useState<User | null>(null);
+  const user = useUserStore((state) => state.user);
+
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [list, setList] = useState<List>();
   const [selectedListId, setSelectedListId] = useState<string>("");
-  const [posts, setPosts] = useState<Post[]>([]);
+  const list = useUserStore((state) =>
+    state.user?.lists.find((l) => l.id === selectedListId)
+  );
 
   const [editingListId, setEditingListId] = useState<string | null>(null);
   const [editedListName, setEditedListName] = useState<string>("");
@@ -125,14 +130,11 @@ const UserSavedResourcesPage = () => {
     router.push(url, { scroll: false });
   };
 
-  // Function to select a list and close the dropdown
+  // Select a list and close the dropdown
   const handleSelectList = (listId: string) => {
     // Exit any edit mode first
     setEditingListId(null);
-
-    // Set the selected list ID
     setSelectedListId(listId);
-
     updateUrlWithSelectedList(listId);
 
     // Immediately close the dropdown without delay
@@ -142,7 +144,7 @@ const UserSavedResourcesPage = () => {
     }
   };
 
-  // fetch user data
+  // fetch user lists data
   useEffect(() => {
     if (status === "loading") return; // Do nothing while loading
     if (!session) {
@@ -153,12 +155,12 @@ const UserSavedResourcesPage = () => {
 
     const fetchUser = async () => {
       try {
-        // Fetch user data by email
         const response = await axios.get(`/api/users/${session!.user.id}`);
-        setUser(response.data);
-        console.log("Fetched user data:", response.data);
+        // set initial user lists state
+        useUserStore.getState().setUser(response.data);
+        console.log("Fetched user lists data:", response.data);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching user lists data:", error);
       } finally {
         setLoading(false);
       }
@@ -166,64 +168,19 @@ const UserSavedResourcesPage = () => {
     fetchUser();
   }, [session, status]);
 
-  const fetchPosts = async (listId: string) => {
-    try {
-      const response = await axios.get(
-        `/api/users/${session?.user.id}/lists/${listId}`
-      );
-      setList(response.data);
-      setPosts(response.data.posts);
-      // Sync the post count in the user state for this list
-      setUser((prevUser) => {
-        if (!prevUser) return null;
-        return {
-          ...prevUser,
-          lists: prevUser.lists.map((l) =>
-            l.id === listId
-              ? {
-                  ...l,
-                  _count: {
-                    ...l._count,
-                    posts: response.data.posts.length,
-                  },
-                }
-              : l
-          ),
-        };
-      });
-    } catch (error) {
-      console.error("Error fetching posts in the selected list:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (selectedListId) {
-      fetchPosts(selectedListId);
-    }
-  }, [selectedListId]);
-
   const handleCreateList = async (listName: string) => {
     if (!session?.user.id) {
       alert("You must be logged in to create a list");
       return;
     }
-
     try {
       const response = await axios.post(`/api/users/${session.user.id}/lists`, {
         name: listName,
       });
+      const newList = response.data;
+      useUserStore.getState().createList(newList);
 
-      // Add the newly created list to the user state
-      setUser((prevUser) =>
-        prevUser
-          ? {
-              ...prevUser,
-              lists: [...prevUser.lists, response.data],
-            }
-          : null
-      );
-
-      setMessage("List created successfully!");
+      setMessage(`${listName} created successfully!`);
       setError("");
     } catch (error: any) {
       console.error("Error creating list:", error);
@@ -287,27 +244,16 @@ const UserSavedResourcesPage = () => {
 
     try {
       // Update list name in the backend
-      await axios.put(`/api/users/${session.user.id}/lists/${listId}`, {
-        name: editedListName,
-      });
+      const response = await axios.put(
+        `/api/users/${session.user.id}/lists/${listId}`,
+        {
+          name: editedListName,
+        }
+      );
 
-      // Update the list name in the UI
-      setUser((prevUser) => {
-        if (!prevUser) return null;
-
-        return {
-          ...prevUser,
-          lists: prevUser.lists.map((list) =>
-            list.id === listId ? { ...list, name: editedListName } : list
-          ),
-        };
-      });
-
-      // If the edited list is currently selected, update its name in the state
-      if (selectedListId === listId) {
-        setList((prevList) =>
-          prevList ? { ...prevList, name: editedListName } : undefined
-        );
+      // Update the list name in the user state
+      if (response.status === 200) {
+        useUserStore.getState().renameList(listId, editedListName);
       }
 
       setEditingListId(null);
@@ -332,29 +278,11 @@ const UserSavedResourcesPage = () => {
       );
 
       // Update the posts state by filtering out the removed post
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
-      // Update the post count in the user state for this list
-      setUser((prevUser) => {
-        if (!prevUser) return null;
-        return {
-          ...prevUser,
-          lists: prevUser.lists.map((list) =>
-            list.id === listId
-              ? {
-                  ...list,
-                  _count: {
-                    ...list._count,
-                    posts: (list._count?.posts ?? 1) - 1,
-                  },
-                }
-              : list
-          ),
-        };
-      });
-      fetchPosts(listId);
+      if (response.status === 200) {
+        useUserStore.getState().removePostFromList(listId, postId);
+      }
 
       setMessage(`Removed from the ${list?.name}`);
-
       console.log(`Post ${postId} removed from list ${listId}`);
     } catch (err: any) {
       console.error(err);
@@ -370,41 +298,37 @@ const UserSavedResourcesPage = () => {
     e.stopPropagation();
     e.preventDefault();
 
-    // Show a simple confirmation dialog
+    // Show a confirmation dialog
     if (
       window.confirm(
         `Are you sure you want to delete the list "${listName}"? This action cannot be undone.`
       )
     ) {
       deleteList(listId);
+      setMessage(`${listName} deleted successfully!`);
     }
   };
+
   const deleteList = async (listId: string) => {
     if (!session?.user.id) return;
 
     if (selectedListId === listId) {
       setSelectedListId("");
-      setList(undefined);
-      setPosts([]);
       updateUrlWithSelectedList(""); // Remove list from URL
     }
 
     try {
-      await axios.delete(`/api/users/${session.user.id}/lists/${listId}`, {
-        data: {},
-      });
+      const response = await axios.delete(
+        `/api/users/${session.user.id}/lists/${listId}`,
+        {
+          data: {},
+        }
+      );
 
       // Update the user state by filtering out the deleted list
-      setUser((prevUser) => {
-        if (!prevUser) return null;
-
-        return {
-          ...prevUser,
-          lists: prevUser.lists.filter((list) => list.id !== listId),
-        };
-      });
-
-      setMessage("List deleted successfully!");
+      if (response.status === 200) {
+        useUserStore.getState().deleteList(listId);
+      }
     } catch (error: any) {
       console.error("Error deleting list:", error);
       setError(
@@ -449,8 +373,28 @@ const UserSavedResourcesPage = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-8 items-center">
-        <h1 className="text-2xl text-center font-normal">My List</h1>
+      <div className="flex flex-col gap-6 items-center">
+        <div>
+          <h1 className="text-2xl text-center font-normal">
+            {selectedListId == "" ? "My Lists" : list?.name}
+          </h1>
+          <div className="text-l flex gap-2 items-center min-h-[24px]">
+            {selectedListId !== "" && (
+              <>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="20px"
+                  className="text-red-600 fill-current"
+                >
+                  <path d="M23.3 5.076a6.582 6.582 0 0 0-10.446-1.71L12 4.147l-.827-.753a6.52 6.52 0 0 0-5.688-1.806A6.47 6.47 0 0 0 .7 5.075a6.4 6.4 0 0 0 1.21 7.469l9.373 9.656a1 1 0 0 0 1.434 0l9.36-9.638A6.41 6.41 0 0 0 23.3 5.076"></path>
+                </svg>
+                {list?.posts.length} resource saved
+              </>
+            )}
+          </div>
+        </div>
+
         <div className="flex justify-center gap-8 w-full items-center ">
           <div className="flex justify-center items-center gap-2">
             <div
@@ -615,26 +559,15 @@ const UserSavedResourcesPage = () => {
             </div>
           </div>
 
+          {/* Create a list */}
           <CreateListModal onCreateList={handleCreateList} />
         </div>
         <div className="divider"></div>
-        <div className="flex flex-col justify-center items-center gap-2 ">
-          <h2 className="text-2xl">{list?.name}</h2>
-          <div className="text-l flex gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="20px"
-              className="text-red-600 fill-current"
-            >
-              <path d="M23.3 5.076a6.582 6.582 0 0 0-10.446-1.71L12 4.147l-.827-.753a6.52 6.52 0 0 0-5.688-1.806A6.47 6.47 0 0 0 .7 5.075a6.4 6.4 0 0 0 1.21 7.469l9.373 9.656a1 1 0 0 0 1.434 0l9.36-9.638A6.41 6.41 0 0 0 23.3 5.076"></path>
-            </svg>{" "}
-            {posts?.length} resource saved
-          </div>
-        </div>
+
+        {/* Display selected list */}
 
         <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {posts?.map((post) => (
+          {list?.posts.map((post) => (
             <div
               key={post.id}
               className="card bg-base-100 shadow-xl col-span-1"
