@@ -50,15 +50,21 @@ const UserSavedResourcesPage = () => {
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-
-  const user = useUserStore((state) => state.user);
-
   const [loading, setLoading] = useState<boolean>(true);
 
   const [selectedListId, setSelectedListId] = useState<string>("");
-  const list = useUserStore((state) =>
-    state.user?.lists.find((l) => l.id === selectedListId)
-  );
+
+  const { user, setUser } = useUserStore();
+
+  const list = useUserStore((state) => {
+    if (!selectedListId || !state.user) return null;
+    return state.user.lists.find((l) => l.id === selectedListId);
+  });
+
+  const removePostFromList = useUserStore((state) => state.removePostFromList);
+
+  // Use selectedList instead of list throughout your component
+  const posts = list?.posts || [];
 
   const [editingListId, setEditingListId] = useState<string | null>(null);
   const [editedListName, setEditedListName] = useState<string>("");
@@ -113,7 +119,7 @@ const UserSavedResourcesPage = () => {
     if (listIdFromUrl) {
       setSelectedListId(listIdFromUrl);
     }
-  }, [searchParams]);
+  }, [searchParams.toString()]);
 
   const updateUrlWithSelectedList = (listId: string) => {
     // Create new URL with the list parameter
@@ -157,7 +163,7 @@ const UserSavedResourcesPage = () => {
       try {
         const response = await axios.get(`/api/users/${session!.user.id}`);
         // set initial user lists state
-        useUserStore.getState().setUser(response.data);
+        setUser(response.data);
         console.log("Fetched user lists data:", response.data);
       } catch (error) {
         console.error("Error fetching user lists data:", error);
@@ -278,8 +284,8 @@ const UserSavedResourcesPage = () => {
       );
 
       // Update the posts state by filtering out the removed post
-      if (response.status === 200) {
-        useUserStore.getState().removePostFromList(listId, postId);
+      if (response.status === 201) {
+        removePostFromList(listId, postId);
       }
 
       setMessage(`Removed from the ${list?.name}`);
@@ -344,18 +350,20 @@ const UserSavedResourcesPage = () => {
       clearAllNotifications();
       showNotification(error, "error");
       // Clear the error state after showing notification
-      setTimeout(() => setError(""), 3000);
+      const timer = setTimeout(() => setError(""), 3000);
+      return () => clearTimeout(timer);
     }
-  }, [error, showNotification, clearAllNotifications]);
+  }, [error]);
 
   useEffect(() => {
     if (message) {
       clearAllNotifications();
       showNotification(message, "success");
       // Clear the message state after showing notification
-      setTimeout(() => setMessage(""), 3000);
+      const timer = setTimeout(() => setMessage(""), 3000);
+      return () => clearTimeout(timer);
     }
-  }, [message, showNotification, clearAllNotifications]);
+  }, [message]);
 
   // While loading
   if (loading) {
@@ -389,7 +397,7 @@ const UserSavedResourcesPage = () => {
                 >
                   <path d="M23.3 5.076a6.582 6.582 0 0 0-10.446-1.71L12 4.147l-.827-.753a6.52 6.52 0 0 0-5.688-1.806A6.47 6.47 0 0 0 .7 5.075a6.4 6.4 0 0 0 1.21 7.469l9.373 9.656a1 1 0 0 0 1.434 0l9.36-9.638A6.41 6.41 0 0 0 23.3 5.076"></path>
                 </svg>
-                {list?.posts.length} resource saved
+                {posts.length} resource saved
               </>
             )}
           </div>
@@ -565,9 +573,8 @@ const UserSavedResourcesPage = () => {
         <div className="divider"></div>
 
         {/* Display selected list */}
-
         <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {list?.posts.map((post) => (
+          {posts.map((post) => (
             <div
               key={post.id}
               className="card bg-base-100 shadow-xl col-span-1"

@@ -114,7 +114,7 @@ export async function POST(
   return NextResponse.json(updatedList, { status: 201 });
 }
 
-// delete a post from the list or delete the whole list
+// remove a post from the list or delete the whole list
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { userId: string; listId: string } }
