@@ -1,17 +1,15 @@
 "use client";
 
 import Spinner from "@/app/components/Spinner";
+import { useUserStore } from "@/app/stores/useUserStore";
 import { Prisma } from "@prisma/client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useNotifications } from "../../contexts/NotificationContext";
 import CreateListModal from "./CreateListModal";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useUserStore } from "@/app/stores/useUserStore";
-import { use } from "chai";
-import { set } from "date-fns";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -50,12 +48,11 @@ const UserSavedResourcesPage = () => {
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
 
   const [selectedListId, setSelectedListId] = useState<string>("");
 
-  const { user, setUser } = useUserStore();
-
+  const user = useUserStore((state) => state.user);
   const list = useUserStore((state) => {
     if (!selectedListId || !state.user) return null;
     return state.user.lists.find((l) => l.id === selectedListId);
@@ -149,30 +146,6 @@ const UserSavedResourcesPage = () => {
       dropdownButtonRef.current.blur();
     }
   };
-
-  // fetch user lists data
-  useEffect(() => {
-    if (status === "loading") return; // Do nothing while loading
-    if (!session) {
-      console.error("No session found");
-      setLoading(false);
-      return;
-    }
-
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`/api/users/${session!.user.id}`);
-        // set initial user lists state
-        setUser(response.data);
-        console.log("Fetched user lists data:", response.data);
-      } catch (error) {
-        console.error("Error fetching user lists data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, [session, status]);
 
   const handleCreateList = async (listName: string) => {
     if (!session?.user.id) {
@@ -289,7 +262,7 @@ const UserSavedResourcesPage = () => {
       }
 
       setMessage(`Removed from the ${list?.name}`);
-      console.log(`Post ${postId} removed from list ${listId}`);
+      // console.log(`Post ${postId} removed from list ${listId}`);
     } catch (err: any) {
       console.error(err);
       setError("Failed to remove from the list.");
@@ -366,7 +339,7 @@ const UserSavedResourcesPage = () => {
   }, [message]);
 
   // While loading
-  if (loading) {
+  if (user === undefined) {
     return (
       <div className="flex justify-center items-center ">
         <Spinner />

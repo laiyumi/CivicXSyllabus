@@ -12,13 +12,9 @@ import { NotificationProvider } from "./contexts/NotificationContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
+import UserInitializer from "./components/UserInitializer";
 
 const inter = Inter({ subsets: ["latin"] });
-
-// export const metadata: Metadata = {
-//   title: "Civic X Syllabus",
-//   description: "Your go-to platform for building foundational civic innovation knowledge. ",
-// };
 
 export default function RootLayout({
   children,
@@ -38,6 +34,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
+            <UserInitializer />
             <NotificationProvider>
               {/* Default Layout */}
               <div className="flex flex-col min-h-screen">

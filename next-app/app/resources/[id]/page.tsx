@@ -11,6 +11,7 @@ import RelatedResourceCard from "../../components/ResourceCard/RelatedResourceCa
 import ToggleLikes from "../../components/ToggleLikes";
 import ToggleSave from "../../components/ToggleSave";
 import ResourceDetailCardSkeleton from "./ResourceDetailCardSkeleton";
+import { useUserStore } from "@/app/stores/useUserStore";
 
 interface Props {
   params: { id: string };
@@ -23,11 +24,16 @@ type PostWithRelations = Prisma.PostGetPayload<{
 type PostWithScore = PostWithRelations & { score: number };
 
 const ResourceDetailPage = ({ params: { id } }: Props) => {
+  const { data: session, status } = useSession();
+  const [isLoading, setIsLoading] = useState(true);
+
   const [resource, setResource] = useState<PostWithRelations>();
   const [relatedResources, setRelatedResources] = useState<PostWithScore[]>();
-  const { data: session, status } = useSession();
   const [paragraphs, setParagraphs] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+
+  // Add store hooks
+  const addPostToList = useUserStore((state) => state.addPostToList);
+  const removePostFromList = useUserStore((state) => state.removePostFromList);
 
   const { showNotification, clearAllNotifications } = useNotifications();
   const [message, setMessage] = useState<React.ReactNode>("");
@@ -91,6 +97,7 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
     }
 
     try {
+      // the API returns the updated list with the post added
       const response = await axios.post(
         `/api/users/${session?.user.id}/lists/${listId}`,
         {
@@ -98,6 +105,9 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         }
       );
       if (response.status === 201) {
+        // update the user store
+        addPostToList(listId, resource as PostWithRelations);
+
         setMessage(
           <span>
             Resource saved to{" "}
@@ -138,6 +148,8 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
         }
       );
       if (response.status === 201) {
+        // update the user store
+        removePostFromList(listId, id);
         setMessage(`Resource removed from ${listName}`);
         return;
       }

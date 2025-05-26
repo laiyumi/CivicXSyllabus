@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"; // Import useRouter
 import React, { useEffect, useState } from "react";
+import { useUserStore } from "@/app/stores/useUserStore";
 
 type ListWithPosts = List & { posts: Post[] };
 
@@ -15,54 +16,27 @@ const ToggleSave = ({
   onSave: (listId: string, listName: string) => void;
   onRemove: (listId: string, listName: string) => void;
 }) => {
-  const [hasSaved, setHasSaved] = useState<boolean>(false);
-
-  const [lists, setLists] = useState<List[]>([]);
-  const { data: session } = useSession();
   const [selectedListId, setSelectedListId] = useState("");
   const [selectedListName, setSelectedListName] = useState("");
   const router = useRouter();
 
-  useEffect(() => {
-    if (!session?.user.id) return;
+  // Connect to user store
+  const user = useUserStore((state) => state.user);
+  // const isUserLoaded = user !== null;
 
-    // get all lists of the user
-    const fetchLists = async () => {
-      try {
-        const response = await axios.get(
-          `/api/users/${session?.user.id}/lists`
-        );
-        setLists(response.data);
+  const isPostSaved = useUserStore((state) => state.isPostSaved);
+  const getListThatSavedPost = useUserStore(
+    (state) => state.getListThatSavedPost
+  );
 
-        // check if the post is already saved and set selected list info
-        const savedList = response.data.find((list: ListWithPosts) =>
-          list.posts.some((post) => post.id === resourceId)
-        );
+  // Get saved status and the list it's saved in
+  const hasSaved = isPostSaved(resourceId);
+  const savedList = getListThatSavedPost(resourceId);
+  const lists = user?.lists || [];
 
-        const listId = response.data.find((list: ListWithPosts) =>
-          list.posts.some((post) => post.id === resourceId)
-        )?.id;
-
-        if (savedList) {
-          setSelectedListId(savedList.id);
-          setSelectedListName(savedList.name);
-          setHasSaved(true);
-        } else {
-          setSelectedListId("");
-          setSelectedListName("");
-          setHasSaved(false);
-        }
-      } catch (error) {
-        console.error("Error fetching lists:", error);
-      }
-    };
-    fetchLists();
-  }, [session?.user.id, resourceId]);
-
-  const handleConfirmSave = () => {
+  const handleConfirmSave = async () => {
     try {
       onSave(selectedListId, selectedListName); // call backend
-      setHasSaved((prev) => !prev);
       (
         document.getElementById("save_to_list_modal") as HTMLDialogElement
       ).close();
@@ -80,10 +54,10 @@ const ToggleSave = ({
 
   const handleToggleSave = async () => {
     try {
-      if (hasSaved) {
+      if (hasSaved && savedList) {
         // call backend to remove the post from the list
-        onRemove(selectedListId, selectedListName);
-        setHasSaved((prev) => !prev);
+        onRemove(savedList.id, savedList.name);
+        // setHasSaved((prev) => !prev);
       } else {
         // open the modal
         (
@@ -97,6 +71,7 @@ const ToggleSave = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedList = lists.find((list) => list.id === e.target.value);
     setSelectedListId(e.target.value);
     setSelectedListName(e.target.name);
   };
