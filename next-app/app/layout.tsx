@@ -1,18 +1,17 @@
 "use client";
 
-import "./globals.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import NavBar from "./NavBar";
-import Footer from "./Footer";
-import AuthProvider from "./auth/Provider";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { NotificationProvider } from "./contexts/NotificationContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Inter } from "next/font/google";
 import { useState } from "react";
+import Footer from "./Footer";
+import NavBar from "./NavBar";
+import AuthProvider from "./auth/Provider";
 import UserInitializer from "./components/UserInitializer";
+import { NotificationProvider } from "./contexts/NotificationContext";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

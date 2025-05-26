@@ -20,10 +20,7 @@ const ToggleSave = ({
   const [selectedListName, setSelectedListName] = useState("");
   const router = useRouter();
 
-  // Connect to user store
   const user = useUserStore((state) => state.user);
-  // const isUserLoaded = user !== null;
-
   const isPostSaved = useUserStore((state) => state.isPostSaved);
   const getListThatSavedPost = useUserStore(
     (state) => state.getListThatSavedPost
@@ -48,7 +45,6 @@ const ToggleSave = ({
   };
 
   const handleCreateAndSave = () => {
-    // redirect to the create list page
     router.push("/user/list");
   };
 
@@ -57,7 +53,6 @@ const ToggleSave = ({
       if (hasSaved && savedList) {
         // call backend to remove the post from the list
         onRemove(savedList.id, savedList.name);
-        // setHasSaved((prev) => !prev);
       } else {
         // open the modal
         (
@@ -73,7 +68,7 @@ const ToggleSave = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedList = lists.find((list) => list.id === e.target.value);
     setSelectedListId(e.target.value);
-    setSelectedListName(e.target.name);
+    setSelectedListName(selectedList?.name || "");
   };
 
   return (
