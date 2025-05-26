@@ -5,6 +5,9 @@ const nextConfig = {
     compiler: {
         removeConsole: process.env.NODE_ENV === "production"
     },
+    images: {
+        domains: ['i0.wp.com', 'res.cloudinary.com'],
+    },
     env: {
         NEXTAUTH_URL: process.env.VERCEL_URL
             ? `https://${process.env.VERCEL_URL}`

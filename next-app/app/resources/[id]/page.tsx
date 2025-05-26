@@ -12,6 +12,7 @@ import ToggleLikes from "../../components/ToggleLikes";
 import ToggleSave from "../../components/ToggleSave";
 import ResourceDetailCardSkeleton from "./ResourceDetailCardSkeleton";
 import { useUserStore } from "@/app/stores/useUserStore";
+import Image from "next/image";
 
 interface Props {
   params: { id: string };
@@ -40,29 +41,55 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchResource = async () => {
-      const response = await axios.get(`/api/resources/${id}`);
-      setResource(response.data);
-      // Split the content into paragraphs
+    // const fetchResource = async () => {
+    //   const response = await axios.get(`/api/resources/${id}`);
+    //   setResource(response.data);
+    //   // Split the content into paragraphs
 
-      // Debugging: Check what content looks like
-      console.log("Raw content:", response.data.content);
+    //   // Debugging: Check what content looks like
+    //   console.log("Raw content:", response.data.content);
 
-      // Replace double-escaped newlines before splitting
-      const content = response.data.content.replace(/\\n/g, "\n");
-      const paragraphs = content.split(/\r?\n/);
-      setParagraphs(paragraphs);
-    };
+    //   // Replace double-escaped newlines before splitting
+    //   const content = response.data.content.replace(/\\n/g, "\n");
+    //   const paragraphs = content.split(/\r?\n/);
+    //   setParagraphs(paragraphs);
+    // };
 
-    const fetchRelatedResources = async () => {
-      const response = await axios.get(`/api/resources/${id}/related`);
-      setRelatedResources(response.data);
-    };
+    // const fetchRelatedResources = async () => {
+    //   const response = await axios.get(`/api/resources/${id}/related`);
+    //   setRelatedResources(response.data);
+    // };
 
     const fetchData = async () => {
-      await fetchResource();
-      await fetchRelatedResources();
-      setIsLoading(false);
+      // parallel requests
+      // await Promise.all([fetchResource(), fetchRelatedResources()]);
+      // setIsLoading(false);
+      const [resourceRes, relatedRes] = await Promise.all([
+        axios.get(`/api/resources/${id}`),
+        axios.get(`/api/resources/${id}/related`),
+      ]);
+
+      const resourceData = resourceRes.data;
+      const relatedData = relatedRes.data;
+
+      setResource(resourceData);
+      setRelatedResources(relatedData);
+
+      // Handle paragraphs
+      const content = resourceData.content.replace(/\\n/g, "\n");
+      const paragraphs = content.split(/\r?\n/);
+      setParagraphs(paragraphs);
+
+      // Preload image before showing the page
+      const img = new window.Image();
+      img.src = resourceData.imageUrl;
+      img.onload = () => {
+        setIsLoading(false);
+      };
+      img.onerror = () => {
+        // In case image fails to load, still allow page to render
+        setIsLoading(false);
+      };
     };
 
     fetchData();
@@ -170,11 +197,13 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
             key={resource?.id}
             className="card lg:card-side bg-base-100 shadow-xl h-[500px] xs:h-auto flex lg:flex-row sm:flex-col"
           >
-            <figure className="lg:w-1/2 sm:w-full">
-              <img
-                src={resource?.imageUrl}
+            <figure className="lg:w-1/2 sm:w-full overflow-hidden relative">
+              <Image
+                src={resource?.imageUrl || "/600x400_placeholder.svg"}
                 alt="Resource thumbnail"
-                className="object-cover w-full h-full"
+                fill
+                className="absolute top-0 left-0 w-full h-full object-cover"
+                loading="lazy"
               />
             </figure>
             <div className="card-body flex-auto justify-around">

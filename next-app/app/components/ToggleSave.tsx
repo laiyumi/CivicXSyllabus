@@ -1,9 +1,7 @@
-import { List, Post } from "@prisma/client";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation"; // Import useRouter
-import React, { useEffect, useState } from "react";
 import { useUserStore } from "@/app/stores/useUserStore";
+import { List, Post } from "@prisma/client";
+import { useRouter } from "next/navigation"; // Import useRouter
+import React, { useState } from "react";
 
 type ListWithPosts = List & { posts: Post[] };
 

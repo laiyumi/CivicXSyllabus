@@ -12,6 +12,7 @@ import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useNotifications } from "../../../contexts/NotificationContext";
+import Image from "next/image";
 
 interface Resource extends Post {
   categories: { id: string; name: string }[];
@@ -298,16 +299,17 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
                   />
                 </label>
                 {newImageUrl ? (
-                  <img
+                  <Image
                     src={newImageUrl}
                     alt="Uploaded image"
                     className="w-72 h-54 object-cover"
-                  ></img>
+                  />
                 ) : (
-                  <img
+                  <Image
                     src={resource?.imageUrl}
+                    alt="Resource thumbnail"
                     className="w-72 h-54 object-cover"
-                  ></img>
+                  />
                 )}
                 <ErrorMessage>{errors.imageUrl?.message}</ErrorMessage>
               </div>

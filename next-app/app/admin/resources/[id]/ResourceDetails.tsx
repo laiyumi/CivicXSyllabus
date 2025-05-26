@@ -3,16 +3,7 @@ import { Post } from "@prisma/client";
 import { format } from "date-fns";
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
-
-// interface Resource extends Post {
-//   categories: { id: string; name: string }[];
-//   tags: { id: string; name: string }[];
-//   source: { id: string; name: string };
-// }
-
-// interface Props {
-//   params: { id: string };
-// }
+import Image from "next/image";
 
 const ResourceDetails = async ({ resourceId }: { resourceId: string }) => {
   const resource = await prisma.post.findUnique({
@@ -118,7 +109,11 @@ const ResourceDetails = async ({ resourceId }: { resourceId: string }) => {
         </label>
         <label className="form-control w-full flex gap-2">
           <span className="text-m">Thumbnail Image</span>
-          <img src={resource.imageUrl} className="w-72 h-54 object-cover"></img>
+          <Image
+            src={resource.imageUrl}
+            alt="thumbnail"
+            className="w-72 h-54 object-cover"
+          />
         </label>
       </div>
 

@@ -4,6 +4,7 @@ import ContentTypeAdder from "@/app/components/ContentTypeAdder";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 import UploadImage from "@/app/components/UploadImage";
+import Image from "next/image";
 import createResourceSchema from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Post, Tag } from "@prisma/client";
@@ -254,20 +255,21 @@ const ResourceForm = ({ resource }: { resource?: Post }) => {
               </label>
               <label className="form-control w-full flex gap-2">
                 <span className="text-m">Thumbnail Image *</span>
-                <img
-                  src={resource?.imageUrl}
+                <Image
+                  src={resource?.imageUrl || "/600x400_placeholder.svg"}
+                  alt="Resource thumbnail"
                   className="w-72 h-54 object-cover"
-                ></img>
+                />
                 <UploadImage
                   onImageUpload={handleImageUpload}
                   buttonName="Select Image"
                 />
                 {uploadImageUrl && (
-                  <img
+                  <Image
                     src={uploadImageUrl}
                     alt="Uploaded image"
                     className="h-36 w-auto"
-                  ></img>
+                  />
                 )}
                 <ErrorMessage>{errors.imageUrl?.message}</ErrorMessage>
               </label>

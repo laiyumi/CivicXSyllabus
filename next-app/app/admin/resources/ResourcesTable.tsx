@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 type PostWithSource = Prisma.PostGetPayload<{
   include: { source: true; lists: true };
@@ -153,7 +154,11 @@ const ResourcesTable = ({
                 <div className="flex items-center gap-3">
                   <div className="avatar">
                     <div className="mask mask-square h-12 w-12">
-                      <img src={resource.imageUrl} alt="post thumbnail" />
+                      <Image
+                        src={resource.imageUrl}
+                        alt="post thumbnail"
+                        loading="lazy"
+                      />
                     </div>
                   </div>
                   <div className="font-bold">{resource.title}</div>
