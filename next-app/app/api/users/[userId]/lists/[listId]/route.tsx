@@ -101,17 +101,24 @@ export async function POST(
 ) {
   const body = await request.json();
 
-  // add the post to the list
-  const updatedList = await prisma.list.update({
-    where: { id: params.listId },
-    data: {
-      posts: {
-        connect: { id: body.postId },
+  try {
+    // add the post to the user list
+    const updatedList = await prisma.list.update({
+      where: { id: params.listId },
+      data: {
+        posts: {
+          connect: { id: body.postId },
+        },
       },
-    },
-  });
-
-  return NextResponse.json(updatedList, { status: 201 });
+    });
+    return NextResponse.json(updatedList, { status: 201 });
+  } catch (error) {
+    console.error("Error adding post to list:", error);
+    return NextResponse.json(
+      { error: "Failed to add post to list" },
+      { status: 500 }
+    );
+  }
 }
 
 // remove a post from the list or delete the whole list

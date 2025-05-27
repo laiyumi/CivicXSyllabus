@@ -1,9 +1,6 @@
-import React from "react";
-import { Post } from "@prisma/client";
-import { format } from "date-fns";
 import prisma from "@/prisma/client";
+import { format } from "date-fns";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 
 const ResourceDetails = async ({ resourceId }: { resourceId: string }) => {
   const resource = await prisma.post.findUnique({
@@ -109,10 +106,10 @@ const ResourceDetails = async ({ resourceId }: { resourceId: string }) => {
         </label>
         <label className="form-control w-full flex gap-2">
           <span className="text-m">Thumbnail Image</span>
-          <Image
+          <img
             src={resource.imageUrl}
             alt="thumbnail"
-            className="w-72 h-54 object-cover"
+            className="w-72 h-56 object-cover"
           />
         </label>
       </div>

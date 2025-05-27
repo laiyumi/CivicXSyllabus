@@ -6,7 +6,7 @@ const nextConfig = {
         removeConsole: process.env.NODE_ENV === "production"
     },
     images: {
-        domains: ['i0.wp.com', 'res.cloudinary.com'],
+        domains: ['i0.wp.com', 'res.cloudinary.com', 'images.squarespace-cdn.com'],
     },
     env: {
         NEXTAUTH_URL: process.env.VERCEL_URL

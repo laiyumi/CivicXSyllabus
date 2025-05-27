@@ -41,25 +41,6 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // const fetchResource = async () => {
-    //   const response = await axios.get(`/api/resources/${id}`);
-    //   setResource(response.data);
-    //   // Split the content into paragraphs
-
-    //   // Debugging: Check what content looks like
-    //   console.log("Raw content:", response.data.content);
-
-    //   // Replace double-escaped newlines before splitting
-    //   const content = response.data.content.replace(/\\n/g, "\n");
-    //   const paragraphs = content.split(/\r?\n/);
-    //   setParagraphs(paragraphs);
-    // };
-
-    // const fetchRelatedResources = async () => {
-    //   const response = await axios.get(`/api/resources/${id}/related`);
-    //   setRelatedResources(response.data);
-    // };
-
     const fetchData = async () => {
       // parallel requests
       // await Promise.all([fetchResource(), fetchRelatedResources()]);
@@ -109,7 +90,6 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
 
   useEffect(() => {
     if (message) {
-      // const messageString = message.toString();
       clearAllNotifications();
       showNotification(message, "success");
       // Clear the message state after showing notification

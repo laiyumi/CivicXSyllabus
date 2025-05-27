@@ -30,7 +30,10 @@ export async function GET(
           name: true,
         },
       },
-      lists: true,
+      // lists: true,
+      _count: {
+        select: { lists: true },
+      },
     },
   });
   if (!resource)

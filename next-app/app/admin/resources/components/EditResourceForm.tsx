@@ -299,17 +299,23 @@ const EditResourceForm = ({ resource }: { resource: Resource }) => {
                   />
                 </label>
                 {newImageUrl ? (
-                  <Image
-                    src={newImageUrl}
-                    alt="Uploaded image"
-                    className="w-72 h-54 object-cover"
-                  />
+                  <div className="w-72 h-[216px] relative">
+                    <Image
+                      src={resource.imageUrl}
+                      alt="thumbnail"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 ) : (
-                  <Image
-                    src={resource?.imageUrl}
-                    alt="Resource thumbnail"
-                    className="w-72 h-54 object-cover"
-                  />
+                  <div className="w-72 h-[216px] relative">
+                    <Image
+                      src={resource.imageUrl}
+                      alt="thumbnail"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <ErrorMessage>{errors.imageUrl?.message}</ErrorMessage>
               </div>

@@ -9,7 +9,12 @@ import { useEffect, useState } from "react";
 import ResourcesTable from "./ResourcesTable";
 
 type PostWithSource = Prisma.PostGetPayload<{
-  include: { source: true; lists: true };
+  include: {
+    source: true;
+    _count: {
+      select: { lists: true };
+    };
+  };
 }>;
 
 type SortOrder = "desc" | "asc";
@@ -72,8 +77,8 @@ const AdminResourcesPage = () => {
         bValue = b.likes;
         break;
       case "saves":
-        aValue = a.lists?.length || 0;
-        bValue = b.lists?.length || 0;
+        aValue = a._count.lists;
+        bValue = b._count.lists;
         break;
       default:
         return 0;

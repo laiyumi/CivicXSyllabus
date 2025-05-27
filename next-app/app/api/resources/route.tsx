@@ -20,13 +20,17 @@ export async function GET(request: NextRequest) {
         categories: true,
         tags: true,
         source: true,
+        // lists: true,
+        _count: {
+          select: { lists: true },
+        },
       },
     });
     // return NextResponse.json(posts);
     return new NextResponse(JSON.stringify(posts), {
       status: 200,
       headers: {
-        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=59",
+        "Cache-Control": "no-store",
         "Content-Type": "application/json",
       },
     });

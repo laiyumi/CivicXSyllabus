@@ -7,7 +7,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 type PostWithSource = Prisma.PostGetPayload<{
-  include: { source: true; lists: true };
+  include: {
+    source: true;
+    _count: {
+      select: { lists: true };
+    };
+  };
 }>;
 
 const ResourcesTable = ({
@@ -153,9 +158,11 @@ const ResourcesTable = ({
               <td>
                 <div className="flex items-center gap-3">
                   <div className="avatar">
-                    <div className="mask mask-square h-12 w-12">
+                    <div className="mask mask-square h-12 w-12 relative">
                       <Image
                         src={resource.imageUrl}
+                        fill
+                        className="object-cover"
                         alt="post thumbnail"
                         loading="lazy"
                       />
@@ -178,7 +185,7 @@ const ResourcesTable = ({
                 </div>
               </td>
               <td>{resource.likes}</td>
-              <td>{resource.lists?.length || 0}</td>
+              <td>{resource._count.lists}</td>
               <td className="flex gap-2">
                 <Link
                   href={`/admin/resources/${resource.id}`}
