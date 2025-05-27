@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import axios from "axios";
 
 const DashboardSummary = () => {
   const [counts, setCounts] = useState({
@@ -17,23 +18,8 @@ const DashboardSummary = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [resourcesRes, usersRes, sourcesRes, categoriesRes, tagsRes] =
-          await Promise.all([
-            fetch("/api/resources").then((res) => res.json()),
-            fetch("/api/users").then((res) => res.json()),
-            fetch("/api/sources").then((res) => res.json()),
-            fetch("/api/categories").then((res) => res.json()),
-            fetch("/api/tags").then((res) => res.json()),
-          ]);
-
-        setCounts({
-          resources: resourcesRes.length,
-          users: usersRes.length,
-          sources: sourcesRes.length,
-          categories: categoriesRes.length,
-          tags: tagsRes.length,
-        });
-
+        const response = await axios.get(`/api/summary`);
+        setCounts(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching counts:", error);
