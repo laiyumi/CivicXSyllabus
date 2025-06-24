@@ -120,6 +120,8 @@ const ResourcesGrid = () => {
         return (
           new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
         );
+      } else if (selectedOrder === "Likes") {
+        return b.likes - a.likes;
       }
       return 0;
     })

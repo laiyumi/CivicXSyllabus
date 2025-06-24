@@ -23,6 +23,7 @@ const ResourceFilter = () => {
     { label: "Title", value: "title" },
     { label: "Newest to Oldest", value: "NewestToOldest" },
     { label: "Oldest to Newest", value: "OldestToNewest" },
+    { label: "# Likes", value: "Likes" },
   ];
 
   useEffect(() => {
