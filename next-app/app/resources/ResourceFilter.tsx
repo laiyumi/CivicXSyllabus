@@ -8,6 +8,7 @@ import MultiSelectDropdown from "../components/MultiSelectDropdown";
 
 const ResourceFilter = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [categories, setCategories] = useState<
     { label: string; value?: string }[]
@@ -53,15 +54,20 @@ const ResourceFilter = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
-  const [order, setOrder] = useState("");
+  const [order, setOrder] = useState(orders[0].value);
   const [searchInput, setSearchInput] = useState("");
 
-  const [searchParams, setSearchParams] = useState({
-    category: "",
-    tag: "",
-    // order: "",
-    search: "",
-  });
+  // Sync state with URL params
+  useEffect(() => {
+    const category = searchParams.get("category") || "";
+    const tag = searchParams.get("tag") || "";
+    const orderParam = searchParams.get("order") || orders[0].value;
+    const search = searchParams.get("search") || "";
+    setSelectedCategory(category);
+    setSelectedTag(tag);
+    setOrder(orderParam);
+    setSearchInput(search);
+  }, [searchParams]);
 
   const onSearch = () => {
     const searchParams = new URLSearchParams();
@@ -133,6 +139,7 @@ const ResourceFilter = () => {
               type="search"
               className="grow"
               placeholder="Search"
+              value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={(e) => handleEnterKey(e)}
             />
@@ -155,6 +162,7 @@ const ResourceFilter = () => {
           className="select select-bordered w-auto text-base-content "
           aria-label="Select a category"
           onChange={handleCategoryChange}
+          value={selectedCategory}
         >
           {categories.map((category) => (
             <option key={category.label} value={category.value || ""}>
@@ -166,6 +174,7 @@ const ResourceFilter = () => {
           className="select select-bordered w-auto text-base-content "
           onChange={handleTagChange}
           aria-label="Select a tag"
+          value={selectedTag}
         >
           {tags.map((tag) => (
             <option key={tag.label} value={tag.value || ""}>
@@ -178,7 +187,7 @@ const ResourceFilter = () => {
           className="select select-bordered w-auto text-base-content "
           aria-label="Select an order"
           onChange={changeOrder}
-          defaultValue={orders[0].value}
+          value={order}
         >
           {orders.map((order) => (
             <option key={order.value} value={order.value}>

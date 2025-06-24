@@ -139,7 +139,7 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
             </div>
           ))}
         </div>
-        <div className="card-actions justify-between mt-4">
+        <div className="card-actions justify-between mt-4 items-center">
           {session ? (
             <div onClick={(e) => e.stopPropagation()}>
               <div className="flex justify-center align-middle gap-2 rounded-md  md:p-3 p-2">
