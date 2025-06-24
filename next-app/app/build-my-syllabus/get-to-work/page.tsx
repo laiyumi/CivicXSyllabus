@@ -28,9 +28,9 @@ const GetToWorkPage = () => {
         <div>
           <p className="pb-4">
             Civic innovation projects are all different, but they will likely go
-            through at least three phases of a project life cycle: design,
-            implementation, and sustainability. Here, we break each of these
-            phases down into different units that are integral for that phase.
+            through at least three phases of a project life cycle: well-being,
+            design, and implementation. Here, we break each of these phases down
+            into different units that are integral for that phase.
           </p>
           <div className="p-4">
             <h2 className="divider text-xl pb-4">Project Well-being</h2>
