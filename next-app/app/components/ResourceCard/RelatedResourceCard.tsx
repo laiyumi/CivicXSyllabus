@@ -2,12 +2,27 @@ import React from "react";
 import { Category, Prisma, Tag } from "@prisma/client";
 import ToggleLikes from "../ToggleLikes";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type PostWithRelations = Prisma.PostGetPayload<{
   include: { categories: true; tags: true; source: true };
 }>;
 
 const RelatedResourceCard = ({ resource }: { resource: PostWithRelations }) => {
+  const router = useRouter();
+
+  const handleCategoryClick = (categoryName: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/resources?category=${encodeURIComponent(categoryName)}`);
+  };
+
+  const handleTagClick = (tagName: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/resources?tag=${encodeURIComponent(tagName)}`);
+  };
+
   return (
     <div
       key={resource.id}
@@ -23,7 +38,8 @@ const RelatedResourceCard = ({ resource }: { resource: PostWithRelations }) => {
               {resource.categories.map((category) => (
                 <div
                   key={category.name}
-                  className="badge badge-secondary badge-sm md:badge-md"
+                  className="badge badge-secondary badge-sm md:badge-md cursor-pointer hover:bg-[hsl(248_49%_34%)] "
+                  onClick={(e) => handleCategoryClick(category.name, e)}
                 >
                   {category.name}
                 </div>
@@ -35,7 +51,8 @@ const RelatedResourceCard = ({ resource }: { resource: PostWithRelations }) => {
               {resource.tags.map((tag) => (
                 <div
                   key={tag.name}
-                  className="badge badge-outline badge-sm md:badge-md"
+                  className="badge badge-outline badge-sm md:badge-md cursor-pointer hover:bg-base-300"
+                  onClick={(e) => handleTagClick(tag.name, e)}
                 >
                   {tag.name}
                 </div>

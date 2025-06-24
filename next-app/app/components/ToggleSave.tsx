@@ -29,7 +29,15 @@ const ToggleSave = ({
   const savedList = getListThatSavedPost(resourceId);
   const lists = user?.lists || [];
 
-  const handleConfirmSave = async () => {
+  const handleConfirmSave = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(
+      "Confirming save for resource:",
+      resourceId,
+      "to list:",
+      selectedListId
+    );
     try {
       onSave(selectedListId, selectedListName); // call backend
       (
@@ -46,13 +54,22 @@ const ToggleSave = ({
     router.push("/user/list");
   };
 
-  const handleToggleSave = async () => {
+  const handleToggleSave = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event from bubbling up to parent Link
+    console.log(
+      "ToggleSave clicked for resource:",
+      resourceId,
+      "hasSaved:",
+      hasSaved
+    );
     try {
       if (hasSaved && savedList) {
         // call backend to remove the post from the list
+        console.log("Removing from list:", savedList.id);
         onRemove(savedList.id, savedList.name);
       } else {
         // open the modal
+        console.log("Opening save modal");
         (
           document.getElementById("save_to_list_modal") as HTMLDialogElement
         ).showModal();
@@ -71,22 +88,22 @@ const ToggleSave = ({
 
   return (
     <div className="flex flex-start items-center">
-      <div
-        className="rating rating-sm md:rating-md gap-1"
-        onClick={handleToggleSave}
-      >
-        <input
-          type="radio"
-          name="rating-2"
-          className={`mask mask-star-2 ${
-            hasSaved ? "bg-green-500" : "bg-green-200"
-          }`}
-          checked={hasSaved} // Add this line to conditionally set defaultChecked
-        />
-      </div>{" "}
-      <span className="inline-block w-12 text-center">
-        {hasSaved ? "Saved" : "Save"}
-      </span>
+      <div className="flex flex-start items-center gap-2">
+        <div className="rating rating-sm md:rating-md gap-1">
+          <input
+            type="radio"
+            name="rating-2"
+            className={`mask mask-star-2 ${
+              hasSaved ? "bg-green-500" : "bg-green-200"
+            }`}
+            checked={hasSaved}
+            onClick={handleToggleSave}
+          />
+        </div>
+        <span className="inline-block w-12 text-center">
+          {hasSaved ? "Saved" : "Save"}
+        </span>
+      </div>
       <dialog
         id="save_to_list_modal"
         className="modal modal-bottom sm:modal-middle"
@@ -135,7 +152,7 @@ const ToggleSave = ({
                 </div>
                 <button
                   className="btn btn-primary"
-                  type="submit"
+                  type="button"
                   onClick={handleConfirmSave}
                 >
                   Confirm

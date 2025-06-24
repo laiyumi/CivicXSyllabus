@@ -13,6 +13,7 @@ import ToggleSave from "../../components/ToggleSave";
 import ResourceDetailCardSkeleton from "./ResourceDetailCardSkeleton";
 import { useUserStore } from "@/app/stores/useUserStore";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface Props {
   params: { id: string };
@@ -25,6 +26,8 @@ type PostWithRelations = Prisma.PostGetPayload<{
 type PostWithScore = PostWithRelations & { score: number };
 
 const ResourceDetailPage = ({ params: { id } }: Props) => {
+  const router = useRouter();
+
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -96,6 +99,18 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
       setTimeout(() => setMessage(""), 3000);
     }
   }, [message, showNotification, clearAllNotifications]);
+
+  const handleCategoryClick = (categoryName: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/resources?category=${encodeURIComponent(categoryName)}`);
+  };
+
+  const handleTagClick = (tagName: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/resources?tag=${encodeURIComponent(tagName)}`);
+  };
 
   const handleSave = async (listId: string, listName: string) => {
     if (status != "authenticated") {
@@ -186,12 +201,13 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
                 loading="lazy"
               />
             </figure>
-            <div className="card-body flex-auto justify-around">
+            <div className="card-body flex-auto justify-around gap-4">
               <div className="flex gap-3 flex-wrap">
                 {resource?.categories.map((category) => (
                   <div
                     key={category.name}
-                    className="badge badge-secondary badge-sm md:badge-md"
+                    className="badge badge-secondary badge-sm md:badge-md cursor-pointer hover:bg-[hsl(248_49%_34%)]  transition-colors"
+                    onClick={(e) => handleCategoryClick(category.name, e)}
                   >
                     {category.name}
                   </div>
@@ -204,7 +220,8 @@ const ResourceDetailPage = ({ params: { id } }: Props) => {
                 {resource?.tags.map((tag) => (
                   <div
                     key={tag.name}
-                    className="badge badge-outline badge-sm md:badge-md"
+                    className="badge badge-outline badge-sm md:badge-md cursor-pointer hover:bg-base-300"
+                    onClick={(e) => handleTagClick(tag.name, e)}
                   >
                     {tag.name}
                   </div>
