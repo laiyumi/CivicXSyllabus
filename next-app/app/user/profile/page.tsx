@@ -42,9 +42,9 @@ const UserProfilePage = () => {
   const [confirmedPassword, setConfirmedPassword] = useState("");
 
   const [name, setName] = useState("");
-
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isPasswordEditing, setIsPasswordEditing] = useState(false);
+  const [nameJustUpdated, setNameJustUpdated] = useState(false);
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -68,7 +68,10 @@ const UserProfilePage = () => {
           setIsGoogleUser(true);
         }
 
-        setName(userData.name);
+        // Only update the name if it hasn't been recently updated
+        if (!nameJustUpdated) {
+          setName(userData.name);
+        }
         setUserEmail(userData.email);
         setUserImage(
           userData.image ||
@@ -87,7 +90,7 @@ const UserProfilePage = () => {
     };
 
     fetchUser();
-  }, [userId]);
+  }, [userId, nameJustUpdated]);
 
   const handleNameChange = async () => {
     try {
@@ -98,15 +101,20 @@ const UserProfilePage = () => {
       if (response.status == 200) {
         setMessage("Name updated successfully!");
         setIsNameEditing(false);
+        setNameJustUpdated(true);
 
-        // Fetch the updated user data
-        const updatedUserResponse = await axios.get(`/api/users/${userId}`);
-        const updatedUser = updatedUserResponse.data;
-        setName(updatedUser.name);
+        // Update the session with the new name
+        await update({
+          name: name,
+        });
+
+        // Reset the flag after a short delay to allow future fetches
+        setTimeout(() => {
+          setNameJustUpdated(false);
+        }, 2000);
+
+        // Force a re-render by updating the key
         setKey(key + 1);
-
-        // update the session object
-        await update();
       }
     } catch (error: any) {
       setError(error.response?.data?.error || "An unexpected error occurred.");
