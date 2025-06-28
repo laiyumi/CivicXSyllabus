@@ -10,6 +10,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useNotifications } from "../../contexts/NotificationContext";
 import CreateListModal from "./CreateListModal";
+import { exportListToPDF, generatePDFBlob } from "@/app/utils/pdfExport";
+import PDFPreviewModal from "../../components/PDFPreviewModal";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -50,6 +52,9 @@ const UserSavedResourcesPage = () => {
   const [message, setMessage] = useState("");
   const [showShareModal, setShowShareModal] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
+  const [showPDFPreview, setShowPDFPreview] = useState(false);
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState<string | null>(null);
+  const [pdfFileName, setPdfFileName] = useState("");
 
   const [selectedListId, setSelectedListId] = useState<string>("");
 
@@ -179,16 +184,18 @@ const UserSavedResourcesPage = () => {
     }
   };
 
-  // Export list to JSON
-  const handleExportJSON = async () => {
+  // Preview PDF before downloading
+  const handlePreviewPDF = async () => {
     if (!list || !posts.length) {
       showNotification("No content to export", "error");
       return;
     }
 
     try {
-      // Create JSON content
-      const jsonContent = {
+      const baseUrl = window.location.origin;
+
+      // Create PDF content with resource URLs
+      const pdfData = {
         title: list.name,
         resources: posts.map((post) => ({
           title: post.title,
@@ -196,24 +203,77 @@ const UserSavedResourcesPage = () => {
           categories: post.categories.map((cat) => cat.name).join(", "),
           tags: post.tags.map((tag) => tag.name).join(", "),
           year: post.year,
+          url: `${baseUrl}/resources/${post.id}`,
         })),
+        createdBy: user?.name || user?.email || "Unknown",
       };
 
-      // Convert to JSON and create downloadable file
-      const dataStr = JSON.stringify(jsonContent, null, 2);
-      const dataBlob = new Blob([dataStr], { type: "application/json" });
+      console.log("Generating PDF preview with data:", pdfData);
+      const blobUrl = await generatePDFBlob(pdfData);
 
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(dataBlob);
-      link.download = `${list.name.replace(/[^a-z0-9]/gi, "_").toLowerCase()}_resources.json`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // Create filename for display
+      const sanitizedTitle = list.name
+        .replace(/[^a-z0-9]/gi, "_")
+        .toLowerCase();
+      const sanitizedCreator = (user?.name || user?.email || "Unknown")
+        .replace(/[^a-z0-9]/gi, "_")
+        .toLowerCase();
+      const fileName = `${sanitizedTitle}_${sanitizedCreator}_resources.pdf`;
 
-      showNotification("List exported successfully!", "success");
+      setPdfPreviewUrl(blobUrl);
+      setPdfFileName(fileName);
+      setShowPDFPreview(true);
     } catch (error) {
-      console.error("Failed to export JSON:", error);
-      showNotification("Failed to export list", "error");
+      console.error("Failed to generate PDF preview:", error);
+      showNotification(
+        `Failed to generate PDF preview: ${error instanceof Error ? error.message : "Unknown error"}`,
+        "error"
+      );
+    }
+  };
+
+  // Download PDF (called from preview modal)
+  const handleDownloadPDF = async () => {
+    if (!list || !posts.length) {
+      showNotification("No content to export", "error");
+      return;
+    }
+
+    try {
+      const baseUrl = window.location.origin;
+
+      // Create PDF content with resource URLs
+      const pdfData = {
+        title: list.name,
+        resources: posts.map((post) => ({
+          title: post.title,
+          excerpt: post.excerpt,
+          categories: post.categories.map((cat) => cat.name).join(", "),
+          tags: post.tags.map((tag) => tag.name).join(", "),
+          year: post.year,
+          url: `${baseUrl}/resources/${post.id}`,
+        })),
+        createdBy: user?.name || user?.email || "Unknown",
+      };
+
+      await exportListToPDF(pdfData);
+      showNotification("List exported to PDF successfully!", "success");
+      setShowPDFPreview(false);
+    } catch (error) {
+      console.error("Failed to export PDF:", error);
+      showNotification(
+        `Failed to export list to PDF: ${error instanceof Error ? error.message : "Unknown error"}`,
+        "error"
+      );
+    }
+  };
+
+  // Close PDF preview and clean up blob URL
+  const handleClosePDFPreview = () => {
+    setShowPDFPreview(false);
+    if (pdfPreviewUrl) {
+      URL.revokeObjectURL(pdfPreviewUrl);
+      setPdfPreviewUrl(null);
     }
   };
 
@@ -727,7 +787,7 @@ const UserSavedResourcesPage = () => {
               <div className="flex gap-2">
                 <button
                   className="btn btn-outline flex-1"
-                  onClick={handleExportJSON}
+                  onClick={handlePreviewPDF}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -740,10 +800,15 @@ const UserSavedResourcesPage = () => {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                      d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.639 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.639 0-8.573-3.007-9.963-7.178Z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                     />
                   </svg>
-                  Export to JSON
+                  Preview PDF
                 </button>
               </div>
             </div>
@@ -756,6 +821,15 @@ const UserSavedResourcesPage = () => {
           </div>
         </dialog>
       )}
+
+      {/* PDF Preview Modal */}
+      <PDFPreviewModal
+        isOpen={showPDFPreview}
+        onClose={handleClosePDFPreview}
+        pdfUrl={pdfPreviewUrl}
+        fileName={pdfFileName}
+        onDownload={handleDownloadPDF}
+      />
     </>
   );
 };
