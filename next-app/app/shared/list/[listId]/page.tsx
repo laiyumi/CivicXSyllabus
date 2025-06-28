@@ -42,6 +42,7 @@ const SharedListPage = () => {
   const [showPDFPreview, setShowPDFPreview] = useState(false);
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState<string | null>(null);
   const [pdfFileName, setPdfFileName] = useState("");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   useEffect(() => {
     const fetchSharedList = async () => {
@@ -245,12 +246,57 @@ const SharedListPage = () => {
             </div>
           </div>
 
-          {/* Resources Grid */}
+          {/* View Toggle Buttons */}
+          <div className="flex justify-center gap-2 mb-6">
+            <button
+              className={`btn btn-sm ${viewMode === "grid" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setViewMode("grid")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 8.25 20.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+                />
+              </svg>
+              Grid
+            </button>
+            <button
+              className={`btn btn-sm ${viewMode === "list" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setViewMode("list")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 17.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                />
+              </svg>
+              List
+            </button>
+          </div>
+
+          {/* Resources Display */}
           {list.posts.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-500 text-lg">This list is empty.</p>
             </div>
-          ) : (
+          ) : viewMode === "grid" ? (
+            // Grid View
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {list.posts.map((post) => (
                 <div
@@ -315,6 +361,91 @@ const SharedListPage = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          ) : (
+            // List View
+            <div className="overflow-x-auto">
+              <table className="table">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Resource</th>
+                    <th>Topics</th>
+                    <th>Type</th>
+                    <th>Year</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {list.posts.map((post, index) => (
+                    <tr key={post.id}>
+                      <th>{index + 1}</th>
+                      <td>
+                        <div className="flex items-center gap-3">
+                          <div className="avatar">
+                            <div className="rounded-xl h-12 w-12">
+                              <img src={post.imageUrl} alt={post.title} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="font-bold text-md">
+                              {post.title}
+                            </div>
+                            <div className="text-sm opacity-50 line-clamp-2">
+                              {post.excerpt}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex flex-wrap gap-1">
+                          {post.categories.map((category) => (
+                            <span
+                              key={category.id}
+                              className="badge badge-secondary whitespace-nowrap overflow-hidden text-ellipsis"
+                            >
+                              {category.name}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex flex-wrap gap-1">
+                          {post.tags.map((tag) => (
+                            <span
+                              key={tag.id}
+                              className="badge badge-outline whitespace-nowrap overflow-hidden text-ellipsis"
+                            >
+                              {tag.name}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td>{post.year}</td>
+                      <th>
+                        <Link
+                          href={`/resources/${post.id}`}
+                          className="btn btn-ghost"
+                        >
+                          View
+                        </Link>
+                      </th>
+                    </tr>
+                  ))}
+                </tbody>
+                {/* foot */}
+                <tfoot>
+                  <tr>
+                    <th></th>
+                    <th>Resource</th>
+                    <th>Topics</th>
+                    <th>Type</th>
+                    <th>Year</th>
+                    <th></th>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
           )}
 

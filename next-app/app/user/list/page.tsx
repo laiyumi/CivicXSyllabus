@@ -55,6 +55,7 @@ const UserSavedResourcesPage = () => {
   const [showPDFPreview, setShowPDFPreview] = useState(false);
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState<string | null>(null);
   const [pdfFileName, setPdfFileName] = useState("");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const [selectedListId, setSelectedListId] = useState<string>("");
 
@@ -698,64 +699,224 @@ const UserSavedResourcesPage = () => {
         </div>
         <div className="divider"></div>
 
-        {/* Display selected list */}
-        <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className="card bg-base-100 shadow-xl col-span-1"
+        {/* View Toggle Buttons - only show when a list is selected */}
+        {selectedListId && list && (
+          <div className="flex justify-center gap-2">
+            <button
+              className={`btn btn-sm ${viewMode === "grid" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setViewMode("grid")}
             >
-              <figure className="w-full ">
-                <img src={post.imageUrl} className="object-cover" />
-                <button
-                  className="btn btn-circle absolute top-5 right-5"
-                  onClick={() => handlePostRemove(post.id, selectedListId)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 8.25 20.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+                />
+              </svg>
+              Grid
+            </button>
+            <button
+              className={`btn btn-sm ${viewMode === "list" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setViewMode("list")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 17.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                />
+              </svg>
+              List
+            </button>
+          </div>
+        )}
+
+        {/* Display selected list */}
+        {viewMode === "grid" ? (
+          <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className="card bg-base-100 shadow-xl col-span-1"
+              >
+                <figure className="w-full ">
+                  <img src={post.imageUrl} className="object-cover" />
+                  <button
+                    className="btn btn-circle absolute top-5 right-5"
+                    onClick={() => handlePostRemove(post.id, selectedListId)}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </figure>
-              <div className="card-body">
-                <div className="flex flex-wrap gap-3">
-                  {post.categories.map((category) => (
-                    <div key={category.id} className="badge badge-secondary">
-                      {category.name}
-                    </div>
-                  ))}
-                </div>
-                <h2 className="card-title">{post.title}</h2>
-                <p className="text-sm">{post.excerpt}</p>
-                <div className="flex gap-3 mt-1">
-                  {post.tags.map((tag) => (
-                    <div key={tag.id} className="badge badge-outline">
-                      {tag.name}
-                    </div>
-                  ))}
-                </div>
-                <div className="card-actions justify-end mt-4">
-                  <Link
-                    href={`/resources/${post.id}`}
-                    className="btn btn-sm btn-primary"
-                  >
-                    Read More
-                  </Link>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </figure>
+                <div className="card-body">
+                  <div className="flex flex-wrap gap-3">
+                    {post.categories.map((category) => (
+                      <span
+                        key={category.id}
+                        className="badge badge-secondary whitespace-nowrap overflow-hidden text-ellipsis"
+                      >
+                        {category.name}
+                      </span>
+                    ))}
+                  </div>
+                  <h2 className="card-title">{post.title}</h2>
+                  <p className="text-sm">{post.excerpt}</p>
+                  <div className="flex gap-3 mt-1">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag.id}
+                        className="badge badge-outline whitespace-nowrap overflow-hidden text-ellipsis"
+                      >
+                        {tag.name}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="card-actions justify-end mt-4">
+                    <Link
+                      href={`/resources/${post.id}`}
+                      className="btn btn-sm btn-primary"
+                    >
+                      Read More
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          // List View
+          <div className="overflow-x-auto">
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Resource</th>
+                  <th>Topics</th>
+                  <th>Type</th>
+                  <th>Year</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {posts.map((post, index) => (
+                  <tr key={post.id}>
+                    <th>{index + 1}</th>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="rounded-xl h-12 w-12">
+                            <img src={post.imageUrl} alt={post.title} />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-bold text-md">{post.title}</div>
+                          <div className="text-sm opacity-50 line-clamp-2">
+                            {post.excerpt}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex flex-wrap gap-1">
+                        {post.categories.map((category) => (
+                          <span
+                            key={category.id}
+                            className="badge badge-secondary whitespace-nowrap overflow-hidden text-ellipsis"
+                          >
+                            {category.name}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex flex-wrap gap-1">
+                        {post.tags.map((tag) => (
+                          <span
+                            key={tag.id}
+                            className="badge badge-outline whitespace-nowrap overflow-hidden text-ellipsis"
+                          >
+                            {tag.name}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td>{post.year}</td>
+                    <th>
+                      <div className="flex gap-2">
+                        <Link
+                          href={`/resources/${post.id}`}
+                          className="btn btn-ghost"
+                        >
+                          View
+                        </Link>
+                        <button
+                          className="btn btn-ghost text-error"
+                          onClick={() =>
+                            handlePostRemove(post.id, selectedListId)
+                          }
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </th>
+                  </tr>
+                ))}
+              </tbody>
+              {/* foot */}
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th>Resource</th>
+                  <th>Topics</th>
+                  <th>Type</th>
+                  <th>Year</th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Share Modal */}
