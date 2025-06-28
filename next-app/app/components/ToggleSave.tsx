@@ -1,7 +1,7 @@
 import { useUserStore } from "@/app/stores/useUserStore";
 import { List, Post } from "@prisma/client";
 import { useRouter } from "next/navigation"; // Import useRouter
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 type ListWithPosts = List & { posts: Post[] };
 
@@ -31,6 +31,13 @@ const ToggleSave = ({
   const hasSaved = isPostSaved(resourceId);
   const savedList = getListThatSavedPost(resourceId);
   const lists = user?.lists || [];
+
+  useEffect(() => {
+    if (lists.length === 1 && user) {
+      setSelectedListId(lists[0].id);
+      setSelectedListName(lists[0].name);
+    }
+  }, [lists, user]);
 
   const handleConfirmSave = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -69,6 +76,11 @@ const ToggleSave = ({
         console.log("Removing from list:", savedList.id);
         onRemove(savedList.id, savedList.name);
       } else {
+        // Set default selection if there's only one list
+        if (lists.length === 1) {
+          setSelectedListId(lists[0].id);
+          setSelectedListName(lists[0].name);
+        }
         // open the modal
         console.log("Opening save modal");
         (document.getElementById(modalId) as HTMLDialogElement).showModal();

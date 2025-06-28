@@ -303,7 +303,7 @@ const SharedListPage = () => {
                   key={post.id}
                   className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300"
                 >
-                  <figure className="w-full h-48">
+                  <figure className="w-full h-[300px] relative md:h-[250px] xs: h-[200px]">
                     <img
                       src={post.imageUrl}
                       alt={post.title}

@@ -122,8 +122,13 @@ const UserSavedResourcesPage = () => {
     const listIdFromUrl = searchParams.get("list");
     if (listIdFromUrl) {
       setSelectedListId(listIdFromUrl);
+    } else if (user?.lists && user.lists.length > 0 && !selectedListId) {
+      // If no list is selected from URL and user has lists, select the first one
+      const firstListId = user.lists[0].id;
+      setSelectedListId(firstListId);
+      updateUrlWithSelectedList(firstListId);
     }
-  }, [searchParams.toString()]);
+  }, [searchParams.toString(), user?.lists, selectedListId]);
 
   const updateUrlWithSelectedList = (listId: string) => {
     // Create new URL with the list parameter
@@ -753,8 +758,11 @@ const UserSavedResourcesPage = () => {
                 key={post.id}
                 className="card bg-base-100 shadow-xl col-span-1"
               >
-                <figure className="w-full ">
-                  <img src={post.imageUrl} className="object-cover" />
+                <figure className="w-full h-[300px] relative md:h-[250px] xs: h-[200px]">
+                  <img
+                    src={post.imageUrl}
+                    className="w-full h-full object-cover"
+                  />
                   <button
                     className="btn btn-circle absolute top-5 right-5"
                     onClick={() => handlePostRemove(post.id, selectedListId)}
