@@ -9,8 +9,6 @@ export interface ResourceForPDF {
   url: string;
   source?: string;
   date?: string;
-  topic?: string;
-  type?: string;
 }
 
 export interface ListForPDF {
@@ -46,14 +44,14 @@ function renderSimplePDF(pdf: jsPDF, listData: ListForPDF) {
 
   // Add resource count and date
   pdf.text(
-    `${listData.resources.length} resource${listData.resources.length !== 1 ? "s" : ""} • Generated on ${new Date().toLocaleDateString()}`,
+    `${listData.resources.length} resource${listData.resources.length !== 1 ? "s" : ""} • Created on ${new Date().toLocaleDateString()}`,
     margin,
     yPosition
   );
   yPosition += lineHeight * 2;
 
   // Add resources
-  pdf.setFontSize(14);
+  pdf.setFontSize(12);
   pdf.setFont("helvetica", "bold");
   pdf.text("Resources:", margin, yPosition);
   yPosition += lineHeight * 1.5;
@@ -66,7 +64,7 @@ function renderSimplePDF(pdf: jsPDF, listData: ListForPDF) {
     }
 
     // Resource title
-    pdf.setFontSize(12);
+    pdf.setFontSize(10);
     pdf.setFont("helvetica", "bold");
     const title = `${index + 1}. ${resource.title}`;
     pdf.text(title, margin, yPosition);
@@ -75,8 +73,38 @@ function renderSimplePDF(pdf: jsPDF, listData: ListForPDF) {
     // Year
     pdf.setFontSize(10);
     pdf.setFont("helvetica", "normal");
-    pdf.text(`Year: ${resource.year}`, margin, yPosition);
+    pdf.text(`Published on: ${resource.year}`, margin, yPosition);
     yPosition += lineHeight;
+
+    // Categories
+    if (resource.categories) {
+      if (yPosition > 270) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+      pdf.text(`Topic: ${resource.categories}`, margin, yPosition);
+      yPosition += lineHeight;
+    }
+
+    // Tags
+    if (resource.tags) {
+      if (yPosition > 270) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+      pdf.text(`Type: ${resource.tags}`, margin, yPosition);
+      yPosition += lineHeight;
+    }
+
+    // URL
+    if (yPosition > 270) {
+      pdf.addPage();
+      yPosition = margin;
+    }
+    pdf.setTextColor(59, 130, 246); // Blue color
+    pdf.text(`View Resource: ${resource.url}`, margin, yPosition);
+    pdf.setTextColor(0, 0, 0); // Reset to black
+    yPosition += lineHeight * 2;
 
     // Excerpt (split into multiple lines if needed)
     pdf.setFontSize(10);
@@ -92,36 +120,6 @@ function renderSimplePDF(pdf: jsPDF, listData: ListForPDF) {
       pdf.text(line, margin, yPosition);
       yPosition += lineHeight;
     });
-
-    // Categories
-    if (resource.categories) {
-      if (yPosition > 270) {
-        pdf.addPage();
-        yPosition = margin;
-      }
-      pdf.text(`Categories: ${resource.categories}`, margin, yPosition);
-      yPosition += lineHeight;
-    }
-
-    // Tags
-    if (resource.tags) {
-      if (yPosition > 270) {
-        pdf.addPage();
-        yPosition = margin;
-      }
-      pdf.text(`Tags: ${resource.tags}`, margin, yPosition);
-      yPosition += lineHeight;
-    }
-
-    // URL
-    if (yPosition > 270) {
-      pdf.addPage();
-      yPosition = margin;
-    }
-    pdf.setTextColor(59, 130, 246); // Blue color
-    pdf.text(`View Resource: ${resource.url}`, margin, yPosition);
-    pdf.setTextColor(0, 0, 0); // Reset to black
-    yPosition += lineHeight * 2;
   });
 
   // Add footer
@@ -129,15 +127,27 @@ function renderSimplePDF(pdf: jsPDF, listData: ListForPDF) {
     pdf.addPage();
     yPosition = margin;
   }
-  pdf.setFontSize(10);
+  const footerFontSize = 10;
+  pdf.setFontSize(footerFontSize);
   pdf.setFont("helvetica", "normal");
-  pdf.text("Generated from CivicX Syllabus", pageWidth / 2, yPosition, {
-    align: "center",
-  });
-  yPosition += lineHeight;
-  pdf.text(new Date().toLocaleDateString(), pageWidth / 2, yPosition, {
-    align: "center",
-  });
+  const footerText = "Generated from ";
+  const imageHeight = footerFontSize;
+  const imageWidth = footerFontSize; // Assume square favicon
+  const gap = 2; // 2mm gap between text and image
+  const textWidth = pdf.getTextWidth(footerText);
+  const totalWidth = textWidth + gap + imageWidth;
+  const startX = (pageWidth - totalWidth) / 2;
+  const textY = yPosition + imageHeight - 2; // -2 for vertical alignment
+
+  pdf.text(footerText, startX, textY);
+  pdf.addImage(
+    "/favicon-for-public/web-app-manifest-512x512.png",
+    "PNG",
+    startX + textWidth + gap,
+    yPosition,
+    imageWidth,
+    imageHeight
+  );
 }
 
 export const exportListToPDF = async (listData: ListForPDF) => {

@@ -140,7 +140,6 @@ const SharedListPage = () => {
       };
 
       await exportListToPDF(pdfData);
-      alert("List exported to PDF successfully!");
       setShowPDFPreview(false);
     } catch (error) {
       console.error("Failed to export PDF:", error);
@@ -183,11 +182,11 @@ const SharedListPage = () => {
 
   return (
     <>
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="">
+        <div className="">
           {/* Header */}
           <div className="text-center mb-10 flex justify-between place-items-end">
-            <div className="flex flex-col algin-start">
+            <div className="flex flex-col items-start">
               <h1 className="text-3xl font-bold">{list.name}</h1>
               <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
                 <svg
@@ -199,17 +198,17 @@ const SharedListPage = () => {
                   <path d="M23.3 5.076a6.582 6.582 0 0 0-10.446-1.71L12 4.147l-.827-.753a6.52 6.52 0 0 0-5.688-1.806A6.47 6.47 0 0 0 .7 5.075a6.4 6.4 0 0 0 1.21 7.469l9.373 9.656a1 1 0 0 0 1.434 0l9.36-9.638A6.41 6.41 0 0 0 23.3 5.076"></path>
                 </svg>
                 {list.posts.length} resource{list.posts.length !== 1 ? "s" : ""}
+                <p className="text-gray-600">
+                  • Created by{" "}
+                  <span className="font-semibold">
+                    {list.user.name || list.user.email}
+                  </span>
+                </p>
               </div>
             </div>
             <div className="flex flex-col items-end gap-2">
-              <p className="text-gray-600">
-                Created by{" "}
-                <span className="font-semibold">
-                  {list.user.name || list.user.email}
-                </span>
-              </p>
               <button
-                className="btn btn-outline btn-primary btn-sm"
+                className="btn btn-outline btn-primary"
                 onClick={handlePreviewPDF}
                 disabled={exporting}
               >
@@ -252,7 +251,7 @@ const SharedListPage = () => {
               <p className="text-gray-500 text-lg">This list is empty.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {list.posts.map((post) => (
                 <div
                   key={post.id}
@@ -270,28 +269,26 @@ const SharedListPage = () => {
                       {post.categories.map((category) => (
                         <div
                           key={category.id}
-                          className="badge badge-secondary badge-sm"
+                          className="badge badge-secondary badge-sm md:badge-md"
                         >
                           {category.name}
                         </div>
                       ))}
                     </div>
-                    <h2 className="card-title text-lg">{post.title}</h2>
-                    <p className="text-sm text-gray-600 line-clamp-3">
-                      {post.excerpt}
-                    </p>
+                    <h2 className="card-title">{post.title}</h2>
+                    <p className="text-sm">{post.excerpt}</p>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {post.tags.map((tag) => (
                         <div
                           key={tag.id}
-                          className="badge badge-outline badge-sm"
+                          className="badge badge-outline badge-sm md:badge-md"
                         >
                           {tag.name}
                         </div>
                       ))}
                     </div>
                     <div className="card-actions justify-between items-center mt-4">
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <div className="flex items-center gap-2">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"

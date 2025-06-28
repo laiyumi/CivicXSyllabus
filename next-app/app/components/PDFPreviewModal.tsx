@@ -27,11 +27,11 @@ const PDFPreviewModal: React.FC<PDFPreviewModalProps> = ({
 
   return (
     <dialog className="modal modal-open">
-      <div className="modal-box w-11/12 max-w-6xl h-5/6">
+      <div className="modal-box w-11/12 max-w-6xl">
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-bold text-lg">PDF Preview: {fileName}</h3>
           <div className="flex gap-2">
-            <button className="btn btn-primary btn-sm" onClick={onDownload}>
+            <button className="btn btn-primary" onClick={onDownload}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -46,9 +46,9 @@ const PDFPreviewModal: React.FC<PDFPreviewModalProps> = ({
                   d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                 />
               </svg>
-              Download PDF
+              Download
             </button>
-            <button className="btn btn-ghost btn-sm" onClick={onClose}>
+            <button className="btn btn-ghost rounded-full" onClick={onClose}>
               ✕
             </button>
           </div>
@@ -71,12 +71,6 @@ const PDFPreviewModal: React.FC<PDFPreviewModalProps> = ({
             style={{ minHeight: "500px" }}
             title="PDF Preview"
           />
-        </div>
-
-        <div className="modal-action">
-          <button className="btn" onClick={onClose}>
-            Close
-          </button>
         </div>
       </div>
     </dialog>

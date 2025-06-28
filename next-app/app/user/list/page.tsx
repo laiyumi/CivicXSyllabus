@@ -257,7 +257,6 @@ const UserSavedResourcesPage = () => {
       };
 
       await exportListToPDF(pdfData);
-      showNotification("List exported to PDF successfully!", "success");
       setShowPDFPreview(false);
     } catch (error) {
       console.error("Failed to export PDF:", error);
@@ -763,7 +762,15 @@ const UserSavedResourcesPage = () => {
       {showShareModal && (
         <dialog className="modal modal-open">
           <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">Share List: {list?.name}</h3>
+            <div className="flex justify-between items-center">
+              <h3 className="font-bold text-lg">Share List: {list?.name}</h3>
+              <button
+                className="btn btn-ghost rounded-full"
+                onClick={() => setShowShareModal(false)}
+              >
+                ✕
+              </button>
+            </div>
 
             <div className="space-y-4">
               <div>
@@ -808,15 +815,9 @@ const UserSavedResourcesPage = () => {
                       d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                     />
                   </svg>
-                  Preview PDF
+                  Download PDF
                 </button>
               </div>
-            </div>
-
-            <div className="modal-action">
-              <button className="btn" onClick={() => setShowShareModal(false)}>
-                Close
-              </button>
             </div>
           </div>
         </dialog>
