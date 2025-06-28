@@ -48,7 +48,8 @@ const UserSavedResourcesPage = () => {
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  // const [loading, setLoading] = useState<boolean>(true);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareUrl, setShareUrl] = useState("");
 
   const [selectedListId, setSelectedListId] = useState<string>("");
 
@@ -144,6 +145,75 @@ const UserSavedResourcesPage = () => {
     setDropdownOpen(false);
     if (dropdownButtonRef.current) {
       dropdownButtonRef.current.blur();
+    }
+  };
+
+  // Generate share URL for the current list
+  const generateShareUrl = () => {
+    if (!selectedListId || !list) return "";
+
+    const baseUrl = window.location.origin;
+    return `${baseUrl}/shared/list/${selectedListId}`;
+  };
+
+  // Handle share button click
+  const handleShareClick = () => {
+    if (!selectedListId || !list) {
+      showNotification("Please select a list first", "error");
+      return;
+    }
+
+    const url = generateShareUrl();
+    setShareUrl(url);
+    setShowShareModal(true);
+  };
+
+  // Copy share URL to clipboard
+  const handleCopyUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      showNotification("Share link copied to clipboard!", "success");
+    } catch (error) {
+      console.error("Failed to copy URL:", error);
+      showNotification("Failed to copy link", "error");
+    }
+  };
+
+  // Export list to JSON
+  const handleExportJSON = async () => {
+    if (!list || !posts.length) {
+      showNotification("No content to export", "error");
+      return;
+    }
+
+    try {
+      // Create JSON content
+      const jsonContent = {
+        title: list.name,
+        resources: posts.map((post) => ({
+          title: post.title,
+          excerpt: post.excerpt,
+          categories: post.categories.map((cat) => cat.name).join(", "),
+          tags: post.tags.map((tag) => tag.name).join(", "),
+          year: post.year,
+        })),
+      };
+
+      // Convert to JSON and create downloadable file
+      const dataStr = JSON.stringify(jsonContent, null, 2);
+      const dataBlob = new Blob([dataStr], { type: "application/json" });
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(dataBlob);
+      link.download = `${list.name.replace(/[^a-z0-9]/gi, "_").toLowerCase()}_resources.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showNotification("List exported successfully!", "success");
+    } catch (error) {
+      console.error("Failed to export JSON:", error);
+      showNotification("Failed to export list", "error");
     }
   };
 
@@ -540,6 +610,30 @@ const UserSavedResourcesPage = () => {
             </div>
           </div>
 
+          {/* Share List Button - only show when a list is selected */}
+          {selectedListId && list && (
+            <button
+              className="btn btn-outline btn-primary"
+              onClick={handleShareClick}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0-3.933-2.185 2.25 2.25 0 0 0 3.933 2.185Z"
+                />
+              </svg>
+              Share List
+            </button>
+          )}
+
           {/* Create a list */}
           <CreateListModal onCreateList={handleCreateList} />
         </div>
@@ -604,6 +698,64 @@ const UserSavedResourcesPage = () => {
           ))}
         </div>
       </div>
+
+      {/* Share Modal */}
+      {showShareModal && (
+        <dialog className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg mb-4">Share List: {list?.name}</h3>
+
+            <div className="space-y-4">
+              <div>
+                <label className="label">
+                  <span className="label-text">Share Link</span>
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={shareUrl}
+                    readOnly
+                    className="input input-bordered flex-1"
+                    placeholder="Share URL will appear here..."
+                  />
+                  <button className="btn btn-primary" onClick={handleCopyUrl}>
+                    Copy
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  className="btn btn-outline flex-1"
+                  onClick={handleExportJSON}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5 mr-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                  Export to JSON
+                </button>
+              </div>
+            </div>
+
+            <div className="modal-action">
+              <button className="btn" onClick={() => setShowShareModal(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )}
     </>
   );
 };
