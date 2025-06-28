@@ -27,6 +27,7 @@ const ResourceFilter = () => {
   const [selectedTag, setSelectedTag] = useState("");
   const [order, setOrder] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [disableFilterBtn, setDisableFilterBtn] = useState(true);
 
   const [categories, setCategories] = useState<
     { label: string; value?: string; count?: number }[]
@@ -65,6 +66,11 @@ const ResourceFilter = () => {
   useEffect(() => {
     updateDropdowns();
   }, [allCategories, allTags, selectedCategory, selectedTag]);
+
+  // Update disableFilterBtn based on selections
+  useEffect(() => {
+    setDisableFilterBtn(!selectedCategory && !selectedTag);
+  }, [selectedCategory, selectedTag]);
 
   const updateDropdowns = () => {
     // Update categories dropdown
@@ -225,13 +231,36 @@ const ResourceFilter = () => {
               aria-label="Search"
               id="search-input"
               name="search"
-              type="search"
+              type="text"
               className="grow"
               placeholder="Search"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={(e) => handleEnterKey(e)}
             />
+            {searchInput && (
+              <button
+                type="button"
+                onClick={handleClearFilters}
+                className="btn btn-ghost btn-xs btn-circle"
+                aria-label="Clear search"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            )}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -287,8 +316,12 @@ const ResourceFilter = () => {
         <button className="btn btn-primary" onClick={onSearch}>
           Search
         </button>
-        <button className="btn btn-outline" onClick={handleClearFilters}>
-          Clear Filter
+        <button
+          className="btn btn-outline"
+          disabled={disableFilterBtn}
+          onClick={handleClearFilters}
+        >
+          ✕ Clear Filter
         </button>
       </div>
     </div>
