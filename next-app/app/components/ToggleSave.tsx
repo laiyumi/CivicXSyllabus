@@ -18,6 +18,9 @@ const ToggleSave = ({
   const [selectedListName, setSelectedListName] = useState("");
   const router = useRouter();
 
+  // Create unique modal ID for this component instance
+  const modalId = `save_to_list_modal_${resourceId}`;
+
   const user = useUserStore((state) => state.user);
   const isPostSaved = useUserStore((state) => state.isPostSaved);
   const getListThatSavedPost = useUserStore(
@@ -40,9 +43,7 @@ const ToggleSave = ({
     );
     try {
       onSave(selectedListId, selectedListName); // call backend
-      (
-        document.getElementById("save_to_list_modal") as HTMLDialogElement
-      ).close();
+      (document.getElementById(modalId) as HTMLDialogElement).close();
       setSelectedListId("");
       setSelectedListName("");
     } catch (error) {
@@ -70,9 +71,7 @@ const ToggleSave = ({
       } else {
         // open the modal
         console.log("Opening save modal");
-        (
-          document.getElementById("save_to_list_modal") as HTMLDialogElement
-        ).showModal();
+        (document.getElementById(modalId) as HTMLDialogElement).showModal();
       }
       console.log("current status: ", !hasSaved);
     } catch (error) {
@@ -104,10 +103,7 @@ const ToggleSave = ({
           {hasSaved ? "Saved" : "Save"}
         </span>
       </div>
-      <dialog
-        id="save_to_list_modal"
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog id={modalId} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}

@@ -99,6 +99,27 @@ const ResourceCard = ({ resource }: { resource: PostWithRelations }) => {
     }
   };
 
+  // Show notifications when error or message changes
+  useEffect(() => {
+    if (error) {
+      clearAllNotifications();
+      const actualErrorMessage = error.includes("_")
+        ? error.split("_")[0]
+        : error;
+      showNotification(actualErrorMessage, "error");
+      setTimeout(() => setError(""), 3000);
+    }
+  }, [error, showNotification, clearAllNotifications]);
+
+  useEffect(() => {
+    if (message) {
+      clearAllNotifications();
+      showNotification(message, "success");
+      // Clear the message state after showing notification
+      setTimeout(() => setMessage(""), 3000);
+    }
+  }, [message, showNotification, clearAllNotifications]);
+
   return (
     <Link
       href={`/resources/${resource.id}`}
