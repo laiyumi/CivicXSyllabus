@@ -6,17 +6,38 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import MultiSelectDropdown from "../components/MultiSelectDropdown";
 
+interface CategoryWithPosts extends Category {
+  posts: PostWithRelations[];
+}
+
+interface TagWithPosts extends Tag {
+  posts: PostWithRelations[];
+}
+
+interface PostWithRelations extends Post {
+  categories: Category[];
+  tags: Tag[];
+}
+
 const ResourceFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedTag, setSelectedTag] = useState("");
+  const [order, setOrder] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
   const [categories, setCategories] = useState<
-    { label: string; value?: string }[]
+    { label: string; value?: string; count?: number }[]
   >([{ label: "All Topics", value: "" }]);
 
-  const [tags, setTags] = useState<{ label: string; value?: string }[]>([
-    { label: "All Types", value: "" },
-  ]);
+  const [tags, setTags] = useState<
+    { label: string; value?: string; count?: number }[]
+  >([{ label: "All Types", value: "" }]);
+
+  const [allCategories, setAllCategories] = useState<CategoryWithPosts[]>([]);
+  const [allTags, setAllTags] = useState<TagWithPosts[]>([]);
 
   const orders: { label: string; value: string }[] = [
     // { label: "Created Date", value: "createdAt" },
@@ -26,37 +47,94 @@ const ResourceFilter = () => {
     { label: "# Likes", value: "Likes" },
   ];
 
+  // Fetch all data initially
   useEffect(() => {
-    // fetch all categories and map them to options
-    const fetchData = async () => {
+    const fetchAllData = async () => {
       const categoryResponse = await axios.get("/api/categories");
-      const categoriesObj = await categoryResponse.data;
-      setCategories([
-        { label: "All Topics", value: "" },
-        ...categoriesObj.map((category: Category) => ({
-          label: category.name,
-          value: category.name,
-        })),
-      ]);
+      const categoriesObj: CategoryWithPosts[] = await categoryResponse.data;
+      setAllCategories(categoriesObj);
 
-      // fetch all tags and map them to options
       const tagResponse = await axios.get("/api/tags");
-      const tagsObj = await tagResponse.data;
-      setTags([
-        { label: "All Types", value: "" },
-        ...tagsObj.map((tag: Tag) => ({
-          label: tag.name,
-          value: tag.name,
-        })),
-      ]);
+      const tagsObj: TagWithPosts[] = await tagResponse.data;
+      setAllTags(tagsObj);
     };
-    fetchData();
+    fetchAllData();
   }, []);
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedTag, setSelectedTag] = useState("");
-  const [order, setOrder] = useState(orders[0].value);
-  const [searchInput, setSearchInput] = useState("");
+  // Update dropdowns based on current selections
+  useEffect(() => {
+    updateDropdowns();
+  }, [allCategories, allTags, selectedCategory, selectedTag]);
+
+  const updateDropdowns = () => {
+    // Update categories dropdown
+    if (selectedTag) {
+      // Filter categories by selected tag
+      const filteredCategories = allCategories.map((category) => {
+        const filteredPosts = category.posts.filter((post) =>
+          post.tags.some((tag: Tag) => tag.name === selectedTag)
+        );
+        return {
+          ...category,
+          posts: filteredPosts,
+        };
+      });
+
+      setCategories([
+        { label: "All Topics", value: "" },
+        ...filteredCategories.map((category) => ({
+          label: `${category.name} (${category.posts.length})`,
+          value: category.name,
+          count: category.posts.length,
+        })),
+      ]);
+    } else {
+      // Show all categories with their full counts
+      setCategories([
+        { label: "All Topics", value: "" },
+        ...allCategories.map((category) => ({
+          label: `${category.name} (${category.posts.length})`,
+          value: category.name,
+          count: category.posts.length,
+        })),
+      ]);
+    }
+
+    // Update tags dropdown
+    if (selectedCategory) {
+      // Filter tags by selected category
+      const filteredTags = allTags.map((tag) => {
+        const filteredPosts = tag.posts.filter((post) =>
+          post.categories.some(
+            (category: Category) => category.name === selectedCategory
+          )
+        );
+        return {
+          ...tag,
+          posts: filteredPosts,
+        };
+      });
+
+      setTags([
+        { label: "All Types", value: "" },
+        ...filteredTags.map((tag) => ({
+          label: `${tag.name} (${tag.posts.length})`,
+          value: tag.name,
+          count: tag.posts.length,
+        })),
+      ]);
+    } else {
+      // Show all tags with their full counts
+      setTags([
+        { label: "All Types", value: "" },
+        ...allTags.map((tag) => ({
+          label: `${tag.name} (${tag.posts.length})`,
+          value: tag.name,
+          count: tag.posts.length,
+        })),
+      ]);
+    }
+  };
 
   // Sync state with URL params
   useEffect(() => {
@@ -126,6 +204,16 @@ const ResourceFilter = () => {
         onSearch();
       }
     }
+  };
+
+  const handleClearFilters = () => {
+    setSelectedCategory("");
+    setSelectedTag("");
+    setSearchInput("");
+    setOrder(orders[0].value);
+
+    // Clear URL parameters
+    router.push("/resources");
   };
 
   return (
@@ -198,6 +286,9 @@ const ResourceFilter = () => {
         </select>{" "}
         <button className="btn btn-primary" onClick={onSearch}>
           Search
+        </button>
+        <button className="btn btn-outline" onClick={handleClearFilters}>
+          Clear Filter
         </button>
       </div>
     </div>
