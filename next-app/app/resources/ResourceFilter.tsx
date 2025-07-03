@@ -221,6 +221,7 @@ const ResourceFilter = () => {
     setSelectedCategory("");
     setSelectedTag("");
     setSearchInput("");
+    setLastSearchedTerm("");
     setOrder(orders[0].value);
 
     // Clear URL parameters
@@ -231,7 +232,7 @@ const ResourceFilter = () => {
     <div className="flex flex-col gap-4 justify-around my-8">
       <div className="flex md:flex-row xs:flex-col gap-2">
         <div className="w-full">
-          <label className="input input-bordered flex items-center gap-2">
+          <label className="input input-sm md:input-md input-bordered flex items-center gap-2">
             <input
               aria-label="Search"
               id="search-input"
@@ -246,7 +247,7 @@ const ResourceFilter = () => {
             <button
               type="button"
               onClick={handleClearFilters}
-              className={`btn btn-ghost btn-xs btn-circle${!searchInput ? " invisible" : ""}`}
+              className={`btn btn-xs btn-ghost btn-circle${!searchInput ? " invisible" : ""}`}
               aria-label="Clear search"
               tabIndex={searchInput ? 0 : -1}
               style={{ pointerEvents: searchInput ? "auto" : "none" }}
@@ -282,7 +283,7 @@ const ResourceFilter = () => {
           </label>
         </div>
         <select
-          className="select select-bordered w-40 text-base-content"
+          className="select select-sm md:select-md select-bordered md:w-40 text-base-content"
           aria-label="Select a category"
           onChange={handleCategoryChange}
           value={selectedCategory}
@@ -294,7 +295,7 @@ const ResourceFilter = () => {
           ))}
         </select>
         <select
-          className="select select-bordered w-40 text-base-content "
+          className="select select-sm md:select-md select-bordered md:w-40 text-base-content "
           onChange={handleTagChange}
           aria-label="Select a tag"
           value={selectedTag}
@@ -307,7 +308,7 @@ const ResourceFilter = () => {
         </select>
         {/* <MultiSelectDropdown /> */}
         <select
-          className="select select-bordered w-40 text-base-content "
+          className="select select-sm md:select-md select-bordered md:w-40 text-base-content "
           aria-label="Select an order"
           onChange={changeOrder}
           value={order}
@@ -318,11 +319,11 @@ const ResourceFilter = () => {
             </option>
           ))}
         </select>{" "}
-        <button className="btn btn-primary" onClick={onSearch}>
+        <button className="btn btn-sm md:btn-md btn-primary" onClick={onSearch}>
           Search
         </button>
         <button
-          className="btn btn-outline"
+          className="btn btn-sm md:btn-md btn-outline"
           disabled={disableFilterBtn}
           onClick={handleClearFilters}
         >
