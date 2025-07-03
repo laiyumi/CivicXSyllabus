@@ -40,6 +40,8 @@ const ResourceFilter = () => {
   const [allCategories, setAllCategories] = useState<CategoryWithPosts[]>([]);
   const [allTags, setAllTags] = useState<TagWithPosts[]>([]);
 
+  const [lastSearchedTerm, setLastSearchedTerm] = useState("");
+
   const orders: { label: string; value: string }[] = [
     // { label: "Created Date", value: "createdAt" },
     { label: "Title", value: "title" },
@@ -164,6 +166,9 @@ const ResourceFilter = () => {
     }
     if (searchInput) {
       searchParams.set("search", searchInput);
+      setLastSearchedTerm(searchInput);
+    } else {
+      setLastSearchedTerm("");
     }
 
     router.push(`/resources?${searchParams.toString()}`);
@@ -224,7 +229,7 @@ const ResourceFilter = () => {
 
   return (
     <div className="flex flex-col gap-4 justify-around my-8">
-      <div className="flex lg:flex-row xs:flex-col gap-4">
+      <div className="flex md:flex-row xs:flex-col gap-2">
         <div className="w-full">
           <label className="input input-bordered flex items-center gap-2">
             <input
@@ -238,29 +243,29 @@ const ResourceFilter = () => {
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={(e) => handleEnterKey(e)}
             />
-            {searchInput && (
-              <button
-                type="button"
-                onClick={handleClearFilters}
-                className="btn btn-ghost btn-xs btn-circle"
-                aria-label="Clear search"
+            <button
+              type="button"
+              onClick={handleClearFilters}
+              className={`btn btn-ghost btn-xs btn-circle${!searchInput ? " invisible" : ""}`}
+              aria-label="Clear search"
+              tabIndex={searchInput ? 0 : -1}
+              style={{ pointerEvents: searchInput ? "auto" : "none" }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            )}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -277,7 +282,7 @@ const ResourceFilter = () => {
           </label>
         </div>
         <select
-          className="select select-bordered w-auto text-base-content "
+          className="select select-bordered w-40 text-base-content"
           aria-label="Select a category"
           onChange={handleCategoryChange}
           value={selectedCategory}
@@ -289,7 +294,7 @@ const ResourceFilter = () => {
           ))}
         </select>
         <select
-          className="select select-bordered w-auto text-base-content "
+          className="select select-bordered w-40 text-base-content "
           onChange={handleTagChange}
           aria-label="Select a tag"
           value={selectedTag}
@@ -302,7 +307,7 @@ const ResourceFilter = () => {
         </select>
         {/* <MultiSelectDropdown /> */}
         <select
-          className="select select-bordered w-auto text-base-content "
+          className="select select-bordered w-40 text-base-content "
           aria-label="Select an order"
           onChange={changeOrder}
           value={order}
@@ -324,6 +329,30 @@ const ResourceFilter = () => {
           ✕ Clear Filter
         </button>
       </div>
+      {(selectedCategory ||
+        selectedTag ||
+        lastSearchedTerm ||
+        (order && order !== orders[0].value)) && (
+        <div className="flex flex-wrap gap-2 mt-2 items-center">
+          Results for:{" "}
+          {selectedCategory && (
+            <span className="badge badge-info">Topic: {selectedCategory}</span>
+          )}
+          {selectedTag && (
+            <span className="badge badge-success">Type: {selectedTag}</span>
+          )}
+          {lastSearchedTerm && (
+            <span className="badge badge-primary">
+              Search: &quot;{lastSearchedTerm}&quot;
+            </span>
+          )}
+          {order && order !== orders[0].value && (
+            <span className="badge badge-secondary">
+              Order: {orders.find((o) => o.value === order)?.label || order}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 };
