@@ -11,7 +11,12 @@ export async function GET(request: NextRequest) {
         name: "asc",
       },
       include: {
-        posts: true,
+        posts: {
+          include: {
+            categories: true,
+            tags: true,
+          },
+        },
       },
     });
     // return NextResponse.json(categories);
@@ -60,7 +65,12 @@ export async function POST(request: NextRequest) {
       name: formattedName,
     },
     include: {
-      posts: true,
+      posts: {
+        include: {
+          categories: true,
+          tags: true,
+        },
+      },
     },
   });
   return NextResponse.json(newCategory, { status: 201 });

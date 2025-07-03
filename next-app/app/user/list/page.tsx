@@ -10,6 +10,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useNotifications } from "../../contexts/NotificationContext";
 import CreateListModal from "./CreateListModal";
+import { exportListToPDF, generatePDFBlob } from "@/app/utils/pdfExport";
+import PDFPreviewModal from "../../components/PDFPreviewModal";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -48,7 +50,12 @@ const UserSavedResourcesPage = () => {
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  // const [loading, setLoading] = useState<boolean>(true);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareUrl, setShareUrl] = useState("");
+  const [showPDFPreview, setShowPDFPreview] = useState(false);
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState<string | null>(null);
+  const [pdfFileName, setPdfFileName] = useState("");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const [selectedListId, setSelectedListId] = useState<string>("");
 
@@ -115,8 +122,13 @@ const UserSavedResourcesPage = () => {
     const listIdFromUrl = searchParams.get("list");
     if (listIdFromUrl) {
       setSelectedListId(listIdFromUrl);
+    } else if (user?.lists && user.lists.length > 0 && !selectedListId) {
+      // If no list is selected from URL and user has lists, select the first one
+      const firstListId = user.lists[0].id;
+      setSelectedListId(firstListId);
+      updateUrlWithSelectedList(firstListId);
     }
-  }, [searchParams.toString()]);
+  }, [searchParams.toString(), user?.lists, selectedListId]);
 
   const updateUrlWithSelectedList = (listId: string) => {
     // Create new URL with the list parameter
@@ -144,6 +156,129 @@ const UserSavedResourcesPage = () => {
     setDropdownOpen(false);
     if (dropdownButtonRef.current) {
       dropdownButtonRef.current.blur();
+    }
+  };
+
+  // Generate share URL for the current list
+  const generateShareUrl = () => {
+    if (!selectedListId || !list) return "";
+
+    const baseUrl = window.location.origin;
+    return `${baseUrl}/shared/list/${selectedListId}`;
+  };
+
+  // Handle share button click
+  const handleShareClick = () => {
+    if (!selectedListId || !list) {
+      showNotification("Please select a list first", "error");
+      return;
+    }
+
+    const url = generateShareUrl();
+    setShareUrl(url);
+    setShowShareModal(true);
+  };
+
+  // Copy share URL to clipboard
+  const handleCopyUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      showNotification("Share link copied to clipboard!", "success");
+    } catch (error) {
+      console.error("Failed to copy URL:", error);
+      showNotification("Failed to copy link", "error");
+    }
+  };
+
+  // Preview PDF before downloading
+  const handlePreviewPDF = async () => {
+    if (!list || !posts.length) {
+      showNotification("No content to export", "error");
+      return;
+    }
+
+    try {
+      const baseUrl = window.location.origin;
+
+      // Create PDF content with resource URLs
+      const pdfData = {
+        title: list.name,
+        resources: posts.map((post) => ({
+          title: post.title,
+          excerpt: post.excerpt,
+          categories: post.categories.map((cat) => cat.name).join(", "),
+          tags: post.tags.map((tag) => tag.name).join(", "),
+          year: post.year,
+          url: `${baseUrl}/resources/${post.id}`,
+        })),
+        createdBy: user?.name || user?.email || "Unknown",
+      };
+
+      console.log("Generating PDF preview with data:", pdfData);
+      const blobUrl = await generatePDFBlob(pdfData);
+
+      // Create filename for display
+      const sanitizedTitle = list.name
+        .replace(/[^a-z0-9]/gi, "_")
+        .toLowerCase();
+      const sanitizedCreator = (user?.name || user?.email || "Unknown")
+        .replace(/[^a-z0-9]/gi, "_")
+        .toLowerCase();
+      const fileName = `${sanitizedTitle}_${sanitizedCreator}_resources.pdf`;
+
+      setPdfPreviewUrl(blobUrl);
+      setPdfFileName(fileName);
+      setShowPDFPreview(true);
+    } catch (error) {
+      console.error("Failed to generate PDF preview:", error);
+      showNotification(
+        `Failed to generate PDF preview: ${error instanceof Error ? error.message : "Unknown error"}`,
+        "error"
+      );
+    }
+  };
+
+  // Download PDF (called from preview modal)
+  const handleDownloadPDF = async () => {
+    if (!list || !posts.length) {
+      showNotification("No content to export", "error");
+      return;
+    }
+
+    try {
+      const baseUrl = window.location.origin;
+
+      // Create PDF content with resource URLs
+      const pdfData = {
+        title: list.name,
+        resources: posts.map((post) => ({
+          title: post.title,
+          excerpt: post.excerpt,
+          categories: post.categories.map((cat) => cat.name).join(", "),
+          tags: post.tags.map((tag) => tag.name).join(", "),
+          year: post.year,
+          url: `${baseUrl}/resources/${post.id}`,
+        })),
+        createdBy: user?.name || user?.email || "Unknown",
+      };
+
+      await exportListToPDF(pdfData);
+      setShowPDFPreview(false);
+    } catch (error) {
+      console.error("Failed to export PDF:", error);
+      showNotification(
+        `Failed to export list to PDF: ${error instanceof Error ? error.message : "Unknown error"}`,
+        "error"
+      );
+    }
+  };
+
+  // Close PDF preview and clean up blob URL
+  const handleClosePDFPreview = () => {
+    setShowPDFPreview(false);
+    if (pdfPreviewUrl) {
+      URL.revokeObjectURL(pdfPreviewUrl);
+      setPdfPreviewUrl(null);
     }
   };
 
@@ -540,70 +675,331 @@ const UserSavedResourcesPage = () => {
             </div>
           </div>
 
+          {/* Share List Button - only show when a list is selected */}
+          {selectedListId && list && (
+            <button
+              className="btn btn-outline btn-primary"
+              onClick={handleShareClick}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0-3.933-2.185 2.25 2.25 0 0 0 3.933 2.185Z"
+                />
+              </svg>
+              Share List
+            </button>
+          )}
+
           {/* Create a list */}
           <CreateListModal onCreateList={handleCreateList} />
         </div>
         <div className="divider"></div>
 
-        {/* Display selected list */}
-        <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className="card bg-base-100 shadow-xl col-span-1"
+        {/* View Toggle Buttons - only show when a list is selected */}
+        {selectedListId && list && (
+          <div className="flex justify-center gap-2">
+            <button
+              className={`btn btn-sm ${viewMode === "grid" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setViewMode("grid")}
             >
-              <figure className="w-full ">
-                <img src={post.imageUrl} className="object-cover" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 8.25 20.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+                />
+              </svg>
+              Grid
+            </button>
+            <button
+              className={`btn btn-sm ${viewMode === "list" ? "btn-primary" : "btn-outline"}`}
+              onClick={() => setViewMode("list")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 17.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                />
+              </svg>
+              List
+            </button>
+          </div>
+        )}
+
+        {/* Display selected list */}
+        {viewMode === "grid" ? (
+          <div className="grid grid-flow-row-dense grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className="card bg-base-100 shadow-xl col-span-1"
+              >
+                <figure className="w-full h-[300px] relative md:h-[250px] xs: h-[200px]">
+                  <img
+                    src={post.imageUrl}
+                    className="w-full h-full object-cover"
+                  />
+                  <button
+                    className="btn btn-circle absolute top-5 right-5"
+                    onClick={() => handlePostRemove(post.id, selectedListId)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </figure>
+                <div className="card-body">
+                  <div className="flex flex-wrap gap-3">
+                    {post.categories.map((category) => (
+                      <span
+                        key={category.id}
+                        className="badge badge-secondary whitespace-nowrap overflow-hidden text-ellipsis"
+                      >
+                        {category.name}
+                      </span>
+                    ))}
+                  </div>
+                  <h2 className="card-title">{post.title}</h2>
+                  <p className="text-sm">{post.excerpt}</p>
+                  <div className="flex gap-3 mt-1">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag.id}
+                        className="badge badge-outline whitespace-nowrap overflow-hidden text-ellipsis"
+                      >
+                        {tag.name}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="card-actions justify-end mt-4">
+                    <Link
+                      href={`/resources/${post.id}`}
+                      className="btn btn-sm btn-primary"
+                    >
+                      Read More
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          // List View
+          <div className="overflow-x-auto">
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Resource</th>
+                  <th>Topics</th>
+                  <th>Type</th>
+                  <th>Year</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {posts.map((post, index) => (
+                  <tr key={post.id}>
+                    <th>{index + 1}</th>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="rounded-xl h-12 w-12">
+                            <img src={post.imageUrl} alt={post.title} />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-bold text-md">{post.title}</div>
+                          <div className="text-sm opacity-50 line-clamp-2">
+                            {post.excerpt}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex flex-wrap gap-1">
+                        {post.categories.map((category) => (
+                          <span
+                            key={category.id}
+                            className="badge badge-secondary whitespace-nowrap overflow-hidden text-ellipsis"
+                          >
+                            {category.name}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex flex-wrap gap-1">
+                        {post.tags.map((tag) => (
+                          <span
+                            key={tag.id}
+                            className="badge badge-outline whitespace-nowrap overflow-hidden text-ellipsis"
+                          >
+                            {tag.name}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td>{post.year}</td>
+                    <th>
+                      <div className="flex gap-2">
+                        <Link
+                          href={`/resources/${post.id}`}
+                          className="btn btn-ghost"
+                        >
+                          View
+                        </Link>
+                        <button
+                          className="btn btn-ghost text-error"
+                          onClick={() =>
+                            handlePostRemove(post.id, selectedListId)
+                          }
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </th>
+                  </tr>
+                ))}
+              </tbody>
+              {/* foot */}
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th>Resource</th>
+                  <th>Topics</th>
+                  <th>Type</th>
+                  <th>Year</th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Share Modal */}
+      {showShareModal && (
+        <dialog className="modal modal-open">
+          <div className="modal-box">
+            <div className="flex justify-between items-center">
+              <h3 className="font-bold text-lg">Share List: {list?.name}</h3>
+              <button
+                className="btn btn-ghost rounded-full"
+                onClick={() => setShowShareModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="label">
+                  <span className="label-text">Share Link</span>
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={shareUrl}
+                    readOnly
+                    className="input input-bordered flex-1"
+                    placeholder="Share URL will appear here..."
+                  />
+                  <button className="btn btn-primary" onClick={handleCopyUrl}>
+                    Copy
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
                 <button
-                  className="btn btn-circle absolute top-5 right-5"
-                  onClick={() => handlePostRemove(post.id, selectedListId)}
+                  className="btn btn-outline flex-1"
+                  onClick={handlePreviewPDF}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
                     fill="none"
                     viewBox="0 0 24 24"
+                    strokeWidth={1.5}
                     stroke="currentColor"
+                    className="w-5 h-5 mr-2"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
+                      d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.639 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.639 0-8.573-3.007-9.963-7.178Z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                     />
                   </svg>
+                  Download PDF
                 </button>
-              </figure>
-              <div className="card-body">
-                <div className="flex flex-wrap gap-3">
-                  {post.categories.map((category) => (
-                    <div key={category.id} className="badge badge-secondary">
-                      {category.name}
-                    </div>
-                  ))}
-                </div>
-                <h2 className="card-title">{post.title}</h2>
-                <p className="text-sm">{post.excerpt}</p>
-                <div className="flex gap-3 mt-1">
-                  {post.tags.map((tag) => (
-                    <div key={tag.id} className="badge badge-outline">
-                      {tag.name}
-                    </div>
-                  ))}
-                </div>
-                <div className="card-actions justify-end mt-4">
-                  <Link
-                    href={`/resources/${post.id}`}
-                    className="btn btn-sm btn-primary"
-                  >
-                    Read More
-                  </Link>
-                </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </dialog>
+      )}
+
+      {/* PDF Preview Modal */}
+      <PDFPreviewModal
+        isOpen={showPDFPreview}
+        onClose={handleClosePDFPreview}
+        pdfUrl={pdfPreviewUrl}
+        fileName={pdfFileName}
+        onDownload={handleDownloadPDF}
+      />
     </>
   );
 };

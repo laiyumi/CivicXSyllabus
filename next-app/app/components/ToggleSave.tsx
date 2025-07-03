@@ -1,7 +1,7 @@
 import { useUserStore } from "@/app/stores/useUserStore";
 import { List, Post } from "@prisma/client";
 import { useRouter } from "next/navigation"; // Import useRouter
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 type ListWithPosts = List & { posts: Post[] };
 
@@ -18,6 +18,9 @@ const ToggleSave = ({
   const [selectedListName, setSelectedListName] = useState("");
   const router = useRouter();
 
+  // Create unique modal ID for this component instance
+  const modalId = `save_to_list_modal_${resourceId}`;
+
   const user = useUserStore((state) => state.user);
   const isPostSaved = useUserStore((state) => state.isPostSaved);
   const getListThatSavedPost = useUserStore(
@@ -29,12 +32,25 @@ const ToggleSave = ({
   const savedList = getListThatSavedPost(resourceId);
   const lists = user?.lists || [];
 
-  const handleConfirmSave = async () => {
+  useEffect(() => {
+    if (lists.length === 1 && user) {
+      setSelectedListId(lists[0].id);
+      setSelectedListName(lists[0].name);
+    }
+  }, [lists, user]);
+
+  const handleConfirmSave = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(
+      "Confirming save for resource:",
+      resourceId,
+      "to list:",
+      selectedListId
+    );
     try {
       onSave(selectedListId, selectedListName); // call backend
-      (
-        document.getElementById("save_to_list_modal") as HTMLDialogElement
-      ).close();
+      (document.getElementById(modalId) as HTMLDialogElement).close();
       setSelectedListId("");
       setSelectedListName("");
     } catch (error) {
@@ -46,16 +62,28 @@ const ToggleSave = ({
     router.push("/user/list");
   };
 
-  const handleToggleSave = async () => {
+  const handleToggleSave = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event from bubbling up to parent Link
+    console.log(
+      "ToggleSave clicked for resource:",
+      resourceId,
+      "hasSaved:",
+      hasSaved
+    );
     try {
       if (hasSaved && savedList) {
         // call backend to remove the post from the list
+        console.log("Removing from list:", savedList.id);
         onRemove(savedList.id, savedList.name);
       } else {
+        // Set default selection if there's only one list
+        if (lists.length === 1) {
+          setSelectedListId(lists[0].id);
+          setSelectedListName(lists[0].name);
+        }
         // open the modal
-        (
-          document.getElementById("save_to_list_modal") as HTMLDialogElement
-        ).showModal();
+        console.log("Opening save modal");
+        (document.getElementById(modalId) as HTMLDialogElement).showModal();
       }
       console.log("current status: ", !hasSaved);
     } catch (error) {
@@ -71,26 +99,23 @@ const ToggleSave = ({
 
   return (
     <div className="flex flex-start items-center">
-      <div
-        className="rating rating-sm md:rating-md gap-1"
-        onClick={handleToggleSave}
-      >
-        <input
-          type="radio"
-          name="rating-2"
-          className={`mask mask-star-2 ${
-            hasSaved ? "bg-green-500" : "bg-green-200"
-          }`}
-          checked={hasSaved} // Add this line to conditionally set defaultChecked
-        />
-      </div>{" "}
-      <span className="inline-block w-12 text-center">
-        {hasSaved ? "Saved" : "Save"}
-      </span>
-      <dialog
-        id="save_to_list_modal"
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <div className="flex flex-start items-center gap-2">
+        <div className="rating rating-sm md:rating-md gap-1">
+          <input
+            type="radio"
+            name="rating-2"
+            className={`mask mask-star-2 ${
+              hasSaved ? "bg-green-500" : "bg-green-200"
+            }`}
+            checked={hasSaved}
+            onClick={handleToggleSave}
+          />
+        </div>
+        <span className="inline-block w-12 text-center">
+          {hasSaved ? "Saved" : "Save"}
+        </span>
+      </div>
+      <dialog id={modalId} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
@@ -135,7 +160,7 @@ const ToggleSave = ({
                 </div>
                 <button
                   className="btn btn-primary"
-                  type="submit"
+                  type="button"
                   onClick={handleConfirmSave}
                 >
                   Confirm

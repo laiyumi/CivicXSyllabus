@@ -10,7 +10,12 @@ export async function GET(request: NextRequest) {
       name: "asc",
     },
     include: {
-      posts: true,
+      posts: {
+        include: {
+          categories: true,
+          tags: true,
+        },
+      },
     },
   });
   // return NextResponse.json(tags);
@@ -50,7 +55,12 @@ export async function POST(request: NextRequest) {
       name: formattedName,
     },
     include: {
-      posts: true,
+      posts: {
+        include: {
+          categories: true,
+          tags: true,
+        },
+      },
     },
   });
 
