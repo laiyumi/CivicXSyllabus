@@ -104,7 +104,7 @@ function renderSimplePDF(pdf: jsPDF, listData: ListForPDF) {
     pdf.setTextColor(59, 130, 246); // Blue color
     pdf.text(`View Resource: ${resource.url}`, margin, yPosition);
     pdf.setTextColor(0, 0, 0); // Reset to black
-    yPosition += lineHeight * 2;
+    yPosition += lineHeight;
 
     // Excerpt (split into multiple lines if needed)
     pdf.setFontSize(10);
@@ -120,6 +120,7 @@ function renderSimplePDF(pdf: jsPDF, listData: ListForPDF) {
       pdf.text(line, margin, yPosition);
       yPosition += lineHeight;
     });
+    yPosition += lineHeight;
   });
 
   // Add footer
