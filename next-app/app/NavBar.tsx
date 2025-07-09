@@ -107,6 +107,11 @@ const NavBar = () => {
                 Add a Resource
               </Link>
             </li>
+            <li>
+              <Link href="/blog" data-test="blog-link">
+                Blog
+              </Link>
+            </li>
           </ul>
         </div>
         {/* large screen */}
@@ -239,6 +244,13 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
+          <Link
+            data-test="blog-link"
+            href="/blog"
+            className="btn btn-ghost text-base-content"
+          >
+            Blog
+          </Link>
         </div>
         <div className="navbar-end">
           <Link
