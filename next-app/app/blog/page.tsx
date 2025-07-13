@@ -4,42 +4,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Microlink from "@microlink/react";
 import axios from "axios";
-
-const blogPosts = [
-  {
-    id: 1,
-    url: "https://www.linkedin.com/pulse/what-civic-x-syllabus-civicxsyllabus-huwoc",
-    featured: true,
-  },
-  {
-    id: 2,
-    url: "https://www.linkedin.com/pulse/4-choosing-platform-why-we-stuck-wordpress-first-civicxsyllabus-2zogc",
-    featured: false,
-  },
-  {
-    id: 3,
-    url: "https://www.linkedin.com/pulse/why-we-decided-build-civic-x-syllabus-20-civicxsyllabus-jrbsc",
-    featured: false,
-  },
-  {
-    id: 4,
-    url: "https://www.linkedin.com/pulse/2-review-target-audience-user-personas-civicxsyllabus-qvwbc",
-    featured: false,
-  },
-  {
-    id: 5,
-    url: "https://www.linkedin.com/posts/civicxsyllabus_gettoknowtheteam-teambuilding-civicinnovation-activity-7339300341789691905-wqRf?utm_source=share&utm_medium=member_desktop&rcm=ACoAADWGqnQBwqnz5Ukt7_IZn4iVLtEWvzTJCfY",
-    featured: false,
-  },
-  {
-    id: 6,
-    url: "https://www.linkedin.com/posts/civicxsyllabus_teamwork-makes-the-dream-work-activity-7270858020937490432-wVSK?utm_source=share&utm_medium=member_desktop&rcm=ACoAADWGqnQBwqnz5Ukt7_IZn4iVLtEWvzTJCfY",
-    featured: false,
-  },
-];
+import blogPostsData from "../../data/blog-posts.json";
 
 const BlogPage = () => {
   const [previewData, setPreviewData] = useState(null);
+  const blogPosts = blogPostsData;
 
   useEffect(() => {
     const fetchPreviewData = async () => {
