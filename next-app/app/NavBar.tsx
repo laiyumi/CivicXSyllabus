@@ -251,6 +251,13 @@ const NavBar = () => {
           >
             Blog
           </Link>
+          <Link
+            data-test="ai-link"
+            href="/ai"
+            className="btn btn-ghost text-base-content"
+          >
+            AI
+          </Link>
         </div>
         <div className="navbar-end">
           <Link
