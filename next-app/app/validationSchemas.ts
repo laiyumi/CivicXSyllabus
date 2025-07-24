@@ -83,6 +83,24 @@ export const CreateAccountSchema = z
     }
   });
 
+// Blog URL validation schema
+export const CreateBlogSchema = z.object({
+  blogUrl: z
+    .string()
+    .min(1, "Blog URL is required")
+    .url("Please enter a valid URL (must include https://)")
+    .refine(
+      (url) => {
+        // Validate that it's a LinkedIn URL (articles or posts)
+        return url.includes("linkedin.com") && 
+               (url.includes("/pulse/") || url.includes("/posts/"));
+      },
+      {
+        message: "Please enter a valid LinkedIn article or post URL"
+      }
+    ),
+});
+
 // User reset password schema
 export const ResetPasswordSchema = z
   .object({

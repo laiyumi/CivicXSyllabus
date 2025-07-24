@@ -55,6 +55,7 @@ const AdminResourcesPage = () => {
       )
     );
   };
+
   const sortedResources = [...resources].sort((a, b) => {
     let aValue: any;
     let bValue: any;

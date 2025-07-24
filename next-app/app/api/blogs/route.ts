@@ -3,10 +3,23 @@ import { NextResponse, NextRequest } from "next/server";
 import prisma from "../../../prisma/client";
 import { BlogType } from "@prisma/client";
 
-// GET all blogs
+// GET all blogs with optional published filter
 export async function GET(request: NextRequest) {
   try {
-    const blogs = await prisma.blog.findMany();
+    const { searchParams } = new URL(request.url);
+    const publishedOnly = searchParams.get('published');
+    
+    let whereClause = {};
+    
+    // If publishedOnly parameter is 'true', filter for published blogs only
+    if (publishedOnly === 'true') {
+      whereClause = { published: true };
+    }
+    
+    const blogs = await prisma.blog.findMany({
+      where: whereClause,
+    });
+    
     return NextResponse.json(blogs, { status: 200 });
   } catch (err) {
     return NextResponse.json(err, { status: 500 });

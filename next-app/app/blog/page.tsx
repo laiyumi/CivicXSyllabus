@@ -13,14 +13,22 @@ const BlogPage = () => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const res = await axios.get("/api/blogs");
+      const res = await axios.get("/api/blogs?published=true");
       setBlogPostsData(res.data);
     };
     fetchBlogs();
   }, []);
 
-  const featuredPost = blogPostsData.find((post) => post.featured);
+  const featuredPosts = blogPostsData.filter((post) => post.featured);
   const regularPosts = blogPostsData.filter((post) => !post.featured);
+  
+  // Dynamic grid columns based on featured posts count
+  const getFeaturedGridClass = () => {
+    if (featuredPosts.length === 1) {
+      return "grid gap-8 md:grid-cols-1 lg:grid-cols-1";
+    }
+    return "grid gap-8 md:grid-cols-1 lg:grid-cols-2";
+  };
 
   return (
     <div className="min-h-screen">
@@ -40,18 +48,25 @@ const BlogPage = () => {
 
       <main className="container mx-auto px-4 py-12">
         {/* Featured Post */}
-        {featuredPost && (
+        {featuredPosts && (
           <section className="mb-16">
             <div className="flex items-center gap-2 mb-6">
               <h2 className="text-xl font-bold text-base-content">Featured</h2>
             </div>
-            <div className="featured-microlink card bg-base-100 shadow-xl hover:-translate-y-2 transition ease-in-out delay-100 duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none w-full h-[250px]">
-              <Microlink
-                url={featuredPost.link}
-                lazy
-                direction="ltr"
-                className="rounded-xl border-transparent border-0 min-w-full min-h-full"
-              />
+            <div className={getFeaturedGridClass()}>
+              {featuredPosts.map((post) => (
+                <div
+                  key={post.id}
+                  className="featured-microlink card bg-base-100 shadow-xl hover:-translate-y-2 transition ease-in-out delay-100 duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none w-full h-[250px]"
+                >
+                  <Microlink
+                    url={post.link}
+                    lazy
+                    direction="ltr"
+                    className="rounded-xl border-transparent border-0 min-w-full min-h-full"
+                  />
+                </div>
+              ))}
             </div>
           </section>
         )}

@@ -5,41 +5,80 @@ import Link from "next/link";
 import { Blog } from "@prisma/client";
 import axios from "axios";
 import { create } from "domain";
+import { useNotifications } from "@/app/contexts/NotificationContext";
+import { CreateBlogSchema } from "@/app/validationSchemas";
 
 const AdminBlogPage = () => {
   const [blogPosts, setBlogPosts] = useState<Blog[]>();
-
   const [sortBy, setSortBy] = useState<keyof Blog>("id");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [newBlog, setNewBlog] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [validationError, setValidationError] = useState("");
+
+  // Delete dialog state
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState<{
+    id: string;
+    title: string;
+  } | null>(null);
+
+  const { showNotification } = useNotifications();
 
   // Call API to fetch blogs
   useEffect(() => {
-    const fetchBlogs = async () => {
-      const response = await axios.get("/api/blogs");
-      const data = response.data as Blog[];
-      setBlogPosts(data);
-    };
     fetchBlogs();
   }, [newBlog]);
 
   const createBlog = async () => {
+    // Clear previous validation error
+    setValidationError("");
+
+    // Validate the input using CreateBlogSchema
+    try {
+      CreateBlogSchema.parse({ blogUrl: newBlog });
+    } catch (error: any) {
+      if (error.errors && error.errors.length > 0) {
+        setValidationError(error.errors[0].message);
+        showNotification(error.errors[0].message, "error");
+        return;
+      }
+    }
+
     try {
       const response = await axios.post("/api/blogs", {
         blogUrl: newBlog,
       });
       console.log("Blog created:", response.data);
-      setMessage("Blog created successfully.");
+      showNotification("Blog created successfully.", "success");
       setNewBlog("");
+      setValidationError("");
     } catch (error) {
       console.error("Failed to create blog:", error);
-      setError("Failed to create blog.");
+      showNotification("Failed to create blog.", "error");
     }
   };
 
-  // Sort blogs based on current sort criteria
+  // Handle input change with validation
+  const handleBlogUrlChange = (value: string) => {
+    setNewBlog(value);
+
+    // Clear validation error if input is empty
+    if (!value.trim()) {
+      setValidationError("");
+      return;
+    }
+
+    // Validate on change
+    try {
+      CreateBlogSchema.parse({ blogUrl: value });
+      setValidationError("");
+    } catch (error: any) {
+      if (error.errors && error.errors.length > 0) {
+        setValidationError(error.errors[0].message);
+      }
+    }
+  };
   const sortedBlogs = (blogPosts ?? []).slice().sort((a, b) => {
     let aValue = a[sortBy];
     let bValue = b[sortBy];
@@ -65,12 +104,33 @@ const AdminBlogPage = () => {
     }
   };
 
-  // Call PUT API to update blog feature status
-  const updateBlogFeature = async (
+  // Fetch blogs function for reuse
+  const fetchBlogs = async () => {
+    const response = await axios.get("/api/blogs");
+    const data = response.data as Blog[];
+    setBlogPosts(data);
+  };
+
+  // Call PUT API to update blog featured status
+  const updateBlogFeatured = async (
     id: string,
     featured: boolean,
     published: boolean
   ) => {
+    // If trying to feature a post, check if we already have 2 featured posts
+    if (!featured) {
+      const currentFeaturedCount =
+        blogPosts?.filter((blog) => blog.featured && blog.id !== id).length ||
+        0;
+      if (currentFeaturedCount >= 2) {
+        showNotification(
+          "Maximum of 2 featured posts allowed. Please unfeature another post first.",
+          "error"
+        );
+        return;
+      }
+    }
+
     try {
       const res = await axios.put(`/api/blogs/${id}`, {
         blogId: id,
@@ -78,11 +138,74 @@ const AdminBlogPage = () => {
         published,
       });
       if (res.status === 200) {
-        setMessage("Blog feature status updated successfully.");
+        showNotification(
+          "Blog featured status updated successfully.",
+          "success"
+        );
+        await fetchBlogs(); // Refresh the data
       }
-    } catch (error) {
-      console.error("Failed to update blog feature status:", error);
-      setError("Failed to update blog feature status.");
+    } catch (error: any) {
+      console.error("Failed to update blog featured status:", error);
+      const errorMessage =
+        error.response?.data?.error || "Failed to update blog featured status.";
+      showNotification(errorMessage, "error");
+    }
+  };
+
+  // Call PUT API to update blog published status
+  const updateBlogPublished = async (
+    id: string,
+    featured: boolean,
+    published: boolean
+  ) => {
+    try {
+      const res = await axios.put(`/api/blogs/${id}`, {
+        blogId: id,
+        featured,
+        published: !published,
+      });
+      if (res.status === 200) {
+        showNotification(
+          "Blog published status updated successfully.",
+          "success"
+        );
+        await fetchBlogs(); // Refresh the data
+      }
+    } catch (error: any) {
+      console.error("Failed to update blog published status:", error);
+      const errorMessage =
+        error.response?.data?.error ||
+        "Failed to update blog published status.";
+      showNotification(errorMessage, "error");
+    }
+  };
+
+  // Open delete confirmation dialog
+  const openDeleteDialog = (id: string, title: string) => {
+    setBlogToDelete({ id, title });
+    setIsDeleteDialogOpen(true);
+  };
+
+  // Handle actual blog deletion
+  const handleDeleteBlog = async () => {
+    if (!blogToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      const res = await axios.delete(`/api/blogs/${blogToDelete.id}`);
+      if (res.status === 200) {
+        showNotification("Blog deleted successfully.", "success");
+        await fetchBlogs(); // Refresh the data
+        setIsDeleteDialogOpen(false);
+        setBlogToDelete(null);
+      }
+    } catch (error: any) {
+      console.error("Failed to delete blog:", error);
+      const errorMessage =
+        error.response?.data?.error || "Failed to delete blog.";
+      showNotification(errorMessage, "error");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -143,14 +266,23 @@ const AdminBlogPage = () => {
         <h1 className="text-2xl">Blogs</h1>
         <div className="">
           <div className="flex gap-4">
-            <input
-              type="text"
-              placeholder="Enter the linkedin article url"
-              value={newBlog}
-              className="input input-bordered w-full"
-              onChange={(e) => setNewBlog(e.target.value)}
-            />{" "}
-            <button className="btn btn-primary ml-2" onClick={createBlog}>
+            <div className="w-full">
+              <input
+                type="text"
+                placeholder="Enter the linkedin article url"
+                value={newBlog}
+                className={`input input-bordered w-full ${validationError ? "input-error" : ""}`}
+                onChange={(e) => handleBlogUrlChange(e.target.value)}
+              />
+              {validationError && (
+                <div className="text-error text-sm mt-1">{validationError}</div>
+              )}
+            </div>
+            <button
+              className="btn btn-primary ml-2"
+              onClick={createBlog}
+              disabled={!!validationError || !newBlog.trim()}
+            >
               Add
             </button>
           </div>
@@ -201,9 +333,9 @@ const AdminBlogPage = () => {
               </tr>
             </thead>
             <tbody>
-              {sortedBlogs.map((blog) => (
+              {sortedBlogs.map((blog, index) => (
                 <tr key={blog.id}>
-                  <td>{blog.id}</td>
+                  <td>{index + 1}</td>
                   <td>
                     <div className="flex flex-col">
                       <div className="font-semibold text-sm">{blog.title}</div>
@@ -226,7 +358,7 @@ const AdminBlogPage = () => {
                   <td>
                     <div
                       onClick={() =>
-                        updateBlogFeature(
+                        updateBlogFeatured(
                           blog.id,
                           blog.featured,
                           blog.published
@@ -244,7 +376,7 @@ const AdminBlogPage = () => {
                   <td>
                     <div
                       onClick={() =>
-                        updateBlogFeature(
+                        updateBlogPublished(
                           blog.id,
                           blog.featured,
                           blog.published
@@ -267,7 +399,12 @@ const AdminBlogPage = () => {
                     >
                       View
                     </Link>
-                    <button className="btn btn-outline btn-sm btn-error">
+                    <button
+                      className="btn btn-outline btn-sm btn-error"
+                      onClick={() =>
+                        openDeleteDialog(blog.id, blog.title || "this blog")
+                      }
+                    >
                       Delete
                     </button>
                   </td>
@@ -277,6 +414,46 @@ const AdminBlogPage = () => {
           </table>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      {isDeleteDialogOpen && (
+        <dialog
+          className="modal modal-bottom sm:modal-middle fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          open
+        >
+          <div className="modal-box relative bg-white p-6 rounded-lg shadow-lg">
+            <form method="dialog">
+              <button
+                onClick={() => setIsDeleteDialogOpen(false)}
+                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              >
+                ✕
+              </button>
+            </form>
+            <h3 className="font-bold text-lg text-center">Delete Blog Post</h3>
+            <p className="py-4 text-center">
+              Are you sure you want to delete "{blogToDelete?.title}"? <br />
+              This action <strong className="text-red-600">cannot</strong> be
+              undone.
+            </p>
+            <div className="modal-action">
+              <button
+                className={`btn btn-error ${isDeleting ? "loading" : ""}`}
+                onClick={handleDeleteBlog}
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Deleting..." : "Yes, Delete Blog"}
+              </button>
+              <button
+                className="btn"
+                onClick={() => setIsDeleteDialogOpen(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )}
     </div>
   );
 };

@@ -6,7 +6,30 @@ export async function PUT(request: NextRequest) {
   try {
     const { blogId, featured, published } = await request.json();
 
-    // Here you would typically update the blog in a database
+    console.log("[Calling API]Updating blog:", {
+      blogId,
+      featured,
+      published,
+    });
+
+    // If trying to set featured to true, check if we already have 2 featured posts
+    if (featured) {
+      const currentFeaturedCount = await prisma.blog.count({
+        where: { 
+          featured: true,
+          id: { not: blogId } // Exclude current blog from count
+        },
+      });
+
+      if (currentFeaturedCount >= 2) {
+        return NextResponse.json(
+          { error: "Maximum of 2 featured posts allowed" },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Update the blog in the database
     const res = await prisma.blog.update({
       where: { id: blogId },
       data: { featured, published },
@@ -25,17 +48,25 @@ export async function PUT(request: NextRequest) {
 }
 
 // Delete a blog
-export async function DELETE(request: NextRequest) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id } = await request.json();
-    // Here you would typically delete the blog from a database
-    console.log("Blog ID to delete:", id);
+    const blogId = params.id;
+    console.log("Blog ID to delete:", blogId);
+
+    // Delete the blog from the database
+    await prisma.blog.delete({
+      where: { id: blogId },
+    });
 
     return NextResponse.json(
       { message: "Blog deleted successfully" },
       { status: 200 }
     );
   } catch (err) {
+    console.error("Error deleting blog:", err);
     return NextResponse.json(
       { error: "Failed to delete blog" },
       { status: 500 }
