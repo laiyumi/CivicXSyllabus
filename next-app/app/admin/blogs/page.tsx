@@ -1,30 +1,50 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import blogPostsData from "@/data/blog-posts.json";
 import Link from "next/link";
-
-interface BlogPost {
-  id: number;
-  url: string;
-  featured: boolean;
-}
+import { Blog } from "@prisma/client";
+import axios from "axios";
+import { create } from "domain";
 
 const AdminBlogPage = () => {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(blogPostsData);
-  const [sortBy, setSortBy] = useState<string>("id");
+  const [blogPosts, setBlogPosts] = useState<Blog[]>();
+
+  const [sortBy, setSortBy] = useState<keyof Blog>("id");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [newBlog, setNewBlog] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  // Sort blogs based on current sort criteria
-  const sortedBlogs = [...blogPosts].sort((a, b) => {
-    let aValue: any = a[sortBy as keyof BlogPost];
-    let bValue: any = b[sortBy as keyof BlogPost];
+  // Call API to fetch blogs
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const response = await axios.get("/api/blogs");
+      const data = response.data as Blog[];
+      setBlogPosts(data);
+    };
+    fetchBlogs();
+  }, [newBlog]);
 
-    if (sortBy === "url") {
-      // Extract title from URL for better sorting
+  const createBlog = async () => {
+    try {
+      const response = await axios.post("/api/blogs", {
+        blogUrl: newBlog,
+      });
+      console.log("Blog created:", response.data);
+      setMessage("Blog created successfully.");
+      setNewBlog("");
+    } catch (error) {
+      console.error("Failed to create blog:", error);
+      setError("Failed to create blog.");
+    }
+  };
+
+  // Sort blogs based on current sort criteria
+  const sortedBlogs = (blogPosts ?? []).slice().sort((a, b) => {
+    let aValue = a[sortBy];
+    let bValue = b[sortBy];
+
+    if (typeof aValue === "string" && typeof bValue === "string") {
       aValue = aValue.toLowerCase();
       bValue = bValue.toLowerCase();
     }
@@ -40,17 +60,30 @@ const AdminBlogPage = () => {
     if (sortBy === field) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
-      setSortBy(field);
+      setSortBy(field as keyof Blog);
       setSortOrder("asc");
     }
   };
 
-  const handleFeatureToggle = (id: number, currentFeatured: boolean) => {
-    setBlogPosts((prev) =>
-      prev.map((post) =>
-        post.id === id ? { ...post, featured: !currentFeatured } : post
-      )
-    );
+  // Call PUT API to update blog feature status
+  const updateBlogFeature = async (
+    id: string,
+    featured: boolean,
+    published: boolean
+  ) => {
+    try {
+      const res = await axios.put(`/api/blogs/${id}`, {
+        blogId: id,
+        featured: !featured,
+        published,
+      });
+      if (res.status === 200) {
+        setMessage("Blog feature status updated successfully.");
+      }
+    } catch (error) {
+      console.error("Failed to update blog feature status:", error);
+      setError("Failed to update blog feature status.");
+    }
   };
 
   const getSortIcon = (key: string) => {
@@ -104,64 +137,6 @@ const AdminBlogPage = () => {
     );
   };
 
-  const getUrlType = (url: string): string => {
-    if (url.includes("/pulse/")) {
-      return "Article";
-    } else if (url.includes("/posts/")) {
-      return "Post";
-    }
-    return "Other";
-  };
-
-  const extractTitleFromUrl = (url: string): string => {
-    try {
-      // Handle LinkedIn articles: /pulse/{title}-{author}-{id}/
-      const pulseMatch = url.match(/\/pulse\/([^\/\?]+)/);
-      if (pulseMatch && pulseMatch[1]) {
-        const titlePart = pulseMatch[1];
-        // Remove the author and ID parts (everything after the last occurrence of author pattern)
-        const cleanTitle = titlePart.replace(
-          /-civicxsyllabus-[a-zA-Z0-9]+$/,
-          ""
-        );
-        // Convert to readable title
-        return cleanTitle
-          .replace(/-/g, " ")
-          .replace(/\b\w/g, (l) => l.toUpperCase())
-          .replace(/\s+/g, " ")
-          .trim();
-      }
-
-      // Handle LinkedIn posts: /posts/civicxsyllabus_{title}-activity-{id}/
-      const postMatch = url.match(/\/posts\/civicxsyllabus_(.+?)-activity-/);
-      if (postMatch && postMatch[1]) {
-        const titlePart = postMatch[1];
-        // Convert to readable title
-        return titlePart
-          .replace(/-/g, " ")
-          .replace(/\b\w/g, (l) => l.toUpperCase())
-          .replace(/\s+/g, " ")
-          .trim();
-      }
-
-      // Fallback: try to extract any meaningful text from the URL
-      const urlParts = url.split("/").filter((part) => part.length > 0);
-      const lastPart = urlParts[urlParts.length - 1] || "";
-      if (lastPart.includes("-")) {
-        return lastPart
-          .split("?")[0] // Remove query parameters
-          .replace(/-/g, " ")
-          .replace(/\b\w/g, (l) => l.toUpperCase())
-          .replace(/\s+/g, " ")
-          .trim();
-      }
-
-      return "LinkedIn Content";
-    } catch (error) {
-      return "LinkedIn Content";
-    }
-  };
-
   return (
     <div>
       <div className="w-full flex flex-col gap-5">
@@ -175,10 +150,7 @@ const AdminBlogPage = () => {
               className="input input-bordered w-full"
               onChange={(e) => setNewBlog(e.target.value)}
             />{" "}
-            <button
-              className="btn btn-primary ml-2"
-              onClick={() => console.log("Add blog clicked")}
-            >
+            <button className="btn btn-primary ml-2" onClick={createBlog}>
               Add
             </button>
           </div>
@@ -217,51 +189,79 @@ const AdminBlogPage = () => {
                     Featured
                   </span>
                 </th>
+                <th
+                  className="w-2/10 cursor-pointer"
+                  onClick={() => handleSort("published")}
+                >
+                  <span className="inline-flex items-center gap-1">
+                    Published
+                  </span>
+                </th>
                 <th className="w-1/10">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {sortedBlogs.map((post) => (
-                <tr key={post.id}>
-                  <td>{post.id}</td>
+              {sortedBlogs.map((blog) => (
+                <tr key={blog.id}>
+                  <td>{blog.id}</td>
                   <td>
                     <div className="flex flex-col">
-                      <div className="font-semibold text-sm">
-                        {extractTitleFromUrl(post.url)}
-                      </div>
+                      <div className="font-semibold text-sm">{blog.title}</div>
                       <Link
-                        href={post.url}
+                        href={blog.link}
                         target="_blank"
                         className="text-xs text-blue-600 hover:underline truncate max-w-md"
                       >
-                        {post.url}
+                        {blog.link}
                       </Link>
                     </div>
                   </td>
                   <td>
                     <span
-                      className={`badge ${getUrlType(post.url) === "Article" ? "badge-primary" : "badge-secondary"}`}
+                      className={`badge ${blog.type === "ARTICLE" ? "badge-primary" : "badge-secondary"}`}
                     >
-                      {getUrlType(post.url)}
+                      {blog.type === "ARTICLE" ? "Article" : "Post"}
                     </span>
                   </td>
                   <td>
                     <div
                       onClick={() =>
-                        handleFeatureToggle(post.id, post.featured)
+                        updateBlogFeature(
+                          blog.id,
+                          blog.featured,
+                          blog.published
+                        )
                       }
                     >
                       <input
                         type="checkbox"
                         className="toggle"
-                        checked={post.featured}
+                        checked={blog.featured}
+                        readOnly
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      onClick={() =>
+                        updateBlogFeature(
+                          blog.id,
+                          blog.featured,
+                          blog.published
+                        )
+                      }
+                    >
+                      <input
+                        type="checkbox"
+                        className="toggle"
+                        checked={blog.published}
                         readOnly
                       />
                     </div>
                   </td>
                   <td className="flex gap-2">
                     <Link
-                      href={post.url}
+                      href={blog.link}
                       target="_blank"
                       className="btn btn-outline btn-sm"
                     >

@@ -4,23 +4,23 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Microlink from "@microlink/react";
 import axios from "axios";
-import blogPostsData from "../../data/blog-posts.json";
+import { Blog } from "@prisma/client";
 
 const BlogPage = () => {
   const [previewData, setPreviewData] = useState(null);
-  const blogPosts = blogPostsData;
+
+  const [blogPostsData, setBlogPostsData] = useState<Blog[]>([]);
 
   useEffect(() => {
-    const fetchPreviewData = async () => {
-      const res = await axios.get("/api/blog");
-      setPreviewData(res.data);
-      console.log("microlink response:", res.data);
+    const fetchBlogs = async () => {
+      const res = await axios.get("/api/blogs");
+      setBlogPostsData(res.data);
     };
-    fetchPreviewData();
+    fetchBlogs();
   }, []);
 
-  const featuredPost = blogPosts.find((post) => post.featured);
-  const regularPosts = blogPosts.filter((post) => !post.featured);
+  const featuredPost = blogPostsData.find((post) => post.featured);
+  const regularPosts = blogPostsData.filter((post) => !post.featured);
 
   return (
     <div className="min-h-screen">
@@ -47,7 +47,7 @@ const BlogPage = () => {
             </div>
             <div className="featured-microlink card bg-base-100 shadow-xl hover:-translate-y-2 transition ease-in-out delay-100 duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none w-full h-[250px]">
               <Microlink
-                url={featuredPost.url}
+                url={featuredPost.link}
                 lazy
                 direction="ltr"
                 className="rounded-xl border-transparent border-0 min-w-full min-h-full"
@@ -66,7 +66,7 @@ const BlogPage = () => {
               <div key={post.id}>
                 <div className="card bg-base-100 shadow-xl hover:-translate-y-2 transition ease-in-out delay-100 duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none w-fit md:w-auto">
                   <Microlink
-                    url={post.url}
+                    url={post.link}
                     lazy
                     size="large"
                     className="rounded-xl border-transparent border-0"
