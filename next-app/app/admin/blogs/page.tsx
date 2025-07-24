@@ -432,7 +432,8 @@ const AdminBlogPage = () => {
             </form>
             <h3 className="font-bold text-lg text-center">Delete Blog Post</h3>
             <p className="py-4 text-center">
-              Are you sure you want to delete "{blogToDelete?.title}"? <br />
+              Are you sure you want to delete &quot;{blogToDelete?.title}&quot;?{" "}
+              <br />
               This action <strong className="text-red-600">cannot</strong> be
               undone.
             </p>

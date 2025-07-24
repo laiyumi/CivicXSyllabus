@@ -51,7 +51,7 @@ export default function Page() {
             </h2>
             <p className="text-muted-foreground max-w-md">
               Your expert assistant for civic education. Describe your goals,
-              target audience, and subject matter. I'll help you create an
+              target audience, and subject matter. I&apos;ll help you create an
               effective learning experience.
             </p>
           </div>
