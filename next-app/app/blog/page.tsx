@@ -4,54 +4,31 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Microlink from "@microlink/react";
 import axios from "axios";
-
-const blogPosts = [
-  {
-    id: 1,
-    url: "https://www.linkedin.com/pulse/what-civic-x-syllabus-civicxsyllabus-huwoc",
-    featured: true,
-  },
-  {
-    id: 2,
-    url: "https://www.linkedin.com/pulse/4-choosing-platform-why-we-stuck-wordpress-first-civicxsyllabus-2zogc",
-    featured: false,
-  },
-  {
-    id: 3,
-    url: "https://www.linkedin.com/pulse/why-we-decided-build-civic-x-syllabus-20-civicxsyllabus-jrbsc",
-    featured: false,
-  },
-  {
-    id: 4,
-    url: "https://www.linkedin.com/pulse/2-review-target-audience-user-personas-civicxsyllabus-qvwbc",
-    featured: false,
-  },
-  {
-    id: 5,
-    url: "https://www.linkedin.com/posts/civicxsyllabus_gettoknowtheteam-teambuilding-civicinnovation-activity-7339300341789691905-wqRf?utm_source=share&utm_medium=member_desktop&rcm=ACoAADWGqnQBwqnz5Ukt7_IZn4iVLtEWvzTJCfY",
-    featured: false,
-  },
-  {
-    id: 6,
-    url: "https://www.linkedin.com/posts/civicxsyllabus_teamwork-makes-the-dream-work-activity-7270858020937490432-wVSK?utm_source=share&utm_medium=member_desktop&rcm=ACoAADWGqnQBwqnz5Ukt7_IZn4iVLtEWvzTJCfY",
-    featured: false,
-  },
-];
+import { Blog } from "@prisma/client";
 
 const BlogPage = () => {
   const [previewData, setPreviewData] = useState(null);
 
+  const [blogPostsData, setBlogPostsData] = useState<Blog[]>([]);
+
   useEffect(() => {
-    const fetchPreviewData = async () => {
-      const res = await axios.get("/api/blog");
-      setPreviewData(res.data);
-      console.log("microlink response:", res.data);
+    const fetchBlogs = async () => {
+      const res = await axios.get("/api/blogs?published=true");
+      setBlogPostsData(res.data);
     };
-    fetchPreviewData();
+    fetchBlogs();
   }, []);
 
-  const featuredPost = blogPosts.find((post) => post.featured);
-  const regularPosts = blogPosts.filter((post) => !post.featured);
+  const featuredPosts = blogPostsData.filter((post) => post.featured);
+  const regularPosts = blogPostsData.filter((post) => !post.featured);
+  
+  // Dynamic grid columns based on featured posts count
+  const getFeaturedGridClass = () => {
+    if (featuredPosts.length === 1) {
+      return "grid gap-8 md:grid-cols-1 lg:grid-cols-1";
+    }
+    return "grid gap-8 md:grid-cols-1 lg:grid-cols-2";
+  };
 
   return (
     <div className="min-h-screen">
@@ -71,18 +48,25 @@ const BlogPage = () => {
 
       <main className="container mx-auto px-4 py-12">
         {/* Featured Post */}
-        {featuredPost && (
+        {featuredPosts && (
           <section className="mb-16">
             <div className="flex items-center gap-2 mb-6">
               <h2 className="text-xl font-bold text-base-content">Featured</h2>
             </div>
-            <div className="featured-microlink card bg-base-100 shadow-xl hover:-translate-y-2 transition ease-in-out delay-100 duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none w-full h-[250px]">
-              <Microlink
-                url={featuredPost.url}
-                lazy
-                direction="ltr"
-                className="rounded-xl border-transparent border-0 min-w-full min-h-full"
-              />
+            <div className={getFeaturedGridClass()}>
+              {featuredPosts.map((post) => (
+                <div
+                  key={post.id}
+                  className="featured-microlink card bg-base-100 shadow-xl hover:-translate-y-2 transition ease-in-out delay-100 duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none w-full h-[250px]"
+                >
+                  <Microlink
+                    url={post.link}
+                    lazy
+                    direction="ltr"
+                    className="rounded-xl border-transparent border-0 min-w-full min-h-full"
+                  />
+                </div>
+              ))}
             </div>
           </section>
         )}
@@ -97,7 +81,7 @@ const BlogPage = () => {
               <div key={post.id}>
                 <div className="card bg-base-100 shadow-xl hover:-translate-y-2 transition ease-in-out delay-100 duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none w-fit md:w-auto">
                   <Microlink
-                    url={post.url}
+                    url={post.link}
                     lazy
                     size="large"
                     className="rounded-xl border-transparent border-0"

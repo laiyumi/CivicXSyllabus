@@ -12,6 +12,11 @@ enum Role {
   ADMIN
 }
 
+enum BlogType {
+  ARTICLE
+  POST
+}
+
 model User {
   id            String          @id @default(cuid())
   name          String?
@@ -89,6 +94,18 @@ model List {
   posts     Post[]
 
   @@unique([name, userId])
+}
+
+model Blog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  featured  Boolean  @default(false)
+
+  type  BlogType
+  title String
+  link  String   @unique
 }
 
 model Account {
